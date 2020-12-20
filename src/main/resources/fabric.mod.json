@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "fireplacelib",
+  "version": "${version}",
+
+  "name": "Fireplace Lib",
+  "description": "A library of common functionality used by my mods, in one place for easier maintenance and faster updates.",
+  "authors": [
+    "The_Fireplace"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/fireplace-lib",
+    "sources": "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib",
+    "issues": "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib/issues"
+  },
+
+  "license": "MIT",
+  "icon": "",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "the_fireplace.lib.FireplaceLib"
+    ]
+  },
+  "mixins": [
+    "fireplacelib.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "fabric": "*"
+  }
+}
