@@ -8,22 +8,33 @@ import java.util.concurrent.TimeUnit;
 
 public final class ConcurrentExecutionManager {
     //Limit the number of active threads so we don't run the machine out of memory
-    private static final ExecutorService EXECUTOR_SERVICE_ESSENTIAL = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
-    private static final ExecutorService EXECUTOR_SERVICE_NONESSENTIAL = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
+    private static ExecutorService essentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
+    private static ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
 
     public static void run(Runnable runnable) {
-        if(!EXECUTOR_SERVICE_ESSENTIAL.isShutdown())
-            EXECUTOR_SERVICE_ESSENTIAL.execute(runnable);
+        if(!essentialExecutorService.isShutdown())
+            essentialExecutorService.execute(runnable);
     }
 
     public static void runKillable(Runnable runnable) {
-        if(!EXECUTOR_SERVICE_NONESSENTIAL.isShutdown())
-            EXECUTOR_SERVICE_NONESSENTIAL.execute(runnable);
+        if(!nonessentialExecutorService.isShutdown())
+            nonessentialExecutorService.execute(runnable);
     }
 
     public static void waitForCompletion() throws InterruptedException {
-        EXECUTOR_SERVICE_ESSENTIAL.shutdown();
-        EXECUTOR_SERVICE_NONESSENTIAL.shutdownNow();
-        EXECUTOR_SERVICE_ESSENTIAL.awaitTermination(1, TimeUnit.DAYS);
+        essentialExecutorService.shutdown();
+        nonessentialExecutorService.shutdownNow();
+        essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
+    }
+
+    public static void startExecutors() {
+        if (essentialExecutorService.isShutdown() || nonessentialExecutorService.isShutdown()) {
+            try {
+                waitForCompletion();
+            } catch (InterruptedException ignored) {
+            }
+            essentialExecutorService = Executors.newFixedThreadPool(256);
+            nonessentialExecutorService = Executors.newFixedThreadPool(128);
+        }
     }
 }

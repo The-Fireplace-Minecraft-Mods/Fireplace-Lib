@@ -19,8 +19,11 @@ public class FireplaceLib implements ModInitializer {
     @Override
     public void onInitialize() {
         TranslationService.initialize(MODID);
-        ServerLifecycleEvents.SERVER_STARTING.register(s -> minecraftServer = s);
         NetworkEvents.init();
+        ServerLifecycleEvents.SERVER_STARTING.register(s -> {
+            minecraftServer = s;
+            ConcurrentExecutionManager.startExecutors();
+        });
         ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
             SaveTimer.prepareForServerShutdown();
             try {
