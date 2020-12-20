@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import the_fireplace.lib.api.chat.TranslationService;
+import the_fireplace.lib.api.io.SaveTimer;
 import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
 import the_fireplace.lib.events.NetworkEvents;
 
@@ -21,7 +22,7 @@ public class FireplaceLib implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(s -> minecraftServer = s);
         NetworkEvents.init();
         ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
-            //TODO save data
+            SaveTimer.prepareForServerShutdown();
             try {
                 ConcurrentExecutionManager.waitForCompletion();
             } catch (InterruptedException e) {
