@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class SaveTimer {
     private static final Map<Short, Set<Runnable>> SAVE_INTERVAL_FUNCTIONS = new ConcurrentHashMap<>();
-    private static final Timer TIMER = new Timer();
+    private static Timer timer = new Timer();
 
     public static void registerSaveFunction(short saveIntervalInMinutes, Runnable... saveRunnables) {
         if (saveIntervalInMinutes < 1) {
@@ -23,10 +23,10 @@ public final class SaveTimer {
         );
     }
 
-    private static void addIntervalToTimer(Short newSaveIntervalInMinutes) {
+    private static void addIntervalToTimer(short newSaveIntervalInMinutes) {
         int saveIntervalInMilliseconds = 1000 * 60 * newSaveIntervalInMinutes;
         int randomOffset = 200 + new Random().nextInt(59800);
-        TIMER.scheduleAtFixedRate(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 for (Runnable runnable: SAVE_INTERVAL_FUNCTIONS.get(newSaveIntervalInMinutes)) {
@@ -37,8 +37,12 @@ public final class SaveTimer {
     }
 
     public static void prepareForServerShutdown() {
-        TIMER.cancel();
+        timer.cancel();
         saveAll();
+    }
+
+    public static void resetTimer() {
+        timer = new Timer();
     }
 
     private static void saveAll() {

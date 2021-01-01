@@ -1,1 +1,2 @@
-Initial Release
+Use private variables and getters for the final variables in ThreadedJsonSerializable
+Reset save timer when server starts so it still works when going between Singleplayer worlds

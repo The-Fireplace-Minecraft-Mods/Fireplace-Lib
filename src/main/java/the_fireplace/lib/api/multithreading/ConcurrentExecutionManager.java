@@ -1,5 +1,7 @@
 package the_fireplace.lib.api.multithreading;
 
+import org.apache.logging.log4j.LogManager;
+import the_fireplace.lib.impl.FireplaceLib;
 import the_fireplace.lib.impl.config.FireplaceLibConfig;
 
 import java.util.concurrent.ExecutorService;
@@ -24,7 +26,10 @@ public final class ConcurrentExecutionManager {
     public static void waitForCompletion() throws InterruptedException {
         essentialExecutorService.shutdown();
         nonessentialExecutorService.shutdownNow();
-        essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
+        boolean timedOut = essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
+        if (timedOut) {
+            LogManager.getLogger(FireplaceLib.MODID).error("Timed out awaiting essential threads to terminate.");
+        }
     }
 
     public static void startExecutors() {

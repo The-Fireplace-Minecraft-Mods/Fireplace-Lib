@@ -1,9 +1,10 @@
 plugins {
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id "com.matthewprenger.cursegradle" version "1.4.0"
-	id "com.jfrog.bintray" version "1.+"
+	id "com.jfrog.bintray" version "1.8.4"
 	id "maven-publish"
 	id "java"
+	id "java-library"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -14,12 +15,9 @@ version = project.mod_version
 group = project.maven_group
 
 dependencies {
-	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	compile "com.google.code.findbugs:jsr305:3.0.2"
@@ -60,7 +58,7 @@ jar {
 curseforge {
 	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : "empty"
 	project {
-		id = '000000'
+		id = '432845'
 		changelog = file('changelog.txt')
 		releaseType = 'release'
 		addGameVersion '1.16.4'
@@ -90,15 +88,6 @@ bintray {
 		repo = "mc-mods"
 		name = "fireplace-lib"
 		licenses = ["MIT"]
-		version {
-			name = modVersion
-			vcsTag = modVersion
-			githubRepo = "The-Fireplace-Minecraft-Mods/Fireplace-Lib"
-			websiteUrl = "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib"
-			issueTrackerUrl = "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib/issues"
-			vcsUrl = "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib.git"
-			gpg.sign = true
-		}
 	}
 }
 

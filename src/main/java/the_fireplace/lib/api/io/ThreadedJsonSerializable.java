@@ -8,9 +8,9 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 public abstract class ThreadedJsonSerializable implements ThreadedSaveable, JsonReadable, JsonWritable {
-    protected final ThreadedSaveHandler<ThreadedJsonSerializable> saveHandler = ThreadedSaveHandler.create(this);
-    protected final File saveFile;
-    protected final UUID objectId;
+    private final ThreadedSaveHandler<ThreadedJsonSerializable> saveHandler = ThreadedSaveHandler.create(this);
+    private final File saveFile;
+    private final UUID objectId;
 
     protected ThreadedJsonSerializable(UUID objectId, Path saveFolder) {
         this.objectId = objectId;
@@ -58,5 +58,13 @@ public abstract class ThreadedJsonSerializable implements ThreadedSaveable, Json
 
     protected boolean isDefaultData() {
         return false;
+    }
+
+    public UUID getId() {
+        return objectId;
+    }
+
+    public File getSaveFile() {
+        return saveFile;
     }
 }
