@@ -3,6 +3,8 @@ package the_fireplace.lib.impl;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import the_fireplace.lib.api.chat.TranslationService;
 import the_fireplace.lib.api.io.SaveTimer;
 import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
@@ -10,10 +12,15 @@ import the_fireplace.lib.impl.events.NetworkEvents;
 
 public class FireplaceLib implements ModInitializer {
     public static final String MODID = "fireplacelib";
-    private static MinecraftServer minecraftServer;
 
+    private static MinecraftServer minecraftServer;
     public static MinecraftServer getServer() {
         return minecraftServer;
+    }
+
+    private static final Logger LOGGER = LogManager.getLogger(MODID);
+    public static Logger getLogger() {
+        return LOGGER;
     }
 
     @Override

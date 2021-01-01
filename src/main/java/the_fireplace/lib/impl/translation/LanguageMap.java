@@ -5,9 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.util.JsonHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import the_fireplace.lib.api.io.Directories;
+import the_fireplace.lib.impl.FireplaceLib;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +24,9 @@ final class LanguageMap {
     private final Map<String, String> languageList = new ConcurrentHashMap<>();
 
     LanguageMap(String modid, String locale) {
-        Logger logger = LogManager.getLogger(modid);
         String langDir = Directories.getLangDirectory(modid);
         try {
-            JsonElement jsonelement = getLangJsonElement(locale, logger, langDir);
+            JsonElement jsonelement = getLangJsonElement(locale, langDir);
             JsonObject jsonobject = JsonHelper.asObject(jsonelement, "strings");
 
             for (Map.Entry<String, JsonElement> entry : jsonobject.entrySet()) {
@@ -36,14 +34,14 @@ final class LanguageMap {
                 this.languageList.put(entry.getKey(), s);
             }
         } catch (JsonParseException e) {
-            logger.error(langDir + locale + ".json is improperly formatted.", e);
+            FireplaceLib.getLogger().error(langDir + locale + ".json is improperly formatted.", e);
         } catch(IOException ignored) {}
     }
 
-    private JsonElement getLangJsonElement(String locale, Logger logger, String langDir) throws IOException {
+    private JsonElement getLangJsonElement(String locale, String langDir) throws IOException {
         InputStream inputstream = LanguageMap.class.getResourceAsStream(langDir + locale + ".json");
         if (inputstream == null) {
-            logger.error("Invalid locale: {}, defaulting to en_us.", locale);
+            FireplaceLib.getLogger().error("Invalid locale: {}, defaulting to en_us.", locale);
             inputstream = LanguageMap.class.getResourceAsStream(langDir + "en_us.json");
         }
         JsonElement jsonelement = (new Gson()).fromJson(new InputStreamReader(inputstream, StandardCharsets.UTF_8), JsonElement.class);

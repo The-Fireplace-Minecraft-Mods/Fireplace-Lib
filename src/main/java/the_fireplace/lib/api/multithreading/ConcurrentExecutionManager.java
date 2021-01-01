@@ -1,6 +1,5 @@
 package the_fireplace.lib.api.multithreading;
 
-import org.apache.logging.log4j.LogManager;
 import the_fireplace.lib.impl.FireplaceLib;
 import the_fireplace.lib.impl.config.FireplaceLibConfig;
 
@@ -14,13 +13,19 @@ public final class ConcurrentExecutionManager {
     private static ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
 
     public static void run(Runnable runnable) {
-        if(!essentialExecutorService.isShutdown())
+        if (!essentialExecutorService.isShutdown()) {
             essentialExecutorService.execute(runnable);
+        } else {
+            FireplaceLib.getLogger().error("Failed to add essential runnable!", new Exception("Stack trace"));
+        }
     }
 
     public static void runKillable(Runnable runnable) {
-        if(!nonessentialExecutorService.isShutdown())
+        if (!nonessentialExecutorService.isShutdown()) {
             nonessentialExecutorService.execute(runnable);
+        } else {
+            FireplaceLib.getLogger().debug("Failed to add nonessential runnable!", new Exception("Stack trace"));
+        }
     }
 
     public static void waitForCompletion() throws InterruptedException {
@@ -28,7 +33,7 @@ public final class ConcurrentExecutionManager {
         nonessentialExecutorService.shutdownNow();
         boolean timedOut = essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
         if (timedOut) {
-            LogManager.getLogger(FireplaceLib.MODID).error("Timed out awaiting essential threads to terminate.");
+            FireplaceLib.getLogger().error("Timed out awaiting essential threads to terminate.");
         }
     }
 
@@ -36,10 +41,11 @@ public final class ConcurrentExecutionManager {
         if (essentialExecutorService.isShutdown() || nonessentialExecutorService.isShutdown()) {
             try {
                 waitForCompletion();
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException e) {
+                FireplaceLib.getLogger().error("Interrupted while waiting to complete essential execution!", e);
             }
-            essentialExecutorService = Executors.newFixedThreadPool(256);
-            nonessentialExecutorService = Executors.newFixedThreadPool(128);
+            essentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
+            nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
         }
     }
 }
