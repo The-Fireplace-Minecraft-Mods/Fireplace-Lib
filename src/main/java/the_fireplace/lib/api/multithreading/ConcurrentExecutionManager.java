@@ -1,6 +1,6 @@
 package the_fireplace.lib.api.multithreading;
 
-import the_fireplace.lib.config.FireplaceLibConfig;
+import the_fireplace.lib.impl.config.FireplaceLibConfig;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

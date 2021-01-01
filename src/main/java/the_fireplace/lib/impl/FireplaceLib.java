@@ -1,4 +1,4 @@
-package the_fireplace.lib;
+package the_fireplace.lib.impl;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -6,7 +6,7 @@ import net.minecraft.server.MinecraftServer;
 import the_fireplace.lib.api.chat.TranslationService;
 import the_fireplace.lib.api.io.SaveTimer;
 import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
-import the_fireplace.lib.events.NetworkEvents;
+import the_fireplace.lib.impl.events.NetworkEvents;
 
 public class FireplaceLib implements ModInitializer {
     public static final String MODID = "fireplacelib";

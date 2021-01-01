@@ -1,7 +1,7 @@
 package the_fireplace.lib.api.io;
 
 import net.minecraft.util.WorldSavePath;
-import the_fireplace.lib.FireplaceLib;
+import the_fireplace.lib.impl.FireplaceLib;
 
 import java.io.File;
 import java.nio.file.Path;

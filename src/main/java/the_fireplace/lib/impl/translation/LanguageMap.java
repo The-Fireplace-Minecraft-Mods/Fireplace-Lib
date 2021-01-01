@@ -1,4 +1,4 @@
-package the_fireplace.lib.translation;
+package the_fireplace.lib.impl.translation;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

@@ -1,6 +1,6 @@
-package the_fireplace.lib.translation;
+package the_fireplace.lib.impl.translation;
 
-import the_fireplace.lib.config.FireplaceLibConfig;
+import the_fireplace.lib.impl.config.FireplaceLibConfig;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

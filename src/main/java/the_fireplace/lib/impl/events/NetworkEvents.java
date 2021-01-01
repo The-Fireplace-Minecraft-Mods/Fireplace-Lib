@@ -1,4 +1,4 @@
-package the_fireplace.lib.events;
+package the_fireplace.lib.impl.events;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
@@ -7,8 +7,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import the_fireplace.lib.FireplaceLib;
 import the_fireplace.lib.api.chat.TranslationService;
+import the_fireplace.lib.impl.FireplaceLib;
 
 import java.util.HashSet;
 import java.util.Set;

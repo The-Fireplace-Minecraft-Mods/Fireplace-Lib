@@ -1,4 +1,4 @@
-package the_fireplace.lib.mixin;
+package the_fireplace.lib.impl.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import the_fireplace.lib.events.NetworkEvents;
+import the_fireplace.lib.impl.events.NetworkEvents;
 
 @Mixin(ClientPlayNetworkHandler.class)
 @Environment(EnvType.CLIENT)

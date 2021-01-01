@@ -20,7 +20,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "the_fireplace.lib.FireplaceLib"
+      "the_fireplace.lib.impl.FireplaceLib"
     ]
   },
   "mixins": [

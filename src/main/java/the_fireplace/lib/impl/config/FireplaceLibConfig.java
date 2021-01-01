@@ -1,10 +1,10 @@
-package the_fireplace.lib.config;
+package the_fireplace.lib.impl.config;
 
 import com.google.gson.JsonObject;
-import the_fireplace.lib.FireplaceLib;
 import the_fireplace.lib.api.io.JsonReadable;
 import the_fireplace.lib.api.io.JsonReader;
 import the_fireplace.lib.api.io.JsonWritable;
+import the_fireplace.lib.impl.FireplaceLib;
 
 import java.io.File;
 

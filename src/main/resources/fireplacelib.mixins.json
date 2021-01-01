@@ -1,6 +1,6 @@
 {
   "required": false,
-  "package": "the_fireplace.lib.mixin",
+  "package": "the_fireplace.lib.impl.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "PlayerManagerMixin"

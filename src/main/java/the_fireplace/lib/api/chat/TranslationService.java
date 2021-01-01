@@ -8,7 +8,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.TranslatableText;
 import the_fireplace.lib.api.util.EmptyUUID;
-import the_fireplace.lib.translation.I18n;
+import the_fireplace.lib.impl.translation.I18n;
 
 import java.util.Collection;
 import java.util.Map;

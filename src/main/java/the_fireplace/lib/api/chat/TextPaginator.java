@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-import static the_fireplace.lib.FireplaceLib.MODID;
+import static the_fireplace.lib.impl.FireplaceLib.MODID;
 
 public final class TextPaginator {
     private static final int RESULTS_PER_PAGE = 7;

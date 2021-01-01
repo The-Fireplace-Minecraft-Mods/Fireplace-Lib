@@ -1,4 +1,4 @@
-package the_fireplace.lib.translation;
+package the_fireplace.lib.impl.translation;
 
 import the_fireplace.lib.api.io.Directories;
 import the_fireplace.lib.api.io.JarFileWalker;

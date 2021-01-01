@@ -1,7 +1,9 @@
 plugins {
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id "com.matthewprenger.cursegradle" version "1.4.0"
-	id "com.github.johnrengelman.shadow" version "5.0.0"
+	id "com.jfrog.bintray" version "1.+"
+	id "maven-publish"
+	id "java"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -77,4 +79,38 @@ curseforge {
         javaIntegration = false
         forgeGradleIntegration = false
     }
+}
+
+bintray {
+	user = project.hasProperty("bintrayUser") ? project.bintrayUser : "empty"
+	key = project.hasProperty("bintrayApiKey") ? project.bintrayApiKey : "empty"
+	setPublications("mavenJava")
+	publish = true
+	pkg {
+		repo = "mc-mods"
+		name = "fireplace-lib"
+		licenses = ["MIT"]
+		version {
+			name = modVersion
+			vcsTag = modVersion
+			githubRepo = "The-Fireplace-Minecraft-Mods/Fireplace-Lib"
+			websiteUrl = "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib"
+			issueTrackerUrl = "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib/issues"
+			vcsUrl = "https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-Lib.git"
+			gpg.sign = true
+		}
+	}
+}
+
+def remapSourcesJar = tasks.getByName("remapSourcesJar")
+
+publishing {
+	publications {
+		mavenJava(MavenPublication.class) {
+			artifact(remapJar)
+			artifact(sourcesJar) {
+				builtBy(remapSourcesJar)
+			}
+		}
+	}
 }
