@@ -1,1 +1,1 @@
-Log when a task fails to be added to ConcurrentExecutionManager
+Essential tasks will always be run by ConcurrentExecutionManager even if it is trying to shut down.

@@ -16,7 +16,9 @@ public final class ConcurrentExecutionManager {
         if (!essentialExecutorService.isShutdown()) {
             essentialExecutorService.execute(runnable);
         } else {
-            FireplaceLib.getLogger().error("Failed to add essential runnable!", new Exception("Stack trace"));
+            FireplaceLib.getLogger().trace("Running essential runnable immediately because the executor has already stopped.", new Exception("Stack trace"));
+            // We'll usually reach this if essential threads are finishing up and try to create more essential threads in the process.
+            runnable.run();
         }
     }
 
