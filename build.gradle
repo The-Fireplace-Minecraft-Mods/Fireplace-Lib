@@ -86,6 +86,7 @@ task publishModrinth (type: TaskModrinthUpload) {
 	token = project.hasProperty("modrinthApiKey") ? project.modrinthApiKey : "empty"
 	projectId = 'ING0LAPF'
 	versionNumber = version
+	versionName = project.mod_version
 	uploadFile = jar // This is the java jar task
 	changelog = file('changelog.txt').getText()
 	releaseType = project.release_type
