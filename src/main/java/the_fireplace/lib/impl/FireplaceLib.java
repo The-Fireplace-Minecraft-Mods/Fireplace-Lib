@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import the_fireplace.lib.api.chat.TranslationService;
+import the_fireplace.lib.api.chat.TranslatorManager;
 import the_fireplace.lib.api.io.SaveTimer;
 import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
 import the_fireplace.lib.impl.events.NetworkEvents;
@@ -13,8 +13,11 @@ import the_fireplace.lib.impl.events.NetworkEvents;
 public class FireplaceLib implements ModInitializer {
     public static final String MODID = "fireplacelib";
 
-    private static MinecraftServer minecraftServer;
+    private static MinecraftServer minecraftServer = null;
     public static MinecraftServer getServer() {
+        if (minecraftServer == null) {
+            throw new IllegalStateException("Attempted to get server before it starts!");
+        }
         return minecraftServer;
     }
 
@@ -25,7 +28,7 @@ public class FireplaceLib implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        TranslationService.initialize(MODID);
+        TranslatorManager.getInstance().addTranslator(MODID);
         NetworkEvents.init();
         ServerLifecycleEvents.SERVER_STARTING.register(s -> {
             minecraftServer = s;
