@@ -1,1 +1,1 @@
-Essential tasks will always be run by ConcurrentExecutionManager even if it is trying to shut down.
+Updated how it gets the config directory

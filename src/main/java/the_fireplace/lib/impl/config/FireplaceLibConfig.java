@@ -1,6 +1,7 @@
 package the_fireplace.lib.impl.config;
 
 import com.google.gson.JsonObject;
+import the_fireplace.lib.api.io.Directories;
 import the_fireplace.lib.api.io.JsonReadable;
 import the_fireplace.lib.api.io.JsonReader;
 import the_fireplace.lib.api.io.JsonWritable;
@@ -8,10 +9,10 @@ import the_fireplace.lib.impl.FireplaceLib;
 
 import java.io.File;
 
-import static the_fireplace.lib.api.io.Directories.CONFIG_DIRECTORY;
-
 public class FireplaceLibConfig implements JsonReadable, JsonWritable {
-    private static final File CONFIG_FILE = new File(CONFIG_DIRECTORY, FireplaceLib.MODID + ".json5");
+    private static File getConfigFile() {
+        return Directories.getConfigDirectory().resolve(FireplaceLib.MODID + ".json5").toFile();
+    }
 
     private static FireplaceLibConfig instance = null;
 
@@ -23,7 +24,7 @@ public class FireplaceLibConfig implements JsonReadable, JsonWritable {
     }
 
     private FireplaceLibConfig() {
-        readFromJson(JsonReader.create(CONFIG_FILE));
+        readFromJson(JsonReader.create(getConfigFile()));
         save();
     }
 
@@ -51,7 +52,7 @@ public class FireplaceLibConfig implements JsonReadable, JsonWritable {
     }
 
     private void save() {
-        writeToJson(CONFIG_FILE);
+        writeToJson(getConfigFile());
     }
 
     public String getLocale() {

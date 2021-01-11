@@ -4,9 +4,9 @@ import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 
 public final class TextStyles {
-    public static final Style RED = Style.EMPTY.withColor(Formatting.RED);
-    public static final Style BLUE = Style.EMPTY.withColor(Formatting.BLUE);
-    public static final Style YELLOW = Style.EMPTY.withColor(Formatting.YELLOW);
-    public static final Style LIGHT_PURPLE = Style.EMPTY.withColor(Formatting.LIGHT_PURPLE);
-    public static final Style GREEN = Style.EMPTY.withColor(Formatting.GREEN);
+    public static final Style RED = new Style().setColor(Formatting.RED);
+    public static final Style BLUE = new Style().setColor(Formatting.BLUE);
+    public static final Style YELLOW = new Style().setColor(Formatting.YELLOW);
+    public static final Style LIGHT_PURPLE = new Style().setColor(Formatting.LIGHT_PURPLE);
+    public static final Style GREEN = new Style().setColor(Formatting.GREEN);
 }

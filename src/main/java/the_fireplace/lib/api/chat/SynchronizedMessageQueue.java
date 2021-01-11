@@ -3,7 +3,6 @@ package the_fireplace.lib.api.chat;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
-import the_fireplace.lib.api.util.EmptyUUID;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -39,7 +38,7 @@ public final class SynchronizedMessageQueue {
     private synchronized void sendMessages() {
         sendingMessages = true;
         while (!messages.isEmpty()) {
-            messageTarget.sendSystemMessage(messages.remove(), EmptyUUID.EMPTY_UUID);
+            messageTarget.sendMessage(messages.remove());
         }
         sendingMessages = false;
     }

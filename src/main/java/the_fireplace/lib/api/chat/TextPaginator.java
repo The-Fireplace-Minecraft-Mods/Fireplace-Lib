@@ -60,10 +60,10 @@ public final class TextPaginator {
     }
 
     private static Text getNextButton(CommandOutput target, String switchPageCommand, int currentPage, int totalPageCount) {
-        return currentPage < totalPageCount ? TranslationService.get(MODID).getTextForTarget(target, "fireplacelib.chat.page.next").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage +1)))) : new LiteralText("-----");
+        return currentPage < totalPageCount ? TranslationService.get(MODID).getTextForTarget(target, "fireplacelib.chat.page.next").setStyle(new Style().setClickEvent(new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage +1)))) : new LiteralText("-----");
     }
 
     private static Text getPreviousButton(CommandOutput target, String switchPageCommand, int currentPage) {
-        return currentPage > 1 ? TranslationService.get(MODID).getTextForTarget(target, "fireplacelib.chat.page.prev").setStyle(Style.EMPTY.withClickEvent(new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage -1)))) : new LiteralText("------");
+        return currentPage > 1 ? TranslationService.get(MODID).getTextForTarget(target, "fireplacelib.chat.page.prev").setStyle(new Style().setClickEvent(new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage -1)))) : new LiteralText("------");
     }
 }

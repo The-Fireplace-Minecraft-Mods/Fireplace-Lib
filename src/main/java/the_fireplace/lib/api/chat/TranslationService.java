@@ -5,7 +5,7 @@ import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import the_fireplace.lib.api.util.EmptyUUID;
 import the_fireplace.lib.impl.translation.I18n;
@@ -56,15 +56,15 @@ public class TranslationService {
         this.modid = modid;
     }
 
-    public MutableText getTextForTarget(ServerCommandSource target, String translationKey, Object... args) {
+    public Text getTextForTarget(ServerCommandSource target, String translationKey, Object... args) {
         return getTextForTarget(getTargetId(target), translationKey, args);
     }
 
-    public MutableText getTextForTarget(CommandOutput target, String translationKey, Object... args) {
+    public Text getTextForTarget(CommandOutput target, String translationKey, Object... args) {
         return getTextForTarget(getTargetId(target), translationKey, args);
     }
 
-    public MutableText getTextForTarget(UUID target, String translationKey, Object... args) {
+    public Text getTextForTarget(UUID target, String translationKey, Object... args) {
         if (!clientsWithLocalizations.contains(target)) {
             return getTranslatedText(translationKey, args);
         } else {
