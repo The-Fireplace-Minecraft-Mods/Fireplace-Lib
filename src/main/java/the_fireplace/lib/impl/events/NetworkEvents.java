@@ -7,8 +7,9 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import the_fireplace.lib.api.chat.TranslationService;
+import the_fireplace.lib.api.chat.TranslatorManager;
 import the_fireplace.lib.impl.FireplaceLib;
+import the_fireplace.lib.impl.chat.LocalizedClients;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,12 +24,12 @@ public class NetworkEvents {
             while (packetByteBuf.isReadable()) {
                 modids.add(packetByteBuf.readString());
             }
-            TranslationService.addPlayer(player.getUuid(), modids);
+            LocalizedClients.addPlayer(player.getUuid(), modids);
         });
     }
 
     public static void onDisconnected(UUID player) {
-        TranslationService.removePlayer(player);
+        LocalizedClients.removePlayer(player);
     }
 
     public static PacketByteBuf createPacketBuffer(){
@@ -39,7 +40,7 @@ public class NetworkEvents {
     public static void onConnectToServer() {
         if (ClientPlayNetworking.canSend(CLIENT_CONNECTED_CHANNEL_NAME)) {
             PacketByteBuf buffer = createPacketBuffer();
-            for (String modid : TranslationService.availableTranslationServices()) {
+            for (String modid : TranslatorManager.getInstance().availableTranslators()) {
                 buffer.writeString(modid);
             }
             ClientPlayNetworking.send(CLIENT_CONNECTED_CHANNEL_NAME, buffer);
