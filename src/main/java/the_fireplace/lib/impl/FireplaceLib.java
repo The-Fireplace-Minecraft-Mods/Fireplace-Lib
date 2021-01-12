@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import the_fireplace.lib.api.chat.TranslatorManager;
 import the_fireplace.lib.api.io.SaveTimer;
-import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
+import the_fireplace.lib.api.multithreading.ExecutionManager;
 import the_fireplace.lib.impl.events.NetworkEvents;
 
 public class FireplaceLib implements ModInitializer {
@@ -32,13 +32,13 @@ public class FireplaceLib implements ModInitializer {
         NetworkEvents.init();
         ServerLifecycleEvents.SERVER_STARTING.register(s -> {
             minecraftServer = s;
-            ConcurrentExecutionManager.startExecutors();
+            ExecutionManager.getInstance().startExecutors();
             SaveTimer.getInstance().resetTimer();
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
             SaveTimer.getInstance().prepareForServerShutdown();
             try {
-                ConcurrentExecutionManager.waitForCompletion();
+                ExecutionManager.getInstance().waitForCompletion();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

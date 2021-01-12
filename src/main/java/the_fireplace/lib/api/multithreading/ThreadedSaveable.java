@@ -2,7 +2,7 @@ package the_fireplace.lib.api.multithreading;
 
 public interface ThreadedSaveable {
     /**
-     * Make a save that may block the thread you're on.
+     * Make a save that blocks the thread you're on.
      * This is generally bad for performance and should typically be done on a separate thread.
      */
     void blockingSave();
