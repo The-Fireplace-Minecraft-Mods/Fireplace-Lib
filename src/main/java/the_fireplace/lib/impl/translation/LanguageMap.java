@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.util.JsonHelper;
-import the_fireplace.lib.api.io.Directories;
+import the_fireplace.lib.api.io.DirectoryResolver;
 import the_fireplace.lib.impl.FireplaceLib;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ final class LanguageMap {
     private final Map<String, String> languageList = new ConcurrentHashMap<>();
 
     LanguageMap(String modid, String locale) {
-        String langDir = Directories.getLangDirectory(modid);
+        String langDir = DirectoryResolver.getInstance().getLangDirectory(modid);
         try {
             JsonElement jsonelement = getLangJsonElement(locale, langDir);
             JsonObject jsonobject = JsonHelper.asObject(jsonelement, "strings");

@@ -33,10 +33,10 @@ public class FireplaceLib implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(s -> {
             minecraftServer = s;
             ConcurrentExecutionManager.startExecutors();
-            SaveTimer.resetTimer();
+            SaveTimer.getInstance().resetTimer();
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
-            SaveTimer.prepareForServerShutdown();
+            SaveTimer.getInstance().prepareForServerShutdown();
             try {
                 ConcurrentExecutionManager.waitForCompletion();
             } catch (InterruptedException e) {

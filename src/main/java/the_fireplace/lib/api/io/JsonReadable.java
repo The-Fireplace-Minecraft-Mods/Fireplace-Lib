@@ -3,11 +3,10 @@ package the_fireplace.lib.api.io;
 import java.io.File;
 
 public interface JsonReadable {
-    void readFromJson(JsonReader reader);
+    void readFromJson(JsonObjectReader reader);
 
     default void load(File file) {
-        JsonReader reader = JsonReader.create(file);
-        if(reader != null)
-            readFromJson(reader);
+        JsonObjectReader reader = JsonObjectReaderFactory.getInstance().create(file);
+        readFromJson(reader);
     }
 }

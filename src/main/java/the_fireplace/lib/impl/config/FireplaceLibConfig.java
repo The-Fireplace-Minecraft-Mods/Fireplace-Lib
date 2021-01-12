@@ -1,17 +1,14 @@
 package the_fireplace.lib.impl.config;
 
 import com.google.gson.JsonObject;
-import the_fireplace.lib.api.io.Directories;
-import the_fireplace.lib.api.io.JsonReadable;
-import the_fireplace.lib.api.io.JsonReader;
-import the_fireplace.lib.api.io.JsonWritable;
+import the_fireplace.lib.api.io.*;
 import the_fireplace.lib.impl.FireplaceLib;
 
 import java.io.File;
 
 public class FireplaceLibConfig implements JsonReadable, JsonWritable {
     private static File getConfigFile() {
-        return Directories.getConfigDirectory().resolve(FireplaceLib.MODID + ".json5").toFile();
+        return DirectoryResolver.getInstance().getConfigPath().resolve(FireplaceLib.MODID + ".json5").toFile();
     }
 
     private static FireplaceLibConfig instance = null;
@@ -24,7 +21,7 @@ public class FireplaceLibConfig implements JsonReadable, JsonWritable {
     }
 
     private FireplaceLibConfig() {
-        readFromJson(JsonReader.create(getConfigFile()));
+        readFromJson(JsonObjectReaderFactory.getInstance().create(getConfigFile()));
         save();
     }
 
@@ -34,7 +31,7 @@ public class FireplaceLibConfig implements JsonReadable, JsonWritable {
     private short nonEssentialThreadPoolSize = 128;
 
     @Override
-    public void readFromJson(JsonReader reader) {
+    public void readFromJson(JsonObjectReader reader) {
         locale = reader.readString("locale", "en_us");
         essentialThreadPoolSize = reader.readShort("essentialThreadPoolSize", essentialThreadPoolSize);
         nonEssentialThreadPoolSize = reader.readShort("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
