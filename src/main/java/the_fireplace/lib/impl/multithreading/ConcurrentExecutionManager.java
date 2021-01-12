@@ -1,5 +1,6 @@
-package the_fireplace.lib.api.multithreading;
+package the_fireplace.lib.impl.multithreading;
 
+import the_fireplace.lib.api.multithreading.ExecutionManager;
 import the_fireplace.lib.impl.FireplaceLib;
 import the_fireplace.lib.impl.config.FireplaceLibConfig;
 
@@ -7,12 +8,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public final class ConcurrentExecutionManager {
+public final class ConcurrentExecutionManager implements ExecutionManager {
+    @Deprecated
+    public static final ExecutionManager INSTANCE = new ConcurrentExecutionManager();
     //Limit the number of active threads so we don't run the machine out of memory
-    private static ExecutorService essentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
-    private static ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
+    private ExecutorService essentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
+    private ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
 
-    public static void run(Runnable runnable) {
+    private ConcurrentExecutionManager(){}
+
+    @Override
+    public void run(Runnable runnable) {
         if (!essentialExecutorService.isShutdown()) {
             essentialExecutorService.execute(runnable);
         } else {
@@ -22,7 +28,8 @@ public final class ConcurrentExecutionManager {
         }
     }
 
-    public static void runKillable(Runnable runnable) {
+    @Override
+    public void runKillable(Runnable runnable) {
         if (!nonessentialExecutorService.isShutdown()) {
             nonessentialExecutorService.execute(runnable);
         } else {
@@ -30,7 +37,8 @@ public final class ConcurrentExecutionManager {
         }
     }
 
-    public static void waitForCompletion() throws InterruptedException {
+    @Override
+    public void waitForCompletion() throws InterruptedException {
         essentialExecutorService.shutdown();
         nonessentialExecutorService.shutdownNow();
         boolean timedOut = essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
@@ -39,7 +47,8 @@ public final class ConcurrentExecutionManager {
         }
     }
 
-    public static void startExecutors() {
+    @Override
+    public void startExecutors() {
         if (essentialExecutorService.isShutdown() || nonessentialExecutorService.isShutdown()) {
             try {
                 waitForCompletion();

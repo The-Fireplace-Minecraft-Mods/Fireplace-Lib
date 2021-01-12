@@ -3,7 +3,7 @@ package the_fireplace.lib.impl.chat;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 import the_fireplace.lib.api.chat.MessageQueue;
-import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
+import the_fireplace.lib.api.multithreading.ExecutionManager;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public final class MessageQueueImpl implements MessageQueue {
         private synchronized void queueMessages(Text... messages) {
             this.messages.addAll(Arrays.asList(messages));
             if (!sendingMessages)
-                ConcurrentExecutionManager.runKillable(this::sendMessages);
+                ExecutionManager.getInstance().runKillable(this::sendMessages);
         }
 
         private synchronized void sendMessages() {

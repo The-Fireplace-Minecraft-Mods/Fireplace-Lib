@@ -30,7 +30,7 @@ public class ThreadedSaveHandler<T extends ThreadedSaveable> {
             return;
         saving = true;
         isChanged = false;
-        ConcurrentExecutionManager.run(() -> {
+        ExecutionManager.getInstance().run(() -> {
             saveObject.blockingSave();
             saving = false;
             if(markedForDisposal) {

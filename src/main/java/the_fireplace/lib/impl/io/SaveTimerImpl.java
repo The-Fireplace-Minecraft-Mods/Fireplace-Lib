@@ -2,7 +2,7 @@ package the_fireplace.lib.impl.io;
 
 import io.netty.util.internal.ConcurrentSet;
 import the_fireplace.lib.api.io.SaveTimer;
-import the_fireplace.lib.api.multithreading.ConcurrentExecutionManager;
+import the_fireplace.lib.api.multithreading.ExecutionManager;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,7 +37,7 @@ public final class SaveTimerImpl implements SaveTimer {
             @Override
             public void run() {
                 for (Runnable runnable: saveIntervalFunctions.get(newSaveIntervalInMinutes)) {
-                    ConcurrentExecutionManager.run(runnable);
+                    ExecutionManager.getInstance().run(runnable);
                 }
             }
         }, saveIntervalInMilliseconds - randomOffset, saveIntervalInMilliseconds);
@@ -57,7 +57,7 @@ public final class SaveTimerImpl implements SaveTimer {
     private void saveAll() {
         for (Set<Runnable> intervalRunnables: saveIntervalFunctions.values()) {
             for (Runnable runnable: intervalRunnables) {
-                ConcurrentExecutionManager.run(runnable);
+                ExecutionManager.getInstance().run(runnable);
             }
         }
     }
