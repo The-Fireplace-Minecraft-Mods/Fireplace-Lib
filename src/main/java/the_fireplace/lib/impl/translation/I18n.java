@@ -1,6 +1,6 @@
 package the_fireplace.lib.impl.translation;
 
-import the_fireplace.lib.api.io.Directories;
+import the_fireplace.lib.api.io.DirectoryResolver;
 import the_fireplace.lib.api.io.JarFileWalker;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public final class I18n {
     }
 
     public static boolean hasLocale(String modid, String locale) {
-        InputStream inputstream = LanguageMap.class.getResourceAsStream(Directories.getLangDirectory(modid) + locale + ".json");
+        InputStream inputstream = LanguageMap.class.getResourceAsStream(DirectoryResolver.getInstance().getLangDirectory(modid) + locale + ".json");
         boolean exists = inputstream != null;
         if(exists) {
             try {
@@ -40,7 +40,7 @@ public final class I18n {
     public static Set<String> getLocales(String modid) {
         try {
             Set<String> locales = new HashSet<>();
-            JarFileWalker.getFiles(I18n.class.getResourceAsStream(Directories.getLangDirectory(modid)).toString()).forEach(path -> locales.add(path.getFileName().toString().replace(".json", "")));
+            JarFileWalker.getInstance().getFiles(I18n.class.getResourceAsStream(DirectoryResolver.getInstance().getLangDirectory(modid)).toString()).forEach(path -> locales.add(path.getFileName().toString().replace(".json", "")));
             return locales;
         } catch(Exception e) {
             throw new IllegalStateException(e);

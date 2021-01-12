@@ -16,7 +16,7 @@ public abstract class ThreadedJsonSerializable implements ThreadedSaveable, Json
         this.objectId = objectId;
         File folder = saveFolder.toFile();
         folder.mkdirs();
-        saveFile = new File(folder, FileNames.jsonFileNameFromUUID(objectId));
+        saveFile = new File(folder, FileNameResolver.getInstance().jsonFileNameFromUUID(objectId));
     }
 
     @Override
