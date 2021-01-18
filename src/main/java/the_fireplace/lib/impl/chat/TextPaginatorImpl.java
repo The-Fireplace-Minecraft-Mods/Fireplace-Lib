@@ -10,10 +10,12 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import the_fireplace.lib.api.chat.*;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
 
 import static the_fireplace.lib.impl.FireplaceLib.MODID;
 
+@ThreadSafe
 public final class TextPaginatorImpl implements TextPaginator {
     @Deprecated
     public static final TextPaginator INSTANCE = new TextPaginatorImpl();

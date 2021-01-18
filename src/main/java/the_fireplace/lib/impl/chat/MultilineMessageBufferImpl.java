@@ -5,20 +5,25 @@ import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 import the_fireplace.lib.api.chat.MessageQueue;
 import the_fireplace.lib.api.chat.MultilineMessageBuffer;
+import the_fireplace.lib.impl.FireplaceLib;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
+@ThreadSafe
 public final class MultilineMessageBufferImpl implements MultilineMessageBuffer {
     @Deprecated
     public static final MultilineMessageBuffer INSTANCE = new MultilineMessageBufferImpl();
     private final Map<Integer, Buffer> messageBuffers = new ConcurrentHashMap<>();
-    private int currentBufferId = Integer.MIN_VALUE;
+    private final AtomicInteger currentBufferId = new AtomicInteger(Integer.MIN_VALUE);
 
     @Override
-    public synchronized int create(byte expectedMessageCount, CommandOutput target) {
-        messageBuffers.put(currentBufferId, new Buffer(currentBufferId, expectedMessageCount, target));
-        return currentBufferId++;
+    public int create(byte expectedMessageCount, CommandOutput target) {
+        int bufferId = currentBufferId.getAndIncrement();
+        messageBuffers.put(bufferId, new Buffer(bufferId, expectedMessageCount, target));
+        return bufferId;
     }
 
     @Override
@@ -26,6 +31,8 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
         Buffer buffer = messageBuffers.get(bufferId);
         if (buffer != null) {
             buffer.put(position, value);
+        } else {
+            FireplaceLib.getLogger().warn("Tried to add a message to nonexistant buffer "+bufferId+"!", new Exception("Stack trace"));
         }
     }
 

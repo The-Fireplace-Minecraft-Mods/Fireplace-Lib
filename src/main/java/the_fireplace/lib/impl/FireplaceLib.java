@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import the_fireplace.lib.api.chat.TranslatorManager;
 import the_fireplace.lib.api.io.SaveTimer;
 import the_fireplace.lib.api.multithreading.ExecutionManager;
-import the_fireplace.lib.impl.events.NetworkEvents;
+import the_fireplace.lib.impl.network.NetworkEvents;
 
 public class FireplaceLib implements ModInitializer {
     public static final String MODID = "fireplacelib";
