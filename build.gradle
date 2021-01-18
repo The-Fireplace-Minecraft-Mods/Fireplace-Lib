@@ -63,6 +63,7 @@ curseforge {
 		changelog = file('changelog.txt')
 		releaseType = project.release_type
 		addGameVersion project.minecraft_version
+		addGameVersion '1.14.4'
 		addGameVersion 'Java 8'
 		addGameVersion 'Fabric'
 		mainArtifact(new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")) {
@@ -89,6 +90,7 @@ task publishModrinth (type: TaskModrinthUpload) {
 	changelog = file('changelog.txt').getText()
 	releaseType = project.release_type
 	addGameVersion(project.minecraft_version as String)
+	addGameVersion('1.14.4')
 	addLoader('fabric')
 }
 
