@@ -1,1 +1,1 @@
-Fixed server-side translations not turning Text into Strings.
+Fixed server-side check for if a client can translate being inverted
