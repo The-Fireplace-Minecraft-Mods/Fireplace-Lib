@@ -66,6 +66,8 @@ curseforge {
 		addGameVersion '1.16.4'
 		addGameVersion '1.16.3'
 		addGameVersion '1.16.2'
+		addGameVersion '1.16.1'
+		addGameVersion '1.16'
 		addGameVersion 'Java 8'
 		addGameVersion 'Fabric'
 		mainArtifact(new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")) {
@@ -95,6 +97,8 @@ task publishModrinth (type: TaskModrinthUpload) {
 	addGameVersion('1.16.4')
 	addGameVersion('1.16.3')
 	addGameVersion('1.16.2')
+	addGameVersion('1.16.1')
+	addGameVersion('1.16')
 	addLoader('fabric')
 }
 
