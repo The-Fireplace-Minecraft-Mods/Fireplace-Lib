@@ -2,7 +2,7 @@ package the_fireplace.lib.impl.io;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.WorldSavePath;
 import the_fireplace.lib.api.io.DirectoryResolver;
 import the_fireplace.lib.impl.FireplaceLib;
 
@@ -21,7 +21,7 @@ public final class Directories implements DirectoryResolver {
 
     @Override
     public Path getSavePath(MinecraftServer server) {
-        return server.getWorld(DimensionType.OVERWORLD).getSaveHandler().getWorldDir().toPath();
+        return server.getSavePath(WorldSavePath.ROOT);
     }
 
     @Override
