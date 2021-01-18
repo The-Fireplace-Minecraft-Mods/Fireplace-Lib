@@ -5,12 +5,15 @@ import net.minecraft.text.Text;
 import the_fireplace.lib.api.chat.MessageQueue;
 import the_fireplace.lib.api.multithreading.ExecutionManager;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+@ThreadSafe
 public final class MessageQueueImpl implements MessageQueue {
     @Deprecated
     public static final MessageQueueImpl INSTANCE = new MessageQueueImpl();
@@ -27,10 +30,11 @@ public final class MessageQueueImpl implements MessageQueue {
         getOrCreateQueue(messageTarget).queueMessages(messages);
     }
 
+    @ThreadSafe
     private static class TargetMessageQueue {
         private final Queue<Text> messages = new ArrayDeque<>();
         private final CommandOutput messageTarget;
-        private boolean sendingMessages = false;
+        private final AtomicBoolean sendingMessages = new AtomicBoolean(false);
 
         private TargetMessageQueue(CommandOutput messageTarget) {
             this.messageTarget = messageTarget;
@@ -38,16 +42,17 @@ public final class MessageQueueImpl implements MessageQueue {
 
         private synchronized void queueMessages(Text... messages) {
             this.messages.addAll(Arrays.asList(messages));
-            if (!sendingMessages)
+            if (!sendingMessages.get()) {
                 ExecutionManager.getInstance().runKillable(this::sendMessages);
+            }
         }
 
         private synchronized void sendMessages() {
-            sendingMessages = true;
+            sendingMessages.set(true);
             while (!messages.isEmpty()) {
                 messageTarget.sendMessage(messages.remove());
             }
-            sendingMessages = false;
+            sendingMessages.set(false);
         }
     }
 }

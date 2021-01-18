@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import the_fireplace.lib.impl.events.NetworkEvents;
+import the_fireplace.lib.impl.network.ClientNetworkEvents;
 
 @Mixin(ClientPlayNetworkHandler.class)
 @Environment(EnvType.CLIENT)
@@ -16,6 +16,6 @@ public class ClientPlayNetworkHandlerMixin {
 
     @Inject(at = @At("RETURN"), method = "onGameJoin")
     public void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
-        NetworkEvents.onConnectToServer();
+        ClientNetworkEvents.onConnectToServer();
     }
 }

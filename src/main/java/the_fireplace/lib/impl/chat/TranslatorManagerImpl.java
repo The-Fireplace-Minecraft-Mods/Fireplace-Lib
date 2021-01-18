@@ -11,11 +11,13 @@ import the_fireplace.lib.api.chat.TranslatorManager;
 import the_fireplace.lib.api.util.EmptyUUID;
 import the_fireplace.lib.impl.translation.I18n;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@ThreadSafe
 public class TranslatorManagerImpl implements TranslatorManager {
     @Deprecated
     public static final TranslatorManager INSTANCE = new TranslatorManagerImpl();
@@ -38,6 +40,7 @@ public class TranslatorManagerImpl implements TranslatorManager {
         return TRANSLATION_SERVICES.keySet();
     }
 
+    @ThreadSafe
     private static class TranslatorImpl implements Translator {
         private final String modid;
 
