@@ -1,1 +1,1 @@
-./gradlew build curseforge modrinthPublish bintrayUpload
+./gradlew build curseforge publishModrinth bintrayUpload
