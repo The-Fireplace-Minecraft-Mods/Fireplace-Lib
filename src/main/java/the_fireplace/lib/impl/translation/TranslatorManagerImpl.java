@@ -4,7 +4,6 @@ import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import the_fireplace.lib.api.chat.Translator;
@@ -78,8 +77,8 @@ public class TranslatorManagerImpl implements TranslatorManager {
             Object[] convertedArgs = args.clone();
 
             for (int i = 0; i < args.length; i++) {
-                if (args[i] instanceof StringVisitable) {
-                    convertedArgs[i] = ((StringVisitable) args[i]).getString();
+                if (args[i] instanceof Text) {
+                    convertedArgs[i] = ((Text) args[i]).getString();
                 }
             }
 
