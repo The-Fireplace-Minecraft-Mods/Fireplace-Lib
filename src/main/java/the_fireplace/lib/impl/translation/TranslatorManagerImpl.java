@@ -1,15 +1,15 @@
-package the_fireplace.lib.impl.chat;
+package the_fireplace.lib.impl.translation;
 
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import the_fireplace.lib.api.chat.Translator;
 import the_fireplace.lib.api.chat.TranslatorManager;
 import the_fireplace.lib.api.util.EmptyUUID;
-import the_fireplace.lib.impl.translation.I18n;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.Collection;
@@ -69,7 +69,21 @@ public class TranslatorManagerImpl implements TranslatorManager {
 
         @Override
         public LiteralText getTranslatedText(String translationKey, Object... args) {
-            return new LiteralText(I18n.translateToLocalFormatted(modid, translationKey, args));
+            Object[] convertedArgs = getArgsWithTextConvertedToString(args);
+
+            return new LiteralText(I18n.translateToLocalFormatted(modid, translationKey, convertedArgs));
+        }
+
+        private Object[] getArgsWithTextConvertedToString(Object[] args) {
+            Object[] convertedArgs = args.clone();
+
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] instanceof StringVisitable) {
+                    convertedArgs[i] = ((StringVisitable) args[i]).getString();
+                }
+            }
+
+            return convertedArgs;
         }
 
         @Override

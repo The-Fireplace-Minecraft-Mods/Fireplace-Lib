@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import the_fireplace.lib.impl.FireplaceLib;
-import the_fireplace.lib.impl.chat.LocalizedClients;
+import the_fireplace.lib.impl.translation.LocalizedClients;
 
 import java.util.HashSet;
 import java.util.Set;

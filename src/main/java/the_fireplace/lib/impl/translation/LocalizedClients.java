@@ -1,4 +1,4 @@
-package the_fireplace.lib.impl.chat;
+package the_fireplace.lib.impl.translation;
 
 import io.netty.util.internal.ConcurrentSet;
 import the_fireplace.lib.api.chat.TranslatorManager;
