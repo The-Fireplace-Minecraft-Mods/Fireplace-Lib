@@ -1,1 +1,2 @@
-Essential tasks will always be run by ConcurrentExecutionManager even if it is trying to shut down.
+Change version numbering around to be semver compliant again.
+Add the Minecraft version requirement to the fabric.mod.json
