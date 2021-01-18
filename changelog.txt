@@ -1,2 +1,1 @@
-Change version numbering around to be semver compliant again.
-Add the Minecraft version requirement to the fabric.mod.json
+Fixed server-side translations not turning Text into Strings.

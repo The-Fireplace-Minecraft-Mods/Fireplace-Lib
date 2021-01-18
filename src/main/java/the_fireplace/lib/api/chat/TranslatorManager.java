@@ -1,6 +1,6 @@
 package the_fireplace.lib.api.chat;
 
-import the_fireplace.lib.impl.chat.TranslatorManagerImpl;
+import the_fireplace.lib.impl.translation.TranslatorManagerImpl;
 
 import java.util.Collection;
 
