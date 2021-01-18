@@ -27,6 +27,6 @@ public final class LocalizedClients {
     }
 
     public static boolean isLocalized(String modid, UUID player) {
-        return !LOCALIZED_CLIENTS.containsKey(modid) || !LOCALIZED_CLIENTS.get(modid).contains(player);
+        return LOCALIZED_CLIENTS.containsKey(modid) && LOCALIZED_CLIENTS.get(modid).contains(player);
     }
 }
