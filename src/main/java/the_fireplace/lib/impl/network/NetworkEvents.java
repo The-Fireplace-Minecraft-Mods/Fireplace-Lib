@@ -2,8 +2,8 @@ package the_fireplace.lib.impl.network;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.PacketByteBuf;
 import the_fireplace.lib.impl.FireplaceLib;
 import the_fireplace.lib.impl.translation.LocalizedClients;
 
