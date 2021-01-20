@@ -3,7 +3,7 @@ package the_fireplace.lib.impl.network;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.PacketByteBuf;
 import the_fireplace.lib.api.chat.TranslatorManager;
 
 @Environment(EnvType.CLIENT)
