@@ -18,7 +18,7 @@ public class NetworkEvents {
         ServerPlayNetworking.registerGlobalReceiver(CLIENT_CONNECTED_CHANNEL_NAME, (server, player, networkHandler, packetByteBuf, packetSender) -> {
             Set<String> modids = new HashSet<>();
             while (packetByteBuf.isReadable()) {
-                modids.add(packetByteBuf.readString());
+                modids.add(packetByteBuf.readString(Short.MAX_VALUE));
             }
             LocalizedClients.addPlayer(player.getUuid(), modids);
         });
