@@ -1,1 +1,1 @@
-Fixed server-side check for if a client can translate being inverted
+Fixed server-side check for if a client can translate crashing the game
