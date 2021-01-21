@@ -36,5 +36,5 @@ repositories {
 ```
 And in `gradle.properties`:
 ```
-fireplacelib_version=<minecraft version>-<mod version>
+fireplacelib_version=<mod version>+<minecraft version>
 ```
