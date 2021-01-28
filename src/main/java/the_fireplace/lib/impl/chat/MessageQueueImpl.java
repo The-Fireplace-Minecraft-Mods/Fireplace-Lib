@@ -4,6 +4,7 @@ import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 import the_fireplace.lib.api.chat.MessageQueue;
 import the_fireplace.lib.api.multithreading.ExecutionManager;
+import the_fireplace.lib.api.util.EmptyUUID;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.ArrayDeque;
@@ -50,7 +51,7 @@ public final class MessageQueueImpl implements MessageQueue {
         private synchronized void sendMessages() {
             sendingMessages.set(true);
             while (!messages.isEmpty()) {
-                messageTarget.sendSystemMessage(messages.remove(), null);
+                messageTarget.sendSystemMessage(messages.remove(), EmptyUUID.EMPTY_UUID);
             }
             sendingMessages.set(false);
         }
