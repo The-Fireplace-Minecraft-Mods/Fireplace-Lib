@@ -1,1 +1,1 @@
-Fixed server-side check for if a client can translate crashing the game
+Switch to a more efficient way to create the empty UUID
