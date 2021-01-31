@@ -12,7 +12,6 @@ import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import the_fireplace.lib.api.chat.TextPaginator;
 import the_fireplace.lib.api.chat.TextStyles;
@@ -105,14 +104,14 @@ public final class HelpCommandImpl implements HelpCommand {
     }
 
     private List<? extends Text> getHelpsList(CommandContext<ServerCommandSource> command) {
-        List<MutableText> helps = Lists.newArrayList();
+        List<Text> helps = Lists.newArrayList();
         for (Map.Entry<String, Collection<String>> commandName: commands.entrySet()) {
             if (commandName.getValue().isEmpty()) {
-                MutableText commandHelp = buildCommandDescription(command, commandName.getKey());
+                Text commandHelp = buildCommandDescription(command, commandName.getKey());
                 helps.add(commandHelp);
             } else {
                 for (String subCommand: commandName.getValue()) {
-                    MutableText commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
+                    Text commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
                     helps.add(commandHelp);
                 }
             }
@@ -120,20 +119,20 @@ public final class HelpCommandImpl implements HelpCommand {
         helps.sort(Comparator.comparing(Text::getString));
 
         int i = 0;
-        for (MutableText helpText: helps) {
+        for (Text helpText: helps) {
             helpText.setStyle(i++ % 2 == 0 ? TextStyles.WHITE : TextStyles.GRAY);
         }
 
         return helps;
     }
 
-    private MutableText buildCommandDescription(CommandContext<ServerCommandSource> command, String commandName) {
+    private Text buildCommandDescription(CommandContext<ServerCommandSource> command, String commandName) {
         return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".usage")
             .append(": ")
             .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".description"));
     }
 
-    private MutableText buildSubCommandDescription(CommandContext<ServerCommandSource> command, String commandName, String subCommand) {
+    private Text buildSubCommandDescription(CommandContext<ServerCommandSource> command, String commandName, String subCommand) {
         return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".usage")
             .append(": ")
             .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".description"));
