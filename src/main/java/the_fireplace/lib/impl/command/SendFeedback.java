@@ -13,7 +13,7 @@ public final class SendFeedback implements FeedbackSender {
 
     private final Translator translator;
 
-    private SendFeedback(Translator translator) {
+    SendFeedback(Translator translator) {
         this.translator = translator;
     }
 

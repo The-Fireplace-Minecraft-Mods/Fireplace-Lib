@@ -8,6 +8,8 @@ public final class RequirementsImpl implements Requirements {
     @Deprecated
     public static final Requirements INSTANCE = new RequirementsImpl();
 
+    private RequirementsImpl(){}
+
     private static final int PERMISSION_LEVEL_MANAGE_GAME_SETTINGS = 2;
     private static final int PERMISSION_LEVEL_MANAGE_PLAYER_ACCESS = 3;
     private static final int PERMISSION_LEVEL_OP = 4;
