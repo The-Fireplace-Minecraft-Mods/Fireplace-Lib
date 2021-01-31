@@ -4,3 +4,4 @@ Added a section to the API with helpers for commands
 Updated TextPaginator to accept a list of classes extending Text instead of forcing it to be a list of Text.
 Fixed false warning that the concurrent executor timed out before finishing
 Added the FeedbackSenderManager
+Fixed typo in function name

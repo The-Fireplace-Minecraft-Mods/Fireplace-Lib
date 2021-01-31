@@ -54,7 +54,7 @@ public final class HelpCommandImpl implements HelpCommand {
     }
 
     @Override
-    public HelpCommand addSubCommandsFromCommand(CommandNode<?>... commands) {
+    public HelpCommand addSubCommandsFromCommands(CommandNode<?>... commands) {
         for (CommandNode<?> node: commands) {
             for (Iterator<? extends CommandNode<?>> it = node.getChildren().stream().sorted().iterator(); it.hasNext();) {
                 CommandNode<?> child = it.next();

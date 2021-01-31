@@ -7,5 +7,10 @@ public interface HelpCommand extends RegisterableCommand {
 
 	HelpCommand addCommands(String... commands);
 
-	HelpCommand addSubCommandsFromCommand(CommandNode<?>... commands);
+	HelpCommand addSubCommandsFromCommands(CommandNode<?>... commands);
+
+	@Deprecated
+	default HelpCommand addSubCommandsFromCommand(CommandNode<?>... commands) {
+		return addSubCommandsFromCommands(commands);
+	}
 }
