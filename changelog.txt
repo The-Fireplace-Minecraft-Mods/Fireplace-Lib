@@ -1,2 +1,1 @@
-Send an empty UUID instead of null when sending queued messages, fixing the NPEs from queued messages.
-Switch to a more efficient way to create the empty UUID
+Fixed translations not loading
