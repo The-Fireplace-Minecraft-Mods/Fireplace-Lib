@@ -41,7 +41,7 @@ public final class ConcurrentExecutionManager implements ExecutionManager {
     public void waitForCompletion() throws InterruptedException {
         essentialExecutorService.shutdown();
         nonessentialExecutorService.shutdownNow();
-        boolean timedOut = essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
+        boolean timedOut = !essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
         if (timedOut) {
             FireplaceLib.getLogger().error("Timed out awaiting essential threads to terminate.");
         }
