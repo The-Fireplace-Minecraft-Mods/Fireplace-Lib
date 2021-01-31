@@ -29,7 +29,7 @@ public final class SendFeedback implements FeedbackSender {
 
     @Override
     public void basic(ServerPlayerEntity targetPlayer, String translationKey, Object... args) {
-        targetPlayer.sendMessage(translator.getTextForTarget(targetPlayer.getUuid(), translationKey, args), false);
+        targetPlayer.sendMessage(translator.getTextForTarget(targetPlayer.getUuid(), translationKey, args));
     }
 
     @Override
@@ -39,6 +39,6 @@ public final class SendFeedback implements FeedbackSender {
 
     @Override
     public void styled(ServerPlayerEntity targetPlayer, Style style, String translationKey, Object... args) {
-        targetPlayer.sendMessage(translator.getTextForTarget(targetPlayer.getUuid(), translationKey, args).setStyle(style), false);
+        targetPlayer.sendMessage(translator.getTextForTarget(targetPlayer.getUuid(), translationKey, args).setStyle(style));
     }
 }
