@@ -1,1 +1,1 @@
-Added the FeedbackSenderManager
+Fixed typo in function name
