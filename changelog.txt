@@ -1,1 +1,2 @@
 Switch to a more efficient way to create the empty UUID
+Fixed translations not loading
