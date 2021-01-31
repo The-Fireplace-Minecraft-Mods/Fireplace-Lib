@@ -11,6 +11,8 @@ public final class HelpCommandFactoryImpl implements HelpCommandFactory {
 	@Deprecated
 	public static final HelpCommandFactory INSTANCE = new HelpCommandFactoryImpl();
 
+	private HelpCommandFactoryImpl(){}
+
 	@Override
 	public HelpCommand create(Translator translator, TextPaginator textPaginator, String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
 		return new HelpCommandImpl(translator, textPaginator, modid, helpCommandBase);
