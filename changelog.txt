@@ -1,2 +1,4 @@
 Switch to a more efficient way to create the empty UUID
 Fixed translations not loading
+Added a section to the API with helpers for commands
+Updated TextPaginator to accept a list of classes extending Text instead of forcing it to be a list of Text.
