@@ -1,7 +1,1 @@
-Switch to a more efficient way to create the empty UUID
-Fixed translations not loading
-Added a section to the API with helpers for commands
-Updated TextPaginator to accept a list of classes extending Text instead of forcing it to be a list of Text.
-Fixed false warning that the concurrent executor timed out before finishing
-Added the FeedbackSenderManager
-Fixed typo in function name
+Rewrite storage handling to be more portable - other file formats or even database storage could be easily possible moving forward.
