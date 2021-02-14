@@ -1,36 +1,44 @@
 package dev.the_fireplace.lib.impl.storage;
 
 import dev.the_fireplace.lib.api.io.DirectoryResolver;
-import dev.the_fireplace.lib.api.storage.Storable;
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageType;
+import dev.the_fireplace.lib.api.storage.ConfigBasedSerializable;
+import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
 
 import java.nio.file.Path;
 
 public final class JsonStoragePath {
     private static final DirectoryResolver DIRECTORY_RESOLVER = DirectoryResolver.getInstance();
     
-    private static Path getBaseStoragePath(StorageType type) {
-        switch (type) {
-            case SAVE:
-                return DIRECTORY_RESOLVER.getSavePath();
-            case CONFIG:
-                return DIRECTORY_RESOLVER.getConfigPath();
-            default:
-                throw new IllegalArgumentException("Invalid Storage Type!");
-        }
-    }
-    
-    static Path resolveJsonFilePath(Storable storable) {
-        Path filePath = getBaseStoragePath(storable.getType());
+    static Path resolveSaveBasedJsonFilePath(SaveBasedSerializable saveBasedSerializable) {
+        Path filePath = DIRECTORY_RESOLVER.getSavePath();
 
-        if (!storable.getDatabase().isEmpty()) {
-            filePath = filePath.resolve(storable.getDatabase());
+        if (!saveBasedSerializable.getDatabase().isEmpty()) {
+            filePath = filePath.resolve(saveBasedSerializable.getDatabase());
+        } else {
+            throw new IllegalStateException("Storable was missing a database!");
         }
-        if (!storable.getTable().isEmpty()) {
-            filePath = filePath.resolve(storable.getTable());
+        if (!saveBasedSerializable.getTable().isEmpty()) {
+            filePath = filePath.resolve(saveBasedSerializable.getTable());
+        } else {
+            throw new IllegalStateException("Storable was missing a table!");
         }
-        if (!storable.getId().isEmpty()) {
-            filePath = filePath.resolve(storable.getId() + ".json");
+        if (!saveBasedSerializable.getId().isEmpty()) {
+            filePath = filePath.resolve(saveBasedSerializable.getId() + ".json");
+        } else {
+            throw new IllegalStateException("Storable was missing an ID!");
+        }
+
+        return filePath;
+    }
+
+    static Path resolveConfigBasedJsonFilePath(ConfigBasedSerializable configBasedSerializable) {
+        Path filePath = DIRECTORY_RESOLVER.getConfigPath();
+
+        if (!configBasedSerializable.getSubfolderName().isEmpty()) {
+            filePath = filePath.resolve(configBasedSerializable.getSubfolderName());
+        }
+        if (!configBasedSerializable.getId().isEmpty()) {
+            filePath = filePath.resolve(configBasedSerializable.getId() + ".json");
         } else {
             throw new IllegalStateException("Storable was missing an ID!");
         }

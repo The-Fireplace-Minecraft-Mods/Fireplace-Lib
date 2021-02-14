@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.io;
+package dev.the_fireplace.lib.impl.storage;
 
 import com.google.gson.JsonObject;
 import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;

@@ -1,21 +1,18 @@
 package dev.the_fireplace.lib.impl.config;
 
-import com.google.gson.JsonObject;
-import dev.the_fireplace.lib.api.storage.ThreadsafeLazySavable;
+import dev.the_fireplace.lib.api.storage.LazyConfig;
 import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageType;
+import dev.the_fireplace.lib.api.storage.access.intermediary.StorageWriteBuffer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 
-public final class FireplaceLibConfig extends ThreadsafeLazySavable {
+public final class FireplaceLibConfig extends LazyConfig {
     private static final FireplaceLibConfig INSTANCE = new FireplaceLibConfig();
 
     public static FireplaceLibConfig getInstance() {
         return INSTANCE;
     }
 
-    private FireplaceLibConfig() {
-        super(0);
-    }
+    private FireplaceLibConfig() {}
 
     private String locale = "en_us";
 
@@ -23,21 +20,17 @@ public final class FireplaceLibConfig extends ThreadsafeLazySavable {
     private short nonEssentialThreadPoolSize = 128;
 
     @Override
-    public void readFrom(StorageReadBuffer reader) {
-        locale = reader.readString("locale", locale);
-        essentialThreadPoolSize = reader.readShort("essentialThreadPoolSize", essentialThreadPoolSize);
-        nonEssentialThreadPoolSize = reader.readShort("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
+    public void readFrom(StorageReadBuffer buffer) {
+        locale = buffer.readString("locale", locale);
+        essentialThreadPoolSize = buffer.readShort("essentialThreadPoolSize", essentialThreadPoolSize);
+        nonEssentialThreadPoolSize = buffer.readShort("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
     }
 
     @Override
-    public JsonObject toJson() {
-        JsonObject instanceJson = new JsonObject();
-
-        instanceJson.addProperty("locale", locale);
-        instanceJson.addProperty("essentialThreadPoolSize", essentialThreadPoolSize);
-        instanceJson.addProperty("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
-
-        return instanceJson;
+    public void writeTo(StorageWriteBuffer buffer) {
+        buffer.writeString("locale", locale);
+        buffer.writeShort("essentialThreadPoolSize", essentialThreadPoolSize);
+        buffer.writeShort("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
     }
 
     public String getLocale() {
@@ -53,22 +46,7 @@ public final class FireplaceLibConfig extends ThreadsafeLazySavable {
     }
 
     @Override
-    public String getDatabase() {
-        return "";
-    }
-
-    @Override
-    public String getTable() {
-        return "";
-    }
-
-    @Override
     public String getId() {
         return FireplaceLib.MODID;
-    }
-
-    @Override
-    public StorageType getType() {
-        return StorageType.CONFIG;
     }
 }
