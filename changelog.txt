@@ -1,1 +1,1 @@
-Fixed typo in function name
+Rewrite storage handling to be more portable - other file formats or even database storage could be easily possible moving forward.
