@@ -2,18 +2,18 @@ package dev.the_fireplace.lib.api.storage;
 
 import dev.the_fireplace.lib.api.io.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
-import dev.the_fireplace.lib.api.storage.access.StorageReader;
-import dev.the_fireplace.lib.api.storage.access.StorageWriter;
+import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
+import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings("FieldCanBeLocal")
 @ThreadSafe
-public abstract class ThreadsafeLazySavable implements Readable, Writable {
+public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
     private final SaveTimer timer = SaveTimer.getInstance();
-    private final StorageReader storageReader = StorageReader.getInstance();
-    private final StorageWriter storageWriter = StorageWriter.getInstance();
+    private final SaveBasedStorageReader saveBasedStorageReader = SaveBasedStorageReader.getInstance();
+    private final SaveBasedStorageWriter saveBasedStorageWriter = SaveBasedStorageWriter.getInstance();
     @SuppressWarnings("WeakerAccess")
     protected final ExecutionManager executionManager = ExecutionManager.getInstance();
 
@@ -25,7 +25,7 @@ public abstract class ThreadsafeLazySavable implements Readable, Writable {
     }
 
     protected ThreadsafeLazySavable(short saveIntervalInMinutes) {
-        storageReader.readTo(this);
+        load();
         if (saveIntervalInMinutes > 0) {
             timer.registerSaveFunction(saveIntervalInMinutes, this::save);
         } else if (isNonDefault()) {
@@ -41,7 +41,11 @@ public abstract class ThreadsafeLazySavable implements Readable, Writable {
         isChanged.lazySet(true);
     }
 
-    public void save() {
+    protected void load() {
+        saveBasedStorageReader.readTo(this);
+    }
+
+    protected void save() {
         if (canSave()) {
             forceSave();
         }
@@ -55,7 +59,7 @@ public abstract class ThreadsafeLazySavable implements Readable, Writable {
         saving.set(true);
         isChanged.set(false);
         executionManager.run(() -> {
-            storageWriter.write(this);
+            saveBasedStorageWriter.write(this);
             saving.set(false);
         });
     }
