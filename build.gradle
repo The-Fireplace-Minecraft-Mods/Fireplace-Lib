@@ -2,14 +2,12 @@ plugins {
 	// Dependencies
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	// Mod Hosting Publish
-	id "com.matthewprenger.cursegradle" version "1.4.0"
-	id "com.modrinth.minotaur" version "1.1.0"
+	id 'com.matthewprenger.cursegradle' version '1.4.0'
+	id 'com.modrinth.minotaur' version '1.1.0'
 	// Maven Publish
-	id "com.jfrog.bintray" version "1.8.4"
-	id "maven-publish"
-	id "signing"
-	id "java"
-	id "java-library"
+	id 'maven'
+	id 'signing'
+	id 'io.codearte.nexus-staging' version '0.22.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -52,80 +50,115 @@ tasks.withType(JavaCompile) {
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	archiveClassifier.set("sources")
+	archiveClassifier.set('sources')
 	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: classes) {
+	archiveClassifier.set('javadoc')
+	from javadoc
+}
+
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
+signing {
+	sign configurations.archives
 }
 
 jar {
 	from "LICENSE"
 }
 
-curseforge {
-	apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : "empty"
-	project {
-		id = '432845'
-		changelog = file('changelog.txt')
-		releaseType = project.release_type
-		addGameVersion project.minecraft_version
-		addGameVersion '1.16.4'
-		addGameVersion '1.16.3'
-		addGameVersion '1.16.2'
-		addGameVersion '1.16.1'
-		addGameVersion '1.16'
-		addGameVersion 'Java 8'
-		addGameVersion 'Fabric'
-		mainArtifact(new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")) {
-			displayName = "$archivesBaseName-$version"
-			relations {
-				requiredDependency 'fabric-api'
+if (hasProperty('curseForgeApiKey')) {
+	curseforge {
+		apiKey = curseForgeApiKey
+		project {
+			id = '432845'
+			changelog = file('changelog.txt')
+			releaseType = project.release_type
+			addGameVersion project.minecraft_version
+			addGameVersion '1.16.4'
+			addGameVersion '1.16.3'
+			addGameVersion '1.16.2'
+			addGameVersion '1.16.1'
+			addGameVersion '1.16'
+			addGameVersion 'Java 8'
+			addGameVersion 'Fabric'
+			mainArtifact(jar) {
+				displayName = "$archivesBaseName-$version"
+				relations {
+					requiredDependency 'fabric-api'
+				}
 			}
 		}
+		options {
+			javaIntegration = false
+			forgeGradleIntegration = false
+		}
 	}
-	options {
-        javaIntegration = false
-        forgeGradleIntegration = false
-    }
 }
 
 import com.modrinth.minotaur.TaskModrinthUpload
-
-task publishModrinth (type: TaskModrinthUpload) {
-	token = project.hasProperty("modrinthApiKey") ? project.modrinthApiKey : "empty"
-	projectId = 'ING0LAPF'
-	versionNumber = version
-	versionName = project.mod_version
-	uploadFile = jar // This is the java jar task
-	changelog = file('changelog.txt').getText()
-	releaseType = project.release_type
-	addGameVersion(project.minecraft_version as String)
-	addGameVersion('1.16.4')
-	addGameVersion('1.16.3')
-	addGameVersion('1.16.2')
-	addGameVersion('1.16.1')
-	addGameVersion('1.16')
-	addLoader('fabric')
-}
-
-bintray {
-	user = project.hasProperty("bintrayUser") ? project.bintrayUser : "empty"
-	key = project.hasProperty("bintrayApiKey") ? project.bintrayApiKey : "empty"
-	setPublications("mavenJava")
-	publish = true
-	pkg {
-		repo = "mc-mods"
-		name = "fireplace-lib"
-		licenses = ["MIT"]
+if (hasProperty('modrinthApiKey')) {
+	task publishModrinth(type: TaskModrinthUpload) {
+		token = modrinthApiKey
+		projectId = 'ING0LAPF'
+		versionNumber = version
+		versionName = project.mod_version
+		uploadFile = jar // This is the java jar task
+		changelog = file('changelog.txt').getText()
+		releaseType = project.release_type
+		addGameVersion(project.minecraft_version as String)
+		addGameVersion('1.16.4')
+		addGameVersion('1.16.3')
+		addGameVersion('1.16.2')
+		addGameVersion('1.16.1')
+		addGameVersion('1.16')
+		addLoader('fabric')
 	}
 }
 
-def remapSourcesJar = tasks.getByName("remapSourcesJar")
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication.class) {
-			artifact(remapJar)
-			artifact(sourcesJar) {
-				builtBy(remapSourcesJar)
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: ossrhUsername, password: ossrhPassword)
+			}
+
+			snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+				authentication(userName: ossrhUsername, password: ossrhPassword)
+			}
+
+			pom.project {
+				name 'Fireplace Lib'
+				packaging 'jar'
+				description 'A library of common functionality used by my Minecraft mods, in one place for easier maintenance and faster updates.'
+				url 'https://www.curseforge.com/minecraft/mc-mods/fireplace-lib'
+
+				scm {
+					connection "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
+					developerConnection "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
+					url "https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}"
+				}
+
+				licenses {
+					license {
+						name 'The MIT License'
+						url 'https://opensource.org/licenses/MIT'
+					}
+				}
+
+				developers {
+					developer {
+						id 'the_fireplace'
+						name 'The_Fireplace'
+						email 'the.f1repl4ce@gmail.com'
+					}
+				}
 			}
 		}
 	}
