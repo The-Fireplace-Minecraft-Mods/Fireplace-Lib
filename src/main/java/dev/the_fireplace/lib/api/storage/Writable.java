@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.api.storage;
 
-import com.google.gson.JsonObject;
+import dev.the_fireplace.lib.api.storage.access.intermediary.StorageWriteBuffer;
 
-public interface Writable extends Storable {
-    JsonObject toJson();
+public interface Writable {
+    void writeTo(StorageWriteBuffer buffer);
 }
