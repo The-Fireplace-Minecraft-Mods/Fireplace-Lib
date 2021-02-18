@@ -7,9 +7,10 @@ import dev.the_fireplace.lib.impl.FireplaceLib;
 
 public final class FireplaceLibConfig extends LazyConfig {
     private static final FireplaceLibConfig INSTANCE = new FireplaceLibConfig();
+    private final Access access = new Access();
 
-    public static FireplaceLibConfig getInstance() {
-        return INSTANCE;
+    public static Access getInstance() {
+        return INSTANCE.access;
     }
 
     private FireplaceLibConfig() {}
@@ -33,20 +34,23 @@ public final class FireplaceLibConfig extends LazyConfig {
         buffer.writeShort("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
     }
 
-    public String getLocale() {
-        return locale;
-    }
-
-    public short getEssentialThreadPoolSize() {
-        return essentialThreadPoolSize;
-    }
-
-    public short getNonEssentialThreadPoolSize() {
-        return nonEssentialThreadPoolSize;
-    }
-
     @Override
     public String getId() {
         return FireplaceLib.MODID;
+    }
+
+    public final class Access {
+        private Access(){}
+        public String getLocale() {
+            return locale;
+        }
+
+        public short getEssentialThreadPoolSize() {
+            return essentialThreadPoolSize;
+        }
+
+        public short getNonEssentialThreadPoolSize() {
+            return nonEssentialThreadPoolSize;
+        }
     }
 }

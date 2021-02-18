@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.storage;
+package dev.the_fireplace.lib.impl.storage.access;
 
 import dev.the_fireplace.lib.api.io.DirectoryResolver;
 import dev.the_fireplace.lib.api.storage.ConfigBasedSerializable;

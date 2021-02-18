@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.command;
+package dev.the_fireplace.lib.impl.commandhelpers;
 
 import dev.the_fireplace.lib.api.chat.Translator;
 import dev.the_fireplace.lib.api.command.FeedbackSender;

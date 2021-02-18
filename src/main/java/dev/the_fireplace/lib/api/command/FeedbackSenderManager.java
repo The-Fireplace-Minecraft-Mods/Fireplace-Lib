@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.api.command;
 
 import dev.the_fireplace.lib.api.chat.Translator;
-import dev.the_fireplace.lib.impl.command.FeedbackSenderManagerImpl;
+import dev.the_fireplace.lib.impl.commandhelpers.FeedbackSenderManagerImpl;
 
 public interface FeedbackSenderManager {
 	static FeedbackSenderManager getInstance() {

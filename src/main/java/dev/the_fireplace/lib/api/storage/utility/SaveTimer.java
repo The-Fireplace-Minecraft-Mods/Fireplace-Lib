@@ -1,6 +1,6 @@
-package dev.the_fireplace.lib.api.io;
+package dev.the_fireplace.lib.api.storage.utility;
 
-import dev.the_fireplace.lib.impl.io.SaveTimerImpl;
+import dev.the_fireplace.lib.impl.storage.utility.SaveTimerImpl;
 
 public interface SaveTimer {
     static SaveTimer getInstance() {

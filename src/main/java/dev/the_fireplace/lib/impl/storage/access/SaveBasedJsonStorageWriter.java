@@ -1,11 +1,11 @@
-package dev.the_fireplace.lib.impl.storage;
+package dev.the_fireplace.lib.impl.storage.access;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import dev.the_fireplace.lib.api.storage.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.storage.Defaultable;
-import dev.the_fireplace.lib.api.storage.access.ConfigBasedStorageWriter;
+import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
+import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
@@ -15,21 +15,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter {
+public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter {
     @Deprecated
-    public static final ConfigBasedStorageWriter INSTANCE = new ConfigBasedJsonStorageWriter();
+    public static final SaveBasedStorageWriter INSTANCE = new SaveBasedJsonStorageWriter();
 
     private final Gson gson;
     private final Logger logger;
 
-    private ConfigBasedJsonStorageWriter() {
+    private SaveBasedJsonStorageWriter() {
         gson = new GsonBuilder().setPrettyPrinting().create();
         logger = FireplaceLib.getLogger();
     }
 
     @Override
-    public boolean write(ConfigBasedSerializable writable) {
-        Path filePath = JsonStoragePath.resolveConfigBasedJsonFilePath(writable);
+    public boolean write(SaveBasedSerializable writable) {
+        Path filePath = JsonStoragePath.resolveSaveBasedJsonFilePath(writable);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists() && !folder.mkdirs()) {
