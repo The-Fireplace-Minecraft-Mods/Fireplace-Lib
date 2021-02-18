@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.command;
+package dev.the_fireplace.lib.impl.commandhelpers;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.Command;

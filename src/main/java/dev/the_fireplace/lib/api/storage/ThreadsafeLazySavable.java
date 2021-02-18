@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.api.storage;
 
-import dev.the_fireplace.lib.api.io.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
+import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicBoolean;

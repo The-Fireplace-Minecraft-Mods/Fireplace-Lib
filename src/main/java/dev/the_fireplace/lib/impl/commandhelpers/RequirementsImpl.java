@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.command;
+package dev.the_fireplace.lib.impl.commandhelpers;
 
 import dev.the_fireplace.lib.api.command.Requirements;
 import net.minecraft.entity.player.PlayerEntity;

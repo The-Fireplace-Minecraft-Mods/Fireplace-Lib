@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.api.command;
 
-import dev.the_fireplace.lib.impl.command.RequirementsImpl;
+import dev.the_fireplace.lib.impl.commandhelpers.RequirementsImpl;
 import net.minecraft.server.command.ServerCommandSource;
 
 public interface Requirements {
