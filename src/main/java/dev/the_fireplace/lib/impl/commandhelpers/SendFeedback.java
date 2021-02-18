@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.command;
+package dev.the_fireplace.lib.impl.commandhelpers;
 
 import com.mojang.brigadier.context.CommandContext;
 import dev.the_fireplace.lib.api.chat.TextStyles;

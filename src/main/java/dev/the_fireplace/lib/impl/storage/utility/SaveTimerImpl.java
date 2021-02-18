@@ -1,7 +1,7 @@
-package dev.the_fireplace.lib.impl.io;
+package dev.the_fireplace.lib.impl.storage.utility;
 
-import dev.the_fireplace.lib.api.io.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
+import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 import io.netty.util.internal.ConcurrentSet;
 
 import java.util.*;
