@@ -1,6 +1,7 @@
-package dev.the_fireplace.lib.api.storage;
+package dev.the_fireplace.lib.api.storage.lazy;
 
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
+import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
 import dev.the_fireplace.lib.api.storage.utility.SaveTimer;

@@ -2,7 +2,7 @@ package dev.the_fireplace.lib.impl.multithreading;
 
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.impl.FireplaceLib;
-import dev.the_fireplace.lib.impl.config.FireplaceLibConfig;
+import dev.the_fireplace.lib.impl.config.FLConfig;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,8 +12,8 @@ public final class ConcurrentExecutionManager implements ExecutionManager {
     @Deprecated
     public static final ExecutionManager INSTANCE = new ConcurrentExecutionManager();
     //Limit the number of active threads so we don't run the machine out of memory
-    private ExecutorService essentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
-    private ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
+    private ExecutorService essentialExecutorService = Executors.newFixedThreadPool(FLConfig.getData().getEssentialThreadPoolSize());
+    private ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FLConfig.getData().getNonEssentialThreadPoolSize());
 
     private ConcurrentExecutionManager(){}
 
@@ -55,8 +55,8 @@ public final class ConcurrentExecutionManager implements ExecutionManager {
             } catch (InterruptedException e) {
                 FireplaceLib.getLogger().error("Interrupted while waiting to complete essential execution!", e);
             }
-            essentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getEssentialThreadPoolSize());
-            nonessentialExecutorService = Executors.newFixedThreadPool(FireplaceLibConfig.getInstance().getNonEssentialThreadPoolSize());
+            essentialExecutorService = Executors.newFixedThreadPool(FLConfig.getData().getEssentialThreadPoolSize());
+            nonessentialExecutorService = Executors.newFixedThreadPool(FLConfig.getData().getNonEssentialThreadPoolSize());
         }
     }
 }

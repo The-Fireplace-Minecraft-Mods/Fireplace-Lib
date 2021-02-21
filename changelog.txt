@@ -1,1 +1,5 @@
 Rewrite storage handling to be more portable - other file formats or even database storage could be easily possible moving forward.
+Add /flreload to reload config while the game is running
+Add reload helper as part of the storage rewrite
+Bundle Cloth Config with the mod and add helper file for building cloth config GUIs
+Add Mod Menu integration
