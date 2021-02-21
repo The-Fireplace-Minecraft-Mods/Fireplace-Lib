@@ -3,9 +3,9 @@ package dev.the_fireplace.lib.impl.storage.access;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import dev.the_fireplace.lib.api.storage.Defaultable;
 import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
+import dev.the_fireplace.lib.api.storage.lazy.Defaultable;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
