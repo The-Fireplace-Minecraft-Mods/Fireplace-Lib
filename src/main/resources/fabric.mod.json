@@ -15,12 +15,15 @@
   },
 
   "license": "MIT",
-  "icon": "",
+  "icon": "assets/fireplacelib/logo.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
       "dev.the_fireplace.lib.impl.FireplaceLib"
+    ],
+    "modmenu": [
+      "dev.the_fireplace.lib.impl.config.FLModMenuIntegration"
     ]
   },
   "mixins": [
@@ -31,5 +34,18 @@
     "fabricloader": ">=0.7.2",
     "fabric": "*",
     "minecraft": "<1.16"
+  },
+
+  "suggests": {
+    "modmenu": "*"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/QXQYPj5"
+      },
+      "badges": [ "library" ]
+    }
   }
 }

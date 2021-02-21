@@ -3,6 +3,7 @@ package dev.the_fireplace.lib.impl;
 import dev.the_fireplace.lib.api.chat.TranslatorManager;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
+import dev.the_fireplace.lib.impl.commands.FLCommands;
 import dev.the_fireplace.lib.impl.network.NetworkEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -34,6 +35,7 @@ public class FireplaceLib implements ModInitializer {
             minecraftServer = s;
             ExecutionManager.getInstance().startExecutors();
             SaveTimer.getInstance().resetTimer();
+            FLCommands.register(s);
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
             SaveTimer.getInstance().prepareForServerShutdown();

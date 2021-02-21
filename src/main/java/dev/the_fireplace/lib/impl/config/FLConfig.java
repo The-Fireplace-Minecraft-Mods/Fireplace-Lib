@@ -1,19 +1,27 @@
 package dev.the_fireplace.lib.impl.config;
 
-import dev.the_fireplace.lib.api.storage.LazyConfig;
 import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;
 import dev.the_fireplace.lib.api.storage.access.intermediary.StorageWriteBuffer;
+import dev.the_fireplace.lib.api.storage.lazy.LazyConfig;
+import dev.the_fireplace.lib.api.storage.lazy.LazyConfigInitializer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 
-public final class FireplaceLibConfig extends LazyConfig {
-    private static final FireplaceLibConfig INSTANCE = new FireplaceLibConfig();
+public final class FLConfig extends LazyConfig {
+    private static final FLConfig INSTANCE = LazyConfigInitializer.lazyInitialize(new FLConfig());
+    private static final FLConfig DEFAULT_INSTANCE = new FLConfig();
     private final Access access = new Access();
 
-    public static Access getInstance() {
+    public static FLConfig getInstance() {
+        return INSTANCE;
+    }
+    public static Access getData() {
         return INSTANCE.access;
     }
+    static Access getDefaultData() {
+        return DEFAULT_INSTANCE.access;
+    }
 
-    private FireplaceLibConfig() {}
+    private FLConfig() {}
 
     private String locale = "en_us";
 
@@ -39,6 +47,10 @@ public final class FireplaceLibConfig extends LazyConfig {
         return FireplaceLib.MODID;
     }
 
+    void resave() {
+        save();
+    }
+
     public final class Access {
         private Access(){}
         public String getLocale() {
@@ -51,6 +63,19 @@ public final class FireplaceLibConfig extends LazyConfig {
 
         public short getNonEssentialThreadPoolSize() {
             return nonEssentialThreadPoolSize;
+        }
+
+
+        public void setLocale(String locale) {
+            FLConfig.this.locale = locale;
+        }
+
+        public void setEssentialThreadPoolSize(short essentialThreadPoolSize) {
+            FLConfig.this.essentialThreadPoolSize = essentialThreadPoolSize;
+        }
+
+        public void setNonEssentialThreadPoolSize(short nonEssentialThreadPoolSize) {
+            FLConfig.this.nonEssentialThreadPoolSize = nonEssentialThreadPoolSize;
         }
     }
 }

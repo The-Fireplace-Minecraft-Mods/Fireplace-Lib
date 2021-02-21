@@ -1,19 +1,13 @@
-package dev.the_fireplace.lib.api.storage;
+package dev.the_fireplace.lib.api.storage.lazy;
 
+import dev.the_fireplace.lib.api.storage.ConfigBasedSerializable;
+import dev.the_fireplace.lib.api.storage.Reloadable;
 import dev.the_fireplace.lib.api.storage.access.ConfigBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.access.ConfigBasedStorageWriter;
-import dev.the_fireplace.lib.api.storage.utility.ReloadableManager;
 
 public abstract class LazyConfig implements ConfigBasedSerializable, Reloadable {
     private final ConfigBasedStorageReader configBasedStorageReader = ConfigBasedStorageReader.getInstance();
     private final ConfigBasedStorageWriter configBasedStorageWriter = ConfigBasedStorageWriter.getInstance();
-    protected final ReloadableManager reloadableManager = ReloadableManager.getInstance();
-
-    protected LazyConfig() {
-        load();
-        save();
-        reloadableManager.register(this);
-    }
 
     protected void load() {
         configBasedStorageReader.readTo(this);
