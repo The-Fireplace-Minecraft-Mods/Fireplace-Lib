@@ -312,6 +312,17 @@ public abstract class ConfigScreenBuilder {
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
+        Consumer<Double> saveFunction
+    ) {
+        return addDoublePercentSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1, (byte)1);
+    }
+
+    protected ConfigCategory addDoublePercentSlider(
+        ConfigEntryBuilder entryBuilder,
+        ConfigCategory category,
+        String optionTranslationBase,
+        double currentValue,
+        double defaultValue,
         Consumer<Double> saveFunction,
         byte descriptionRowCount,
         byte precision
