@@ -282,10 +282,45 @@ public abstract class ConfigScreenBuilder {
         double max,
         byte descriptionRowCount
     ) {
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * 1000), (long) (min * 1000), (long) (max * 1000))
-            .setDefaultValue((long) (defaultValue * 1000))
-            .setTextGetter(value -> Text.of(String.format("%.3f", value / 1000d)))
-            .setSaveConsumer(newValue -> saveFunction.accept(newValue / 1000d));
+        return addDoubleSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, descriptionRowCount, (byte)3);
+    }
+
+    protected ConfigCategory addDoubleSlider(
+        ConfigEntryBuilder entryBuilder,
+        ConfigCategory category,
+        String optionTranslationBase,
+        double currentValue,
+        double defaultValue,
+        Consumer<Double> saveFunction,
+        double min,
+        double max,
+        byte descriptionRowCount,
+        byte precision
+    ) {
+        long factor = (long) Math.pow(10, precision);
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * factor), (long) (min * factor), (long) (max * factor))
+            .setDefaultValue((long) (defaultValue * factor))
+            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", value / (double)factor)))
+            .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
+        attachDescription(optionTranslationBase, descriptionRowCount, builder);
+        return category.addEntry(builder.build());
+    }
+
+    protected ConfigCategory addDoublePercentSlider(
+        ConfigEntryBuilder entryBuilder,
+        ConfigCategory category,
+        String optionTranslationBase,
+        double currentValue,
+        double defaultValue,
+        Consumer<Double> saveFunction,
+        byte descriptionRowCount,
+        byte precision
+    ) {
+        long factor = (long) Math.pow(10, precision);
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * factor), 0, 100 * factor)
+            .setDefaultValue((long) (defaultValue * factor))
+            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", value / (double)factor) + "%"))
+            .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         return category.addEntry(builder.build());
     }
