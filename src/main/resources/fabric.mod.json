@@ -38,14 +38,5 @@
 
   "suggests": {
     "modmenu": "*"
-  },
-
-  "custom": {
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://discord.gg/QXQYPj5"
-      },
-      "badges": [ "library" ]
-    }
   }
 }
