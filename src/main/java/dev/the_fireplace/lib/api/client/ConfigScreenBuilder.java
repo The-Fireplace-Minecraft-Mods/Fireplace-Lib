@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Consumer;
 
-@SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "WeakerAccess", "unused"})
+@SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "WeakerAccess", "unused", "unchecked"})
 @Environment(EnvType.CLIENT)
 public abstract class ConfigScreenBuilder {
     protected final Translator translator;
@@ -77,8 +77,7 @@ public abstract class ConfigScreenBuilder {
         DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
-            .setSelections(dropdownEntries)
-            .setSuggestionMode(suggestionMode);
+            .setSelections(dropdownEntries);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         return category.addEntry(builder.build());
     }
