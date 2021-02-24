@@ -8,7 +8,6 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.text.Text;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -44,7 +43,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<String> saveFunction,
         byte descriptionRowCount
     ) {
-        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -75,7 +74,7 @@ public abstract class ConfigScreenBuilder {
         boolean suggestionMode,
         byte descriptionRowCount
     ) {
-        DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedText(optionTranslationBase), currentValue)
+        DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
             .setSelections(dropdownEntries)
@@ -104,7 +103,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<List<String>> saveFunction,
         byte descriptionRowCount
     ) {
-        StringListBuilder builder = entryBuilder.startStrList(translator.getTranslatedText(optionTranslationBase), currentValue)
+        StringListBuilder builder = entryBuilder.startStrList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -146,7 +145,7 @@ public abstract class ConfigScreenBuilder {
         float max,
         byte descriptionRowCount
     ) {
-        FloatFieldBuilder builder = entryBuilder.startFloatField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        FloatFieldBuilder builder = entryBuilder.startFloatField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
             .setMax(max)
@@ -179,9 +178,9 @@ public abstract class ConfigScreenBuilder {
         float max,
         byte descriptionRowCount
     ) {
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * 1000), (long) (min * 1000), (long) (max * 1000))
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedString(optionTranslationBase), (long) (currentValue * 1000), (long) (min * 1000), (long) (max * 1000))
             .setDefaultValue((long) (defaultValue * 1000))
-            .setTextGetter(value -> Text.of(String.format("%.3f", value / 1000f)))
+            .setTextGetter(value -> String.format("%.3f", value / 1000f))
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / 1000f));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         return category.addEntry(builder.build());
@@ -207,7 +206,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<List<Float>> saveFunction,
         byte descriptionRowCount
     ) {
-        FloatListBuilder builder = entryBuilder.startFloatList(translator.getTranslatedText(optionTranslationBase), currentValue)
+        FloatListBuilder builder = entryBuilder.startFloatList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -249,7 +248,7 @@ public abstract class ConfigScreenBuilder {
         double max,
         byte descriptionRowCount
     ) {
-        DoubleFieldBuilder builder = entryBuilder.startDoubleField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        DoubleFieldBuilder builder = entryBuilder.startDoubleField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
             .setMax(max)
@@ -298,9 +297,9 @@ public abstract class ConfigScreenBuilder {
         byte precision
     ) {
         long factor = (long) Math.pow(10, precision);
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * factor), (long) (min * factor), (long) (max * factor))
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedString(optionTranslationBase), (long) (currentValue * factor), (long) (min * factor), (long) (max * factor))
             .setDefaultValue((long) (defaultValue * factor))
-            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", value / (double)factor)))
+            .setTextGetter(value -> String.format("%." + precision + "f", value / (double)factor))
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         return category.addEntry(builder.build());
@@ -328,9 +327,9 @@ public abstract class ConfigScreenBuilder {
         byte precision
     ) {
         long factor = (long) Math.pow(10, precision);
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * factor), 0, 100 * factor)
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedString(optionTranslationBase), (long) (currentValue * factor), 0, 100 * factor)
             .setDefaultValue((long) (defaultValue * factor))
-            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", value / (double)factor) + "%"))
+            .setTextGetter(value -> String.format("%." + precision + "f", value / (double)factor) + "%")
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         return category.addEntry(builder.build());
@@ -356,7 +355,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<List<Double>> saveFunction,
         byte descriptionRowCount
     ) {
-        DoubleListBuilder builder = entryBuilder.startDoubleList(translator.getTranslatedText(optionTranslationBase), currentValue)
+        DoubleListBuilder builder = entryBuilder.startDoubleList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -398,7 +397,7 @@ public abstract class ConfigScreenBuilder {
         long max,
         byte descriptionRowCount
     ) {
-        LongFieldBuilder builder = entryBuilder.startLongField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        LongFieldBuilder builder = entryBuilder.startLongField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
             .setMax(max)
@@ -431,7 +430,7 @@ public abstract class ConfigScreenBuilder {
         long max,
         byte descriptionRowCount
     ) {
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max)
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -458,7 +457,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<List<Long>> saveFunction,
         byte descriptionRowCount
     ) {
-        LongListBuilder builder = entryBuilder.startLongList(translator.getTranslatedText(optionTranslationBase), currentValue)
+        LongListBuilder builder = entryBuilder.startLongList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -500,7 +499,7 @@ public abstract class ConfigScreenBuilder {
         int max,
         byte descriptionRowCount
     ) {
-        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
             .setMax(max)
@@ -533,7 +532,7 @@ public abstract class ConfigScreenBuilder {
         int max,
         byte descriptionRowCount
     ) {
-        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max)
+        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -560,7 +559,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<List<Integer>> saveFunction,
         byte descriptionRowCount
     ) {
-        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedText(optionTranslationBase), currentValue)
+        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -602,7 +601,7 @@ public abstract class ConfigScreenBuilder {
         short max,
         byte descriptionRowCount
     ) {
-        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
             .setMax(max)
@@ -635,7 +634,7 @@ public abstract class ConfigScreenBuilder {
         short max,
         byte descriptionRowCount
     ) {
-        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max)
+        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -677,7 +676,7 @@ public abstract class ConfigScreenBuilder {
         byte max,
         byte descriptionRowCount
     ) {
-        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedText(optionTranslationBase), currentValue)
+        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
             .setMax(max)
@@ -710,7 +709,7 @@ public abstract class ConfigScreenBuilder {
         byte max,
         byte descriptionRowCount
     ) {
-        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max)
+        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
@@ -722,9 +721,9 @@ public abstract class ConfigScreenBuilder {
             return;
         }
         try {
-            Method setTooltip = builder.getClass().getMethod("setTooltip", Text[].class);
+            Method setTooltip = builder.getClass().getMethod("setTooltip", String[].class);
             if (descriptionRowCount == 1) {
-                setTooltip.invoke(builder, (Object)new Text[] {translator.getTranslatedText(optionTranslationBase + ".desc")});
+                setTooltip.invoke(builder, (Object)new String[] {translator.getTranslatedString(optionTranslationBase + ".desc")});
             } else {
                 setTooltip.invoke(builder, (Object)genDescriptionTranslatables(optionTranslationBase + ".desc", descriptionRowCount));
             }
@@ -733,11 +732,11 @@ public abstract class ConfigScreenBuilder {
         }
     }
 
-    protected Text[] genDescriptionTranslatables(String baseKey, int count) {
-        List<Text> texts = Lists.newArrayList();
+    protected String[] genDescriptionTranslatables(String baseKey, int count) {
+        List<String> texts = Lists.newArrayList();
         for (int i = 0; i < count; i++) {
-            texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
+            texts.add(translator.getTranslatedString(baseKey + "[" + i + "]"));
         }
-        return texts.toArray(new Text[0]);
+        return texts.toArray(new String[0]);
     }
 }
