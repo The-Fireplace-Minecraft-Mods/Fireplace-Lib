@@ -34,20 +34,20 @@ dependencies {
 }
 
 repositories {
-	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.terraformersmc.com/releases/" }
+	maven { url 'https://maven.shedaniel.me/' }
+	maven { url 'https://maven.terraformersmc.com/releases/' }
 }
 
 processResources {
-	inputs.property "version", project.version
+	inputs.property 'version', project.version
 
 	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
-		expand "version": project.version
+		include 'fabric.mod.json'
+		expand 'version': project.version
 	}
 
 	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
+		exclude 'fabric.mod.json'
 	}
 }
 
@@ -72,15 +72,17 @@ task javadocJar(type: Jar, dependsOn: classes) {
 }
 
 artifacts {
-	archives javadocJar, sourcesJar
+	archives jar, javadocJar, sourcesJar
 }
 
 signing {
 	sign configurations.archives
 }
 
+signArchives.dependsOn(remapSourcesJar)
+
 jar {
-	from "LICENSE"
+	from 'LICENSE'
 }
 
 if (hasProperty('curseForgeApiKey')) {
@@ -93,7 +95,7 @@ if (hasProperty('curseForgeApiKey')) {
 			addGameVersion project.minecraft_version
 			addGameVersion 'Java 8'
 			addGameVersion 'Fabric'
-			mainArtifact(jar) {
+			mainArtifact(new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")) {
 				displayName = "$archivesBaseName-$version"
 				relations {
 					requiredDependency 'fabric-api'
@@ -116,7 +118,7 @@ if (hasProperty('modrinthApiKey')) {
 		projectId = 'ING0LAPF'
 		versionNumber = version
 		versionName = project.mod_version
-		uploadFile = jar // This is the java jar task
+		uploadFile = new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")
 		changelog = file('changelog.txt').getText()
 		releaseType = project.release_type
 		addGameVersion(project.minecraft_version as String)
