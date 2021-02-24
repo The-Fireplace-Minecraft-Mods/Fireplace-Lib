@@ -25,7 +25,7 @@ public final class TextPaginatorImpl implements TextPaginator {
     private TextPaginatorImpl(){}
 
     @Override
-    public void sendPaginatedChat(ServerCommandSource targetCommandSource, String switchPageCommand, List<Text> allItems, int pageIndex) {
+    public void sendPaginatedChat(ServerCommandSource targetCommandSource, String switchPageCommand, List<? extends Text> allItems, int pageIndex) {
         CommandOutput messageTarget = targetCommandSource.getEntity() != null ? targetCommandSource.getEntity() : targetCommandSource.getMinecraftServer();
         MessageQueue.getInstance().queueMessages(messageTarget, getPaginatedContent(messageTarget, allItems, pageIndex, switchPageCommand));
     }
@@ -38,11 +38,11 @@ public final class TextPaginatorImpl implements TextPaginator {
         return pageCount;
     }
 
-    private Text[] getPaginatedContent(CommandOutput target, List<Text> allContent, int page, String switchPageCommand) {
+    private Text[] getPaginatedContent(CommandOutput target, List<? extends Text> allContent, int page, String switchPageCommand) {
         int totalPageCount = getPageCount(allContent.size());
 
         Text header = getPaginationHeader(target, page, totalPageCount);
-        List<Text> content = getPageContents(allContent, page);
+        List<? extends Text> content = getPageContents(allContent, page);
         Text footer = getPaginationFooter(target, switchPageCommand, page, totalPageCount);
 
         List<Text> outputTexts = Lists.newArrayList();
@@ -58,7 +58,7 @@ public final class TextPaginatorImpl implements TextPaginator {
         return new LiteralText("-----------------").setStyle(TextStyles.GREEN).append(counter).append("-------------------").setStyle(TextStyles.GREEN);
     }
 
-    private static List<Text> getPageContents(List<Text> allContents, int page) {
+    private static List<? extends Text> getPageContents(List<? extends Text> allContents, int page) {
         return Lists.partition(allContents, RESULTS_PER_PAGE).get(page-1);
     }
 

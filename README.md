@@ -16,6 +16,11 @@ Current functionality:
 ### Multithreading
 Concurrent Execution Manager provides a convenient way to run tasks on different threads and choose if the server should wait for them to finish when shutting down. Using this for nonessessential threads is still useful because it limits the number of threads running at once to prevent stack overflow errors.
 
+### Command Utilities
+- Help Command builder for easier custom help commands, with support for sub-commands.
+- Feedback Sender handles sending messages to various kinds of message targets
+- Requirements Helper provides a few basic types of requirements that are commonly given to commands.
+
 ### Misc
 - EmptyUUID class to easily get the empty UUID and check if a UUID is empty.
 
@@ -26,12 +31,6 @@ dependencies {
   modImplementation "the_fireplace.lib:Fireplace-Lib:${project.fireplacelib_version}"
   //Optional, this uses Fabric's Jar-In-Jar to include this with your mod so users won't have to separately download it.
 	include "the_fireplace.lib:Fireplace-Lib:${project.fireplacelib_version}"
-}
-
-repositories {
-	maven {
-		url  "https://dl.bintray.com/the-fireplace/mc-mods"
-	}
 }
 ```
 And in `gradle.properties`:

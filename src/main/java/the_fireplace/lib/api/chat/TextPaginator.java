@@ -11,5 +11,5 @@ public interface TextPaginator {
         //noinspection deprecation
         return TextPaginatorImpl.INSTANCE;
     }
-    void sendPaginatedChat(ServerCommandSource targetCommandSource, String switchPageCommand, List<Text> allItems, int pageIndex);
+    void sendPaginatedChat(ServerCommandSource targetCommandSource, String switchPageCommand, List<? extends Text> allItems, int pageIndex);
 }
