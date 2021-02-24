@@ -28,9 +28,9 @@ Concurrent Execution Manager provides a convenient way to run tasks on different
 To use this with your mod, include the following in `build.gradle`:
 ```
 dependencies {
-  modImplementation "the_fireplace.lib:Fireplace-Lib:${project.fireplacelib_version}"
+  modImplementation "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
   //Optional, this uses Fabric's Jar-In-Jar to include this with your mod so users won't have to separately download it.
-	include "the_fireplace.lib:Fireplace-Lib:${project.fireplacelib_version}"
+	include "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
 }
 ```
 And in `gradle.properties`:
