@@ -22,6 +22,9 @@
     "main": [
       "dev.the_fireplace.lib.impl.FireplaceLib"
     ],
+    "client": [
+      "dev.the_fireplace.lib.impl.FireplaceLibClient"
+    ],
     "modmenu": [
       "dev.the_fireplace.lib.impl.config.FLModMenuIntegration"
     ]
