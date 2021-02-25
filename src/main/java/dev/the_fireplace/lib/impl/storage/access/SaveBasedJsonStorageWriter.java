@@ -56,4 +56,21 @@ public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter 
             return false;
         }
     }
+
+    @Override
+    public boolean delete(SaveBasedSerializable writable) {
+        Path filePath = JsonStoragePath.resolveSaveBasedJsonFilePath(writable);
+
+        File folder = filePath.getParent().toFile();
+        if (!folder.exists() && !folder.mkdirs()) {
+            return false;
+        }
+
+        File outputFile = filePath.toFile();
+        if (!outputFile.exists()) {
+            return false;
+        }
+
+        return outputFile.delete();
+    }
 }

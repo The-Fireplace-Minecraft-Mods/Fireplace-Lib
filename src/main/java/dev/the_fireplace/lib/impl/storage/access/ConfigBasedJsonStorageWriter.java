@@ -56,4 +56,21 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
             return false;
         }
     }
+
+    @Override
+    public boolean delete(ConfigBasedSerializable writable) {
+        Path filePath = JsonStoragePath.resolveConfigBasedJsonFilePath(writable);
+
+        File folder = filePath.getParent().toFile();
+        if (!folder.exists()) {
+            return false;
+        }
+
+        File outputFile = filePath.toFile();
+        if (!outputFile.exists()) {
+            return false;
+        }
+
+        return outputFile.delete();
+    }
 }
