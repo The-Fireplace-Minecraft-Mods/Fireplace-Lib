@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.translation;
 
-import dev.the_fireplace.lib.impl.config.FLConfig;
+import dev.the_fireplace.lib.impl.translation.proxy.LocaleProxy;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,7 +10,7 @@ final class ModLanguageMaps {
     private static final Map<String, LanguageMap> FALLBACK_LANGUAGE_MAPS = new ConcurrentHashMap<>();
 
     static LanguageMap getPrimaryMap(String modid) {
-        return PRIMARY_LANGUAGE_MAPS.computeIfAbsent(modid, unused -> new LanguageMap(modid, FLConfig.getData().getLocale()));
+        return PRIMARY_LANGUAGE_MAPS.computeIfAbsent(modid, unused -> new LanguageMap(modid, LocaleProxy.getInstance().getLocale()));
     }
 
     static LanguageMap getFallbackMap(String modid) {
