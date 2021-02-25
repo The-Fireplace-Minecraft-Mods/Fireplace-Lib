@@ -9,4 +9,5 @@ public interface SaveBasedStorageWriter {
         return SaveBasedJsonStorageWriter.INSTANCE;
     }
     boolean write(SaveBasedSerializable writable);
+    boolean delete(SaveBasedSerializable writable);
 }

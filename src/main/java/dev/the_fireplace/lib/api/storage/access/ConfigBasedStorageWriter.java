@@ -9,4 +9,5 @@ public interface ConfigBasedStorageWriter {
         return ConfigBasedJsonStorageWriter.INSTANCE;
     }
     boolean write(ConfigBasedSerializable writable);
+    boolean delete(ConfigBasedSerializable writable);
 }
