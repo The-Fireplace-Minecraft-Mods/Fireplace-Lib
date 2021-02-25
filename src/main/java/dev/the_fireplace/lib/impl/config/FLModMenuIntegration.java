@@ -39,7 +39,7 @@ public final class FLModMenuIntegration extends ConfigScreenBuilder implements M
 
             buildConfigCategories(builder);
 
-            builder.setSavingRunnable(() -> FLConfig.getInstance().resave());
+            builder.setSavingRunnable(() -> FLConfig.getInstance().save());
             return builder.build();
         };
     }
