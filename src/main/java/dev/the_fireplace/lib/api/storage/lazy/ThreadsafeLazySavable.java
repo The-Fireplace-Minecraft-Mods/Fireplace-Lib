@@ -4,7 +4,6 @@ import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
-import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,7 +11,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @SuppressWarnings("FieldCanBeLocal")
 @ThreadSafe
 public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
-    private final SaveTimer timer = SaveTimer.getInstance();
     private final SaveBasedStorageReader saveBasedStorageReader = SaveBasedStorageReader.getInstance();
     private final SaveBasedStorageWriter saveBasedStorageWriter = SaveBasedStorageWriter.getInstance();
     @SuppressWarnings("WeakerAccess")
@@ -20,23 +18,6 @@ public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
 
     private final AtomicBoolean isChanged = new AtomicBoolean(false);
     private final AtomicBoolean saving = new AtomicBoolean(false);
-
-    protected ThreadsafeLazySavable(int saveIntervalInMinutes) {
-        this((short)Math.min(saveIntervalInMinutes, Short.MAX_VALUE));
-    }
-
-    protected ThreadsafeLazySavable(short saveIntervalInMinutes) {
-        load();
-        if (saveIntervalInMinutes > 0) {
-            timer.registerSaveFunction(saveIntervalInMinutes, this::save);
-        } else if (isNonDefault()) {
-            forceSave();
-        }
-    }
-
-    private boolean isNonDefault() {
-        return !(this instanceof Defaultable) || !((Defaultable) this).isDefault();
-    }
 
     protected void markChanged() {
         isChanged.lazySet(true);
@@ -46,7 +27,7 @@ public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
         saveBasedStorageReader.readTo(this);
     }
 
-    protected void save() {
+    public void save() {
         if (canSave()) {
             forceSave();
         }
