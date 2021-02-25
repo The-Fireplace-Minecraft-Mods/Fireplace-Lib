@@ -13,7 +13,7 @@ public abstract class LazyConfig implements ConfigBasedSerializable, Reloadable 
         configBasedStorageReader.readTo(this);
     }
 
-    protected void save() {
+    public void save() {
         configBasedStorageWriter.write(this);
     }
 

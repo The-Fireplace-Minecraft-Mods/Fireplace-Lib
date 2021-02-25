@@ -47,10 +47,6 @@ public final class FLConfig extends LazyConfig {
         return FireplaceLib.MODID;
     }
 
-    void resave() {
-        save();
-    }
-
     public final class Access {
         private Access(){}
         public String getLocale() {
