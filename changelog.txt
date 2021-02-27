@@ -1,4 +1,1 @@
-Moved ThreadsafeLazySavable initialization to its own file
-Lazy Savables save functions are now public
-The locale config option is now only used on dedicated servers
-Added APIs for config and saved data deletion
+Added an API to unregister things from the save timer, and a LazyInitializer method to take care of calling it.
