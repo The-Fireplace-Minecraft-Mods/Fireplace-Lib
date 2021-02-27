@@ -1,1 +1,1 @@
-Added an API to unregister things from the save timer, and a LazyInitializer method to take care of calling it.
+Save Based storage reader can now query the storage for IDs and if a specific ID is present.
