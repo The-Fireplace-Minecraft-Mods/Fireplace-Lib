@@ -8,7 +8,15 @@ public interface SaveTimer {
         return SaveTimerImpl.INSTANCE;
     }
 
+    /**
+     * @deprecated Use {@link SaveTimer#register} instead.
+     */
+    @Deprecated
     void registerSaveFunction(short saveIntervalInMinutes, Runnable... saveRunnables);
+
+    void register(short saveIntervalInMinutes, Runnable... saveRunnables);
+
+    void unregister(short saveIntervalInMinutes, Runnable... saveRunnables);
 
     void prepareForServerShutdown();
 
