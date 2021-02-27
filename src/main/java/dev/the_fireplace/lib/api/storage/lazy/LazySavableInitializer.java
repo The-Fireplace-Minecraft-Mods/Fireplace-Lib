@@ -1,12 +1,17 @@
 package dev.the_fireplace.lib.api.storage.lazy;
 
+import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 
 public final class LazySavableInitializer {
     private static final SaveTimer TIMER = SaveTimer.getInstance();
+    private static final SaveBasedStorageReader STORAGE_READER = SaveBasedStorageReader.getInstance();
 
     public static <T extends ThreadsafeLazySavable> T lazyInitialize(T savable, int saveIntervalInMinutes) {
         savable.load();
+        if (isNotDefaultable(savable) && !STORAGE_READER.isStored(savable)) {
+            savable.markChanged();
+        }
         if (saveIntervalInMinutes > 0) {
             TIMER.register(boundToShort(saveIntervalInMinutes), savable::save);
         } else if (isNonDefault(savable)) {
@@ -25,6 +30,10 @@ public final class LazySavableInitializer {
     }
 
     private static boolean isNonDefault(Object obj) {
-        return !(obj instanceof Defaultable) || !((Defaultable) obj).isDefault();
+        return isNotDefaultable(obj) || !((Defaultable) obj).isDefault();
+    }
+
+    private static boolean isNotDefaultable(Object obj) {
+        return !(obj instanceof Defaultable);
     }
 }

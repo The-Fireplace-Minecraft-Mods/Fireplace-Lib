@@ -10,37 +10,45 @@ public final class JsonStoragePath {
     private static final DirectoryResolver DIRECTORY_RESOLVER = DirectoryResolver.getInstance();
     
     static Path resolveSaveBasedJsonFilePath(SaveBasedSerializable saveBasedSerializable) {
+        return resolveSaveBasedJsonFilePath(saveBasedSerializable.getDatabase(), saveBasedSerializable.getTable(), saveBasedSerializable.getId());
+    }
+
+    static Path resolveSaveBasedJsonFilePath(String database, String table, String id) {
+        Path filePath = resolveSaveBasedJsonDirectory(database, table);
+        if (!id.isEmpty() && SchemaValidator.isValid(id)) {
+            return filePath.resolve(SchemaValidator.minimizeSchema(id) + ".json");
+        } else {
+            throw new IllegalStateException("Invalid storable ID!");
+        }
+    }
+
+    static Path resolveSaveBasedJsonDirectory(String database, String table) {
         Path filePath = DIRECTORY_RESOLVER.getSavePath();
 
-        if (!saveBasedSerializable.getDatabase().isEmpty()) {
-            filePath = filePath.resolve(saveBasedSerializable.getDatabase());
+        if (!database.isEmpty() && SchemaValidator.isValid(database)) {
+            filePath = filePath.resolve(SchemaValidator.minimizeSchema(database));
         } else {
-            throw new IllegalStateException("Storable was missing a database!");
+            throw new IllegalStateException("Invalid storable database!");
         }
-        if (!saveBasedSerializable.getTable().isEmpty()) {
-            filePath = filePath.resolve(saveBasedSerializable.getTable());
+        if (!table.isEmpty() && SchemaValidator.isValid(table)) {
+            filePath = filePath.resolve(SchemaValidator.minimizeSchema(table));
         } else {
-            throw new IllegalStateException("Storable was missing a table!");
+            throw new IllegalStateException("Invalid storable table!");
         }
-        if (!saveBasedSerializable.getId().isEmpty()) {
-            filePath = filePath.resolve(saveBasedSerializable.getId() + ".json");
-        } else {
-            throw new IllegalStateException("Storable was missing an ID!");
-        }
-
         return filePath;
     }
 
     static Path resolveConfigBasedJsonFilePath(ConfigBasedSerializable configBasedSerializable) {
         Path filePath = DIRECTORY_RESOLVER.getConfigPath();
 
-        if (!configBasedSerializable.getSubfolderName().isEmpty()) {
-            filePath = filePath.resolve(configBasedSerializable.getSubfolderName());
+        String subfolder = SchemaValidator.minimizeSchema(configBasedSerializable.getSubfolderName());
+        if (!subfolder.isEmpty() && SchemaValidator.isValid(subfolder)) {
+            filePath = filePath.resolve(subfolder);
         }
-        if (!configBasedSerializable.getId().isEmpty()) {
-            filePath = filePath.resolve(configBasedSerializable.getId() + ".json");
+        if (!configBasedSerializable.getId().isEmpty() && SchemaValidator.isValid(configBasedSerializable.getId())) {
+            filePath = filePath.resolve(SchemaValidator.minimizeSchema(configBasedSerializable.getId()) + ".json");
         } else {
-            throw new IllegalStateException("Storable was missing an ID!");
+            throw new IllegalStateException("Invalid storable ID!");
         }
 
         return filePath;
