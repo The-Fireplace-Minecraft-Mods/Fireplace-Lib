@@ -1,1 +1,1 @@
-Save Based storage reader can now query the storage for IDs and if a specific ID is present.
+Add bool toggle to config screen builder
