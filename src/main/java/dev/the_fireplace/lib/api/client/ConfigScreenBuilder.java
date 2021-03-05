@@ -717,6 +717,33 @@ public abstract class ConfigScreenBuilder {
         return category.addEntry(builder.build());
     }
 
+    protected ConfigCategory addBoolToggle(
+        ConfigEntryBuilder entryBuilder,
+        ConfigCategory category,
+        String optionTranslationBase,
+        boolean currentValue,
+        boolean defaultValue,
+        Consumer<Boolean> saveFunction
+    ) {
+        return addBoolToggle(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+    }
+
+    protected ConfigCategory addBoolToggle(
+        ConfigEntryBuilder entryBuilder,
+        ConfigCategory category,
+        String optionTranslationBase,
+        boolean currentValue,
+        boolean defaultValue,
+        Consumer<Boolean> saveFunction,
+        byte descriptionRowCount
+    ) {
+        BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedText(optionTranslationBase), currentValue)
+            .setDefaultValue(defaultValue)
+            .setSaveConsumer(saveFunction);
+        attachDescription(optionTranslationBase, descriptionRowCount, builder);
+        return category.addEntry(builder.build());
+    }
+
     protected void attachDescription(String optionTranslationBase, byte descriptionRowCount, FieldBuilder<?, ?> builder) {
         if (descriptionRowCount <= 0) {
             return;
