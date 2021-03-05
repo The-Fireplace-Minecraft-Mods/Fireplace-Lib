@@ -735,7 +735,7 @@ public abstract class ConfigScreenBuilder {
         Consumer<Boolean> saveFunction,
         byte descriptionRowCount
     ) {
-        BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedText(optionTranslationBase), currentValue)
+        BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
