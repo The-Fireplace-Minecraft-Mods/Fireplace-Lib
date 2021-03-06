@@ -1,4 +1,6 @@
-# Fireplace-Lib
+# Fireplace Lib
+[![Curse Forge](http://cf.way2muchnoise.eu/short_432845_downloads.svg)](https://minecraft.curseforge.com/projects/fireplace-lib)
+
 A library of common functionality used by my mods, in one place for easier maintenance and faster updates.
 
 Current functionality:
