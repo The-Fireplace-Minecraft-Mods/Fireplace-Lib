@@ -1,1 +1,1 @@
-Add bool toggle to config screen builder
+Add a data generator factory
