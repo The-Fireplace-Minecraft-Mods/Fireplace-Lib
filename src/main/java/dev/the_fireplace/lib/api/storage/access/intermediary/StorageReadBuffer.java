@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.api.storage.access.intermediary;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public interface StorageReadBuffer {
@@ -12,4 +13,5 @@ public interface StorageReadBuffer {
     double readDouble(String key, double ifAbsent);
     float readFloat(String key, float ifAbsent);
     boolean readBool(String key, boolean ifAbsent);
+    Collection<String> getKeys();
 }

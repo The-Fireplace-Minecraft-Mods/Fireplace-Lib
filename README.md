@@ -1,5 +1,5 @@
 # Fireplace Lib
-[![Curse Forge](http://cf.way2muchnoise.eu/short_432845_downloads.svg)](https://minecraft.curseforge.com/projects/fireplace-lib)
+[![CurseForge](http://cf.way2muchnoise.eu/short_432845_downloads.svg)](https://minecraft.curseforge.com/projects/fireplace-lib)
 
 A library of common functionality used by my mods, in one place for easier maintenance and faster updates.
 
@@ -15,6 +15,8 @@ Current functionality:
 - DirectoryResolver helps easily find commonly needed directories
 - JarFileWalker has utilities for going through the contents of Jar files
 - JsonFileReader turns a json file into a JsonObject.
+- FilePathStorage allows storing keys and associated file paths
+- (Client) FileDialogFactory to easily create file dialogs
 
 #### Storage Utilities
 - Config-based and Save-based data storage utilities designed so at some point support can be added for different storage types with no additional changes needed from mods that use it.
