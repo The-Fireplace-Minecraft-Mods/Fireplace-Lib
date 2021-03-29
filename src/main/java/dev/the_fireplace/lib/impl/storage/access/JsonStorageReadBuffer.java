@@ -4,7 +4,10 @@ import com.google.gson.JsonObject;
 import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class JsonStorageReadBuffer implements StorageReadBuffer {
     private final JsonObject obj;
@@ -63,5 +66,10 @@ public class JsonStorageReadBuffer implements StorageReadBuffer {
     @Override
     public boolean readBool(String key, boolean ifAbsent) {
         return obj.has(key) ? obj.get(key).getAsBoolean() : ifAbsent;
+    }
+
+    @Override
+    public Collection<String> getKeys() {
+        return obj.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
     }
 }
