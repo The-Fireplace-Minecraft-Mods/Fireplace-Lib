@@ -70,8 +70,20 @@ task javadocJar(type: Jar, dependsOn: classes) {
 	from javadoc
 }
 
+task apiJar(type: Jar, dependsOn: classes) {
+	archiveClassifier.set('api')
+	from sourceSets.main.output
+	exclude 'dev/the_fireplace/lib/impl/**'
+}
+
+task apiSourcesJar(type: Jar, dependsOn: classes) {
+	archiveClassifier.set('api-sources')
+	from sourceSets.main.allSource
+	exclude 'dev/the_fireplace/lib/impl/**'
+}
+
 artifacts {
-	archives jar, javadocJar, sourcesJar
+	archives jar, javadocJar, sourcesJar, apiJar, apiSourcesJar
 }
 
 signing {
