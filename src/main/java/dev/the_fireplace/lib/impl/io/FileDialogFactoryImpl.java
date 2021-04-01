@@ -2,23 +2,25 @@ package dev.the_fireplace.lib.impl.io;
 
 import dev.the_fireplace.lib.api.client.io.FileDialogFactory;
 import dev.the_fireplace.lib.api.io.FilePathStorage;
+import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import org.lwjgl.PointerBuffer;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import javax.annotation.Nullable;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Pattern;
 
 @Environment(EnvType.CLIENT)
 public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Deprecated
     public static final FileDialogFactoryImpl INSTANCE = new FileDialogFactoryImpl();
+    private static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
+    private static final Pattern EXTENSION_PATTERN = Pattern.compile("^\\*\\.[a-zA-Z0-9]+$");
 
     private final FilePathStorage filePathStorage;
 
@@ -35,13 +37,20 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Override
     @Nullable
     public File showOpenFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        String filePath = TinyFileDialogs.tinyfd_openFileDialog(displayedTitle, rememberedPath, pointerBuffer, allowedFileTypesDescription, false);
-        storePathToMemory(rememberPath, displayedTitle, filePath);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        applyFileFilter(allowedFileTypePatterns, allowedFileTypesDescription, fileChooser);
+        fileChooser.setCurrentDirectory(new File(rememberedPath != null ? rememberedPath : System.getProperty("user.home")));
+        int result = fileChooser.showOpenDialog(null);
+        if (result != JFileChooser.APPROVE_OPTION) {
+            return null;
+        }
+        File selectedFile = fileChooser.getSelectedFile();
+        storePathToMemory(rememberPath, displayedTitle, selectedFile.getPath());
 
-        return filePath != null ? new File(filePath) : null;
+        return selectedFile;
     }
 
     @Override
@@ -53,21 +62,20 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Override
     @Nullable
     public File[] showOpenMultiFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        String filePath = TinyFileDialogs.tinyfd_openFileDialog(displayedTitle, rememberedPath, pointerBuffer, allowedFileTypesDescription, false);
-        if (filePath == null) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        applyFileFilter(allowedFileTypePatterns, allowedFileTypesDescription, fileChooser);
+        fileChooser.setCurrentDirectory(new File(rememberedPath != null ? rememberedPath : System.getProperty("user.home")));
+        int result = fileChooser.showOpenDialog(null);
+        if (result != JFileChooser.APPROVE_OPTION) {
             return null;
         }
-        storePathToMemory(rememberPath, displayedTitle, filePath);
-        String[] filePaths = filePath.split("\\|");
-        List<File> files = new ArrayList<>(filePaths.length);
-        for (String path: filePaths) {
-            files.add(new File(path));
-        }
+        File[] selectedFiles = fileChooser.getSelectedFiles();
+        storePathToMemory(rememberPath, displayedTitle, selectedFiles[0].getPath());
 
-        return files.toArray(new File[0]);
+        return selectedFiles;
     }
 
     @Override
@@ -79,13 +87,20 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Override
     @Nullable
     public File showSaveFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        String filePath = TinyFileDialogs.tinyfd_saveFileDialog(displayedTitle, rememberedPath, pointerBuffer, allowedFileTypesDescription);
-        storePathToMemory(rememberPath, displayedTitle, filePath);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        applyFileFilter(allowedFileTypePatterns, allowedFileTypesDescription, fileChooser);
+        fileChooser.setCurrentDirectory(new File(rememberedPath != null ? rememberedPath : System.getProperty("user.home")));
+        int result = fileChooser.showSaveDialog(null);
+        if (result != JFileChooser.APPROVE_OPTION) {
+            return null;
+        }
+        File selectedFile = fileChooser.getSelectedFile();
+        storePathToMemory(rememberPath, displayedTitle, selectedFile.getPath());
 
-        return filePath != null ? new File(filePath) : null;
+        return selectedFile;
     }
 
     @Nullable
@@ -103,19 +118,28 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
         }
     }
 
-    @Nullable
-    private PointerBuffer convertToPointerBuffer(@Nullable String[] strings) {
-        PointerBuffer fileTypePatternsPointerBuffer = null;
-        if (strings != null && strings.length > 0) {
-            try (MemoryStack stack = MemoryStack.stackPush()) {
-                fileTypePatternsPointerBuffer = stack.mallocPointer(strings.length);
-                for (String pattern : strings) {
-                    fileTypePatternsPointerBuffer.put(stack.UTF8(pattern));
+    private void applyFileFilter(@Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription, JFileChooser fileChooser) {
+        if (allowedFileTypePatterns != null) {
+            if (allowedFileTypesDescription == null) {
+                allowedFileTypesDescription = String.join("|", allowedFileTypePatterns);
+            }
+            ArrayList<String> extensionNames = new ArrayList<>(allowedFileTypePatterns.length);
+            boolean canFilterFiles = true;
+            for (String pattern: allowedFileTypePatterns) {
+                if (ALPHANUMERIC_PATTERN.matcher(pattern).matches()) {
+                    extensionNames.add(pattern);
+                } else if (EXTENSION_PATTERN.matcher(pattern).matches()) {
+                    extensionNames.add(pattern.substring(pattern.lastIndexOf('.') + 1));
+                } else {
+                    canFilterFiles = false;
+                    break;
                 }
-                fileTypePatternsPointerBuffer.flip();
+            }
+            if (canFilterFiles) {
+                fileChooser.setFileFilter(new FileNameExtensionFilter(allowedFileTypesDescription, extensionNames.toArray(new String[0])));
+            } else {
+                FireplaceLib.getLogger().warn("Unable to filter files on 1.14.4- for pattern set {}.", String.join(" | ", allowedFileTypePatterns));
             }
         }
-
-        return fileTypePatternsPointerBuffer;
     }
 }
