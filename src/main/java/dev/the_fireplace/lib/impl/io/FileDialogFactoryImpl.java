@@ -6,18 +6,19 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.lwjgl.PointerBuffer;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.io.File;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Deprecated
     public static final FileDialogFactoryImpl INSTANCE = new FileDialogFactoryImpl();
-    private static final Pattern ALPHANUMERIC_PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
-    private static final Pattern EXTENSION_PATTERN = Pattern.compile("^\\*\\.[a-zA-Z0-9]+$");
 
     private final FilePathStorage filePathStorage;
 
@@ -34,21 +35,13 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Override
     @Nullable
     public File showOpenFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
+        PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        FileDialog fileChooser = new FileDialog((Frame)null, displayedTitle);
-        fileChooser.setMode(FileDialog.LOAD);
-        fileChooser.setMultipleMode(false);
-        applyFileFilter(allowedFileTypePatterns, fileChooser);
-        fileChooser.setFile(rememberedPath != null ? rememberedPath : System.getProperty("user.home"));
-        fileChooser.setVisible(true);
-        String selectedFile = fileChooser.getFile();
-        if (selectedFile == null) {
-            return null;
-        }
-        storePathToMemory(rememberPath, displayedTitle, selectedFile);
+        String filePath = TinyFileDialogs.tinyfd_openFileDialog(displayedTitle, rememberedPath, pointerBuffer, allowedFileTypesDescription, false);
+        storePathToMemory(rememberPath, displayedTitle, filePath);
 
-        return new File(selectedFile);
+        return filePath != null ? new File(filePath) : null;
     }
 
     @Override
@@ -60,21 +53,21 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Override
     @Nullable
     public File[] showOpenMultiFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
+        PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        FileDialog fileChooser = new FileDialog((Frame)null, displayedTitle);
-        fileChooser.setMode(FileDialog.LOAD);
-        fileChooser.setMultipleMode(true);
-        applyFileFilter(allowedFileTypePatterns, fileChooser);
-        fileChooser.setFile(rememberedPath != null ? rememberedPath : System.getProperty("user.home"));
-        fileChooser.setVisible(true);
-        File[] selectedFiles = fileChooser.getFiles();
-        if (selectedFiles == null) {
+        String filePath = TinyFileDialogs.tinyfd_openFileDialog(displayedTitle, rememberedPath, pointerBuffer, allowedFileTypesDescription, false);
+        if (filePath == null) {
             return null;
         }
-        storePathToMemory(rememberPath, displayedTitle, selectedFiles[0].getPath());
+        storePathToMemory(rememberPath, displayedTitle, filePath);
+        String[] filePaths = filePath.split("\\|");
+        List<File> files = new ArrayList<>(filePaths.length);
+        for (String path: filePaths) {
+            files.add(new File(path));
+        }
 
-        return selectedFiles;
+        return files.toArray(new File[0]);
     }
 
     @Override
@@ -86,21 +79,13 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     @Override
     @Nullable
     public File showSaveFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
+        PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        FileDialog fileChooser = new FileDialog((Frame)null, displayedTitle);
-        fileChooser.setMode(FileDialog.SAVE);
-        fileChooser.setMultipleMode(false);
-        applyFileFilter(allowedFileTypePatterns, fileChooser);
-        fileChooser.setFile(rememberedPath != null ? rememberedPath : System.getProperty("user.home"));
-        fileChooser.setVisible(true);
-        String selectedFile = fileChooser.getFile();
-        if (selectedFile == null) {
-            return null;
-        }
-        storePathToMemory(rememberPath, displayedTitle, selectedFile);
+        String filePath = TinyFileDialogs.tinyfd_saveFileDialog(displayedTitle, rememberedPath, pointerBuffer, allowedFileTypesDescription);
+        storePathToMemory(rememberPath, displayedTitle, filePath);
 
-        return new File(selectedFile);
+        return filePath != null ? new File(filePath) : null;
     }
 
     @Nullable
@@ -118,16 +103,19 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
         }
     }
 
-    private void applyFileFilter(@Nullable String[] allowedFileTypePatterns, FileDialog fileChooser) {
-        if (allowedFileTypePatterns != null) {
-            fileChooser.setFilenameFilter((file, s) -> {
-                for (String pattern: allowedFileTypePatterns) {
-                    if (s.matches(pattern)) {
-                        return true;
-                    }
+    @Nullable
+    private PointerBuffer convertToPointerBuffer(@Nullable String[] strings) {
+        PointerBuffer fileTypePatternsPointerBuffer = null;
+        if (strings != null && strings.length > 0) {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                fileTypePatternsPointerBuffer = stack.mallocPointer(strings.length);
+                for (String pattern : strings) {
+                    fileTypePatternsPointerBuffer.put(stack.UTF8(pattern));
                 }
-                return false;
-            });
+                fileTypePatternsPointerBuffer.flip();
+            }
         }
+
+        return fileTypePatternsPointerBuffer;
     }
 }

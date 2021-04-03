@@ -29,6 +29,7 @@ dependencies {
 		exclude(group: 'io.github.prospector')
 	}
 	include "me.shedaniel.cloth:config-2:${project.clothconfig_version}"
+	implementation "org.lwjgl:lwjgl-tinyfd:3.2.2"
 
 	compile "com.google.code.findbugs:jsr305:3.0.2"
 }
