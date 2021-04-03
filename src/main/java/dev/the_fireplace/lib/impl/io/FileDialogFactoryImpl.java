@@ -2,17 +2,14 @@ package dev.the_fireplace.lib.impl.io;
 
 import dev.the_fireplace.lib.api.client.io.FileDialogFactory;
 import dev.the_fireplace.lib.api.io.FilePathStorage;
-import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 import javax.annotation.Nullable;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 @Environment(EnvType.CLIENT)
@@ -39,18 +36,19 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     public File showOpenFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        applyFileFilter(allowedFileTypePatterns, allowedFileTypesDescription, fileChooser);
-        fileChooser.setCurrentDirectory(new File(rememberedPath != null ? rememberedPath : System.getProperty("user.home")));
-        int result = fileChooser.showOpenDialog(null);
-        if (result != JFileChooser.APPROVE_OPTION) {
+        FileDialog fileChooser = new FileDialog((Frame)null, displayedTitle);
+        fileChooser.setMode(FileDialog.LOAD);
+        fileChooser.setMultipleMode(false);
+        applyFileFilter(allowedFileTypePatterns, fileChooser);
+        fileChooser.setFile(rememberedPath != null ? rememberedPath : System.getProperty("user.home"));
+        fileChooser.setVisible(true);
+        String selectedFile = fileChooser.getFile();
+        if (selectedFile == null) {
             return null;
         }
-        File selectedFile = fileChooser.getSelectedFile();
-        storePathToMemory(rememberPath, displayedTitle, selectedFile.getPath());
+        storePathToMemory(rememberPath, displayedTitle, selectedFile);
 
-        return selectedFile;
+        return new File(selectedFile);
     }
 
     @Override
@@ -64,15 +62,16 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     public File[] showOpenMultiFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        applyFileFilter(allowedFileTypePatterns, allowedFileTypesDescription, fileChooser);
-        fileChooser.setCurrentDirectory(new File(rememberedPath != null ? rememberedPath : System.getProperty("user.home")));
-        int result = fileChooser.showOpenDialog(null);
-        if (result != JFileChooser.APPROVE_OPTION) {
+        FileDialog fileChooser = new FileDialog((Frame)null, displayedTitle);
+        fileChooser.setMode(FileDialog.LOAD);
+        fileChooser.setMultipleMode(true);
+        applyFileFilter(allowedFileTypePatterns, fileChooser);
+        fileChooser.setFile(rememberedPath != null ? rememberedPath : System.getProperty("user.home"));
+        fileChooser.setVisible(true);
+        File[] selectedFiles = fileChooser.getFiles();
+        if (selectedFiles == null) {
             return null;
         }
-        File[] selectedFiles = fileChooser.getSelectedFiles();
         storePathToMemory(rememberPath, displayedTitle, selectedFiles[0].getPath());
 
         return selectedFiles;
@@ -89,18 +88,19 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
     public File showSaveFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        applyFileFilter(allowedFileTypePatterns, allowedFileTypesDescription, fileChooser);
-        fileChooser.setCurrentDirectory(new File(rememberedPath != null ? rememberedPath : System.getProperty("user.home")));
-        int result = fileChooser.showSaveDialog(null);
-        if (result != JFileChooser.APPROVE_OPTION) {
+        FileDialog fileChooser = new FileDialog((Frame)null, displayedTitle);
+        fileChooser.setMode(FileDialog.SAVE);
+        fileChooser.setMultipleMode(false);
+        applyFileFilter(allowedFileTypePatterns, fileChooser);
+        fileChooser.setFile(rememberedPath != null ? rememberedPath : System.getProperty("user.home"));
+        fileChooser.setVisible(true);
+        String selectedFile = fileChooser.getFile();
+        if (selectedFile == null) {
             return null;
         }
-        File selectedFile = fileChooser.getSelectedFile();
-        storePathToMemory(rememberPath, displayedTitle, selectedFile.getPath());
+        storePathToMemory(rememberPath, displayedTitle, selectedFile);
 
-        return selectedFile;
+        return new File(selectedFile);
     }
 
     @Nullable
@@ -118,28 +118,16 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
         }
     }
 
-    private void applyFileFilter(@Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription, JFileChooser fileChooser) {
+    private void applyFileFilter(@Nullable String[] allowedFileTypePatterns, FileDialog fileChooser) {
         if (allowedFileTypePatterns != null) {
-            if (allowedFileTypesDescription == null) {
-                allowedFileTypesDescription = String.join("|", allowedFileTypePatterns);
-            }
-            ArrayList<String> extensionNames = new ArrayList<>(allowedFileTypePatterns.length);
-            boolean canFilterFiles = true;
-            for (String pattern: allowedFileTypePatterns) {
-                if (ALPHANUMERIC_PATTERN.matcher(pattern).matches()) {
-                    extensionNames.add(pattern);
-                } else if (EXTENSION_PATTERN.matcher(pattern).matches()) {
-                    extensionNames.add(pattern.substring(pattern.lastIndexOf('.') + 1));
-                } else {
-                    canFilterFiles = false;
-                    break;
+            fileChooser.setFilenameFilter((file, s) -> {
+                for (String pattern: allowedFileTypePatterns) {
+                    if (s.matches(pattern)) {
+                        return true;
+                    }
                 }
-            }
-            if (canFilterFiles) {
-                fileChooser.setFileFilter(new FileNameExtensionFilter(allowedFileTypesDescription, extensionNames.toArray(new String[0])));
-            } else {
-                FireplaceLib.getLogger().warn("Unable to filter files on 1.14.4- for pattern set {}.", String.join(" | ", allowedFileTypePatterns));
-            }
+                return false;
+            });
         }
     }
 }
