@@ -16,7 +16,7 @@ Current functionality:
 - JarFileWalker has utilities for going through the contents of Jar files
 - JsonFileReader turns a json file into a JsonObject.
 - FilePathStorage allows storing keys and associated file paths
-- (Client) FileDialogFactory to easily create file dialogs
+- (Client, 1.15+) FileDialogFactory to easily create file dialogs
 
 #### Storage Utilities
 - Config-based and Save-based data storage utilities designed so at some point support can be added for different storage types with no additional changes needed from mods that use it.
@@ -46,7 +46,10 @@ Data Generator Factory provides methods to build an additive or destructive (nor
 To use this with your mod, include the following in `build.gradle`:
 ```
 dependencies {
-  modImplementation "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
+  modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
+  modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api"
+  // Optional but recommended so you can attach sources for the api
+  modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api-sources"
 }
 ```
 And in `gradle.properties`:
