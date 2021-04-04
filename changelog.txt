@@ -1,3 +1,2 @@
 Add file path storage
-Add a client-side file dialog helper
 Add the ability to get all keys from a storage reader
