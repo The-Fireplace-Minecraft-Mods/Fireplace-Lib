@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.api.chat.Translator;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import net.minecraft.text.Text;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,22 +21,22 @@ abstract class ConfigScreenBuilderBase {
             return;
         }
         try {
-            Method setTooltip = builder.getClass().getMethod("setTooltip", Text[].class);
+            Method setTooltip = builder.getClass().getMethod("setTooltip", String[].class);
             if (descriptionRowCount == 1) {
-                setTooltip.invoke(builder, (Object) new Text[]{translator.getTranslatedText(optionTranslationBase + ".desc")});
+                setTooltip.invoke(builder, (Object)new String[] {translator.getTranslatedString(optionTranslationBase + ".desc")});
             } else {
-                setTooltip.invoke(builder, (Object) genDescriptionTranslatables(optionTranslationBase + ".desc", descriptionRowCount));
+                setTooltip.invoke(builder, (Object)genDescriptionTranslatables(optionTranslationBase + ".desc", descriptionRowCount));
             }
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (NoSuchMethodException|IllegalAccessException|InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set tooltip for field builder of type " + builder.getClass().toString(), e);
         }
     }
 
-    protected Text[] genDescriptionTranslatables(String baseKey, int count) {
-        List<Text> texts = Lists.newArrayList();
+    protected String[] genDescriptionTranslatables(String baseKey, int count) {
+        List<String> texts = Lists.newArrayList();
         for (int i = 0; i < count; i++) {
-            texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
+            texts.add(translator.getTranslatedString(baseKey + "[" + i + "]"));
         }
-        return texts.toArray(new Text[0]);
+        return texts.toArray(new String[0]);
     }
 }
