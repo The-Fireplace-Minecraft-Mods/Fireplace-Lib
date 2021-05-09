@@ -1,2 +1,2 @@
-Add file path storage
-Add the ability to get all keys from a storage reader
+Add ability to make an Enum dropdown with the config screen builder
+Add advanced config screen builder - returns the config entry itself after creating so it can be externally modified
