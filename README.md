@@ -26,7 +26,7 @@ Current functionality:
 
 #### Config
 - LazyConfig class can be extended for an easy config system
-- (Client) ConfigScreenBuilder provides helper methods to reduce redundancy when making common Config GUI components
+- (Client) ConfigScreenBuilder and AdvancedConfigScreenBuilder provide helper methods to reduce redundancy when making common Config GUI components
 
 #### Multithreading
 Concurrent Execution Manager provides a convenient way to run tasks on different threads and choose if the server should wait for them to finish when shutting down. Using this for nonessessential threads is still useful because it limits the number of threads running at once to prevent stack overflow errors.
