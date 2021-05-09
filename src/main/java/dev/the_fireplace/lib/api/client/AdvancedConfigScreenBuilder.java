@@ -54,10 +54,10 @@ public abstract class AdvancedConfigScreenBuilder extends ConfigScreenBuilderBas
         ConfigEntryBuilder entryBuilder,
         ConfigCategory category,
         String optionTranslationBase,
-        Enum<T> currentValue,
-        Enum<T> defaultValue,
-        Iterable<Enum<T>> dropdownEntries,
-        Consumer<Enum<T>> saveFunction
+        T currentValue,
+        T defaultValue,
+        Iterable<T> dropdownEntries,
+        Consumer<T> saveFunction
     ) {
         return addEnumDropdown(
             entryBuilder,
@@ -75,14 +75,14 @@ public abstract class AdvancedConfigScreenBuilder extends ConfigScreenBuilderBas
         ConfigEntryBuilder entryBuilder,
         ConfigCategory category,
         String optionTranslationBase,
-        Enum<T> currentValue,
-        Enum<T> defaultValue,
-        Iterable<Enum<T>> dropdownEntries,
-        Consumer<Enum<T>> saveFunction,
+        T currentValue,
+        T defaultValue,
+        Iterable<T> dropdownEntries,
+        Consumer<T> saveFunction,
         byte descriptionRowCount
     ) {
         List<String> stringEntries = new ArrayList<>();
-        for (Enum<T> entry: dropdownEntries) {
+        for (T entry: dropdownEntries) {
             stringEntries.add(entry.toString());
         }
         return addStringDropdown(
