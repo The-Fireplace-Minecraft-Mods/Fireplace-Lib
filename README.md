@@ -39,6 +39,9 @@ Concurrent Execution Manager provides a convenient way to run tasks on different
 #### Data Generator
 Data Generator Factory provides methods to build an additive or destructive (normal) data generator. The additive generator won't clear the output directory before generating new data.
 
+#### Networking
+- Client and Server Packet Receiver helpers for registering slightly more easily
+
 #### Misc
 - EmptyUUID class to easily get the empty UUID and check if a UUID is empty.
 
