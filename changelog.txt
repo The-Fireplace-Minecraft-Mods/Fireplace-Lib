@@ -1,2 +1,3 @@
 Add ability to make an Enum dropdown with the config screen builder
 Add advanced config screen builder - returns the config entry itself after creating so it can be externally modified
+Add Client and Server Packet Receiver helpers for registering slightly more easily
