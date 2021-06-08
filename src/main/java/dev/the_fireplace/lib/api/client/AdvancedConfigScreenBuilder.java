@@ -124,8 +124,7 @@ public abstract class AdvancedConfigScreenBuilder extends ConfigScreenBuilderBas
         DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
-            .setSelections(dropdownEntries)
-            .setSuggestionMode(suggestionMode);
+            .setSelections(dropdownEntries);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         DropdownBoxEntry<String> built = builder.build();
         category.addEntry(built);
