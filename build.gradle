@@ -139,46 +139,55 @@ if (hasProperty('modrinthApiKey')) {
 	}
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom {
-				name = 'Fireplace Lib'
-				packaging = 'jar'
-				description = 'A library of common functionality used by my Minecraft mods, in one place for easier maintenance and faster updates.'
-				url = 'https://www.curseforge.com/minecraft/mc-mods/fireplace-lib'
-				scm {
-					connection = "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
-					developerConnection = "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
-					url = "https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}"
-				}
-
-				licenses {
-					license {
-						name = 'The MIT License'
-						url = 'https://opensource.org/licenses/MIT'
+if (hasProperty('ossrhUsername')) {
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				pom {
+					name = 'Fireplace Lib'
+					packaging = 'jar'
+					description = 'A library of common functionality used by my Minecraft mods, in one place for easier maintenance and faster updates.'
+					url = 'https://www.curseforge.com/minecraft/mc-mods/fireplace-lib'
+					scm {
+						connection = "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
+						developerConnection = "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
+						url = "https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}"
 					}
-				}
 
-				developers {
-					developer {
-						id = 'the_fireplace'
-						name = 'The_Fireplace'
-						email = 'the.f1repl4ce@gmail.com'
+					licenses {
+						license {
+							name = 'The MIT License'
+							url = 'https://opensource.org/licenses/MIT'
+						}
+					}
+
+					developers {
+						developer {
+							id = 'the_fireplace'
+							name = 'The_Fireplace'
+							email = 'the.f1repl4ce@gmail.com'
+						}
 					}
 				}
 			}
 		}
-	}
-	repositories {
-		maven {
-			def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-			def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
-			url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-			credentials {
-				username = ossrhUsername
-				password = ossrhPassword
+		repositories {
+			maven {
+				def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+				def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+				url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+				credentials {
+					username = ossrhUsername
+					password = ossrhPassword
+				}
 			}
 		}
 	}
+
+	signing {
+		sign configurations.archives
+		sign publishing.publications.mavenJava
+	}
+
+	signArchives.dependsOn(remapSourcesJar)
 }
