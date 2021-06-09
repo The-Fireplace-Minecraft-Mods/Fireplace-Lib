@@ -3,7 +3,6 @@ package dev.the_fireplace.lib.impl.translation;
 import dev.the_fireplace.lib.api.chat.Translator;
 import dev.the_fireplace.lib.api.chat.TranslatorManager;
 import dev.the_fireplace.lib.api.util.EmptyUUID;
-import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,13 +41,7 @@ public final class TranslatorManagerImpl implements TranslatorManager {
     }
 
     @ThreadSafe
-    private static final class TranslatorImpl implements Translator {
-        private final String modid;
-
-        private TranslatorImpl(String modid) {
-            this.modid = modid;
-        }
-
+    private record TranslatorImpl(String modid) implements Translator {
         @Override
         public MutableText getTextForTarget(ServerCommandSource target, String translationKey, Object... args) {
             return getTextForTarget(getTargetId(target), translationKey, args);
@@ -79,8 +72,8 @@ public final class TranslatorManagerImpl implements TranslatorManager {
             Object[] convertedArgs = args.clone();
 
             for (int i = 0; i < args.length; i++) {
-                if (args[i] instanceof StringVisitable) {
-                    convertedArgs[i] = ((StringVisitable) args[i]).getString();
+                if (args[i] instanceof StringVisitable visitable) {
+                    convertedArgs[i] = visitable.getString();
                 }
             }
 
@@ -111,7 +104,11 @@ public final class TranslatorManagerImpl implements TranslatorManager {
         }
 
         protected UUID getTargetId(CommandOutput commandOutput) {
-            return commandOutput instanceof ServerPlayerEntity ? ((Entity) commandOutput).getUuid() : EmptyUUID.EMPTY_UUID;
+            if (commandOutput instanceof ServerPlayerEntity serverPlayerEntity) {
+                return serverPlayerEntity.getUuid();
+            }
+
+            return EmptyUUID.EMPTY_UUID;
         }
     }
 }

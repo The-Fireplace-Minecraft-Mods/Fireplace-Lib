@@ -1,6 +1,5 @@
 package dev.the_fireplace.lib.impl.storage.utility;
 
-import com.google.common.collect.Sets;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
@@ -57,7 +56,7 @@ public final class SaveTimerImpl implements SaveTimer {
             return;
         }
 
-        saveIntervalFunctions.get(saveIntervalInMinutes).removeAll(Sets.newHashSet(saveRunnables));
+        saveIntervalFunctions.get(saveIntervalInMinutes).removeAll(Set.of(saveRunnables));
     }
 
     @Override

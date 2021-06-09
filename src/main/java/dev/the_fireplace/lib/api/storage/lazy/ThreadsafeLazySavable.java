@@ -8,7 +8,6 @@ import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@SuppressWarnings("FieldCanBeLocal")
 @ThreadSafe
 public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
     private final SaveBasedStorageReader saveBasedStorageReader = SaveBasedStorageReader.getInstance();

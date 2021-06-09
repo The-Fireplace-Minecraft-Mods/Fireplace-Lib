@@ -19,10 +19,10 @@ public final class FileToJsonObject implements JsonFileReader {
     @Nullable
     public JsonObject readJsonFile(File file) {
         JsonParser jsonParser = new JsonParser();
-        try(BufferedReader br = new BufferedReader(new FileReader(file), Short.MAX_VALUE)) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file), Short.MAX_VALUE)) {
             JsonElement jsonElement = jsonParser.parse(br);
-            if (jsonElement instanceof JsonObject) {
-                return (JsonObject) jsonElement;
+            if (jsonElement instanceof JsonObject jsonObject) {
+                return jsonObject;
             }
         } catch (FileNotFoundException ignored) {
         } catch (IOException | JsonParseException e) {

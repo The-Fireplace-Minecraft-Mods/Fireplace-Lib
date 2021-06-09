@@ -38,7 +38,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
         }
 
         File outputFile = filePath.toFile();
-        if (writable instanceof Defaultable && ((Defaultable) writable).isDefault()) {
+        if (writable instanceof Defaultable defaultable && defaultable.isDefault()) {
             if (outputFile.exists() && !outputFile.delete()) {
                 logger.error("Unable to delete {}!", filePath.toString());
             }
