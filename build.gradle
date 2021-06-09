@@ -5,7 +5,7 @@ plugins {
 	id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'com.modrinth.minotaur' version '1.1.0'
 	// Maven Publish
-	id 'maven'
+	id 'maven-publish'
 	id 'signing'
 	id 'io.codearte.nexus-staging' version '0.22.0'
 }
@@ -89,6 +89,7 @@ artifacts {
 
 signing {
 	sign configurations.archives
+	sign publishing.publications.mavenJava
 }
 
 signArchives.dependsOn(remapSourcesJar)
@@ -138,46 +139,43 @@ if (hasProperty('modrinthApiKey')) {
 	}
 }
 
-uploadArchives {
-	repositories {
-		mavenDeployer {
-			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-				authentication(userName: ossrhUsername, password: ossrhPassword)
-			}
-
-			snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-				authentication(userName: ossrhUsername, password: ossrhPassword)
-			}
-
-			pom.project {
-				name 'Fireplace Lib'
-				packaging 'jar'
-				description 'A library of common functionality used by my Minecraft mods, in one place for easier maintenance and faster updates.'
-				url 'https://www.curseforge.com/minecraft/mc-mods/fireplace-lib'
-
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			pom {
+				name = 'Fireplace Lib'
+				packaging = 'jar'
+				description = 'A library of common functionality used by my Minecraft mods, in one place for easier maintenance and faster updates.'
+				url = 'https://www.curseforge.com/minecraft/mc-mods/fireplace-lib'
 				scm {
-					connection "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
-					developerConnection "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
-					url "https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}"
+					connection = "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
+					developerConnection = "scm:svn:https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}.git"
+					url = "https://github.com/The-Fireplace-Minecraft-Mods/${project.github_slug}"
 				}
 
 				licenses {
 					license {
-						name 'The MIT License'
-						url 'https://opensource.org/licenses/MIT'
+						name = 'The MIT License'
+						url = 'https://opensource.org/licenses/MIT'
 					}
 				}
 
 				developers {
 					developer {
-						id 'the_fireplace'
-						name 'The_Fireplace'
-						email 'the.f1repl4ce@gmail.com'
+						id = 'the_fireplace'
+						name = 'The_Fireplace'
+						email = 'the.f1repl4ce@gmail.com'
 					}
 				}
 			}
+		}
+	}
+	repositories {
+		maven {
+			def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+			def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+			url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+			authentication(userName: ossrhUsername, password: ossrhPassword)
 		}
 	}
 }
