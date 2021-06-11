@@ -86,13 +86,6 @@ artifacts {
 	archives jar, javadocJar, sourcesJar, apiJar, apiSourcesJar
 }
 
-signing {
-	sign configurations.archives
-	sign publishing.publications.mavenJava
-}
-
-signArchives.dependsOn(remapSourcesJar)
-
 jar {
 	from 'LICENSE'
 }
