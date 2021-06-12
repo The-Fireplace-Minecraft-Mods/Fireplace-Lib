@@ -1,3 +1,4 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
 	// Dependencies
 	id 'fabric-loom' version '0.8-SNAPSHOT'
@@ -7,7 +8,7 @@ plugins {
 	// Maven Publish
 	id 'maven-publish'
 	id 'signing'
-	id 'io.codearte.nexus-staging' version '0.22.0'
+	id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -45,24 +46,15 @@ processResources {
 	}
 }
 
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = "UTF-8"
+
+	it.options.release = 8
 }
 
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-	archiveClassifier.set('sources')
-	from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: classes) {
-	archiveClassifier.set('javadoc')
-	from javadoc
+java {
+	withSourcesJar()
+	withJavadocJar()
 }
 
 task apiJar(type: Jar, dependsOn: classes) {
@@ -77,12 +69,10 @@ task apiSourcesJar(type: Jar, dependsOn: classes) {
 	exclude 'dev/the_fireplace/lib/impl/**'
 }
 
-artifacts {
-	archives jar, javadocJar, sourcesJar, apiJar, apiSourcesJar
-}
-
 jar {
-	from 'LICENSE'
+	from("LICENSE") {
+		rename { "${it}_${project.archivesBaseName}"}
+	}
 }
 
 if (hasProperty('curseForgeApiKey')) {
@@ -136,10 +126,19 @@ if (hasProperty('modrinthApiKey')) {
 	}
 }
 
-if (hasProperty('ossrhUsername')) {
+if (hasProperty('nexusUsername')) {
 	publishing {
 		publications {
 			mavenJava(MavenPublication) {
+				artifact(remapJar) {
+					builtBy remapJar
+				}
+				artifact(sourcesJar) {
+					builtBy remapSourcesJar
+				}
+				artifact javadocJar
+				artifact apiJar
+				artifact apiSourcesJar
 				pom {
 					name = 'Fireplace Lib'
 					packaging = 'jar'
@@ -174,17 +173,14 @@ if (hasProperty('ossrhUsername')) {
 				def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
 				url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 				credentials {
-					username = ossrhUsername
-					password = ossrhPassword
+					username = nexusUsername
+					password = nexusPassword
 				}
 			}
 		}
 	}
 
 	signing {
-		sign configurations.archives
 		sign publishing.publications.mavenJava
 	}
-
-	signArchives.dependsOn(remapSourcesJar)
 }
