@@ -1,7 +1,9 @@
 package dev.the_fireplace.lib.impl.translation;
 
-import dev.the_fireplace.lib.api.chat.Translator;
-import dev.the_fireplace.lib.api.chat.TranslatorManager;
+import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.lib.api.chat.TranslatorFactory;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
 import dev.the_fireplace.lib.api.util.EmptyUUID;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
@@ -12,18 +14,17 @@ import net.minecraft.text.StringVisitable;
 import net.minecraft.text.TranslatableText;
 
 import javax.annotation.concurrent.ThreadSafe;
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @ThreadSafe
-public final class TranslatorManagerImpl implements TranslatorManager {
-    @Deprecated
-    public static final TranslatorManager INSTANCE = new TranslatorManagerImpl();
-    private static final Map<String, Translator> TRANSLATION_SERVICES = new ConcurrentHashMap<>();
-
-    private TranslatorManagerImpl(){}
+@Singleton
+@Implementation
+public final class TranslatorManager implements TranslatorFactory {
+    private final Map<String, Translator> TRANSLATION_SERVICES = new ConcurrentHashMap<>();
 
     @Override
     public void addTranslator(String modid) {
@@ -41,7 +42,17 @@ public final class TranslatorManagerImpl implements TranslatorManager {
     }
 
     @ThreadSafe
-    private record TranslatorImpl(String modid) implements Translator {
+    private static class TranslatorImpl implements Translator {
+        private final String modid;
+        private final LocalizedClients localizedClients;
+        private final I18n i18n;
+
+        private TranslatorImpl(String modid) {
+            this.modid = modid;
+            this.localizedClients = AnnotatedDI.getInjector().getInstance(LocalizedClients.class);
+            this.i18n = AnnotatedDI.getInjector().getInstance(I18n.class);
+        }
+
         @Override
         public MutableText getTextForTarget(ServerCommandSource target, String translationKey, Object... args) {
             return getTextForTarget(getTargetId(target), translationKey, args);
@@ -54,7 +65,7 @@ public final class TranslatorManagerImpl implements TranslatorManager {
 
         @Override
         public MutableText getTextForTarget(UUID target, String translationKey, Object... args) {
-            if (!LocalizedClients.isLocalized(modid, target)) {
+            if (!localizedClients.isLocalized(modid, target)) {
                 return getTranslatedText(translationKey, args);
             } else {
                 return new TranslatableText(translationKey, args);
@@ -65,7 +76,7 @@ public final class TranslatorManagerImpl implements TranslatorManager {
         public LiteralText getTranslatedText(String translationKey, Object... args) {
             Object[] convertedArgs = getArgsWithTextConvertedToString(args);
 
-            return new LiteralText(I18n.translateToLocalFormatted(modid, translationKey, convertedArgs));
+            return new LiteralText(i18n.translateToLocalFormatted(modid, translationKey, convertedArgs));
         }
 
         private Object[] getArgsWithTextConvertedToString(Object[] args) {
@@ -92,8 +103,8 @@ public final class TranslatorManagerImpl implements TranslatorManager {
 
         @Override
         public String getTranslationKeyForTarget(UUID target, String translationKey) {
-            if (!LocalizedClients.isLocalized(modid, target)) {
-                return I18n.translateToLocalFormatted(modid, translationKey);
+            if (!localizedClients.isLocalized(modid, target)) {
+                return i18n.translateToLocalFormatted(modid, translationKey);
             } else {
                 return translationKey;
             }

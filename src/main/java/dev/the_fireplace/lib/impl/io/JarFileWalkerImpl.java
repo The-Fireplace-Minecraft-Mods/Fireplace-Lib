@@ -1,7 +1,9 @@
 package dev.the_fireplace.lib.impl.io;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.io.JarFileWalker;
 
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,12 +15,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Implementation
+@Singleton
 public final class JarFileWalkerImpl implements JarFileWalker {
-    @Deprecated
-    public static final JarFileWalker INSTANCE = new JarFileWalkerImpl();
     private final ConcurrentMap<String, Object> locks = new ConcurrentHashMap<>();
-
-    private JarFileWalkerImpl(){}
 
     @Override
     public Collection<Path> getFiles(String path) throws IOException, URISyntaxException {

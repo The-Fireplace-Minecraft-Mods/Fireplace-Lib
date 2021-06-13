@@ -1,0 +1,52 @@
+package dev.the_fireplace.lib.impl;
+
+import dev.the_fireplace.lib.api.chat.TranslatorFactory;
+import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
+import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
+import dev.the_fireplace.lib.impl.commands.FLCommands;
+import dev.the_fireplace.lib.impl.network.NetworkEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public final class FireplaceLibInitializer {
+
+    private final TranslatorFactory translatorFactory;
+    private final ExecutionManager executionManager;
+    private final FLCommands fireplaceLibCommands;
+    private final SaveTimer saveTimer;
+
+    @Inject
+    public FireplaceLibInitializer(
+        TranslatorFactory translatorFactory,
+        ExecutionManager executionManager,
+        FLCommands fireplaceLibCommands,
+        SaveTimer saveTimer
+    ) {
+        this.translatorFactory = translatorFactory;
+        this.executionManager = executionManager;
+        this.fireplaceLibCommands = fireplaceLibCommands;
+        this.saveTimer = saveTimer;
+    }
+
+    void init() {
+        translatorFactory.addTranslator(FireplaceLib.MODID);
+        NetworkEvents.init();
+        ServerLifecycleEvents.SERVER_STARTING.register(s -> {
+            FireplaceLib.minecraftServer = s;
+            executionManager.startExecutors();
+            saveTimer.resetTimer();
+            fireplaceLibCommands.register(s);
+        });
+        ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
+            saveTimer.prepareForServerShutdown();
+            try {
+                executionManager.waitForCompletion();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+}

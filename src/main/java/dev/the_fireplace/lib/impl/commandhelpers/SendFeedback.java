@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
 import com.mojang.brigadier.context.CommandContext;
-import dev.the_fireplace.lib.api.chat.TextStyles;
-import dev.the_fireplace.lib.api.chat.Translator;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
+import dev.the_fireplace.lib.api.chat.lib.TextStyles;
 import dev.the_fireplace.lib.api.command.FeedbackSender;
 import net.minecraft.command.CommandException;
 import net.minecraft.server.command.ServerCommandSource;
@@ -10,7 +10,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
 
 public final class SendFeedback implements FeedbackSender {
-
     private final Translator translator;
 
     SendFeedback(Translator translator) {

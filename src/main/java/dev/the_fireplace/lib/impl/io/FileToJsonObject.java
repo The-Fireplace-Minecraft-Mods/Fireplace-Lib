@@ -4,16 +4,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.io.JsonFileReader;
 
 import javax.annotation.Nullable;
+import javax.inject.Singleton;
 import java.io.*;
 
+@Implementation
+@Singleton
 public final class FileToJsonObject implements JsonFileReader {
-    @Deprecated
-    public static final JsonFileReader INSTANCE = new FileToJsonObject();
-
-    private FileToJsonObject(){}
 
     @Override
     @Nullable

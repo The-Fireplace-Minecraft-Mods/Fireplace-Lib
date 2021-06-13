@@ -1,25 +1,26 @@
 package dev.the_fireplace.lib.impl.storage.utility;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import io.netty.util.internal.ConcurrentSet;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Implementation
+@Singleton
 public final class SaveTimerImpl implements SaveTimer {
-    @Deprecated
-    public static final SaveTimer INSTANCE = new SaveTimerImpl();
-
     private final Map<Short, Set<Runnable>> saveIntervalFunctions = new ConcurrentHashMap<>();
     private Timer timer = new Timer();
+    private final ExecutionManager executionManager;
 
-    private SaveTimerImpl(){}
-
-    @Override
-    public void registerSaveFunction(short saveIntervalInMinutes, Runnable... saveRunnables) {
-        register(saveIntervalInMinutes, saveRunnables);
+    @Inject
+    public SaveTimerImpl(ExecutionManager executionManager) {
+        this.executionManager = executionManager;
     }
 
     @Override
@@ -43,7 +44,7 @@ public final class SaveTimerImpl implements SaveTimer {
             @Override
             public void run() {
                 for (Runnable runnable: saveIntervalFunctions.get(newSaveIntervalInMinutes)) {
-                    ExecutionManager.getInstance().run(runnable);
+                    executionManager.run(runnable);
                 }
             }
         }, saveIntervalInMilliseconds - randomOffset, saveIntervalInMilliseconds);
@@ -73,7 +74,7 @@ public final class SaveTimerImpl implements SaveTimer {
     private void saveAll() {
         for (Set<Runnable> intervalRunnables: saveIntervalFunctions.values()) {
             for (Runnable runnable: intervalRunnables) {
-                ExecutionManager.getInstance().run(runnable);
+                executionManager.run(runnable);
             }
         }
     }

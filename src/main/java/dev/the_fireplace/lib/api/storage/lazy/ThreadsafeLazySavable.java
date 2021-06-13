@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.api.storage.lazy;
 
+import dev.the_fireplace.annotateddi.AnnotatedDI;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
@@ -10,10 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @ThreadSafe
 public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
-    private final SaveBasedStorageReader saveBasedStorageReader = SaveBasedStorageReader.getInstance();
-    private final SaveBasedStorageWriter saveBasedStorageWriter = SaveBasedStorageWriter.getInstance();
-    @SuppressWarnings("WeakerAccess")
-    protected final ExecutionManager executionManager = ExecutionManager.getInstance();
+    private final SaveBasedStorageReader saveBasedStorageReader = AnnotatedDI.getInjector().getInstance(SaveBasedStorageReader.class);
+    private final SaveBasedStorageWriter saveBasedStorageWriter = AnnotatedDI.getInjector().getInstance(SaveBasedStorageWriter.class);
 
     private final AtomicBoolean isChanged = new AtomicBoolean(false);
     private final AtomicBoolean saving = new AtomicBoolean(false);
@@ -39,7 +38,7 @@ public abstract class ThreadsafeLazySavable implements SaveBasedSerializable {
     protected synchronized void forceSave() {
         saving.set(true);
         isChanged.set(false);
-        executionManager.run(() -> {
+        AnnotatedDI.getInjector().getInstance(ExecutionManager.class).run(() -> {
             saveBasedStorageWriter.write(this);
             saving.set(false);
         });
