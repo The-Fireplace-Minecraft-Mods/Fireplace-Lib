@@ -3,26 +3,27 @@ package dev.the_fireplace.lib.impl.storage.access;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageWriter;
 import dev.the_fireplace.lib.api.storage.lazy.Defaultable;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Singleton;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
+@Implementation
+@Singleton
 public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter {
-    @Deprecated
-    public static final SaveBasedStorageWriter INSTANCE = new SaveBasedJsonStorageWriter();
-
     private final Gson gson;
     private final Logger logger;
 
-    private SaveBasedJsonStorageWriter() {
+    public SaveBasedJsonStorageWriter() {
         gson = new GsonBuilder().setPrettyPrinting().create();
         logger = FireplaceLib.getLogger();
     }

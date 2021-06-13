@@ -1,11 +1,14 @@
 package dev.the_fireplace.lib.impl.chat;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.chat.MessageQueue;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 
 import javax.annotation.concurrent.ThreadSafe;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Map;
@@ -14,12 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @ThreadSafe
+@Implementation
+@Singleton
 public final class MessageQueueImpl implements MessageQueue {
-    @Deprecated
-    public static final MessageQueueImpl INSTANCE = new MessageQueueImpl();
     private final Map<CommandOutput, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
+    private final ExecutionManager executionManager;
 
-    private MessageQueueImpl(){}
+    @Inject
+    private MessageQueueImpl(ExecutionManager executionManager) {
+        this.executionManager = executionManager;
+    }
 
     private TargetMessageQueue getOrCreateQueue(CommandOutput messageTarget) {
         return messageQueues.computeIfAbsent(messageTarget, TargetMessageQueue::new);
@@ -31,7 +38,7 @@ public final class MessageQueueImpl implements MessageQueue {
     }
 
     @ThreadSafe
-    private static class TargetMessageQueue {
+    private class TargetMessageQueue {
         private final Queue<Text> messages = new ArrayDeque<>();
         private final CommandOutput messageTarget;
         private final AtomicBoolean sendingMessages = new AtomicBoolean(false);
@@ -43,7 +50,7 @@ public final class MessageQueueImpl implements MessageQueue {
         private synchronized void queueMessages(Text... messages) {
             this.messages.addAll(Arrays.asList(messages));
             if (!sendingMessages.get()) {
-                ExecutionManager.getInstance().runKillable(this::sendMessages);
+                MessageQueueImpl.this.executionManager.runKillable(this::sendMessages);
             }
         }
 

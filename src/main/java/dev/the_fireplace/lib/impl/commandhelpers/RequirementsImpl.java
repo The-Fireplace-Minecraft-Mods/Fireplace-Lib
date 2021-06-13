@@ -1,15 +1,15 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.command.Requirements;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 
+import javax.inject.Singleton;
+
+@Implementation
+@Singleton
 public final class RequirementsImpl implements Requirements {
-    @Deprecated
-    public static final Requirements INSTANCE = new RequirementsImpl();
-
-    private RequirementsImpl(){}
-
     private static final int PERMISSION_LEVEL_MANAGE_GAME_SETTINGS = 2;
     private static final int PERMISSION_LEVEL_MANAGE_PLAYER_ACCESS = 3;
     private static final int PERMISSION_LEVEL_OP = 4;

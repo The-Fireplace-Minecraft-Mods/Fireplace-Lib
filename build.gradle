@@ -21,6 +21,7 @@ group = project.maven_group
 repositories {
 	maven { url 'https://maven.shedaniel.me/' }
 	maven { url 'https://maven.terraformersmc.com/releases/' }
+	flatDir { dirs 'lib' }
 }
 
 dependencies {
@@ -28,6 +29,9 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	modImplementation "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
+	include "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
 
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modApi("me.shedaniel.cloth:config-2:${project.clothconfig_version}") {
@@ -91,6 +95,7 @@ if (hasProperty('curseForgeApiKey')) {
 				relations {
 					requiredDependency 'fabric-api'
 					embeddedLibrary 'cloth-config'
+					embeddedLibrary 'annotated-di'
 					optionalDependency 'modmenu'
 				}
 			}

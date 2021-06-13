@@ -1,18 +1,17 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
-import dev.the_fireplace.lib.api.chat.Translator;
+import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
 import dev.the_fireplace.lib.api.command.FeedbackSender;
-import dev.the_fireplace.lib.api.command.FeedbackSenderManager;
+import dev.the_fireplace.lib.api.command.FeedbackSenderFactory;
 
+import javax.inject.Singleton;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class FeedbackSenderManagerImpl implements FeedbackSenderManager {
-	@Deprecated
-	public static final FeedbackSenderManager INSTANCE = new FeedbackSenderManagerImpl();
-
-	private FeedbackSenderManagerImpl(){}
-
+@Implementation
+@Singleton
+public final class FeedbackSenderManager implements FeedbackSenderFactory {
 	private final Map<Translator, FeedbackSender> feedbackSenders = new ConcurrentHashMap<>();
 
 	@Override

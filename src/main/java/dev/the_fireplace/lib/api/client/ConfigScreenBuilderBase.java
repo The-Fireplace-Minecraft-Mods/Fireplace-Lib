@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.api.client;
 
 import com.google.common.collect.Lists;
-import dev.the_fireplace.lib.api.chat.Translator;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 

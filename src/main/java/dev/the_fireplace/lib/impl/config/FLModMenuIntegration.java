@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.impl.config;
 
-import dev.the_fireplace.lib.api.chat.TranslatorManager;
+import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.lib.api.chat.TranslatorFactory;
 import dev.the_fireplace.lib.api.client.ConfigScreenBuilder;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import io.github.prospector.modmenu.api.ModMenuApi;
@@ -22,7 +23,7 @@ public final class FLModMenuIntegration extends ConfigScreenBuilder implements M
     private final FLConfig.Access configAccess = FLConfig.getData();
 
     public FLModMenuIntegration() {
-        super(TranslatorManager.getInstance().getTranslator(FireplaceLib.MODID));
+        super(AnnotatedDI.getInjector().getInstance(TranslatorFactory.class).getTranslator(FireplaceLib.MODID));
     }
 
     @Override
