@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.io;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.io.JarFileWalker;
+import dev.the_fireplace.lib.api.io.injectables.JarFileWalker;
 
 import javax.inject.Singleton;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.command.Requirements;
+import dev.the_fireplace.lib.api.command.injectables.Requirements;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 

@@ -2,11 +2,12 @@ package dev.the_fireplace.lib.impl.chat;
 
 import com.google.common.collect.Lists;
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.chat.MessageQueue;
-import dev.the_fireplace.lib.api.chat.TextPaginator;
-import dev.the_fireplace.lib.api.chat.TranslatorFactory;
-import dev.the_fireplace.lib.api.chat.internal.Translator;
-import dev.the_fireplace.lib.api.chat.lib.TextStyles;
+import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
+import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
+import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
+import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
+import dev.the_fireplace.lib.api.chat.interfaces.Translator;
+import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;
@@ -20,8 +21,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
-import static dev.the_fireplace.lib.impl.FireplaceLib.MODID;
-
 @ThreadSafe
 @Implementation
 @Singleton
@@ -29,11 +28,13 @@ public final class TextPaginatorImpl implements TextPaginator {
     private static final int RESULTS_PER_PAGE = 7;
     private final MessageQueue messageQueue;
     private final Translator translator;
+    private final TextStyles textStyles;
 
     @Inject
-    private TextPaginatorImpl(MessageQueue messageQueue, TranslatorFactory translatorFactory) {
+    private TextPaginatorImpl(MessageQueue messageQueue, TranslatorFactory translatorFactory, TextStyles textStyles) {
         this.messageQueue = messageQueue;
-        this.translator = translatorFactory.getTranslator(MODID);
+        this.translator = translatorFactory.getTranslator(FireplaceLib.MODID);
+        this.textStyles = textStyles;
     }
 
     @Override
@@ -67,7 +68,7 @@ public final class TextPaginatorImpl implements TextPaginator {
 
     private Text getPaginationHeader(CommandOutput target, int currentPage, int totalPageCount) {
         Text counter = translator.getTextForTarget(target, "fireplacelib.chat.page.num", currentPage, totalPageCount);
-        return new LiteralText("-----------------").setStyle(TextStyles.GREEN).append(counter).append("-------------------").setStyle(TextStyles.GREEN);
+        return new LiteralText("-----------------").setStyle(textStyles.green()).append(counter).append("-------------------").setStyle(textStyles.green());
     }
 
     private static List<? extends Text> getPageContents(List<? extends Text> allContents, int page) {
@@ -77,7 +78,7 @@ public final class TextPaginatorImpl implements TextPaginator {
     private Text getPaginationFooter(CommandOutput target, String switchPageCommand, int currentPage, int totalPageCount) {
         Text nextButton = getNextButton(target, switchPageCommand, currentPage, totalPageCount);
         Text prevButton = getPreviousButton(target, switchPageCommand, currentPage);
-        return new LiteralText("---------------").setStyle(TextStyles.GREEN).append(prevButton).append("---").setStyle(TextStyles.GREEN).append(nextButton).append("-------------").setStyle(TextStyles.GREEN);
+        return new LiteralText("---------------").setStyle(textStyles.green()).append(prevButton).append("---").setStyle(textStyles.green()).append(nextButton).append("-------------").setStyle(textStyles.green());
     }
 
     private Text getNextButton(CommandOutput target, String switchPageCommand, int currentPage, int totalPageCount) {
