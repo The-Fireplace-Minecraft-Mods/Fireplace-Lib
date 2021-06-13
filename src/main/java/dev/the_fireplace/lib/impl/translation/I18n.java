@@ -3,31 +3,43 @@ package dev.the_fireplace.lib.impl.translation;
 import dev.the_fireplace.lib.api.io.DirectoryResolver;
 import dev.the_fireplace.lib.api.io.JarFileWalker;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
+@Singleton
 public final class I18n {
+    
+    private final DirectoryResolver directoryResolver;
+    private final JarFileWalker jarFileWalker;
 
-    public static String translateToLocalFormatted(String modid, String key, Object... format) {
+    @Inject
+    public I18n(DirectoryResolver directoryResolver, JarFileWalker jarFileWalker) {
+        this.directoryResolver = directoryResolver;
+        this.jarFileWalker = jarFileWalker;
+    }
+
+    public String translateToLocalFormatted(String modid, String key, Object... format) {
         return hasPrimaryTranslation(modid, key) ? translateToPrimary(modid, key, format) : translateToFallback(modid, key, format);
     }
 
-    private static String translateToPrimary(String modid, String key, Object... format) {
+    private String translateToPrimary(String modid, String key, Object... format) {
         return ModLanguageMaps.getPrimaryMap(modid).translateKeyFormat(key, format);
     }
 
-    private static String translateToFallback(String modid, String key, Object... format) {
+    private String translateToFallback(String modid, String key, Object... format) {
         return ModLanguageMaps.getFallbackMap(modid).translateKeyFormat(key, format);
     }
 
-    private static boolean hasPrimaryTranslation(String modid, String key) {
+    private boolean hasPrimaryTranslation(String modid, String key) {
         return ModLanguageMaps.getPrimaryMap(modid).isKeyTranslated(key);
     }
 
-    public static boolean hasLocale(String modid, String locale) {
-        InputStream inputstream = LanguageMap.class.getResourceAsStream(DirectoryResolver.getInstance().getLangDirectory(modid) + locale + ".json");
+    public boolean hasLocale(String modid, String locale) {
+        InputStream inputstream = LanguageMap.class.getResourceAsStream(directoryResolver.getLangDirectory(modid) + locale + ".json");
         boolean exists = inputstream != null;
         if(exists) {
             try {
@@ -37,10 +49,10 @@ public final class I18n {
         return exists;
     }
 
-    public static Set<String> getLocales(String modid) {
+    public Set<String> getLocales(String modid) {
         try {
             Set<String> locales = new HashSet<>();
-            JarFileWalker.getInstance().getFiles(I18n.class.getResourceAsStream(DirectoryResolver.getInstance().getLangDirectory(modid)).toString()).forEach(path -> locales.add(path.getFileName().toString().replace(".json", "")));
+            jarFileWalker.getFiles(I18n.class.getResourceAsStream(directoryResolver.getLangDirectory(modid)).toString()).forEach(path -> locales.add(path.getFileName().toString().replace(".json", "")));
             return locales;
         } catch(Exception e) {
             throw new IllegalStateException(e);

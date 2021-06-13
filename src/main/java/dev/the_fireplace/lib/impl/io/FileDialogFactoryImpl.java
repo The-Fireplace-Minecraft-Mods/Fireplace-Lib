@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.impl.io;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.client.io.FileDialogFactory;
 import dev.the_fireplace.lib.api.io.FilePathStorage;
 import net.fabricmc.api.EnvType;
@@ -11,19 +12,22 @@ import org.lwjgl.system.MemoryStack;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
+@Implementation
+@Singleton
 public final class FileDialogFactoryImpl implements FileDialogFactory {
-    @Deprecated
-    public static final FileDialogFactoryImpl INSTANCE = new FileDialogFactoryImpl();
 
     private final FilePathStorage filePathStorage;
 
-    private FileDialogFactoryImpl() {
-        this.filePathStorage = FilePathStorage.getInstance();
+    @Inject
+    public FileDialogFactoryImpl(FilePathStorage filePathStorage) {
+        this.filePathStorage = filePathStorage;
     }
 
     @Override

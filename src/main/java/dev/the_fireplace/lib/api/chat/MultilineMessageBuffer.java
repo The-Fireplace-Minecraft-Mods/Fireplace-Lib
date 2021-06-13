@@ -1,15 +1,9 @@
 package dev.the_fireplace.lib.api.chat;
 
-import dev.the_fireplace.lib.impl.chat.MultilineMessageBufferImpl;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 
 public interface MultilineMessageBuffer {
-    static MultilineMessageBuffer getInstance() {
-        //noinspection deprecation
-        return MultilineMessageBufferImpl.INSTANCE;
-    }
-
     /**
      * Create a new message buffer.
      * @param expectedMessageCount

@@ -1,14 +1,10 @@
 package dev.the_fireplace.lib.api.chat;
 
-import dev.the_fireplace.lib.impl.translation.TranslatorManagerImpl;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
 
 import java.util.Collection;
 
-public interface TranslatorManager {
-    static TranslatorManager getInstance() {
-        //noinspection deprecation
-        return TranslatorManagerImpl.INSTANCE;
-    }
+public interface TranslatorFactory {
     /**
      * Properly initializes your translation service.
      * This should happen on both client (If the mod is present there) and server to ensure proper synchronization.

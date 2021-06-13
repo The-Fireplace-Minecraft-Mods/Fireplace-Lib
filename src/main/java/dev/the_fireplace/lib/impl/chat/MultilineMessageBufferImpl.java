@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.impl.chat;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.chat.MessageQueue;
 import dev.the_fireplace.lib.api.chat.MultilineMessageBuffer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
@@ -8,14 +9,16 @@ import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.concurrent.ThreadSafe;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @ThreadSafe
+@Implementation
+@Singleton
 public final class MultilineMessageBufferImpl implements MultilineMessageBuffer {
-    @Deprecated
-    public static final MultilineMessageBuffer INSTANCE = new MultilineMessageBufferImpl();
     private final Map<Integer, Buffer> messageBuffers = new ConcurrentHashMap<>();
     private final AtomicInteger currentBufferId = new AtomicInteger(Integer.MIN_VALUE);
 
@@ -40,6 +43,7 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
         private final int bufferId;
         private final Text[] messages;
         private final CommandOutput target;
+        private MessageQueue messageQueue;
 
         private Buffer(int bufferId, byte expectedMessageCount, CommandOutput target) {
             this.bufferId = bufferId;
@@ -60,11 +64,16 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
         }
 
         private void sendBufferedMessages() {
-            MessageQueue.getInstance().queueMessages(target, messages);
+            messageQueue.queueMessages(target, messages);
         }
 
         private void cleanup() {
             messageBuffers.remove(bufferId);
+        }
+
+        @Inject
+        public void setMessageQueue(MessageQueue messageQueue) {
+            this.messageQueue = messageQueue;
         }
     }
 }

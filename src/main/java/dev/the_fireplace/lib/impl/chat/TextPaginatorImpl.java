@@ -1,7 +1,12 @@
 package dev.the_fireplace.lib.impl.chat;
 
 import com.google.common.collect.Lists;
-import dev.the_fireplace.lib.api.chat.*;
+import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.lib.api.chat.MessageQueue;
+import dev.the_fireplace.lib.api.chat.TextPaginator;
+import dev.the_fireplace.lib.api.chat.TranslatorFactory;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
+import dev.the_fireplace.lib.api.chat.lib.TextStyles;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;
@@ -11,23 +16,30 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 import javax.annotation.concurrent.ThreadSafe;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 import static dev.the_fireplace.lib.impl.FireplaceLib.MODID;
 
 @ThreadSafe
+@Implementation
+@Singleton
 public final class TextPaginatorImpl implements TextPaginator {
-    @Deprecated
-    public static final TextPaginator INSTANCE = new TextPaginatorImpl();
     private static final int RESULTS_PER_PAGE = 7;
-    private final Translator translator = TranslatorManager.getInstance().getTranslator(MODID);
+    private final MessageQueue messageQueue;
+    private final Translator translator;
 
-    private TextPaginatorImpl(){}
+    @Inject
+    private TextPaginatorImpl(MessageQueue messageQueue, TranslatorFactory translatorFactory) {
+        this.messageQueue = messageQueue;
+        this.translator = translatorFactory.getTranslator(MODID);
+    }
 
     @Override
     public void sendPaginatedChat(ServerCommandSource targetCommandSource, String switchPageCommand, List<? extends Text> allItems, int pageIndex) {
         CommandOutput messageTarget = targetCommandSource.getEntity() != null ? targetCommandSource.getEntity() : targetCommandSource.getMinecraftServer();
-        MessageQueue.getInstance().queueMessages(messageTarget, getPaginatedContent(messageTarget, allItems, pageIndex, switchPageCommand));
+        messageQueue.queueMessages(messageTarget, getPaginatedContent(messageTarget, allItems, pageIndex, switchPageCommand));
     }
 
     private static int getPageCount(int itemCount) {

@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.api.chat;
+package dev.the_fireplace.lib.api.chat.internal;
 
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
