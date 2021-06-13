@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.impl.config;
 
 import dev.the_fireplace.annotateddi.AnnotatedDI;
-import dev.the_fireplace.lib.api.chat.TranslatorFactory;
-import dev.the_fireplace.lib.api.client.ConfigScreenBuilder;
+import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
+import dev.the_fireplace.lib.api.client.lib.ConfigScreenBuilder;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import io.github.prospector.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;

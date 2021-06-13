@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import dev.the_fireplace.annotateddi.AnnotatedDI;
-import dev.the_fireplace.lib.api.io.DirectoryResolver;
+import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.minecraft.util.JsonHelper;
 

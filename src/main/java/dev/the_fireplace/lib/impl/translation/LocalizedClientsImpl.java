@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.translation;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.chat.TranslatorFactory;
+import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import io.netty.util.internal.ConcurrentSet;
 
 import javax.inject.Inject;

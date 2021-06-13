@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
 import com.mojang.brigadier.context.CommandContext;
-import dev.the_fireplace.lib.api.chat.internal.Translator;
-import dev.the_fireplace.lib.api.chat.lib.TextStyles;
-import dev.the_fireplace.lib.api.command.FeedbackSender;
+import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
+import dev.the_fireplace.lib.api.chat.interfaces.Translator;
+import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import net.minecraft.command.CommandException;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -11,14 +11,16 @@ import net.minecraft.text.Style;
 
 public final class SendFeedback implements FeedbackSender {
     private final Translator translator;
+    private final TextStyles textStyles;
 
-    SendFeedback(Translator translator) {
+    SendFeedback(Translator translator, TextStyles textStyles) {
         this.translator = translator;
+        this.textStyles = textStyles;
     }
 
     @Override
     public int throwFailure(CommandContext<ServerCommandSource> command, String translationKey, Object... args) throws CommandException {
-        throw new CommandException(translator.getTextForTarget(command.getSource(), translationKey, args).setStyle(TextStyles.RED));
+        throw new CommandException(translator.getTextForTarget(command.getSource(), translationKey, args).setStyle(textStyles.red()));
     }
 
     @Override

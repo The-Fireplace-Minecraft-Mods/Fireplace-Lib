@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.translation;
 
-import dev.the_fireplace.lib.api.io.DirectoryResolver;
-import dev.the_fireplace.lib.api.io.JarFileWalker;
+import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
+import dev.the_fireplace.lib.api.io.injectables.JarFileWalker;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

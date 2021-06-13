@@ -2,9 +2,9 @@ package dev.the_fireplace.lib.impl.translation;
 
 import dev.the_fireplace.annotateddi.AnnotatedDI;
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.chat.TranslatorFactory;
-import dev.the_fireplace.lib.api.chat.internal.Translator;
-import dev.the_fireplace.lib.api.util.EmptyUUID;
+import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
+import dev.the_fireplace.lib.api.chat.interfaces.Translator;
+import dev.the_fireplace.lib.api.uuid.lib.EmptyUUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;

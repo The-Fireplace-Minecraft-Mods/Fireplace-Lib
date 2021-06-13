@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.io;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.io.DirectoryResolver;
+import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
