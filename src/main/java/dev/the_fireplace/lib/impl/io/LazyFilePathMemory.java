@@ -1,11 +1,11 @@
 package dev.the_fireplace.lib.impl.io;
 
-import dev.the_fireplace.lib.api.io.FilePathStorage;
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageWriteBuffer;
-import dev.the_fireplace.lib.api.storage.lazy.Defaultable;
-import dev.the_fireplace.lib.api.storage.lazy.LazyConfig;
-import dev.the_fireplace.lib.api.storage.lazy.LazyConfigInitializer;
+import dev.the_fireplace.lib.api.io.injectables.FilePathStorage;
+import dev.the_fireplace.lib.api.storage.interfaces.Defaultable;
+import dev.the_fireplace.lib.api.storage.interfaces.access.StorageReadBuffer;
+import dev.the_fireplace.lib.api.storage.interfaces.access.StorageWriteBuffer;
+import dev.the_fireplace.lib.api.storage.lib.LazyConfig;
+import dev.the_fireplace.lib.api.storage.lib.LazyConfigInitializer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 
 import javax.annotation.Nullable;

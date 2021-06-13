@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.io.JsonFileReader;
+import dev.the_fireplace.lib.api.io.injectables.JsonFileReader;
 
 import javax.annotation.Nullable;
 import javax.inject.Singleton;

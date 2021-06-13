@@ -8,10 +8,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import dev.the_fireplace.lib.api.chat.TextPaginator;
-import dev.the_fireplace.lib.api.chat.internal.Translator;
-import dev.the_fireplace.lib.api.chat.lib.TextStyles;
-import dev.the_fireplace.lib.api.command.HelpCommand;
+import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
+import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
+import dev.the_fireplace.lib.api.chat.interfaces.Translator;
+import dev.the_fireplace.lib.api.command.interfaces.HelpCommand;
+import dev.the_fireplace.lib.impl.translation.TranslatorManager;
 import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.server.command.CommandManager;
@@ -21,18 +23,18 @@ import net.minecraft.text.Text;
 import java.util.*;
 
 public final class HelpCommandImpl implements HelpCommand {
-    private final TextPaginator textPaginator;
+    private final TextStyles textStyles = AnnotatedDI.getInjector().getInstance(TextStyles.class);
+    private final TextPaginator textPaginator = AnnotatedDI.getInjector().getInstance(TextPaginator.class);
     private final Translator translator;
     private final String modid;
     private final LiteralArgumentBuilder<ServerCommandSource> helpCommandBase;
     private final Map<String, Collection<String>> commands = new HashMap<>();
     private final IntSet grandchildNodeHashes = new IntArraySet(3);
 
-    HelpCommandImpl(Translator translator, TextPaginator textPaginator, String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
-        this.translator = translator;
-        this.textPaginator = textPaginator;
+    HelpCommandImpl(String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
         this.modid = modid;
         this.helpCommandBase = helpCommandBase;
+        this.translator = AnnotatedDI.getInjector().getInstance(TranslatorManager.class).getTranslator(modid);
     }
 
     @Override
@@ -120,7 +122,7 @@ public final class HelpCommandImpl implements HelpCommand {
 
         int i = 0;
         for (Text helpText: helps) {
-            helpText.setStyle(i++ % 2 == 0 ? TextStyles.WHITE : TextStyles.GRAY);
+            helpText.setStyle(i++ % 2 == 0 ? textStyles.white() : textStyles.grey());
         }
 
         return helps;

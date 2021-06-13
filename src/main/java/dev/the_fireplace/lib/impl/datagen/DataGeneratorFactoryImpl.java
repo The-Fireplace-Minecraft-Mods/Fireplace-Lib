@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.datagen;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.datagen.DataGeneratorFactory;
+import dev.the_fireplace.lib.api.datagen.injectables.DataGeneratorFactory;
 import net.minecraft.data.DataGenerator;
 
 import javax.inject.Singleton;
