@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.impl.storage.access;
 
 import dev.the_fireplace.annotateddi.AnnotatedDI;
-import dev.the_fireplace.lib.api.io.DirectoryResolver;
-import dev.the_fireplace.lib.api.storage.ConfigBasedSerializable;
-import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
+import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
+import dev.the_fireplace.lib.api.storage.interfaces.ConfigBasedSerializable;
+import dev.the_fireplace.lib.api.storage.interfaces.SaveBasedSerializable;
 
 import java.nio.file.Path;
 

@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.impl.config;
 
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageWriteBuffer;
-import dev.the_fireplace.lib.api.storage.lazy.LazyConfig;
-import dev.the_fireplace.lib.api.storage.lazy.LazyConfigInitializer;
+import dev.the_fireplace.lib.api.storage.interfaces.access.StorageReadBuffer;
+import dev.the_fireplace.lib.api.storage.interfaces.access.StorageWriteBuffer;
+import dev.the_fireplace.lib.api.storage.lib.LazyConfig;
+import dev.the_fireplace.lib.api.storage.lib.LazyConfigInitializer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 
 public final class FLConfig extends LazyConfig {

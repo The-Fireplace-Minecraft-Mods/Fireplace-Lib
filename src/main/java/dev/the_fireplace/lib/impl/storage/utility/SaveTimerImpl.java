@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.impl.storage.utility;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
-import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
+import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
+import dev.the_fireplace.lib.api.storage.injectables.SaveTimer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import io.netty.util.internal.ConcurrentSet;
 

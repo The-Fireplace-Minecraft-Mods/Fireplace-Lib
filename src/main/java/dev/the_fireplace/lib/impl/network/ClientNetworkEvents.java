@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.network;
 
-import dev.the_fireplace.lib.api.chat.TranslatorFactory;
+import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

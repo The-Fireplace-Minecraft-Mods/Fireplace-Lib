@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.impl.network.client;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.network.client.ClientPacketReceiver;
-import dev.the_fireplace.lib.api.network.client.ClientPacketReceiverRegistry;
+import dev.the_fireplace.lib.api.network.injectables.ClientPacketReceiverRegistry;
+import dev.the_fireplace.lib.api.network.interfaces.ClientPacketReceiver;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

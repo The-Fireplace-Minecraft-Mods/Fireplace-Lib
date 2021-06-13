@@ -2,10 +2,10 @@ package dev.the_fireplace.lib.impl.storage.access;
 
 import com.google.gson.JsonObject;
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.io.JsonFileReader;
-import dev.the_fireplace.lib.api.storage.SaveBasedSerializable;
-import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
-import dev.the_fireplace.lib.api.storage.access.intermediary.StorageReadBuffer;
+import dev.the_fireplace.lib.api.io.injectables.JsonFileReader;
+import dev.the_fireplace.lib.api.storage.injectables.SaveBasedStorageReader;
+import dev.the_fireplace.lib.api.storage.interfaces.SaveBasedSerializable;
+import dev.the_fireplace.lib.api.storage.interfaces.access.StorageReadBuffer;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

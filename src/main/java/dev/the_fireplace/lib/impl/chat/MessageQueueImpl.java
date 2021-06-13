@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.impl.chat;
 
 import dev.the_fireplace.annotateddi.di.Implementation;
-import dev.the_fireplace.lib.api.chat.MessageQueue;
-import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
-import dev.the_fireplace.lib.api.util.EmptyUUID;
+import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
+import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
+import dev.the_fireplace.lib.api.uuid.lib.EmptyUUID;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 
