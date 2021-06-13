@@ -1,11 +1,12 @@
 package dev.the_fireplace.lib.api.storage.lazy;
 
+import dev.the_fireplace.annotateddi.AnnotatedDI;
 import dev.the_fireplace.lib.api.storage.access.SaveBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.utility.SaveTimer;
 
 public final class LazySavableInitializer {
-    private static final SaveTimer TIMER = SaveTimer.getInstance();
-    private static final SaveBasedStorageReader STORAGE_READER = SaveBasedStorageReader.getInstance();
+    private static final SaveTimer TIMER = AnnotatedDI.getInjector().getInstance(SaveTimer.class);
+    private static final SaveBasedStorageReader STORAGE_READER = AnnotatedDI.getInjector().getInstance(SaveBasedStorageReader.class);
 
     public static <T extends ThreadsafeLazySavable> T lazyInitialize(T savable, int saveIntervalInMinutes) {
         savable.load();

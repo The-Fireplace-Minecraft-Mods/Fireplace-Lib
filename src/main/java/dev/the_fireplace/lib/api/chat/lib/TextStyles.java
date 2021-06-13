@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.api.chat;
+package dev.the_fireplace.lib.api.chat.lib;
 
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;

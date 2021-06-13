@@ -1,19 +1,19 @@
 package dev.the_fireplace.lib.impl.io;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.io.DirectoryResolver;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.dimension.DimensionType;
 
+import javax.inject.Singleton;
 import java.io.File;
 import java.nio.file.Path;
 
+@Implementation
+@Singleton
 public final class Directories implements DirectoryResolver {
-    @Deprecated
-    public static final DirectoryResolver INSTANCE = new Directories();
-
-    private Directories(){}
 
     @Override
     public Path getSavePath() {

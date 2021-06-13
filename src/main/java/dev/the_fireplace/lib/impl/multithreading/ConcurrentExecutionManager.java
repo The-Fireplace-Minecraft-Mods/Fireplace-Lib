@@ -1,21 +1,23 @@
 package dev.the_fireplace.lib.impl.multithreading;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.multithreading.ExecutionManager;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import dev.the_fireplace.lib.impl.config.FLConfig;
 
+import javax.inject.Singleton;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+@Singleton
+@Implementation
 public final class ConcurrentExecutionManager implements ExecutionManager {
-    @Deprecated
-    public static final ExecutionManager INSTANCE = new ConcurrentExecutionManager();
     //Limit the number of active threads so we don't run the machine out of memory
     private ExecutorService essentialExecutorService = Executors.newFixedThreadPool(FLConfig.getData().getEssentialThreadPoolSize());
     private ExecutorService nonessentialExecutorService = Executors.newFixedThreadPool(FLConfig.getData().getNonEssentialThreadPoolSize());
 
-    private ConcurrentExecutionManager(){}
+    public ConcurrentExecutionManager() {}
 
     @Override
     public void run(Runnable runnable) {

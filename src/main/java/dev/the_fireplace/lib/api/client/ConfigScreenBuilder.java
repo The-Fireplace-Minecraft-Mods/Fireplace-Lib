@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.api.client;
 
-import dev.the_fireplace.lib.api.chat.Translator;
+import dev.the_fireplace.lib.api.chat.internal.Translator;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;

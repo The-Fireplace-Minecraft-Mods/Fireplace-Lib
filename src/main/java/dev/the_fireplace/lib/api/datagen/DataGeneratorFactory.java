@@ -1,17 +1,11 @@
 package dev.the_fireplace.lib.api.datagen;
 
-import dev.the_fireplace.lib.impl.datagen.DataGeneratorFactoryImpl;
 import net.minecraft.data.DataGenerator;
 
 import java.nio.file.Path;
 import java.util.Collection;
 
 public interface DataGeneratorFactory {
-    static DataGeneratorFactory getInstance() {
-        //noinspection deprecation
-        return DataGeneratorFactoryImpl.INSTANCE;
-    }
-
     /**
      * @see DataGeneratorFactory#createAdditive(Path, Collection)
      */

@@ -1,17 +1,17 @@
 package dev.the_fireplace.lib.impl.datagen;
 
+import dev.the_fireplace.annotateddi.di.Implementation;
 import dev.the_fireplace.lib.api.datagen.DataGeneratorFactory;
 import net.minecraft.data.DataGenerator;
 
+import javax.inject.Singleton;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 
+@Implementation
+@Singleton
 public final class DataGeneratorFactoryImpl implements DataGeneratorFactory {
-    @Deprecated
-    public static final DataGeneratorFactory INSTANCE = new DataGeneratorFactoryImpl();
-
-    private DataGeneratorFactoryImpl() {}
 
     @Override
     public DataGenerator createAdditive(Path outputDirectory) {
