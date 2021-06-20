@@ -1,12 +1,12 @@
 package dev.the_fireplace.lib.impl;
 
-import dev.the_fireplace.annotateddi.AnnotatedDI;
-import net.fabricmc.api.ModInitializer;
+import com.google.inject.Injector;
+import dev.the_fireplace.annotateddi.api.entrypoints.DIModInitializer;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class FireplaceLib implements ModInitializer {
+public final class FireplaceLib implements DIModInitializer {
     public static final String MODID = "fireplacelib";
 
     static MinecraftServer minecraftServer = null;
@@ -23,7 +23,7 @@ public final class FireplaceLib implements ModInitializer {
     }
 
     @Override
-    public void onInitialize() {
-        AnnotatedDI.getInjector().getInstance(FireplaceLibInitializer.class).init();
+    public void onInitialize(Injector container) {
+        container.getInstance(FireplaceLibInitializer.class).init();
     }
 }

@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;

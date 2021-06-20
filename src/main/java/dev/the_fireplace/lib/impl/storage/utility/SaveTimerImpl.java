@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.storage.utility;
 
 import com.google.common.collect.Sets;
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.api.storage.injectables.SaveTimer;
 import dev.the_fireplace.lib.impl.FireplaceLib;

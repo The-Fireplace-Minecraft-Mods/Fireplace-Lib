@@ -2,7 +2,7 @@ package dev.the_fireplace.lib.impl.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.client.lib.ConfigScreenBuilder;
 import dev.the_fireplace.lib.impl.FireplaceLib;
@@ -23,7 +23,7 @@ public final class FLModMenuIntegration extends ConfigScreenBuilder implements M
     private final FLConfig.Access configAccess = FLConfig.getData();
 
     public FLModMenuIntegration() {
-        super(AnnotatedDI.getInjector().getInstance(TranslatorFactory.class).getTranslator(FireplaceLib.MODID));
+        super(DIContainer.get().getInstance(TranslatorFactory.class).getTranslator(FireplaceLib.MODID));
     }
 
     @Override

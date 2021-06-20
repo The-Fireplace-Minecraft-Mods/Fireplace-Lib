@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.chat;
 
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;

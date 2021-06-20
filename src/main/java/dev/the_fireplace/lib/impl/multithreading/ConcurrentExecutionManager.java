@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.multithreading;
 
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import dev.the_fireplace.lib.impl.config.FLConfig;
