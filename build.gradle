@@ -30,7 +30,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
+	modApi "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
 	include "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
 
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
