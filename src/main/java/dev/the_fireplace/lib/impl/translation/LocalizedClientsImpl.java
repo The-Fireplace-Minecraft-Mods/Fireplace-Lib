@@ -2,6 +2,7 @@ package dev.the_fireplace.lib.impl.translation;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
+import dev.the_fireplace.lib.impl.domain.translation.LocalizedClients;
 import io.netty.util.internal.ConcurrentSet;
 
 import javax.inject.Inject;
