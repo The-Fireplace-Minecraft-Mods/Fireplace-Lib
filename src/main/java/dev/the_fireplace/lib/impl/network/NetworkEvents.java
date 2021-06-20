@@ -2,8 +2,8 @@ package dev.the_fireplace.lib.impl.network;
 
 import dev.the_fireplace.lib.api.network.injectables.ServerPacketReceiverRegistry;
 import dev.the_fireplace.lib.impl.FireplaceLib;
+import dev.the_fireplace.lib.impl.domain.translation.LocalizedClients;
 import dev.the_fireplace.lib.impl.network.server.ClientConnectedPacketReceiver;
-import dev.the_fireplace.lib.impl.translation.LocalizedClients;
 import net.minecraft.util.Identifier;
 
 import javax.inject.Singleton;
