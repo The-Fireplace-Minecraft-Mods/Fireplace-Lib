@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.network;
 
-import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import dev.the_fireplace.lib.impl.translation.LocalizedClients;
 import io.netty.buffer.Unpooled;
@@ -21,12 +21,12 @@ public class NetworkEvents {
             while (packetByteBuf.isReadable()) {
                 modids.add(packetByteBuf.readString(Short.MAX_VALUE));
             }
-            AnnotatedDI.getInjector().getInstance(LocalizedClients.class).addPlayer(player.getUuid(), modids);
+            DIContainer.get().getInstance(LocalizedClients.class).addPlayer(player.getUuid(), modids);
         });
     }
 
     public static void onDisconnected(UUID player) {
-        AnnotatedDI.getInjector().getInstance(LocalizedClients.class).removePlayer(player);
+        DIContainer.get().getInstance(LocalizedClients.class).removePlayer(player);
     }
 
     static PacketByteBuf createPacketBuffer(){

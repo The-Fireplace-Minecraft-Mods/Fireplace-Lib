@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.storage.utility;
 
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.storage.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.storage.interfaces.Reloadable;
 import io.netty.util.internal.ConcurrentSet;

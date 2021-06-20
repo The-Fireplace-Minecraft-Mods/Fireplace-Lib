@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.chat;
 
 import com.google.common.collect.Lists;
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;

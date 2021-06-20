@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.translation;
 
-import dev.the_fireplace.annotateddi.AnnotatedDI;
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.uuid.lib.EmptyUUID;
@@ -49,8 +49,8 @@ public final class TranslatorManager implements TranslatorFactory {
 
         private TranslatorImpl(String modid) {
             this.modid = modid;
-            this.localizedClients = AnnotatedDI.getInjector().getInstance(LocalizedClients.class);
-            this.i18n = AnnotatedDI.getInjector().getInstance(I18n.class);
+            this.localizedClients = DIContainer.get().getInstance(LocalizedClients.class);
+            this.i18n = DIContainer.get().getInstance(I18n.class);
         }
 
         @Override

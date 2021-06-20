@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.impl.di;
 
+import com.google.inject.AbstractModule;
 import dev.the_fireplace.lib.api.io.injectables.FilePathStorage;
 import dev.the_fireplace.lib.impl.io.LazyFilePathMemory;
-import dev.the_fireplace.shadowed.com.google.inject.AbstractModule;
 
 public final class FireplaceLibDI extends AbstractModule {
     @Override
