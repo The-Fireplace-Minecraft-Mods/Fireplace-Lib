@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.io;
 
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.client.injectables.FileDialogFactory;
 import dev.the_fireplace.lib.api.io.injectables.FilePathStorage;
 import net.fabricmc.api.EnvType;

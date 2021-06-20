@@ -8,7 +8,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
@@ -23,8 +23,8 @@ import net.minecraft.text.Text;
 import java.util.*;
 
 public final class HelpCommandImpl implements HelpCommand {
-    private final TextStyles textStyles = AnnotatedDI.getInjector().getInstance(TextStyles.class);
-    private final TextPaginator textPaginator = AnnotatedDI.getInjector().getInstance(TextPaginator.class);
+    private final TextStyles textStyles = DIContainer.get().getInstance(TextStyles.class);
+    private final TextPaginator textPaginator = DIContainer.get().getInstance(TextPaginator.class);
     private final Translator translator;
     private final String modid;
     private final LiteralArgumentBuilder<ServerCommandSource> helpCommandBase;
@@ -34,7 +34,7 @@ public final class HelpCommandImpl implements HelpCommand {
     HelpCommandImpl(String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
         this.modid = modid;
         this.helpCommandBase = helpCommandBase;
-        this.translator = AnnotatedDI.getInjector().getInstance(TranslatorManager.class).getTranslator(modid);
+        this.translator = DIContainer.get().getInstance(TranslatorManager.class).getTranslator(modid);
     }
 
     @Override

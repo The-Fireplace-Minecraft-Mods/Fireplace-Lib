@@ -1,14 +1,14 @@
 package dev.the_fireplace.lib.api.storage.lib;
 
-import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.storage.injectables.ConfigBasedStorageReader;
 import dev.the_fireplace.lib.api.storage.injectables.ConfigBasedStorageWriter;
 import dev.the_fireplace.lib.api.storage.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.storage.interfaces.Reloadable;
 
 public abstract class LazyConfig implements ConfigBasedSerializable, Reloadable {
-    private final ConfigBasedStorageReader configBasedStorageReader = AnnotatedDI.getInjector().getInstance(ConfigBasedStorageReader.class);
-    private final ConfigBasedStorageWriter configBasedStorageWriter = AnnotatedDI.getInjector().getInstance(ConfigBasedStorageWriter.class);
+    private final ConfigBasedStorageReader configBasedStorageReader = DIContainer.get().getInstance(ConfigBasedStorageReader.class);
+    private final ConfigBasedStorageWriter configBasedStorageWriter = DIContainer.get().getInstance(ConfigBasedStorageWriter.class);
 
     protected void load() {
         configBasedStorageReader.readTo(this);

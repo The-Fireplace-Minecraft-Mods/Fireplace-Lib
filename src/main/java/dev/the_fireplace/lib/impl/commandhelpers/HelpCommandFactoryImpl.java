@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.impl.commandhelpers;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.the_fireplace.annotateddi.di.Implementation;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.command.injectables.HelpCommandFactory;
 import dev.the_fireplace.lib.api.command.interfaces.HelpCommand;
 import net.minecraft.server.command.ServerCommandSource;

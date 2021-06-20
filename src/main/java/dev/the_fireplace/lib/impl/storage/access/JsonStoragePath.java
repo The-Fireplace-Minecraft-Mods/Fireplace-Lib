@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.storage.access;
 
-import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.api.storage.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.storage.interfaces.SaveBasedSerializable;
@@ -8,7 +8,7 @@ import dev.the_fireplace.lib.api.storage.interfaces.SaveBasedSerializable;
 import java.nio.file.Path;
 
 public final class JsonStoragePath {
-    private static final DirectoryResolver DIRECTORY_RESOLVER = AnnotatedDI.getInjector().getInstance(DirectoryResolver.class);
+    private static final DirectoryResolver DIRECTORY_RESOLVER = DIContainer.get().getInstance(DirectoryResolver.class);
     
     static Path resolveSaveBasedJsonFilePath(SaveBasedSerializable saveBasedSerializable) {
         return resolveSaveBasedJsonFilePath(saveBasedSerializable.getDatabase(), saveBasedSerializable.getTable(), saveBasedSerializable.getId());
