@@ -1,37 +1,51 @@
-package dev.the_fireplace.lib.api.client.lib;
+package dev.the_fireplace.lib.impl.config;
 
+import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
+import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
+import dev.the_fireplace.lib.impl.FireplaceLib;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 @SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "WeakerAccess", "unused", "unchecked"})
 @Environment(EnvType.CLIENT)
-public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
-    protected ConfigScreenBuilder(Translator translator) {
-        super(translator);
+public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
+    private final Translator translator;
+    private final ConfigEntryBuilder entryBuilder;
+    private ConfigCategory category;
+    protected ConfigScreenBuilderImpl(Translator translator, ConfigEntryBuilder entryBuilder, ConfigCategory initialCategory) {
+        this.translator = translator;
+        this.entryBuilder = entryBuilder;
+        this.category = initialCategory;
     }
 
-    protected ConfigCategory addStringField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder startCategory(ConfigCategory category) {
+        this.category = category;
+        return this;
+    }
+
+    @Override
+    public ConfigScreenBuilder addStringField(
         String optionTranslationBase,
         String currentValue,
         String defaultValue,
         Consumer<String> saveFunction
     ) {
-        return addStringField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addStringField(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addStringField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addStringField(
         String optionTranslationBase,
         String currentValue,
         String defaultValue,
@@ -42,12 +56,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected <T extends Enum<T>> ConfigCategory addEnumDropdown(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(
         String optionTranslationBase,
         T currentValue,
         T defaultValue,
@@ -55,8 +70,6 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         Consumer<T> saveFunction
     ) {
         return addEnumDropdown(
-            entryBuilder,
-            category,
             optionTranslationBase,
             currentValue,
             defaultValue,
@@ -66,9 +79,8 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         );
     }
 
-    protected <T extends Enum<T>> ConfigCategory addEnumDropdown(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(
         String optionTranslationBase,
         T currentValue,
         T defaultValue,
@@ -81,8 +93,6 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             stringEntries.add(entry.toString());
         }
         return addStringDropdown(
-            entryBuilder,
-            category,
             optionTranslationBase,
             currentValue.toString(),
             defaultValue.toString(),
@@ -93,9 +103,8 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         );
     }
 
-    protected ConfigCategory addStringDropdown(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addStringDropdown(
         String optionTranslationBase,
         String currentValue,
         String defaultValue,
@@ -103,12 +112,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         Consumer<String> saveFunction,
         boolean suggestionMode
     ) {
-        return addStringDropdown(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, dropdownEntries, saveFunction, suggestionMode, (byte)1);
+        return addStringDropdown(optionTranslationBase, currentValue, defaultValue, dropdownEntries, saveFunction, suggestionMode, (byte)1);
     }
 
-    protected ConfigCategory addStringDropdown(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addStringDropdown(
         String optionTranslationBase,
         String currentValue,
         String defaultValue,
@@ -122,23 +130,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setSaveConsumer(saveFunction)
             .setSelections(dropdownEntries);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addStringListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addStringListField(
         String optionTranslationBase,
         List<String> currentValue,
         List<String> defaultValue,
         Consumer<List<String>> saveFunction
     ) {
-        return addStringListField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addStringListField(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addStringListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addStringListField(
         String optionTranslationBase,
         List<String> currentValue,
         List<String> defaultValue,
@@ -149,23 +157,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addFloatField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatField(
         String optionTranslationBase,
         float currentValue,
         float defaultValue,
         Consumer<Float> saveFunction
     ) {
-        return addFloatField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, Float.MIN_VALUE, Float.MAX_VALUE);
+        return addFloatField(optionTranslationBase, currentValue, defaultValue, saveFunction, Float.MIN_VALUE, Float.MAX_VALUE);
     }
 
-    protected ConfigCategory addFloatField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatField(
         String optionTranslationBase,
         float currentValue,
         float defaultValue,
@@ -173,12 +181,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         float min,
         float max
     ) {
-        return addFloatField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addFloatField(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addFloatField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatField(
         String optionTranslationBase,
         float currentValue,
         float defaultValue,
@@ -193,12 +200,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addFloatSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatSlider(
         String optionTranslationBase,
         float currentValue,
         float defaultValue,
@@ -206,12 +214,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         float min,
         float max
     ) {
-        return addFloatSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addFloatSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addFloatSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatSlider(
         String optionTranslationBase,
         float currentValue,
         float defaultValue,
@@ -225,23 +232,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setTextGetter(value -> String.format("%.3f", value / 1000f))
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / 1000f));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addFloatListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatListField(
         String optionTranslationBase,
         List<Float> currentValue,
         List<Float> defaultValue,
         Consumer<List<Float>> saveFunction
     ) {
-        return addFloatListField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addFloatListField(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addFloatListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addFloatListField(
         String optionTranslationBase,
         List<Float> currentValue,
         List<Float> defaultValue,
@@ -252,23 +259,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addDoubleField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleField(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
         Consumer<Double> saveFunction
     ) {
-        return addDoubleField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, Double.MIN_VALUE, Double.MAX_VALUE);
+        return addDoubleField(optionTranslationBase, currentValue, defaultValue, saveFunction, Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
-    protected ConfigCategory addDoubleField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleField(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
@@ -276,12 +283,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         double min,
         double max
     ) {
-        return addDoubleField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addDoubleField(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addDoubleField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleField(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
@@ -296,12 +302,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addDoubleSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleSlider(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
@@ -309,12 +316,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         double min,
         double max
     ) {
-        return addDoubleSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addDoubleSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addDoubleSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleSlider(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
@@ -323,12 +329,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         double max,
         byte descriptionRowCount
     ) {
-        return addDoubleSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, descriptionRowCount, (byte)3);
+        return addDoubleSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, descriptionRowCount, (byte)3);
     }
 
-    protected ConfigCategory addDoubleSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleSlider(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
@@ -344,23 +349,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setTextGetter(value -> String.format("%." + precision + "f", value / (double)factor))
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addDoublePercentSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoublePercentSlider(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
         Consumer<Double> saveFunction
     ) {
-        return addDoublePercentSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1, (byte)1);
+        return addDoublePercentSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1, (byte)1);
     }
 
-    protected ConfigCategory addDoublePercentSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoublePercentSlider(
         String optionTranslationBase,
         double currentValue,
         double defaultValue,
@@ -374,23 +379,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setTextGetter(value -> String.format("%." + precision + "f", value / (double)factor) + "%")
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addDoubleListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleListField(
         String optionTranslationBase,
         List<Double> currentValue,
         List<Double> defaultValue,
         Consumer<List<Double>> saveFunction
     ) {
-        return addDoubleListField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addDoubleListField(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addDoubleListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addDoubleListField(
         String optionTranslationBase,
         List<Double> currentValue,
         List<Double> defaultValue,
@@ -401,23 +406,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addLongField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongField(
         String optionTranslationBase,
         long currentValue,
         long defaultValue,
         Consumer<Long> saveFunction
     ) {
-        return addLongField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, Long.MIN_VALUE, Long.MAX_VALUE);
+        return addLongField(optionTranslationBase, currentValue, defaultValue, saveFunction, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    protected ConfigCategory addLongField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongField(
         String optionTranslationBase,
         long currentValue,
         long defaultValue,
@@ -425,12 +430,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         long min,
         long max
     ) {
-        return addLongField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addLongField(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addLongField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongField(
         String optionTranslationBase,
         long currentValue,
         long defaultValue,
@@ -445,12 +449,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addLongSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongSlider(
         String optionTranslationBase,
         long currentValue,
         long defaultValue,
@@ -458,12 +463,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         long min,
         long max
     ) {
-        return addLongSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addLongSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addLongSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongSlider(
         String optionTranslationBase,
         long currentValue,
         long defaultValue,
@@ -476,23 +480,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addLongListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongListField(
         String optionTranslationBase,
         List<Long> currentValue,
         List<Long> defaultValue,
         Consumer<List<Long>> saveFunction
     ) {
-        return addLongListField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addLongListField(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addLongListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addLongListField(
         String optionTranslationBase,
         List<Long> currentValue,
         List<Long> defaultValue,
@@ -503,23 +507,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addIntField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntField(
         String optionTranslationBase,
         int currentValue,
         int defaultValue,
         Consumer<Integer> saveFunction
     ) {
-        return addIntField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return addIntField(optionTranslationBase, currentValue, defaultValue, saveFunction, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    protected ConfigCategory addIntField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntField(
         String optionTranslationBase,
         int currentValue,
         int defaultValue,
@@ -527,12 +531,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         int min,
         int max
     ) {
-        return addIntField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addIntField(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addIntField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntField(
         String optionTranslationBase,
         int currentValue,
         int defaultValue,
@@ -547,12 +550,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addIntSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntSlider(
         String optionTranslationBase,
         int currentValue,
         int defaultValue,
@@ -560,12 +564,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         int min,
         int max
     ) {
-        return addIntSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addIntSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addIntSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntSlider(
         String optionTranslationBase,
         int currentValue,
         int defaultValue,
@@ -578,23 +581,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addIntListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntListField(
         String optionTranslationBase,
         List<Integer> currentValue,
         List<Integer> defaultValue,
         Consumer<List<Integer>> saveFunction
     ) {
-        return addIntListField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addIntListField(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addIntListField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addIntListField(
         String optionTranslationBase,
         List<Integer> currentValue,
         List<Integer> defaultValue,
@@ -605,23 +608,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addShortField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addShortField(
         String optionTranslationBase,
         short currentValue,
         short defaultValue,
         Consumer<Short> saveFunction
     ) {
-        return addShortField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, Short.MIN_VALUE, Short.MAX_VALUE);
+        return addShortField(optionTranslationBase, currentValue, defaultValue, saveFunction, Short.MIN_VALUE, Short.MAX_VALUE);
     }
 
-    protected ConfigCategory addShortField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addShortField(
         String optionTranslationBase,
         short currentValue,
         short defaultValue,
@@ -629,12 +632,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         short min,
         short max
     ) {
-        return addShortField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addShortField(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addShortField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addShortField(
         String optionTranslationBase,
         short currentValue,
         short defaultValue,
@@ -649,12 +651,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setMax(max)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addShortSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addShortSlider(
         String optionTranslationBase,
         short currentValue,
         short defaultValue,
@@ -662,12 +665,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         short min,
         short max
     ) {
-        return addShortSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addShortSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addShortSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addShortSlider(
         String optionTranslationBase,
         short currentValue,
         short defaultValue,
@@ -680,23 +682,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addByteField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addByteField(
         String optionTranslationBase,
         byte currentValue,
         byte defaultValue,
         Consumer<Byte> saveFunction
     ) {
-        return addByteField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, Byte.MIN_VALUE, Byte.MAX_VALUE);
+        return addByteField(optionTranslationBase, currentValue, defaultValue, saveFunction, Byte.MIN_VALUE, Byte.MAX_VALUE);
     }
 
-    protected ConfigCategory addByteField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addByteField(
         String optionTranslationBase,
         byte currentValue,
         byte defaultValue,
@@ -704,12 +706,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         byte min,
         byte max
     ) {
-        return addByteField(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addByteField(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addByteField(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addByteField(
         String optionTranslationBase,
         byte currentValue,
         byte defaultValue,
@@ -724,12 +725,13 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setMax(max)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addByteSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addByteSlider(
         String optionTranslationBase,
         byte currentValue,
         byte defaultValue,
@@ -737,12 +739,11 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
         byte min,
         byte max
     ) {
-        return addByteSlider(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
+        return addByteSlider(optionTranslationBase, currentValue, defaultValue, saveFunction, min, max, (byte)1);
     }
 
-    protected ConfigCategory addByteSlider(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addByteSlider(
         String optionTranslationBase,
         byte currentValue,
         byte defaultValue,
@@ -755,23 +756,23 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
     }
 
-    protected ConfigCategory addBoolToggle(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addBoolToggle(
         String optionTranslationBase,
         boolean currentValue,
         boolean defaultValue,
         Consumer<Boolean> saveFunction
     ) {
-        return addBoolToggle(entryBuilder, category, optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
+        return addBoolToggle(optionTranslationBase, currentValue, defaultValue, saveFunction, (byte)1);
     }
 
-    protected ConfigCategory addBoolToggle(
-        ConfigEntryBuilder entryBuilder,
-        ConfigCategory category,
+    @Override
+    public ConfigScreenBuilder addBoolToggle(
         String optionTranslationBase,
         boolean currentValue,
         boolean defaultValue,
@@ -782,6 +783,32 @@ public abstract class ConfigScreenBuilder extends ConfigScreenBuilderBase {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        return category.addEntry(builder.build());
+        category.addEntry(builder.build());
+        
+        return this;
+    }
+
+    private void attachDescription(String optionTranslationBase, byte descriptionRowCount, FieldBuilder<?, ?> builder) {
+        if (descriptionRowCount <= 0) {
+            return;
+        }
+        try {
+            Method setTooltip = builder.getClass().getMethod("setTooltip", Text[].class);
+            if (descriptionRowCount == 1) {
+                setTooltip.invoke(builder, (Object) new Text[]{translator.getTranslatedText(optionTranslationBase + ".desc")});
+            } else {
+                setTooltip.invoke(builder, (Object) genDescriptionTranslatables(optionTranslationBase + ".desc", descriptionRowCount));
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            FireplaceLib.getLogger().error("Unable to set tooltip for field builder of type " + builder.getClass().toString(), e);
+        }
+    }
+
+    private Text[] genDescriptionTranslatables(String baseKey, int count) {
+        List<Text> texts = Lists.newArrayList();
+        for (int i = 0; i < count; i++) {
+            texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
+        }
+        return texts.toArray(new Text[0]);
     }
 }
