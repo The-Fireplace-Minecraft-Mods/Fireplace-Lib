@@ -6,6 +6,7 @@ import dev.the_fireplace.lib.impl.domain.translation.LocalizedClients;
 import dev.the_fireplace.lib.impl.network.server.ClientConnectedPacketReceiver;
 import net.minecraft.util.Identifier;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public final class NetworkEvents {
     private final ClientConnectedPacketReceiver clientConnectedPacketReceiver;
     private final LocalizedClients localizedClients;
 
+    @Inject
     public NetworkEvents(
         ServerPacketReceiverRegistry registry,
         ClientConnectedPacketReceiver clientConnectedPacketReceiver,
