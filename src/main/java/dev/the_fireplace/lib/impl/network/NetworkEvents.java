@@ -1,35 +1,37 @@
 package dev.the_fireplace.lib.impl.network;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.api.network.injectables.ServerPacketReceiverRegistry;
 import dev.the_fireplace.lib.impl.FireplaceLib;
+import dev.the_fireplace.lib.impl.network.server.ClientConnectedPacketReceiver;
 import dev.the_fireplace.lib.impl.translation.LocalizedClients;
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.inject.Singleton;
 import java.util.UUID;
 
-public class NetworkEvents {
-    static final Identifier CLIENT_CONNECTED_CHANNEL_NAME = new Identifier(FireplaceLib.MODID, "client_connected");
-    
-    public static void init() {
-        ServerPlayNetworking.registerGlobalReceiver(CLIENT_CONNECTED_CHANNEL_NAME, (server, player, networkHandler, packetByteBuf, packetSender) -> {
-            Set<String> modids = new HashSet<>();
-            while (packetByteBuf.isReadable()) {
-                modids.add(packetByteBuf.readString(Short.MAX_VALUE));
-            }
-            DIContainer.get().getInstance(LocalizedClients.class).addPlayer(player.getUuid(), modids);
-        });
+@Singleton
+public final class NetworkEvents {
+    public static final Identifier CLIENT_CONNECTED_CHANNEL_NAME = new Identifier(FireplaceLib.MODID, "client_connected");
+
+    private final ServerPacketReceiverRegistry registry;
+    private final ClientConnectedPacketReceiver clientConnectedPacketReceiver;
+    private final LocalizedClients localizedClients;
+
+    public NetworkEvents(
+        ServerPacketReceiverRegistry registry,
+        ClientConnectedPacketReceiver clientConnectedPacketReceiver,
+        LocalizedClients localizedClients
+    ) {
+        this.registry = registry;
+        this.clientConnectedPacketReceiver = clientConnectedPacketReceiver;
+        this.localizedClients = localizedClients;
     }
 
-    public static void onDisconnected(UUID player) {
-        DIContainer.get().getInstance(LocalizedClients.class).removePlayer(player);
+    public void init() {
+        registry.register(clientConnectedPacketReceiver);
     }
 
-    static PacketByteBuf createPacketBuffer(){
-        return new PacketByteBuf(Unpooled.buffer());
+    public void onDisconnected(UUID player) {
+        localizedClients.removePlayer(player);
     }
 }
