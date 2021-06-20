@@ -19,13 +19,13 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "di-main": [
       "dev.the_fireplace.lib.impl.FireplaceLib"
     ],
     "client": [
       "dev.the_fireplace.lib.impl.FireplaceLibClient"
     ],
-    "di": [
+    "di-module": [
       "dev.the_fireplace.lib.impl.di.DIEntrypoint"
     ],
     "modmenu": [
@@ -39,7 +39,8 @@
   "depends": {
     "fabricloader": ">=0.7.2",
     "fabric": "*",
-    "minecraft": ">=1.17"
+    "minecraft": ">=1.17",
+    "annotateddi": ">=1.0.1 <2"
   },
 
   "suggests": {

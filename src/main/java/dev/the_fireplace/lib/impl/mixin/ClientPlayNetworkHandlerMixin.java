@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.impl.mixin;
 
-import dev.the_fireplace.annotateddi.AnnotatedDI;
+import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.impl.network.ClientNetworkEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -17,6 +17,6 @@ public class ClientPlayNetworkHandlerMixin {
 
     @Inject(at = @At("RETURN"), method = "onGameJoin")
     public void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
-        AnnotatedDI.getInjector().getInstance(ClientNetworkEvents.class).onConnectToServer();
+        DIContainer.get().getInstance(ClientNetworkEvents.class).onConnectToServer();
     }
 }
