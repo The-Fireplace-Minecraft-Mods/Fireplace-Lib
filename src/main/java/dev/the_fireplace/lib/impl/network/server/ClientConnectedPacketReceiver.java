@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.impl.network.server;
 
 import dev.the_fireplace.lib.api.network.interfaces.ServerPacketReceiver;
+import dev.the_fireplace.lib.impl.domain.translation.LocalizedClients;
 import dev.the_fireplace.lib.impl.network.NetworkEvents;
-import dev.the_fireplace.lib.impl.translation.LocalizedClients;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;

@@ -5,6 +5,7 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.uuid.lib.EmptyUUID;
+import dev.the_fireplace.lib.impl.domain.translation.LocalizedClients;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;

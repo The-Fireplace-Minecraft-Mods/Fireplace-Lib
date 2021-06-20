@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.impl.translation;
+package dev.the_fireplace.lib.impl.domain.translation;
 
 import java.util.Collection;
 import java.util.UUID;
