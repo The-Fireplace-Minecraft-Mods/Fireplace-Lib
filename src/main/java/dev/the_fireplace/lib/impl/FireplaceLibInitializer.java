@@ -48,7 +48,7 @@ public final class FireplaceLibInitializer {
             try {
                 executionManager.waitForCompletion();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                FireplaceLib.getLogger().error("Interrupted while trying to wait for execution manager to complete.", e);
             }
         });
     }
