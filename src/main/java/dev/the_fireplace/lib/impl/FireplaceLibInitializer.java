@@ -17,23 +17,26 @@ public final class FireplaceLibInitializer {
     private final ExecutionManager executionManager;
     private final FLCommands fireplaceLibCommands;
     private final SaveTimer saveTimer;
+    private final NetworkEvents networkEvents;
 
     @Inject
     public FireplaceLibInitializer(
         TranslatorFactory translatorFactory,
         ExecutionManager executionManager,
         FLCommands fireplaceLibCommands,
-        SaveTimer saveTimer
+        SaveTimer saveTimer,
+        NetworkEvents networkEvents
     ) {
         this.translatorFactory = translatorFactory;
         this.executionManager = executionManager;
         this.fireplaceLibCommands = fireplaceLibCommands;
         this.saveTimer = saveTimer;
+        this.networkEvents = networkEvents;
     }
 
     void init() {
         translatorFactory.addTranslator(FireplaceLib.MODID);
-        NetworkEvents.init();
+        networkEvents.init();
         ServerLifecycleEvents.SERVER_STARTING.register(s -> {
             FireplaceLib.minecraftServer = s;
             executionManager.startExecutors();
