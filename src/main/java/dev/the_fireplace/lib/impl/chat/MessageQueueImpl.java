@@ -3,7 +3,7 @@ package dev.the_fireplace.lib.impl.chat;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
-import dev.the_fireplace.lib.api.uuid.lib.EmptyUUID;
+import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 
@@ -23,10 +23,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class MessageQueueImpl implements MessageQueue {
     private final Map<CommandOutput, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
     private final ExecutionManager executionManager;
+    private final EmptyUUID emptyUUID;
 
     @Inject
-    private MessageQueueImpl(ExecutionManager executionManager) {
+    private MessageQueueImpl(ExecutionManager executionManager, EmptyUUID emptyUUID) {
         this.executionManager = executionManager;
+        this.emptyUUID = emptyUUID;
     }
 
     private TargetMessageQueue getOrCreateQueue(CommandOutput messageTarget) {
@@ -58,7 +60,7 @@ public final class MessageQueueImpl implements MessageQueue {
         private synchronized void sendMessages() {
             sendingMessages.set(true);
             while (!messages.isEmpty()) {
-                messageTarget.sendSystemMessage(messages.remove(), EmptyUUID.EMPTY_UUID);
+                messageTarget.sendSystemMessage(messages.remove(), emptyUUID.get());
             }
             sendingMessages.set(false);
         }
