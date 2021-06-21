@@ -5,6 +5,7 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
+import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import io.github.prospector.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
@@ -25,12 +26,13 @@ public final class FLModMenuIntegration implements ModMenuApi {
     private final FLConfig.Access configAccess = FLConfig.getData();
 
     private final Translator translator;
+private final ConfigStateManager configStateManager;
 
     private ConfigScreenBuilder configScreenBuilder;
 
     public FLModMenuIntegration() {
         this.translator = DIContainer.get().getInstance(TranslatorFactory.class).getTranslator(FireplaceLib.MODID);
-
+        this.configStateManager = DIContainer.get().getInstance(ConfigStateManager.class);
     }
 
     @Override
@@ -47,7 +49,7 @@ public final class FLModMenuIntegration implements ModMenuApi {
 
             buildConfigCategories(builder);
 
-            builder.setSavingRunnable(() -> FLConfig.getInstance().save());
+            builder.setSavingRunnable(() -> configStateManager.save(FLConfig.getInstance()));
             return builder.build();
         };
     }
