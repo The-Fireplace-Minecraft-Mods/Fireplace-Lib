@@ -22,10 +22,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class MessageQueueImpl implements MessageQueue {
     private final Map<CommandOutput, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
     private final ExecutionManager executionManager;
+    private final EmptyUUID emptyUUID;
 
     @Inject
-    private MessageQueueImpl(ExecutionManager executionManager) {
+    private MessageQueueImpl(ExecutionManager executionManager, EmptyUUID emptyUUID) {
         this.executionManager = executionManager;
+        this.emptyUUID = emptyUUID;
     }
 
     private TargetMessageQueue getOrCreateQueue(CommandOutput messageTarget) {
