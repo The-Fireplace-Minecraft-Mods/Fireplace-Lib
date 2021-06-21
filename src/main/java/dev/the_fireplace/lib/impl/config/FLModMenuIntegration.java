@@ -30,7 +30,6 @@ public final class FLModMenuIntegration implements ModMenuApi {
 
     public FLModMenuIntegration() {
         this.translator = DIContainer.get().getInstance(TranslatorFactory.class).getTranslator(FireplaceLib.MODID);
-        
     }
 
     @Override
