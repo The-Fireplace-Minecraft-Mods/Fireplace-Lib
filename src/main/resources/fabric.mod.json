@@ -25,9 +25,6 @@
     "client": [
       "dev.the_fireplace.lib.impl.FireplaceLibClient"
     ],
-    "di-module": [
-      "dev.the_fireplace.lib.impl.di.DIEntrypoint"
-    ],
     "modmenu": [
       "dev.the_fireplace.lib.impl.config.FLModMenuIntegration"
     ]
