@@ -9,7 +9,7 @@ import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;
 import dev.the_fireplace.lib.api.command.injectables.Requirements;
 import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.api.command.interfaces.RegisterableCommand;
-import dev.the_fireplace.lib.api.storage.injectables.ReloadableManager;
+import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
