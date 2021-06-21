@@ -4,7 +4,7 @@ import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
-import dev.the_fireplace.lib.api.uuid.lib.EmptyUUID;
+import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import dev.the_fireplace.lib.impl.domain.translation.LocalizedClients;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandOutput;
@@ -15,6 +15,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 import javax.annotation.concurrent.ThreadSafe;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Map;
@@ -26,6 +27,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Implementation
 public final class TranslatorManager implements TranslatorFactory {
     private final Map<String, Translator> TRANSLATION_SERVICES = new ConcurrentHashMap<>();
+    private final EmptyUUID emptyUUID;
+
+    @Inject
+    public TranslatorManager(EmptyUUID emptyUUID) {
+        this.emptyUUID = emptyUUID;
+    }
 
     @Override
     public void addTranslator(String modid) {
@@ -43,7 +50,7 @@ public final class TranslatorManager implements TranslatorFactory {
     }
 
     @ThreadSafe
-    private static class TranslatorImpl implements Translator {
+    private class TranslatorImpl implements Translator {
         private final String modid;
         private final LocalizedClients localizedClients;
         private final I18n i18n;
@@ -112,11 +119,11 @@ public final class TranslatorManager implements TranslatorFactory {
         }
 
         protected UUID getTargetId(ServerCommandSource commandSource) {
-            return commandSource.getEntity() instanceof ServerPlayerEntity ? commandSource.getEntity().getUuid() : EmptyUUID.EMPTY_UUID;
+            return commandSource.getEntity() instanceof ServerPlayerEntity ? commandSource.getEntity().getUuid() : emptyUUID.get();
         }
 
         protected UUID getTargetId(CommandOutput commandOutput) {
-            return commandOutput instanceof ServerPlayerEntity ? ((Entity) commandOutput).getUuid() : EmptyUUID.EMPTY_UUID;
+            return commandOutput instanceof ServerPlayerEntity ? ((Entity) commandOutput).getUuid() : emptyUUID.get();
         }
     }
 }
