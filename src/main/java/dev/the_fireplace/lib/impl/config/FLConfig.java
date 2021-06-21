@@ -1,13 +1,14 @@
 package dev.the_fireplace.lib.impl.config;
 
-import dev.the_fireplace.lib.api.storage.interfaces.access.StorageReadBuffer;
-import dev.the_fireplace.lib.api.storage.interfaces.access.StorageWriteBuffer;
-import dev.the_fireplace.lib.api.storage.lib.LazyConfig;
-import dev.the_fireplace.lib.api.storage.lib.LazyConfigInitializer;
+import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
+import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
+import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
+import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
 import dev.the_fireplace.lib.impl.FireplaceLib;
 
-public final class FLConfig extends LazyConfig {
-    private static final FLConfig INSTANCE = LazyConfigInitializer.lazyInitialize(new FLConfig());
+public final class FLConfig implements Config {
+    private static final FLConfig INSTANCE = DIContainer.get().getInstance(ConfigStateManager.class).initialize(new FLConfig());
     private static final FLConfig DEFAULT_INSTANCE = new FLConfig();
     private final Access access = new Access();
 
