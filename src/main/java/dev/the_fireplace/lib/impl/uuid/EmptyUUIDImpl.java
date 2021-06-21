@@ -1,9 +1,11 @@
 package dev.the_fireplace.lib.impl.uuid;
 
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 
 import java.util.UUID;
 
+@Implementation
 public final class EmptyUUIDImpl implements EmptyUUID {
     private static final UUID EMPTY_UUID = new UUID(0, 0);
 
