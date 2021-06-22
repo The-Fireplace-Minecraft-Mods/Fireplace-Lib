@@ -1,11 +1,13 @@
 package dev.the_fireplace.lib.impl.translation.proxy;
 
+import dev.the_fireplace.annotateddi.api.DIContainer;
+
 public abstract class LocaleProxy {
     private static LocaleProxy instance = null;
     public static LocaleProxy getInstance() {
         LocaleProxy inst = instance;
         if (inst == null) {
-            instance = new ServerLocaleProxy();
+            instance = DIContainer.get().getInstance(ServerLocaleProxy.class);
         }
 
         return instance;

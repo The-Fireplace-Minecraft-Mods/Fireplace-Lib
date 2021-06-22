@@ -7,6 +7,7 @@ import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.impl.FireplaceLib;
+import dev.the_fireplace.lib.impl.domain.config.ConfigValues;
 import io.github.prospector.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -15,24 +16,35 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
+@Singleton
 public final class FLModMenuIntegration implements ModMenuApi {
     private static final String TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".";
     private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".option.";
 
-    private final FLConfig.Access defaultData = FLConfig.getDefaultData();
-    private final FLConfig.Access configAccess = FLConfig.getData();
-
     private final Translator translator;
 private final ConfigStateManager configStateManager;
-
+private final FLConfig config;
+    private final ConfigValues defaultConfigValues;
+    
     private ConfigScreenBuilder configScreenBuilder;
 
-    public FLModMenuIntegration() {
-        this.translator = DIContainer.get().getInstance(TranslatorFactory.class).getTranslator(FireplaceLib.MODID);
+    @Inject
+    public FLModMenuIntegration(
+        TranslatorFactory translatorFactory,
+        ConfigStateManager configStateManager,
+        FLConfig config,
+        @Named("default") ConfigValues defaultConfigValues
+    ) {
+        this.translator = translatorFactory.getTranslator(FireplaceLib.MODID);
         this.configStateManager = DIContainer.get().getInstance(ConfigStateManager.class);
+        this.config = config;
+        this.defaultConfigValues = defaultConfigValues;
     }
 
     @Override
@@ -49,7 +61,8 @@ private final ConfigStateManager configStateManager;
 
             buildConfigCategories(builder);
 
-            builder.setSavingRunnable(() -> configStateManager.save(FLConfig.getInstance()));
+            builder.setSavingRunnable(() -> configStateManager.save(config));
+
             return builder.build();
         };
     }
@@ -65,23 +78,23 @@ private final ConfigStateManager configStateManager;
     private void addGlobalCategoryEntries() {
         configScreenBuilder.addStringField(
             OPTION_TRANSLATION_BASE + "locale",
-            configAccess.getLocale(),
-            defaultData.getLocale(),
-            configAccess::setLocale
+            config.getLocale(),
+            defaultConfigValues.getLocale(),
+            config::setLocale
         );
         configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "essentialThreadPoolSize",
-            configAccess.getEssentialThreadPoolSize(),
-            defaultData.getEssentialThreadPoolSize(),
-            configAccess::setEssentialThreadPoolSize,
+            config.getEssentialThreadPoolSize(),
+            defaultConfigValues.getEssentialThreadPoolSize(),
+            config::setEssentialThreadPoolSize,
             (short) 1,
             Short.MAX_VALUE
         );
         configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "nonEssentialThreadPoolSize",
-            configAccess.getNonEssentialThreadPoolSize(),
-            defaultData.getNonEssentialThreadPoolSize(),
-            configAccess::setNonEssentialThreadPoolSize,
+            config.getNonEssentialThreadPoolSize(),
+            defaultConfigValues.getNonEssentialThreadPoolSize(),
+            config::setNonEssentialThreadPoolSize,
             (short) 1,
             Short.MAX_VALUE
         );
