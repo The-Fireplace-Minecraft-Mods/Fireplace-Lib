@@ -1,39 +1,37 @@
 package dev.the_fireplace.lib.impl.config;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
 import dev.the_fireplace.lib.impl.FireplaceLib;
+import dev.the_fireplace.lib.impl.domain.config.ConfigValues;
 
-public final class FLConfig implements Config {
-    private static final FLConfig INSTANCE = DIContainer.get().getInstance(ConfigStateManager.class).initialize(new FLConfig());
-    private static final FLConfig DEFAULT_INSTANCE = new FLConfig();
-    private final Access access = new Access();
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
-    public static FLConfig getInstance() {
-        return INSTANCE;
+@Implementation({ConfigValues.class})
+@Singleton
+public final class FLConfig implements Config, ConfigValues {
+    private final ConfigValues defaultConfig;
+
+    private String locale;
+    private short essentialThreadPoolSize;
+    private short nonEssentialThreadPoolSize;
+
+    @Inject
+    public FLConfig(ConfigStateManager configStateManager, @Named("default") ConfigValues defaultConfig) {
+        this.defaultConfig = defaultConfig;
+        configStateManager.initialize(this);
     }
-    public static Access getData() {
-        return INSTANCE.access;
-    }
-    static Access getDefaultData() {
-        return DEFAULT_INSTANCE.access;
-    }
-
-    private FLConfig() {}
-
-    private String locale = "en_us";
-
-    private short essentialThreadPoolSize = 256;
-    private short nonEssentialThreadPoolSize = 128;
 
     @Override
     public void readFrom(StorageReadBuffer buffer) {
-        locale = buffer.readString("locale", locale);
-        essentialThreadPoolSize = buffer.readShort("essentialThreadPoolSize", essentialThreadPoolSize);
-        nonEssentialThreadPoolSize = buffer.readShort("nonEssentialThreadPoolSize", nonEssentialThreadPoolSize);
+        locale = buffer.readString("locale", defaultConfig.getLocale());
+        essentialThreadPoolSize = buffer.readShort("essentialThreadPoolSize", defaultConfig.getEssentialThreadPoolSize());
+        nonEssentialThreadPoolSize = buffer.readShort("nonEssentialThreadPoolSize", defaultConfig.getNonEssentialThreadPoolSize());
     }
 
     @Override
@@ -48,31 +46,33 @@ public final class FLConfig implements Config {
         return FireplaceLib.MODID;
     }
 
-    public final class Access {
-        private Access(){}
-        public String getLocale() {
-            return locale;
-        }
+    @Override
+    public String getLocale() {
+        return locale;
+    }
 
-        public short getEssentialThreadPoolSize() {
-            return essentialThreadPoolSize;
-        }
+    @Override
+    public short getEssentialThreadPoolSize() {
+        return essentialThreadPoolSize;
+    }
 
-        public short getNonEssentialThreadPoolSize() {
-            return nonEssentialThreadPoolSize;
-        }
+    @Override
+    public short getNonEssentialThreadPoolSize() {
+        return nonEssentialThreadPoolSize;
+    }
 
+    @Override
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 
-        public void setLocale(String locale) {
-            FLConfig.this.locale = locale;
-        }
+    @Override
+    public void setEssentialThreadPoolSize(short essentialThreadPoolSize) {
+        this.essentialThreadPoolSize = essentialThreadPoolSize;
+    }
 
-        public void setEssentialThreadPoolSize(short essentialThreadPoolSize) {
-            FLConfig.this.essentialThreadPoolSize = essentialThreadPoolSize;
-        }
-
-        public void setNonEssentialThreadPoolSize(short nonEssentialThreadPoolSize) {
-            FLConfig.this.nonEssentialThreadPoolSize = nonEssentialThreadPoolSize;
-        }
+    @Override
+    public void setNonEssentialThreadPoolSize(short nonEssentialThreadPoolSize) {
+        this.nonEssentialThreadPoolSize = nonEssentialThreadPoolSize;
     }
 }

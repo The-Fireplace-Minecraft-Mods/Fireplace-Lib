@@ -26,7 +26,7 @@
       "dev.the_fireplace.lib.impl.FireplaceLibClient"
     ],
     "modmenu": [
-      "dev.the_fireplace.lib.impl.config.FLModMenuIntegration"
+      "dev.the_fireplace.lib.impl.thirdpartyentrypoints.ModMenuEntrypoint"
     ]
   },
   "mixins": [
@@ -37,7 +37,7 @@
     "fabricloader": ">=0.7.2",
     "fabric": "*",
     "minecraft": ">=1.17",
-    "annotateddi": ">=1.0.1 <2"
+    "annotateddi": ">=1.0.2 <2"
   },
 
   "suggests": {
