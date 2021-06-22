@@ -20,13 +20,13 @@
   "environment": "*",
   "entrypoints": {
     "di-main": [
-      "dev.the_fireplace.lib.impl.FireplaceLib"
+      "dev.the_fireplace.lib.FireplaceLib"
     ],
     "client": [
-      "dev.the_fireplace.lib.impl.FireplaceLibClient"
+      "dev.the_fireplace.lib.FireplaceLibClient"
     ],
     "modmenu": [
-      "dev.the_fireplace.lib.impl.thirdpartyentrypoints.ModMenuEntrypoint"
+      "dev.the_fireplace.lib.thirdpartyentrypoints.ModMenuEntrypoint"
     ]
   },
   "mixins": [
