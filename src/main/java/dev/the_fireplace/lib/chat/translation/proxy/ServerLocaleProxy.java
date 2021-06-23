@@ -1,7 +1,8 @@
-package dev.the_fireplace.lib.translation.proxy;
+package dev.the_fireplace.lib.chat.translation.proxy;
 
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
@@ -9,6 +10,7 @@ public class ServerLocaleProxy extends LocaleProxy {
 
     private final ConfigValues values;
 
+    @Inject
     public ServerLocaleProxy(ConfigValues values) {
         this.values = values;
     }

@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.translation;
+package dev.the_fireplace.lib.chat.translation;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -45,6 +45,7 @@ final class LanguageMap {
             FireplaceLib.getLogger().error("Invalid locale: {}, defaulting to en_us.", locale);
             inputstream = LanguageMap.class.getResourceAsStream(langDir + "en_us.json");
         }
+        assert inputstream != null;
         JsonElement jsonelement = (new Gson()).fromJson(new InputStreamReader(inputstream, StandardCharsets.UTF_8), JsonElement.class);
         inputstream.close();
         return jsonelement;

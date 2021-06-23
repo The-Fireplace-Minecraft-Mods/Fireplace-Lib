@@ -13,7 +13,7 @@ import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.interfaces.HelpCommand;
-import dev.the_fireplace.lib.translation.TranslatorManager;
+import dev.the_fireplace.lib.chat.translation.TranslatorManager;
 import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.server.command.CommandManager;

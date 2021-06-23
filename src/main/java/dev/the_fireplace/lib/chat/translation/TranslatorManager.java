@@ -1,6 +1,5 @@
-package dev.the_fireplace.lib.translation;
+package dev.the_fireplace.lib.chat.translation;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
@@ -19,20 +18,28 @@ import javax.annotation.concurrent.ThreadSafe;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @ThreadSafe
 @Singleton
 @Implementation
 public final class TranslatorManager implements TranslatorFactory {
-    private final Map<String, Translator> TRANSLATION_SERVICES = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Translator> TRANSLATION_SERVICES = new ConcurrentHashMap<>();
     private final EmptyUUID emptyUUID;
+    private final LocalizedClients localizedClients;
+    private final I18n i18n;
 
     @Inject
-    public TranslatorManager(EmptyUUID emptyUUID) {
+    public TranslatorManager(
+        EmptyUUID emptyUUID,
+        LocalizedClients localizedClients,
+        I18n i18n
+    ) {
         this.emptyUUID = emptyUUID;
+        this.localizedClients = localizedClients;
+        this.i18n = i18n;
     }
 
     @Override
@@ -53,13 +60,9 @@ public final class TranslatorManager implements TranslatorFactory {
     @ThreadSafe
     private class TranslatorImpl implements Translator {
         private final String modid;
-        private final LocalizedClients localizedClients;
-        private final I18n i18n;
 
         private TranslatorImpl(String modid) {
             this.modid = modid;
-            this.localizedClients = DIContainer.get().getInstance(LocalizedClients.class);
-            this.i18n = DIContainer.get().getInstance(I18n.class);
         }
 
         @Override
