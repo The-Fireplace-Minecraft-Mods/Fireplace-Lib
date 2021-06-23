@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.translation;
+package dev.the_fireplace.lib.chat.translation;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
