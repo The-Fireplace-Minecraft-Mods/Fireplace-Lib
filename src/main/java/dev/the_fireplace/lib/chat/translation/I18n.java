@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.translation;
+package dev.the_fireplace.lib.chat.translation;
 
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.api.io.injectables.JarFileWalker;
