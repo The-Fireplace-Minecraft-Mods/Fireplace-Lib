@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.translation.proxy;
+package dev.the_fireplace.lib.chat.translation.proxy;
 
 import dev.the_fireplace.annotateddi.api.DIContainer;
 
