@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.commandhelpers;
+package dev.the_fireplace.lib.command.helpers;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.command.injectables.Requirements;

@@ -3,7 +3,7 @@ package dev.the_fireplace.lib.init;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
-import dev.the_fireplace.lib.commands.FLCommands;
+import dev.the_fireplace.lib.command.FLCommands;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
