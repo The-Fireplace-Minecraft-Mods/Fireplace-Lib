@@ -31,7 +31,7 @@ public final class TextPaginatorImpl implements TextPaginator {
     private final TextStyles textStyles;
 
     @Inject
-    private TextPaginatorImpl(MessageQueue messageQueue, TranslatorFactory translatorFactory, TextStyles textStyles) {
+    public TextPaginatorImpl(MessageQueue messageQueue, TranslatorFactory translatorFactory, TextStyles textStyles) {
         this.messageQueue = messageQueue;
         this.translator = translatorFactory.getTranslator(FireplaceLib.MODID);
         this.textStyles = textStyles;

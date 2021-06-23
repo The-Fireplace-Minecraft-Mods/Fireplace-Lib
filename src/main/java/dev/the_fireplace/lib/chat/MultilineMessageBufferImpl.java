@@ -21,6 +21,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class MultilineMessageBufferImpl implements MultilineMessageBuffer {
     private final Map<Integer, Buffer> messageBuffers = new ConcurrentHashMap<>();
     private final AtomicInteger currentBufferId = new AtomicInteger(Integer.MIN_VALUE);
+    private final MessageQueue messageQueue;
+
+    @Inject
+    public MultilineMessageBufferImpl(MessageQueue messageQueue) {
+        this.messageQueue = messageQueue;
+    }
 
     @Override
     public int create(byte expectedMessageCount, CommandOutput target) {
@@ -43,7 +49,6 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
         private final int bufferId;
         private final Text[] messages;
         private final CommandOutput target;
-        private MessageQueue messageQueue;
 
         private Buffer(int bufferId, byte expectedMessageCount, CommandOutput target) {
             this.bufferId = bufferId;
@@ -69,11 +74,6 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
 
         private void cleanup() {
             messageBuffers.remove(bufferId);
-        }
-
-        @Inject
-        public void setMessageQueue(MessageQueue messageQueue) {
-            this.messageQueue = messageQueue;
         }
     }
 }
