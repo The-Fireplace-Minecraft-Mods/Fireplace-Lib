@@ -25,7 +25,7 @@ public final class MessageQueueImpl implements MessageQueue {
     private final EmptyUUID emptyUUID;
 
     @Inject
-    private MessageQueueImpl(ExecutionManager executionManager, EmptyUUID emptyUUID) {
+    public MessageQueueImpl(ExecutionManager executionManager, EmptyUUID emptyUUID) {
         this.executionManager = executionManager;
         this.emptyUUID = emptyUUID;
     }
