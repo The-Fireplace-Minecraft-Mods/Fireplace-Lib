@@ -2,12 +2,12 @@ package dev.the_fireplace.lib.chat;
 
 import com.google.common.collect.Lists;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.ClickEvent;

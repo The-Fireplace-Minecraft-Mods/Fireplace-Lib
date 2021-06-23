@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.io;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.WorldSavePath;

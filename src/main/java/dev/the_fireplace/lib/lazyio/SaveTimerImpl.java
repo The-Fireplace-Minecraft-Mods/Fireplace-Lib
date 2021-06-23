@@ -2,9 +2,9 @@ package dev.the_fireplace.lib.lazyio;
 
 import com.google.common.collect.Sets;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import io.netty.util.internal.ConcurrentSet;
 
 import javax.inject.Inject;
