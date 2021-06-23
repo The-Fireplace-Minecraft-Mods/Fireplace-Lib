@@ -3,7 +3,10 @@ package dev.the_fireplace.lib.config;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 
+import javax.inject.Singleton;
+
 @Implementation(name="default")
+@Singleton
 public class FLConfigDefaults implements ConfigValues {
     @Override
     public String getLocale() {

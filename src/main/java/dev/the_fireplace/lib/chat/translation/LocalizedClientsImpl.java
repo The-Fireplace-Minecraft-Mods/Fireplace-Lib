@@ -21,7 +21,7 @@ public final class LocalizedClientsImpl implements LocalizedClients {
     private final TranslatorFactory translatorFactory;
 
     @Inject
-    private LocalizedClientsImpl(TranslatorFactory translatorFactory) {
+    public LocalizedClientsImpl(TranslatorFactory translatorFactory) {
         this.translatorFactory = translatorFactory;
     }
 

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-@SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "WeakerAccess", "unused"})
 @Environment(EnvType.CLIENT)
 public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
     private final Translator translator;
