@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.network;
 
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.network.injectables.ServerPacketReceiverRegistry;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.network.server.ClientConnectedPacketReceiver;
 import net.minecraft.util.Identifier;
 

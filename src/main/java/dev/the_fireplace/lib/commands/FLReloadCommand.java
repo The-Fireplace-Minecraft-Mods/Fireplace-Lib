@@ -3,7 +3,6 @@ package dev.the_fireplace.lib.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;
@@ -11,6 +10,7 @@ import dev.the_fireplace.lib.api.command.injectables.Requirements;
 import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.api.command.interfaces.RegisterableCommand;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 

@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.multithreading;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

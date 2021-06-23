@@ -1,9 +1,10 @@
-package dev.the_fireplace.lib;
+package dev.the_fireplace.lib.init;
 
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.commands.FLCommands;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
@@ -13,6 +14,7 @@ import javax.inject.Singleton;
 @Singleton
 public final class FireplaceLibInitializer {
 
+    private boolean initialized = false;
     private final TranslatorFactory translatorFactory;
     private final ExecutionManager executionManager;
     private final FLCommands fireplaceLibCommands;
@@ -34,22 +36,26 @@ public final class FireplaceLibInitializer {
         this.networkEvents = networkEvents;
     }
 
-    void init() {
-        translatorFactory.addTranslator(FireplaceLib.MODID);
-        networkEvents.init();
-        ServerLifecycleEvents.SERVER_STARTING.register(s -> {
-            FireplaceLib.minecraftServer = s;
-            executionManager.startExecutors();
-            saveTimer.resetTimer();
-            fireplaceLibCommands.register(s);
-        });
-        ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
-            saveTimer.prepareForServerShutdown();
-            try {
-                executionManager.waitForCompletion();
-            } catch (InterruptedException e) {
-                FireplaceLib.getLogger().error("Interrupted while trying to wait for execution manager to complete.", e);
-            }
-        });
+    public void init() {
+        if (!initialized) {
+            initialized = true;
+            translatorFactory.addTranslator(FireplaceLib.MODID);
+            networkEvents.init();
+            ServerLifecycleEvents.SERVER_STARTING.register(s -> {
+                FireplaceLib.setMinecraftServer(s);
+                executionManager.startExecutors();
+                saveTimer.resetTimer();
+                fireplaceLibCommands.register(s);
+            });
+            ServerLifecycleEvents.SERVER_STOPPING.register(s -> {
+                saveTimer.prepareForServerShutdown();
+                try {
+                    executionManager.waitForCompletion();
+                } catch (InterruptedException e) {
+                    FireplaceLib.getLogger().error("Interrupted while trying to wait for execution manager to complete.", e);
+                }
+            });
+            ServerLifecycleEvents.SERVER_STOPPED.register(s -> FireplaceLib.setMinecraftServer(null));
+        }
     }
 }
