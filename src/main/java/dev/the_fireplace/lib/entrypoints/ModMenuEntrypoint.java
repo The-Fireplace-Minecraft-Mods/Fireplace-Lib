@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.thirdpartyentrypoints;
+package dev.the_fireplace.lib.entrypoints;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -8,7 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-public class ModMenuEntrypoint implements ModMenuApi {
+public final class ModMenuEntrypoint implements ModMenuApi {
     private final FLModMenuIntegration flModMenuIntegration = DIContainer.get().getInstance(FLModMenuIntegration.class);
 
     @Override

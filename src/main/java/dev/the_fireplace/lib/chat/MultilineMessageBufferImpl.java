@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.chat;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.MultilineMessageBuffer;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;

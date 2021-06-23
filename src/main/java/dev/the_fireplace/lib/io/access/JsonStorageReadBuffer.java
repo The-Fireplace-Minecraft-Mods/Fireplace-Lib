@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.io.access;
 
 import com.google.gson.JsonObject;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
 import java.util.Collection;
 import java.util.Map;

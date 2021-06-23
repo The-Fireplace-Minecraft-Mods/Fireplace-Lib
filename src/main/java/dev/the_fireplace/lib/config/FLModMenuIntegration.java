@@ -1,13 +1,13 @@
 package dev.the_fireplace.lib.config;
 
 import dev.the_fireplace.annotateddi.api.DIContainer;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import io.github.prospector.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;

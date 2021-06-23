@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib;
+package dev.the_fireplace.lib.entrypoints;
 
 import dev.the_fireplace.lib.translation.proxy.ClientLocaleProxy;
 import dev.the_fireplace.lib.translation.proxy.LocaleProxy;
