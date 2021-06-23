@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.config;
 
 import com.google.common.collect.Lists;
-import dev.the_fireplace.lib.FireplaceLib;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
+import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;
