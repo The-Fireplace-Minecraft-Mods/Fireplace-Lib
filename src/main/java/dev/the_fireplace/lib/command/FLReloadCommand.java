@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.commands;
+package dev.the_fireplace.lib.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
