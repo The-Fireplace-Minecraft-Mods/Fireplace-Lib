@@ -26,7 +26,7 @@
       "dev.the_fireplace.lib.entrypoints.FireplaceLibClient"
     ],
     "modmenu": [
-      "dev.the_fireplace.lib.thirdpartyentrypoints.ModMenuEntrypoint"
+      "dev.the_fireplace.lib.entrypoints.ModMenuEntrypoint"
     ]
   },
   "mixins": [
