@@ -95,5 +95,21 @@ public final class FLModMenuIntegration implements ModMenuApi {
             (short) 1,
             Short.MAX_VALUE
         );
+
+        configScreenBuilder.addBoolToggle(
+            OPTION_TRANSLATION_BASE + "showSecretOptions",
+            false,
+            false,
+            (val) -> {}
+        );
+        configScreenBuilder.addIntSlider(
+            OPTION_TRANSLATION_BASE + "ligma",
+            0,
+            2,
+            (val) -> {},
+            0,
+            20
+        );
+        configScreenBuilder.addBooleanOptionDependency(OPTION_TRANSLATION_BASE + "ligma", OPTION_TRANSLATION_BASE + "showSecretOptions");
     }
 }
