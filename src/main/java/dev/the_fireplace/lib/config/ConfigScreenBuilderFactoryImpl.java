@@ -11,6 +11,6 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 public final class ConfigScreenBuilderFactoryImpl implements ConfigScreenBuilderFactory {
     @Override
     public ConfigScreenBuilder create(Translator translator, ConfigEntryBuilder entryBuilder, ConfigCategory initialCategory) {
-        return new ConfigScreenBuilderImpl(translator, entryBuilder, initialCategory);
+        return new ClothConfigScreenBuilder(translator, entryBuilder, initialCategory);
     }
 }

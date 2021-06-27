@@ -445,4 +445,9 @@ public interface ConfigScreenBuilder {
         Consumer<Boolean> saveFunction,
         byte descriptionRowCount
     );
+
+    ConfigScreenBuilder addBooleanOptionDependency(
+        String dependentTranslationBase,
+        String dependsOnTranslationBase
+    );
 }
