@@ -4,25 +4,34 @@ import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
+import dev.the_fireplace.lib.mixin.clothconfig.AbstractConfigEntryAccessor;
+import io.netty.util.internal.ConcurrentSet;
+import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "WeakerAccess", "unused", "unchecked"})
 @Environment(EnvType.CLIENT)
-public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
+public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     private final Translator translator;
     private final ConfigEntryBuilder entryBuilder;
     private ConfigCategory category;
-    protected ConfigScreenBuilderImpl(Translator translator, ConfigEntryBuilder entryBuilder, ConfigCategory initialCategory) {
+
+    private final Map<String, BooleanListEntry> booleanEntries = new HashMap<>();
+    private final Map<String, AbstractConfigListEntry<?>> configEntries = new HashMap<>();
+
+    protected ClothConfigScreenBuilder(Translator translator, ConfigEntryBuilder entryBuilder, ConfigCategory initialCategory) {
         this.translator = translator;
         this.entryBuilder = entryBuilder;
         this.category = initialCategory;
@@ -56,7 +65,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -130,7 +141,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction)
             .setSelections(dropdownEntries);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -157,7 +170,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -200,7 +215,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -232,7 +249,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setTextGetter(value -> String.format("%.3f", value / 1000f))
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / 1000f));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -259,7 +278,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -302,7 +323,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -349,7 +372,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setTextGetter(value -> String.format("%." + precision + "f", value / (double)factor))
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -379,7 +404,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setTextGetter(value -> String.format("%." + precision + "f", value / (double)factor) + "%")
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -406,7 +433,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -449,7 +478,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -480,7 +511,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -507,7 +540,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -550,7 +585,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setMax(max)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -581,7 +618,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -608,7 +647,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -651,7 +692,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setMax(max)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -682,7 +725,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -725,7 +770,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setMax(max)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -756,7 +803,9 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        AbstractConfigListEntry<?> entry = builder.build();
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -783,7 +832,10 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
-        category.addEntry(builder.build());
+        BooleanListEntry entry = builder.build();
+        booleanEntries.put(optionTranslationBase, entry);
+        configEntries.put(optionTranslationBase, entry);
+        category.addEntry(entry);
         
         return this;
     }
@@ -800,7 +852,7 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
                 setTooltip.invoke(builder, (Object) genDescriptionTranslatables(optionTranslationBase + ".desc", descriptionRowCount));
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set tooltip for field builder of type " + builder.getClass().toString(), e);
+            FireplaceLib.getLogger().error("Unable to set tooltip for field builder of type " + builder.getClass(), e);
         }
     }
 
@@ -810,5 +862,35 @@ public final class ConfigScreenBuilderImpl implements ConfigScreenBuilder {
             texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
         }
         return texts.toArray(new Text[0]);
+    }
+
+    public static final Set<AbstractConfigEntry<?>> DISABLED_ENTRIES = new ConcurrentSet<>();
+
+    @Override
+    public ConfigScreenBuilder addBooleanOptionDependency(String dependentTranslationBase, String dependsOnTranslationBase) {
+        AbstractConfigListEntry<?> dependentEntry = configEntries.get(dependentTranslationBase);
+        BooleanListEntry dependencyEntry = booleanEntries.get(dependsOnTranslationBase);
+        if (dependentEntry != null && dependencyEntry != null) {
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            Supplier<Optional<Text>> previousErrorSupplier = ((AbstractConfigEntryAccessor)dependencyEntry).getErrorSupplier();
+            dependencyEntry.setErrorSupplier(() -> {
+                if (dependencyEntry.getValue()) {
+                    showConfigEntry(dependentEntry);
+                } else {
+                    hideConfigEntry(dependentEntry);
+                }
+                return previousErrorSupplier != null ? previousErrorSupplier.get() : Optional.empty();
+            });
+        }
+
+        return this;
+    }
+
+    private void hideConfigEntry(AbstractConfigEntry<?> dependentEntry) {
+        DISABLED_ENTRIES.add(dependentEntry);
+    }
+
+    private void showConfigEntry(AbstractConfigEntry<?> dependentEntry) {
+        DISABLED_ENTRIES.remove(dependentEntry);
     }
 }
