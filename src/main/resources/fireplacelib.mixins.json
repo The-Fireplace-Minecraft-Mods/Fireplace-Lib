@@ -6,7 +6,9 @@
     "PlayerManagerMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin"
+    "ClientPlayNetworkHandlerMixin",
+    "clothconfig.AbstractConfigEntryAccessor",
+    "clothconfig.ListWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
