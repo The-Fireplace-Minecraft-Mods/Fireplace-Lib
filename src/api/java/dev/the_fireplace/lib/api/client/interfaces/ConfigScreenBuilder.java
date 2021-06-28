@@ -1,12 +1,12 @@
 package dev.the_fireplace.lib.api.client.interfaces;
 
-import me.shedaniel.clothconfig2.api.ConfigCategory;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public interface ConfigScreenBuilder {
-    ConfigScreenBuilder startCategory(ConfigCategory category);
+    ConfigScreenBuilder startCategory(String translationKey);
 
     ConfigScreenBuilder addStringField(
         String optionTranslationBase,
@@ -450,4 +450,6 @@ public interface ConfigScreenBuilder {
         String dependentTranslationBase,
         String dependsOnTranslationBase
     );
+
+    Screen build();
 }
