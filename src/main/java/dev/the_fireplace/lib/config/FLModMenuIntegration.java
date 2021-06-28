@@ -9,9 +9,6 @@ import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import io.github.prospector.modmenu.api.ModMenuApi;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -31,7 +28,8 @@ public final class FLModMenuIntegration implements ModMenuApi {
 private final ConfigStateManager configStateManager;
 private final FLConfig config;
     private final ConfigValues defaultConfigValues;
-    
+    private final ConfigScreenBuilderFactory configScreenBuilderFactory;
+
     private ConfigScreenBuilder configScreenBuilder;
 
     @Inject
@@ -39,12 +37,14 @@ private final FLConfig config;
         TranslatorFactory translatorFactory,
         ConfigStateManager configStateManager,
         FLConfig config,
-        @Named("default") ConfigValues defaultConfigValues
+        @Named("default") ConfigValues defaultConfigValues,
+        ConfigScreenBuilderFactory configScreenBuilderFactory
     ) {
         this.translator = translatorFactory.getTranslator(FireplaceLib.MODID);
         this.configStateManager = DIContainer.get().getInstance(ConfigStateManager.class);
         this.config = config;
         this.defaultConfigValues = defaultConfigValues;
+        this.configScreenBuilderFactory = configScreenBuilderFactory;
     }
 
     @Override
@@ -55,24 +55,17 @@ private final FLConfig config;
     @Override
     public Function<Screen, ? extends Screen> getConfigScreenFactory() {
         return parent -> {
-            ConfigBuilder builder = ConfigBuilder.create()
-                .setParentScreen(parent)
-                .setTitle(translator.getTranslatedString(TRANSLATION_BASE + "title"));
+            this.configScreenBuilder = configScreenBuilderFactory.create(
+                translator,
+                TRANSLATION_BASE + "title",
+                TRANSLATION_BASE + "global",
+                parent,
+                () -> configStateManager.save(config)
+            );
+            addGlobalCategoryEntries();
 
-            buildConfigCategories(builder);
-
-            builder.setSavingRunnable(() -> configStateManager.save(config));
-
-            return builder.build();
+            return this.configScreenBuilder.build();
         };
-    }
-
-    private void buildConfigCategories(ConfigBuilder builder) {
-        ConfigEntryBuilder entryBuilder = builder.entryBuilder();
-
-        ConfigCategory global = builder.getOrCreateCategory(translator.getTranslatedString(TRANSLATION_BASE + "global"));
-        this.configScreenBuilder = DIContainer.get().getInstance(ConfigScreenBuilderFactory.class).create(translator, entryBuilder, global);
-        addGlobalCategoryEntries();
     }
 
     private void addGlobalCategoryEntries() {

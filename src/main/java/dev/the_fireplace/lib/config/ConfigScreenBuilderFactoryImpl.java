@@ -4,13 +4,18 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.client.gui.screen.Screen;
 
 @Implementation
 public final class ConfigScreenBuilderFactoryImpl implements ConfigScreenBuilderFactory {
     @Override
-    public ConfigScreenBuilder create(Translator translator, ConfigEntryBuilder entryBuilder, ConfigCategory initialCategory) {
-        return new ClothConfigScreenBuilder(translator, entryBuilder, initialCategory);
+    public ConfigScreenBuilder create(
+        Translator translator,
+        String titleTranslationKey,
+        String initialCategoryTranslationKey,
+        Screen parent,
+        Runnable save
+    ) {
+        return new ClothConfigScreenBuilder(translator, titleTranslationKey, initialCategoryTranslationKey, parent, save);
     }
 }
