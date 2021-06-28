@@ -6,14 +6,12 @@ import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.mixin.clothconfig.AbstractConfigEntryAccessor;
 import io.netty.util.internal.ConcurrentSet;
-import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
-import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,21 +22,32 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     private final Translator translator;
+    private final ConfigBuilder configBuilder;
     private final ConfigEntryBuilder entryBuilder;
     private ConfigCategory category;
 
     private final Map<String, BooleanListEntry> booleanEntries = new HashMap<>();
     private final Map<String, AbstractConfigListEntry<?>> configEntries = new HashMap<>();
 
-    protected ClothConfigScreenBuilder(Translator translator, ConfigEntryBuilder entryBuilder, ConfigCategory initialCategory) {
+    protected ClothConfigScreenBuilder(
+        Translator translator,
+        String titleTranslationKey,
+        String initialCategoryTranslationKey,
+        Screen parent,
+        Runnable save
+    ) {
         this.translator = translator;
-        this.entryBuilder = entryBuilder;
-        this.category = initialCategory;
+        this.configBuilder = ConfigBuilder.create()
+            .setParentScreen(parent)
+            .setTitle(translator.getTranslatedText(titleTranslationKey));
+        this.entryBuilder = configBuilder.entryBuilder();
+        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
+        this.configBuilder.setSavingRunnable(save);
     }
 
     @Override
-    public ConfigScreenBuilder startCategory(ConfigCategory category) {
-        this.category = category;
+    public ConfigScreenBuilder startCategory(String translationKey) {
+        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(translationKey));
         return this;
     }
 
@@ -884,6 +893,11 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         }
 
         return this;
+    }
+
+    @Override
+    public Screen build() {
+        return configBuilder.build();
     }
 
     private void hideConfigEntry(AbstractConfigEntry<?> dependentEntry) {
