@@ -92,20 +92,26 @@ private final FLConfig config;
             Short.MAX_VALUE
         );
 
-        configScreenBuilder.addBoolToggle(
-            OPTION_TRANSLATION_BASE + "showSecretOptions",
-            false,
-            false,
-            (val) -> {}
-        );
-        configScreenBuilder.addIntSlider(
-            OPTION_TRANSLATION_BASE + "ligma",
-            0,
-            2,
-            (val) -> {},
-            0,
-            20
-        );
-        configScreenBuilder.addBooleanOptionDependency(OPTION_TRANSLATION_BASE + "ligma", OPTION_TRANSLATION_BASE + "showSecretOptions");
+        if (FireplaceLib.isDevelopmentEnvironment()) {
+            configScreenBuilder.addBoolToggle(
+                OPTION_TRANSLATION_BASE + "showSecretOptions",
+                false,
+                false,
+                (val) -> {}
+            );
+            configScreenBuilder.addIntSlider(
+                OPTION_TRANSLATION_BASE + "ligma",
+                0,
+                2,
+                (val) -> {},
+                0,
+                20
+            );
+            configScreenBuilder.addOptionDependency(
+                OPTION_TRANSLATION_BASE + "ligma",
+                OPTION_TRANSLATION_BASE + "showSecretOptions",
+                (parentValue) -> (boolean) parentValue
+            );
+        }
     }
 }

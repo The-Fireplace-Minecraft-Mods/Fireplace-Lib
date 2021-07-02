@@ -7,7 +7,7 @@ import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import net.minecraft.client.gui.screen.Screen;
 
 @Implementation
-public final class ConfigScreenBuilderFactoryImpl implements ConfigScreenBuilderFactory {
+public final class ClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory {
     @Override
     public ConfigScreenBuilder create(
         Translator translator,
