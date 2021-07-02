@@ -3,10 +3,12 @@ package dev.the_fireplace.lib.config;
 import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
+import dev.the_fireplace.lib.domain.config.ClothConfigDependencyTracker;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
-import dev.the_fireplace.lib.mixin.clothconfig.AbstractConfigEntryAccessor;
-import io.netty.util.internal.ConcurrentSet;
-import me.shedaniel.clothconfig2.api.*;
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
@@ -16,19 +18,18 @@ import net.minecraft.text.Text;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     private final Translator translator;
     private final ConfigBuilder configBuilder;
     private final ConfigEntryBuilder entryBuilder;
+    private final ClothConfigDependencyTracker dependencyTracker;
     private ConfigCategory category;
-
-    private final Map<String, BooleanListEntry> booleanEntries = new HashMap<>();
-    private final Map<String, AbstractConfigListEntry<?>> configEntries = new HashMap<>();
 
     protected ClothConfigScreenBuilder(
         Translator translator,
@@ -44,6 +45,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         this.entryBuilder = configBuilder.entryBuilder();
         this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
         this.configBuilder.setSavingRunnable(save);
+        this.dependencyTracker = new ClothConfigDependencyHandler();
     }
 
     @Override
@@ -75,7 +77,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -152,7 +154,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSuggestionMode(suggestionMode);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -181,7 +183,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -226,7 +228,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -260,7 +262,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / 1000f));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -289,7 +291,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -334,7 +336,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -383,7 +385,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -415,7 +417,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -444,7 +446,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -489,7 +491,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -522,7 +524,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -551,7 +553,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -596,7 +598,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -629,7 +631,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -658,7 +660,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -703,7 +705,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -736,7 +738,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -781,7 +783,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -814,7 +816,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -843,8 +845,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         BooleanListEntry entry = builder.build();
-        booleanEntries.put(optionTranslationBase, entry);
-        configEntries.put(optionTranslationBase, entry);
+        registerOption(optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -874,24 +875,13 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         return texts.toArray(new Text[0]);
     }
 
-    public static final Set<AbstractConfigEntry<?>> DISABLED_ENTRIES = new ConcurrentSet<>();
+    private void registerOption(String optionTranslationBase, AbstractConfigListEntry<?> entry) {
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
+    }
 
     @Override
-    public ConfigScreenBuilder addBooleanOptionDependency(String dependentTranslationBase, String dependsOnTranslationBase) {
-        AbstractConfigListEntry<?> dependentEntry = configEntries.get(dependentTranslationBase);
-        BooleanListEntry dependencyEntry = booleanEntries.get(dependsOnTranslationBase);
-        if (dependentEntry != null && dependencyEntry != null) {
-            @SuppressWarnings({"unchecked", "rawtypes"})
-            Supplier<Optional<Text>> previousErrorSupplier = ((AbstractConfigEntryAccessor)dependencyEntry).getErrorSupplier();
-            dependencyEntry.setErrorSupplier(() -> {
-                if (dependencyEntry.getValue()) {
-                    showConfigEntry(dependentEntry);
-                } else {
-                    hideConfigEntry(dependentEntry);
-                }
-                return previousErrorSupplier != null ? previousErrorSupplier.get() : Optional.empty();
-            });
-        }
+    public ConfigScreenBuilder addOptionDependency(String dependentTranslationBase, String dependsOnTranslationBase, Function<Object, Boolean> shouldShowChildBasedOnParentValue) {
+        this.dependencyTracker.addDependency(category, dependsOnTranslationBase, dependentTranslationBase, shouldShowChildBasedOnParentValue);
 
         return this;
     }
@@ -899,13 +889,5 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     @Override
     public Screen build() {
         return configBuilder.build();
-    }
-
-    private void hideConfigEntry(AbstractConfigEntry<?> dependentEntry) {
-        DISABLED_ENTRIES.add(dependentEntry);
-    }
-
-    private void showConfigEntry(AbstractConfigEntry<?> dependentEntry) {
-        DISABLED_ENTRIES.remove(dependentEntry);
     }
 }

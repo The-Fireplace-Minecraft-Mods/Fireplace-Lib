@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 @Implementation(name="default")
 @Singleton
-public class FLConfigDefaults implements ConfigValues {
+public final class FLConfigDefaults implements ConfigValues {
     @Override
     public String getLocale() {
         return "en_us";

@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.mixin.clothconfig;
 
-import dev.the_fireplace.lib.config.ClothConfigScreenBuilder;
+import dev.the_fireplace.lib.config.ClothConfigDependencyHandler;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.gui.ClothConfigScreen;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ClothConfigScreen.ListWidget.class, remap = false)
-public class ListWidgetMixin<R extends DynamicElementListWidget.ElementEntry<R>> {
+public final class ListWidgetMixin<R extends DynamicElementListWidget.ElementEntry<R>> {
 
     @Inject(method = "renderItem", at = @At("HEAD"), cancellable = true)
     protected void renderItem(MatrixStack matrices, R item, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta, CallbackInfo ci) {
-        if (item instanceof AbstractConfigEntry<?> configEntry && ClothConfigScreenBuilder.DISABLED_ENTRIES.contains(configEntry)) {
+        if (item instanceof AbstractConfigEntry<?> configEntry && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains(configEntry)) {
             ci.cancel();
         }
     }
