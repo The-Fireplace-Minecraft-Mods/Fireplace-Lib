@@ -107,10 +107,36 @@ private final FLConfig config;
                 0,
                 20
             );
+            configScreenBuilder.addFloatSlider(
+                OPTION_TRANSLATION_BASE + "float",
+                0,
+                1,
+                (val) -> {},
+                0,
+                20
+            );
+            configScreenBuilder.addByteSlider(
+                OPTION_TRANSLATION_BASE + "bite",
+                (byte)0,
+                (byte)1,
+                (val) -> {},
+                (byte)0,
+                (byte)20
+            );
+            configScreenBuilder.addOptionDependency(
+                OPTION_TRANSLATION_BASE + "showSecretOptions",
+                OPTION_TRANSLATION_BASE + "ligma",
+                (parentValue) -> (boolean) parentValue
+            );
             configScreenBuilder.addOptionDependency(
                 OPTION_TRANSLATION_BASE + "ligma",
-                OPTION_TRANSLATION_BASE + "showSecretOptions",
-                (parentValue) -> (boolean) parentValue
+                OPTION_TRANSLATION_BASE + "float",
+                (parentValue) -> ((int) parentValue) > 10
+            );
+            configScreenBuilder.addOptionDependency(
+                OPTION_TRANSLATION_BASE + "float",
+                OPTION_TRANSLATION_BASE + "bite",
+                (parentValue) -> ((float) parentValue) > 6.9//TODO fix this case - internally we're using long to hold the value. We need to convert it to float before it's fed back to this function.
             );
         }
     }

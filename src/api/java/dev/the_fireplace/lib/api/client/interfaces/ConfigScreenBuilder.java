@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 public interface ConfigScreenBuilder {
     ConfigScreenBuilder startCategory(String translationKey);
 
@@ -448,8 +449,8 @@ public interface ConfigScreenBuilder {
     );
 
     ConfigScreenBuilder addOptionDependency(
-        String dependentTranslationBase,
-        String dependsOnTranslationBase,
+        String parentTranslationBase,
+        String childTranslationBase,
         Function<Object, Boolean> shouldShowChildBasedOnParentValue
     );
 
