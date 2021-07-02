@@ -4,6 +4,7 @@ import net.minecraft.client.gui.screen.Screen;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public interface ConfigScreenBuilder {
     ConfigScreenBuilder startCategory(String translationKey);
@@ -446,9 +447,10 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
-    ConfigScreenBuilder addBooleanOptionDependency(
+    ConfigScreenBuilder addOptionDependency(
         String dependentTranslationBase,
-        String dependsOnTranslationBase
+        String dependsOnTranslationBase,
+        Function<Object, Boolean> shouldShowChildBasedOnParentValue
     );
 
     Screen build();
