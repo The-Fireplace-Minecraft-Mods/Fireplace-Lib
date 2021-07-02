@@ -880,8 +880,12 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addOptionDependency(String dependentTranslationBase, String dependsOnTranslationBase, Function<Object, Boolean> shouldShowChildBasedOnParentValue) {
-        this.dependencyTracker.addDependency(category, dependsOnTranslationBase, dependentTranslationBase, shouldShowChildBasedOnParentValue);
+    public ConfigScreenBuilder addOptionDependency(
+        String parentTranslationBase,
+        String childTranslationBase,
+        Function<Object, Boolean> shouldShowChildBasedOnParentValue
+    ) {
+        this.dependencyTracker.addDependency(category, parentTranslationBase, childTranslationBase, shouldShowChildBasedOnParentValue);
 
         return this;
     }
