@@ -77,7 +77,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -154,7 +154,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSuggestionMode(suggestionMode);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -183,7 +183,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -228,7 +228,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -256,13 +256,18 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         float max,
         byte descriptionRowCount
     ) {
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * 1000), (long) (min * 1000), (long) (max * 1000))
-            .setDefaultValue((long) (defaultValue * 1000))
-            .setTextGetter(value -> Text.of(String.format("%.3f", value / 1000f)))
-            .setSaveConsumer(newValue -> saveFunction.accept(newValue / 1000f));
+        LongSliderBuilder builder = entryBuilder.startLongSlider(
+            translator.getTranslatedText(optionTranslationBase),
+            FloatingPointClothConverter.floatToGuiValue(currentValue),
+            FloatingPointClothConverter.floatToGuiValue(min),
+            FloatingPointClothConverter.floatToGuiValue(max)
+        )
+            .setDefaultValue(FloatingPointClothConverter.floatToGuiValue(defaultValue))
+            .setTextGetter(value -> Text.of(String.format("%.3f", FloatingPointClothConverter.guiValueToFloat(value))))
+            .setSaveConsumer(newValue -> saveFunction.accept(FloatingPointClothConverter.guiValueToFloat(newValue)));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addFloatingPointSlider(category, optionTranslationBase, entry, (byte)-1);
         category.addEntry(entry);
         
         return this;
@@ -291,7 +296,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -336,7 +341,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -378,14 +383,18 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         byte descriptionRowCount,
         byte precision
     ) {
-        long factor = (long) Math.pow(10, precision);
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * factor), (long) (min * factor), (long) (max * factor))
-            .setDefaultValue((long) (defaultValue * factor))
-            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", value / (double)factor)))
-            .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
+        LongSliderBuilder builder = entryBuilder.startLongSlider(
+            translator.getTranslatedText(optionTranslationBase),
+            FloatingPointClothConverter.doubleToGuiValue(currentValue, precision),
+            FloatingPointClothConverter.doubleToGuiValue(min, precision),
+            FloatingPointClothConverter.doubleToGuiValue(max, precision)
+        )
+            .setDefaultValue(FloatingPointClothConverter.doubleToGuiValue(defaultValue, precision))
+            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", FloatingPointClothConverter.guiValueToDouble(value, precision))))
+            .setSaveConsumer(newValue -> saveFunction.accept(FloatingPointClothConverter.guiValueToDouble(newValue, precision)));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addFloatingPointSlider(category, optionTranslationBase, entry, precision);
         category.addEntry(entry);
         
         return this;
@@ -410,14 +419,18 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         byte descriptionRowCount,
         byte precision
     ) {
-        long factor = (long) Math.pow(10, precision);
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), (long) (currentValue * factor), 0, 100 * factor)
-            .setDefaultValue((long) (defaultValue * factor))
-            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", value / (double)factor) + "%"))
-            .setSaveConsumer(newValue -> saveFunction.accept(newValue / (double)factor));
+        LongSliderBuilder builder = entryBuilder.startLongSlider(
+            translator.getTranslatedText(optionTranslationBase),
+            FloatingPointClothConverter.doubleToGuiValue(currentValue, precision),
+            0,
+            FloatingPointClothConverter.doubleToGuiValue(100, precision)
+        )
+            .setDefaultValue(FloatingPointClothConverter.doubleToGuiValue(defaultValue, precision))
+            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", FloatingPointClothConverter.guiValueToDouble(value, precision)) + "%"))
+            .setSaveConsumer(newValue -> saveFunction.accept(FloatingPointClothConverter.guiValueToDouble(newValue, precision)));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addFloatingPointSlider(category, optionTranslationBase, entry, precision);
         category.addEntry(entry);
         
         return this;
@@ -446,7 +459,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -491,7 +504,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -524,7 +537,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -553,7 +566,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -598,7 +611,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -631,7 +644,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -660,7 +673,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -705,7 +718,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -738,7 +751,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -783,7 +796,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -816,7 +829,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -845,7 +858,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setSaveConsumer(saveFunction);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         BooleanListEntry entry = builder.build();
-        registerOption(optionTranslationBase, entry);
+        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
         category.addEntry(entry);
         
         return this;
@@ -873,10 +886,6 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
         }
         return texts.toArray(new Text[0]);
-    }
-
-    private void registerOption(String optionTranslationBase, AbstractConfigListEntry<?> entry) {
-        this.dependencyTracker.addOption(category, optionTranslationBase, entry);
     }
 
     @Override

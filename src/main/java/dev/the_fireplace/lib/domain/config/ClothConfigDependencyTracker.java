@@ -7,6 +7,12 @@ import java.util.function.Function;
 
 public interface ClothConfigDependencyTracker {
     void addOption(ConfigCategory category, String optionTranslationKey, AbstractConfigListEntry<?> option);
+
+    /**
+     * @param precision
+     * Enter a precision for a double based option, or -1 for float, which uses a predefined precision
+     */
+    void addFloatingPointSlider(ConfigCategory category, String optionTranslationKey, AbstractConfigListEntry<?> option, byte precision);
     void addDependency(
         ConfigCategory category,
         String parentTranslationKey,
