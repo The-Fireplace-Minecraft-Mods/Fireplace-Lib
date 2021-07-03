@@ -136,7 +136,7 @@ private final FLConfig config;
             configScreenBuilder.addOptionDependency(
                 OPTION_TRANSLATION_BASE + "float",
                 OPTION_TRANSLATION_BASE + "bite",
-                (parentValue) -> ((float) parentValue) > 6.9//TODO fix this case - internally we're using long to hold the value. We need to convert it to float before it's fed back to this function.
+                (parentValue) -> ((float) parentValue) > 6.9
             );
         }
     }
