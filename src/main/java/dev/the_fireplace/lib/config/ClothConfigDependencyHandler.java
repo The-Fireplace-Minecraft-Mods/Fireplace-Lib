@@ -19,10 +19,17 @@ public final class ClothConfigDependencyHandler implements ClothConfigDependency
     public static final Set<AbstractConfigEntry<?>> DISABLED_ENTRIES = new HashSet<>();
     private static final Function<ConfigCategory, Map<String, AbstractConfigListEntry<?>>> CREATE_MAP = (unused) -> new HashMap<>();
     private final Map<ConfigCategory, Map<String, AbstractConfigListEntry<?>>> configEntries = new HashMap<>();
+    private final Map<AbstractConfigListEntry<?>, Byte> entryPrecisions = new HashMap<>();
 
     @Override
     public void addOption(ConfigCategory category, String optionTranslationKey, AbstractConfigListEntry<?> option) {
         configEntries.computeIfAbsent(category, CREATE_MAP).put(optionTranslationKey, option);
+    }
+
+    @Override
+    public void addFloatingPointSlider(ConfigCategory category, String optionTranslationKey, AbstractConfigListEntry<?> option, byte precision) {
+        configEntries.computeIfAbsent(category, CREATE_MAP).put(optionTranslationKey, option);
+        entryPrecisions.put(option, precision);
     }
 
     @Override
@@ -65,13 +72,29 @@ public final class ClothConfigDependencyHandler implements ClothConfigDependency
         @Nullable Supplier<Optional<Text>> errorSupplier
     ) {
         return () -> {
-            if (shouldShowChildBasedOnParentValue.apply(parentConfigEntry.getValue())) {
+            Object parentEntryGuiValue = unwrapGuiOptionValue(parentConfigEntry);
+
+            if (!DISABLED_ENTRIES.contains(parentConfigEntry) && shouldShowChildBasedOnParentValue.apply(parentEntryGuiValue)) {
                 showConfigEntry(childConfigEntry);
             } else {
                 hideConfigEntry(childConfigEntry);
             }
             return errorSupplier != null ? errorSupplier.get() : Optional.empty();
         };
+    }
+
+    private Object unwrapGuiOptionValue(AbstractConfigListEntry<?> configEntry) {
+        Object value = configEntry.getValue();
+
+        if (!entryPrecisions.containsKey(configEntry)) {
+            return value;
+        }
+        Byte precision = entryPrecisions.get(configEntry);
+        if (precision < 0) {
+            return FloatingPointClothConverter.guiValueToFloat((long)value);
+        }
+
+        return FloatingPointClothConverter.guiValueToDouble((long) value, precision);
     }
 
     private void hideConfigEntry(AbstractConfigEntry<?> dependentEntry) {
