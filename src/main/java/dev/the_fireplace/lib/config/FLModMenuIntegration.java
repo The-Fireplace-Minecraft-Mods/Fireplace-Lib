@@ -25,8 +25,8 @@ public final class FLModMenuIntegration implements ModMenuApi {
     private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".option.";
 
     private final Translator translator;
-private final ConfigStateManager configStateManager;
-private final FLConfig config;
+    private final ConfigStateManager configStateManager;
+    private final FLConfig config;
     private final ConfigValues defaultConfigValues;
     private final ConfigScreenBuilderFactory configScreenBuilderFactory;
 
@@ -45,11 +45,6 @@ private final FLConfig config;
         this.config = config;
         this.defaultConfigValues = defaultConfigValues;
         this.configScreenBuilderFactory = configScreenBuilderFactory;
-    }
-
-    @Override
-    public String getModId() {
-        return FireplaceLib.MODID;
     }
 
     @Override

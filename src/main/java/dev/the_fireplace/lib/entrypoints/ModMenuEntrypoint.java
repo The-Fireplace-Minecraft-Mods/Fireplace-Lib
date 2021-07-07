@@ -12,6 +12,11 @@ public final class ModMenuEntrypoint implements ModMenuApi {
     private final FLModMenuIntegration flModMenuIntegration = DIContainer.get().getInstance(FLModMenuIntegration.class);
 
     @Override
+    public String getModId() {
+        return FireplaceLib.MODID;
+    }
+
+    @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return flModMenuIntegration.getModConfigScreenFactory();
     }
