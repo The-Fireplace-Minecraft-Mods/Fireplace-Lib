@@ -4,11 +4,11 @@ import dev.the_fireplace.lib.api.network.interfaces.ServerPacketReceiver;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.PacketByteBuf;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
