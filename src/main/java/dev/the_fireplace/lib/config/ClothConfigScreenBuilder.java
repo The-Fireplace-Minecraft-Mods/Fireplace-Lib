@@ -41,16 +41,16 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         this.translator = translator;
         this.configBuilder = ConfigBuilder.create()
             .setParentScreen(parent)
-            .setTitle(translator.getTranslatedText(titleTranslationKey));
+            .setTitle(translator.getTranslatedString(titleTranslationKey));
         this.entryBuilder = configBuilder.entryBuilder();
-        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
+        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedString(initialCategoryTranslationKey));
         this.configBuilder.setSavingRunnable(save);
         this.dependencyTracker = new ClothConfigDependencyHandler();
     }
 
     @Override
     public ConfigScreenBuilder startCategory(String translationKey) {
-        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(translationKey));
+        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedString(translationKey));
         return this;
     }
 
@@ -383,13 +383,13 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         byte precision
     ) {
         LongSliderBuilder builder = entryBuilder.startLongSlider(
-            translator.getTranslatedText(optionTranslationBase),
+            translator.getTranslatedString(optionTranslationBase),
             FloatingPointClothConverter.doubleToGuiValue(currentValue, precision),
             FloatingPointClothConverter.doubleToGuiValue(min, precision),
             FloatingPointClothConverter.doubleToGuiValue(max, precision)
         )
             .setDefaultValue(FloatingPointClothConverter.doubleToGuiValue(defaultValue, precision))
-            .setTextGetter(value -> Text.of(String.format("%." + precision + "f", FloatingPointClothConverter.guiValueToDouble(value, precision))))
+            .setTextGetter(value -> String.format("%." + precision + "f", FloatingPointClothConverter.guiValueToDouble(value, precision)))
             .setSaveConsumer(newValue -> saveFunction.accept(FloatingPointClothConverter.guiValueToDouble(newValue, precision)));
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
@@ -868,9 +868,9 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             return;
         }
         try {
-            Method setTooltip = builder.getClass().getMethod("setTooltip", Text[].class);
+            Method setTooltip = builder.getClass().getMethod("setTooltip", String[].class);
             if (descriptionRowCount == 1) {
-                setTooltip.invoke(builder, (Object) new Text[]{translator.getTranslatedText(optionTranslationBase + ".desc")});
+                setTooltip.invoke(builder, (Object) new String[]{translator.getTranslatedString(optionTranslationBase + ".desc")});
             } else {
                 setTooltip.invoke(builder, (Object) genDescriptionTranslatables(optionTranslationBase + ".desc", descriptionRowCount));
             }
@@ -879,12 +879,12 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         }
     }
 
-    private Text[] genDescriptionTranslatables(String baseKey, int count) {
-        List<Text> texts = Lists.newArrayList();
+    private String[] genDescriptionTranslatables(String baseKey, int count) {
+        List<String> texts = Lists.newArrayList();
         for (int i = 0; i < count; i++) {
-            texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
+            texts.add(translator.getTranslatedString(baseKey + "[" + i + "]"));
         }
-        return texts.toArray(new Text[0]);
+        return texts.toArray(new String[0]);
     }
 
     @Override

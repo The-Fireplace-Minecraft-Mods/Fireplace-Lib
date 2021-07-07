@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.network.client;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.PacketByteBuf;
 
 import javax.inject.Singleton;
 import java.util.Collection;

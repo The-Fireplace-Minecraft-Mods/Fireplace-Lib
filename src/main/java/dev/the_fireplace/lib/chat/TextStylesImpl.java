@@ -10,23 +10,23 @@ import javax.inject.Singleton;
 @Singleton
 @Implementation
 public final class TextStylesImpl implements TextStyles {
-    private final Style RED = Style.EMPTY.withColor(Formatting.RED);
-    private final Style BLUE = Style.EMPTY.withColor(Formatting.BLUE);
-    private final Style YELLOW = Style.EMPTY.withColor(Formatting.YELLOW);
-    private final Style LIGHT_PURPLE = Style.EMPTY.withColor(Formatting.LIGHT_PURPLE);
-    private final Style GREEN = Style.EMPTY.withColor(Formatting.GREEN);
-    private final Style BLACK = Style.EMPTY.withColor(Formatting.BLACK);
-    private final Style AQUA = Style.EMPTY.withColor(Formatting.AQUA);
-    private final Style DARK_AQUA = Style.EMPTY.withColor(Formatting.DARK_AQUA);
-    private final Style DARK_BLUE = Style.EMPTY.withColor(Formatting.DARK_BLUE);
-    private final Style DARK_GRAY = Style.EMPTY.withColor(Formatting.DARK_GRAY);
-    private final Style DARK_GREEN = Style.EMPTY.withColor(Formatting.DARK_GREEN);
-    private final Style DARK_PURPLE = Style.EMPTY.withColor(Formatting.DARK_PURPLE);
-    private final Style DARK_RED = Style.EMPTY.withColor(Formatting.DARK_RED);
-    private final Style GOLD = Style.EMPTY.withColor(Formatting.GOLD);
-    private final Style GRAY = Style.EMPTY.withColor(Formatting.GRAY);
-    private final Style WHITE = Style.EMPTY.withColor(Formatting.WHITE);
-    private final Style RESET = Style.EMPTY.withColor(Formatting.RESET);
+    private final Style RED = new Style().setColor(Formatting.RED);
+    private final Style BLUE = new Style().setColor(Formatting.BLUE);
+    private final Style YELLOW = new Style().setColor(Formatting.YELLOW);
+    private final Style LIGHT_PURPLE = new Style().setColor(Formatting.LIGHT_PURPLE);
+    private final Style GREEN = new Style().setColor(Formatting.GREEN);
+    private final Style BLACK = new Style().setColor(Formatting.BLACK);
+    private final Style AQUA = new Style().setColor(Formatting.AQUA);
+    private final Style DARK_AQUA = new Style().setColor(Formatting.DARK_AQUA);
+    private final Style DARK_BLUE = new Style().setColor(Formatting.DARK_BLUE);
+    private final Style DARK_GRAY = new Style().setColor(Formatting.DARK_GRAY);
+    private final Style DARK_GREEN = new Style().setColor(Formatting.DARK_GREEN);
+    private final Style DARK_PURPLE = new Style().setColor(Formatting.DARK_PURPLE);
+    private final Style DARK_RED = new Style().setColor(Formatting.DARK_RED);
+    private final Style GOLD = new Style().setColor(Formatting.GOLD);
+    private final Style GRAY = new Style().setColor(Formatting.GRAY);
+    private final Style WHITE = new Style().setColor(Formatting.WHITE);
+    private final Style RESET = new Style().setColor(Formatting.RESET);
 
     @Override
     public Style red() {
