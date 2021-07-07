@@ -15,7 +15,7 @@ public final class ListWidgetMixin<R extends DynamicElementListWidget.ElementEnt
 
     @Inject(method = "renderItem", at = @At("HEAD"), cancellable = true)
     protected void renderItem(MatrixStack matrices, R item, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta, CallbackInfo ci) {
-        if (item instanceof AbstractConfigEntry<?> configEntry && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains(configEntry)) {
+        if (item instanceof AbstractConfigEntry<?> && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains((AbstractConfigEntry<?>)item)) {
             ci.cancel();
         }
     }
