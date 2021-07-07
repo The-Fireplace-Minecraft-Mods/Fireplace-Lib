@@ -31,6 +31,10 @@ group = project.maven_group
 repositories {
 	maven { url 'https://maven.shedaniel.me/' }
 	maven { url 'https://maven.terraformersmc.com/releases/' }
+	maven {
+		name 'Terraformers Backup'
+		url 'https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/'
+	}
 	flatDir { dirs 'lib' }
 }
 
@@ -104,6 +108,7 @@ if (hasProperty('curseForgeApiKey')) {
 			changelog = file('changelog.txt')
 			releaseType = project.release_type
 			addGameVersion project.minecraft_version
+			addGameVersion '1.17'
 			addGameVersion 'Java 16'
 			addGameVersion 'Fabric'
 			mainArtifact(new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")) {
@@ -134,6 +139,7 @@ if (hasProperty('modrinthApiKey')) {
 		changelog = file('changelog.txt').getText()
 		releaseType = project.release_type
 		addGameVersion(project.minecraft_version as String)
+		addGameVersion('1.17')
 		addLoader('fabric')
 	}
 }
