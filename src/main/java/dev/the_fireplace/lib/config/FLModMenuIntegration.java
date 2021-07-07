@@ -48,6 +48,11 @@ public final class FLModMenuIntegration implements ModMenuApi {
     }
 
     @Override
+    public String getModId() {
+        return FireplaceLib.MODID;
+    }
+
+    @Override
     public Function<Screen, ? extends Screen> getConfigScreenFactory() {
         return parent -> {
             this.configScreenBuilder = configScreenBuilderFactory.create(

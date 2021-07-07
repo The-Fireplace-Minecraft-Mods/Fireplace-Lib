@@ -2,10 +2,12 @@ package dev.the_fireplace.lib.entrypoints;
 
 import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.config.FLModMenuIntegration;
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
 import io.github.prospector.modmenu.api.ModMenuApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Screen;
+
+import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public final class ModMenuEntrypoint implements ModMenuApi {
@@ -17,7 +19,7 @@ public final class ModMenuEntrypoint implements ModMenuApi {
     }
 
     @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return flModMenuIntegration.getModConfigScreenFactory();
+    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
+        return flModMenuIntegration.getConfigScreenFactory();
     }
 }
