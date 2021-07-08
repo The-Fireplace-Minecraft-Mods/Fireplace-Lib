@@ -49,10 +49,8 @@ Data Generator Factory provides methods to build an additive or destructive (nor
 To use this with your mod, include the following in `build.gradle`:
 ```
 dependencies {
-  modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
   modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api"
-  // Optional but recommended so you can attach sources for the api
-  modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api-sources"
+  modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
 }
 ```
 And in `gradle.properties`:
