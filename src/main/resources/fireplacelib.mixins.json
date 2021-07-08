@@ -8,7 +8,7 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
-    "clothconfig.ListWidgetMixin"
+    "clothconfig.ListEntryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
