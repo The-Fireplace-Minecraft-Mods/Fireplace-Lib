@@ -2,7 +2,6 @@ package dev.the_fireplace.lib.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
@@ -40,7 +39,7 @@ public final class FLModMenuIntegration implements ModMenuApi {
         ConfigScreenBuilderFactory configScreenBuilderFactory
     ) {
         this.translator = translatorFactory.getTranslator(FireplaceLib.MODID);
-        this.configStateManager = DIContainer.get().getInstance(ConfigStateManager.class);
+        this.configStateManager = configStateManager;
         this.config = config;
         this.defaultConfigValues = defaultConfigValues;
         this.configScreenBuilderFactory = configScreenBuilderFactory;
