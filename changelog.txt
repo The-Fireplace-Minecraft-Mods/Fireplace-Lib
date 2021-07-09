@@ -1,3 +1,1 @@
-Use proper Dependency Injection instead of putting getInstance methods in all the interfaces. A separate API jar should no longer have errors.
-Restructured API for clarity and consistency
-This lib now includes and uses Annotated DI.
+Update the included Annotated DI version for better performance
