@@ -10,6 +10,7 @@ Current functionality:
 - Buffering utility for multiline messages
 - Synchronized message queueing to help avoid overlap when preparing multiline messages from multiple threads
 - Text pagination utility for a standard paginated chat, complete with buttons to go to the next and previous pages.
+- Library of common text styles
 
 #### IO Utilities
 - DirectoryResolver helps easily find commonly needed directories
@@ -25,8 +26,7 @@ Current functionality:
 - ReloadableManager allows reloading supported data from the files. LazyConfig is reloadable, so mods can easily implement commands to reload config without restarting the server.
 
 #### Config
-- LazyConfig class can be extended for an easy config system
-- (Client) ConfigScreenBuilder and AdvancedConfigScreenBuilder provide helper methods to reduce redundancy when making common Config GUI components
+- (Client) ConfigScreenBuilder provides helper methods to reduce redundancy when making common Config GUI components, and allows setting up dependency between config options.
 
 #### Multithreading
 Concurrent Execution Manager provides a convenient way to run tasks on different threads and choose if the server should wait for them to finish when shutting down. Using this for nonessessential threads is still useful because it limits the number of threads running at once to prevent stack overflow errors.
@@ -49,10 +49,8 @@ Data Generator Factory provides methods to build an additive or destructive (nor
 To use this with your mod, include the following in `build.gradle`:
 ```
 dependencies {
-  modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
   modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api"
-  // Optional but recommended so you can attach sources for the api
-  modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api-sources"
+  modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
 }
 ```
 And in `gradle.properties`:
