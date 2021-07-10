@@ -10,6 +10,7 @@ import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,15 +23,18 @@ import java.nio.file.Path;
 public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter {
     private final Gson gson;
     private final Logger logger;
+    private final JsonStoragePath jsonStoragePath;
 
-    public ConfigBasedJsonStorageWriter() {
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        logger = FireplaceLib.getLogger();
+    @Inject
+    public ConfigBasedJsonStorageWriter(JsonStoragePath jsonStoragePath) {
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.logger = FireplaceLib.getLogger();
+        this.jsonStoragePath = jsonStoragePath;
     }
 
     @Override
     public boolean write(ConfigBasedSerializable writable) {
-        Path filePath = JsonStoragePath.resolveConfigBasedJsonFilePath(writable);
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(writable);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists() && !folder.mkdirs()) {
@@ -60,7 +64,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
 
     @Override
     public boolean delete(ConfigBasedSerializable writable) {
-        Path filePath = JsonStoragePath.resolveConfigBasedJsonFilePath(writable);
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(writable);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists()) {
