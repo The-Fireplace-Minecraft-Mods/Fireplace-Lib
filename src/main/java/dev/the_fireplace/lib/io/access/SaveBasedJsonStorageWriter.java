@@ -10,6 +10,7 @@ import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,15 +23,18 @@ import java.nio.file.Path;
 public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter {
     private final Gson gson;
     private final Logger logger;
+    private final JsonStoragePath jsonStoragePath;
 
-    public SaveBasedJsonStorageWriter() {
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        logger = FireplaceLib.getLogger();
+    @Inject
+    public SaveBasedJsonStorageWriter(JsonStoragePath jsonStoragePath) {
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.logger = FireplaceLib.getLogger();
+        this.jsonStoragePath = jsonStoragePath;
     }
 
     @Override
     public boolean write(SaveBasedSerializable writable) {
-        Path filePath = JsonStoragePath.resolveSaveBasedJsonFilePath(writable);
+        Path filePath = jsonStoragePath.resolveSaveBasedJsonFilePath(writable);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists() && !folder.mkdirs()) {
@@ -60,7 +64,7 @@ public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter 
 
     @Override
     public boolean delete(SaveBasedSerializable writable) {
-        Path filePath = JsonStoragePath.resolveSaveBasedJsonFilePath(writable);
+        Path filePath = jsonStoragePath.resolveSaveBasedJsonFilePath(writable);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists() && !folder.mkdirs()) {

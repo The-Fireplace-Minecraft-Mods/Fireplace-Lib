@@ -1,20 +1,27 @@
 package dev.the_fireplace.lib.io.access;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.io.interfaces.SaveBasedSerializable;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.nio.file.Path;
 
+@Singleton
 public final class JsonStoragePath {
-    private static final DirectoryResolver DIRECTORY_RESOLVER = DIContainer.get().getInstance(DirectoryResolver.class);
+    private final DirectoryResolver directoryResolver;
+
+    @Inject
+    public JsonStoragePath(DirectoryResolver directoryResolver) {
+        this.directoryResolver = directoryResolver;
+    }
     
-    static Path resolveSaveBasedJsonFilePath(SaveBasedSerializable saveBasedSerializable) {
+    Path resolveSaveBasedJsonFilePath(SaveBasedSerializable saveBasedSerializable) {
         return resolveSaveBasedJsonFilePath(saveBasedSerializable.getDatabase(), saveBasedSerializable.getTable(), saveBasedSerializable.getId());
     }
 
-    static Path resolveSaveBasedJsonFilePath(String database, String table, String id) {
+    Path resolveSaveBasedJsonFilePath(String database, String table, String id) {
         Path filePath = resolveSaveBasedJsonDirectory(database, table);
         if (!id.isEmpty() && SchemaValidator.isValid(id)) {
             return filePath.resolve(SchemaValidator.minimizeSchema(id) + ".json");
@@ -23,8 +30,8 @@ public final class JsonStoragePath {
         }
     }
 
-    static Path resolveSaveBasedJsonDirectory(String database, String table) {
-        Path filePath = DIRECTORY_RESOLVER.getSavePath();
+    Path resolveSaveBasedJsonDirectory(String database, String table) {
+        Path filePath = directoryResolver.getSavePath();
 
         if (!database.isEmpty() && SchemaValidator.isValid(database)) {
             filePath = filePath.resolve(SchemaValidator.minimizeSchema(database));
@@ -39,8 +46,8 @@ public final class JsonStoragePath {
         return filePath;
     }
 
-    static Path resolveConfigBasedJsonFilePath(ConfigBasedSerializable configBasedSerializable) {
-        Path filePath = DIRECTORY_RESOLVER.getConfigPath();
+    Path resolveConfigBasedJsonFilePath(ConfigBasedSerializable configBasedSerializable) {
+        Path filePath = directoryResolver.getConfigPath();
 
         String subfolder = SchemaValidator.minimizeSchema(configBasedSerializable.getSubfolderName());
         if (!subfolder.isEmpty() && SchemaValidator.isValid(subfolder)) {

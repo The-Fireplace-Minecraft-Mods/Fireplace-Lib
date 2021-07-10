@@ -15,15 +15,17 @@ import java.nio.file.Path;
 @Singleton
 public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageReader {
     private final JsonFileReader fileReader;
+    private final JsonStoragePath jsonStoragePath;
 
     @Inject
-    public ConfigBasedJsonStorageReader(JsonFileReader jsonFileReader) {
-        fileReader = jsonFileReader;
+    public ConfigBasedJsonStorageReader(JsonFileReader jsonFileReader, JsonStoragePath jsonStoragePath) {
+        this.fileReader = jsonFileReader;
+        this.jsonStoragePath = jsonStoragePath;
     }
 
     @Override
     public void readTo(ConfigBasedSerializable readable) {
-        Path filePath = JsonStoragePath.resolveConfigBasedJsonFilePath(readable);
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(readable);
 
         JsonObject obj = fileReader.readJsonFile(filePath.toFile());
         if (obj == null) {
