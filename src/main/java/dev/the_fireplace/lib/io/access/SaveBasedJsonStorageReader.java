@@ -24,15 +24,17 @@ public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader 
     private static final Pattern JSON_FILE_REGEX = Pattern.compile('^' + SchemaValidator.SCHEMA_PATTERN_STRING + "\\.json$");
     private static final Pattern JSON_EXTENSION_LITERAL = Pattern.compile(".json", Pattern.LITERAL);
     private final JsonFileReader fileReader;
+    private final JsonStoragePath jsonStoragePath;
 
     @Inject
-    public SaveBasedJsonStorageReader(JsonFileReader jsonFileReader) {
-        fileReader = jsonFileReader;
+    public SaveBasedJsonStorageReader(JsonFileReader jsonFileReader, JsonStoragePath jsonStoragePath) {
+        this.fileReader = jsonFileReader;
+        this.jsonStoragePath = jsonStoragePath;
     }
 
     @Override
     public void readTo(SaveBasedSerializable readable) {
-        Path filePath = JsonStoragePath.resolveSaveBasedJsonFilePath(readable);
+        Path filePath = jsonStoragePath.resolveSaveBasedJsonFilePath(readable);
 
         JsonObject obj = fileReader.readJsonFile(filePath.toFile());
         if (obj == null) {
@@ -45,7 +47,7 @@ public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader 
 
     @Override
     public Iterator<String> getStoredIdsIterator(String database, String table) {
-        Path saveDirectory = JsonStoragePath.resolveSaveBasedJsonDirectory(database, table);
+        Path saveDirectory = jsonStoragePath.resolveSaveBasedJsonDirectory(database, table);
 
         File[] files = saveDirectory.toFile().listFiles((file, s) -> JSON_FILE_REGEX.matcher(s).matches());
 
@@ -56,7 +58,7 @@ public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader 
 
     @Override
     public boolean isStored(String database, String table, String id) {
-        return JsonStoragePath.resolveSaveBasedJsonFilePath(database, table, id).toFile().exists();
+        return jsonStoragePath.resolveSaveBasedJsonFilePath(database, table, id).toFile().exists();
     }
 
     @Override
