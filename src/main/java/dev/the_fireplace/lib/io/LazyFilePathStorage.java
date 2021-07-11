@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-@Implementation({FilePathStorage.class})
+@Implementation("dev.the_fireplace.lib.api.io.injectables.FilePathStorage")
 @Singleton
 public final class LazyFilePathStorage implements Config, Defaultable, FilePathStorage {
     private final ConcurrentMap<String, String> lazyMemory;
