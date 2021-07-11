@@ -70,6 +70,8 @@ java {
 	withJavadocJar()
 }
 
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
 task sourcesJar(type: Jar, dependsOn: classes) {
 	archiveClassifier.set('sources')
 	from sourceSets.main.allSource + sourceSets.api.allSource
