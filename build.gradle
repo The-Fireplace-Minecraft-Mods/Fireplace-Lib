@@ -42,6 +42,7 @@ dependencies {
 
 	modApi "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
 	include "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}"
+	annotationProcessor "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}:processor"
 
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modApi("me.shedaniel.cloth:config-2:${project.clothconfig_version}") {
