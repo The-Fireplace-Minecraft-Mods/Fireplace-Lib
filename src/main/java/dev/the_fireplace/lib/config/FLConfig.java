@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-@Implementation({ConfigValues.class})
+@Implementation("dev.the_fireplace.lib.domain.config.ConfigValues")
 @Singleton
 public final class FLConfig implements Config, ConfigValues {
     private final ConfigValues defaultConfig;
