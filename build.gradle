@@ -32,6 +32,10 @@ repositories {
 	maven { url 'https://maven.shedaniel.me/' }
 	//Currently down, and causing problems when trying to get dependencies.
 	// maven { url 'https://maven.terraformersmc.com/releases/' }
+	maven {
+		name 'Terraformers Backup'
+		url 'https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/'
+	}
 	flatDir { dirs 'lib' }
 }
 
