@@ -51,9 +51,13 @@ To use this with your mod, include the following in `build.gradle`:
 dependencies {
   modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api"
   modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
+  // Only required if you're going to create your own Dependency Injections using @Implementation
+  annotationProcessor "dev.the-fireplace:Annotated-DI:${project.annotateddi_version}:processor"
 }
 ```
 And in `gradle.properties`:
 ```
 fireplacelib_version=<mod version>+<minecraft version>
+# Only required if you're going to create your own Dependency Injections using @Implementation
+annotateddi_version=<mod version>+<minecraft version>
 ```
