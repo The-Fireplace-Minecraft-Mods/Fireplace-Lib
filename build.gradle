@@ -30,7 +30,8 @@ group = project.maven_group
 
 repositories {
 	maven { url 'https://maven.shedaniel.me/' }
-	maven { url 'https://maven.terraformersmc.com/releases/' }
+	//Currently down, and causing problems when trying to get dependencies.
+	// maven { url 'https://maven.terraformersmc.com/releases/' }
 	flatDir { dirs 'lib' }
 }
 
