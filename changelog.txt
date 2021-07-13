@@ -1,1 +1,1 @@
-Fixed startup crash
+Update embedded Annotated DI to 2.0.1
