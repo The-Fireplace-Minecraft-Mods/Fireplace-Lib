@@ -6,7 +6,6 @@ import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -15,7 +14,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ClothConfigDependencyHandler implements ClothConfigDependencyTracker {
-    @ApiStatus.Internal
     public static final Set<AbstractConfigEntry<?>> DISABLED_ENTRIES = new HashSet<>();
     private static final Function<ConfigCategory, Map<String, AbstractConfigListEntry<?>>> CREATE_MAP = (unused) -> new HashMap<>();
     private final Map<ConfigCategory, Map<String, AbstractConfigListEntry<?>>> configEntries = new HashMap<>();
