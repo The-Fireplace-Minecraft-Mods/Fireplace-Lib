@@ -10,10 +10,13 @@ import dev.the_fireplace.lib.domain.config.ConfigValues;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.LanguageDefinition;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 @Singleton
@@ -60,11 +63,13 @@ public final class FLConfigScreenFactory {
     }
 
     private void addGlobalCategoryEntries() {
-        configScreenBuilder.addStringField(
+        configScreenBuilder.addStringDropdown(
             OPTION_TRANSLATION_BASE + "locale",
             config.getLocale(),
             defaultConfigValues.getLocale(),
-            config::setLocale
+            MinecraftClient.getInstance().getLanguageManager().getAllLanguages().parallelStream().map(LanguageDefinition::getCode).collect(Collectors.toList()),
+            config::setLocale,
+            false
         );
         configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "essentialThreadPoolSize",
