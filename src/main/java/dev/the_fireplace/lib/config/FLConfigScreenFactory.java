@@ -1,7 +1,6 @@
 package dev.the_fireplace.lib.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
@@ -18,7 +17,7 @@ import javax.inject.Singleton;
 
 @Environment(EnvType.CLIENT)
 @Singleton
-public final class FLModMenuIntegration implements ModMenuApi {
+public final class FLConfigScreenFactory {
     private static final String TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".";
     private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".option.";
 
@@ -27,11 +26,11 @@ public final class FLModMenuIntegration implements ModMenuApi {
     private final FLConfig config;
     private final ConfigValues defaultConfigValues;
     private final ConfigScreenBuilderFactory configScreenBuilderFactory;
-    
+
     private ConfigScreenBuilder configScreenBuilder;
 
     @Inject
-    public FLModMenuIntegration(
+    public FLConfigScreenFactory(
         TranslatorFactory translatorFactory,
         ConfigStateManager configStateManager,
         FLConfig config,
@@ -45,7 +44,6 @@ public final class FLModMenuIntegration implements ModMenuApi {
         this.configScreenBuilderFactory = configScreenBuilderFactory;
     }
 
-    @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> {
             this.configScreenBuilder = configScreenBuilderFactory.create(
