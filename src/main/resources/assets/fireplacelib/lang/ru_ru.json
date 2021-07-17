@@ -1,5 +1,19 @@
 {
+  "modmenu.descriptionTranslation.fireplacelib": "Библиотека общих функций, используемых моими модами, в одном месте для облегчения обслуживания и более быстрых обновлений.",
+  "modmenu.summaryTranslation.fireplacelib": "Общие функции для модов The_Fireplace.",
+
   "fireplacelib.chat.page.next": "[Далее]",
   "fireplacelib.chat.page.prev": "[Назад]",
-  "fireplacelib.chat.page.num": "page: %s/%s"
+  "fireplacelib.chat.page.num": "Страница: %s/%s",
+
+  "fireplacelib.command.reload.reloaded": "Fireplace Lib настройка перезагружена!",
+
+  "text.config.fireplacelib.title": "Настройка Fireplace Lib",
+
+  "text.config.fireplacelib.option.locale": "Локальный сервер",
+  "text.config.fireplacelib.option.locale.desc": "Не используется здесь, только на сервер.",
+  "text.config.fireplacelib.option.essentialThreadPoolSize": "Основной размер пула потоков",
+  "text.config.fireplacelib.option.essentialThreadPoolSize.desc": "Не трогайте, пока если не знаете что нужно сделать.",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize": "Нон-основной размер пула потоков",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "Не трогайте, пока если не знаете что нужно сделать."
 }

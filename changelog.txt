@@ -1,1 +1,1 @@
-Update embedded Annotated DI to 2.0.2
+Update Russian translations (kyrtion)
