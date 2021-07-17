@@ -16,7 +16,6 @@ import net.minecraft.client.resource.language.LanguageDefinition;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -48,19 +47,17 @@ public final class FLConfigScreenFactory {
         this.configScreenBuilderFactory = configScreenBuilderFactory;
     }
 
-    public Function<Screen, ? extends Screen> getConfigScreenFactory() {
-        return parent -> {
-            this.configScreenBuilder = configScreenBuilderFactory.create(
-                translator,
-                TRANSLATION_BASE + "title",
-                TRANSLATION_BASE + "global",
-                parent,
-                () -> configStateManager.save(config)
-            );
-            addGlobalCategoryEntries();
+    public Screen getConfigScreen(Screen parent) {
+        this.configScreenBuilder = configScreenBuilderFactory.create(
+            translator,
+            TRANSLATION_BASE + "title",
+            TRANSLATION_BASE + "global",
+            parent,
+            () -> configStateManager.save(config)
+        );
+        addGlobalCategoryEntries();
 
-            return this.configScreenBuilder.build();
-        };
+        return this.configScreenBuilder.build();
     }
 
     private void addGlobalCategoryEntries() {
