@@ -15,12 +15,12 @@ public final class FLConfigDefaults implements ConfigValues {
 
     @Override
     public short getEssentialThreadPoolSize() {
-        return 256;
+        return 16;
     }
 
     @Override
     public short getNonEssentialThreadPoolSize() {
-        return 128;
+        return 8;
     }
 
     @Override
