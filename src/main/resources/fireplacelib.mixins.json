@@ -9,8 +9,7 @@
     "ClientPlayNetworkHandlerMixin",
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
-    "clothconfig.ListWidgetMixin",
-    "modmenu.ModMenuConfigMixin"
+    "clothconfig.ListWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
