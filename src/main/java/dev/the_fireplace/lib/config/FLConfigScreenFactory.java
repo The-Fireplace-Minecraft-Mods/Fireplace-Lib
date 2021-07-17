@@ -83,53 +83,5 @@ public final class FLConfigScreenFactory {
             (short) 1,
             Short.MAX_VALUE
         );
-
-        if (FireplaceLib.isDevelopmentEnvironment()) {
-            configScreenBuilder.addBoolToggle(
-                OPTION_TRANSLATION_BASE + "showSecretOptions",
-                false,
-                false,
-                (val) -> {}
-            );
-            configScreenBuilder.addIntSlider(
-                OPTION_TRANSLATION_BASE + "ligma",
-                0,
-                2,
-                (val) -> {},
-                0,
-                20
-            );
-            configScreenBuilder.addFloatSlider(
-                OPTION_TRANSLATION_BASE + "float",
-                0,
-                1,
-                (val) -> {},
-                0,
-                20
-            );
-            configScreenBuilder.addByteSlider(
-                OPTION_TRANSLATION_BASE + "bite",
-                (byte)0,
-                (byte)1,
-                (val) -> {},
-                (byte)0,
-                (byte)20
-            );
-            configScreenBuilder.addOptionDependency(
-                OPTION_TRANSLATION_BASE + "showSecretOptions",
-                OPTION_TRANSLATION_BASE + "ligma",
-                (parentValue) -> (boolean) parentValue
-            );
-            configScreenBuilder.addOptionDependency(
-                OPTION_TRANSLATION_BASE + "ligma",
-                OPTION_TRANSLATION_BASE + "float",
-                (parentValue) -> ((int) parentValue) > 10
-            );
-            configScreenBuilder.addOptionDependency(
-                OPTION_TRANSLATION_BASE + "float",
-                OPTION_TRANSLATION_BASE + "bite",
-                (parentValue) -> ((float) parentValue) > 6.9
-            );
-        }
     }
 }
