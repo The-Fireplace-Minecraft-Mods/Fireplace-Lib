@@ -7,7 +7,6 @@ import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
-import io.github.prospector.modmenu.api.ModMenuApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,7 +18,7 @@ import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 @Singleton
-public final class FLModMenuIntegration implements ModMenuApi {
+public final class FLConfigScreenFactory {
     private static final String TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".";
     private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".option.";
 
@@ -32,7 +31,7 @@ public final class FLModMenuIntegration implements ModMenuApi {
     private ConfigScreenBuilder configScreenBuilder;
 
     @Inject
-    public FLModMenuIntegration(
+    public FLConfigScreenFactory(
         TranslatorFactory translatorFactory,
         ConfigStateManager configStateManager,
         FLConfig config,
@@ -46,12 +45,6 @@ public final class FLModMenuIntegration implements ModMenuApi {
         this.configScreenBuilderFactory = configScreenBuilderFactory;
     }
 
-    @Override
-    public String getModId() {
-        return FireplaceLib.MODID;
-    }
-
-    @Override
     public Function<Screen, ? extends Screen> getConfigScreenFactory() {
         return parent -> {
             this.configScreenBuilder = configScreenBuilderFactory.create(
