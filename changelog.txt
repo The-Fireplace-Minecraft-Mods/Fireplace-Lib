@@ -1,5 +1,4 @@
 Update Russian translations (kyrtion)
-Prevent Mod Menu from crashing the dev environment due to config changes when hopping between MC versions.
 Fixed language change waiting for restart to fully take effect
 Fixed configs not getting registered as Reloadable
 Added a method to the Config API for doing custom behavior after config reloads

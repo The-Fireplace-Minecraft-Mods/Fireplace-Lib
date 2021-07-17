@@ -10,6 +10,7 @@ import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.LanguageDefinition;
 
 import javax.inject.Inject;
