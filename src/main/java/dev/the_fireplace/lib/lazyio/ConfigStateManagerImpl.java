@@ -3,11 +3,14 @@ package dev.the_fireplace.lib.lazyio;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageReader;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter;
+import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Reloadable;
+import dev.the_fireplace.lib.domain.io.JsonBufferDiffGenerator;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
+import dev.the_fireplace.lib.io.access.JsonStorageWriteBuffer;
 import dev.the_fireplace.lib.io.access.SchemaValidator;
 
 import javax.inject.Inject;
@@ -20,12 +23,19 @@ public final class ConfigStateManagerImpl implements ConfigStateManager {
     private final ConfigBasedStorageReader storageReader;
     private final ConfigBasedStorageWriter storageWriter;
     private final ReloadableManager reloadableManager;
+    private final JsonBufferDiffGenerator bufferDiffGenerator;
 
     @Inject
-    public ConfigStateManagerImpl(ConfigBasedStorageReader storageReader, ConfigBasedStorageWriter storageWriter, ReloadableManager reloadableManager) {
+    public ConfigStateManagerImpl(
+        ConfigBasedStorageReader storageReader,
+        ConfigBasedStorageWriter storageWriter,
+        ReloadableManager reloadableManager,
+        JsonBufferDiffGenerator bufferDiffGenerator
+    ) {
         this.storageReader = storageReader;
         this.storageWriter = storageWriter;
         this.reloadableManager = reloadableManager;
+        this.bufferDiffGenerator = bufferDiffGenerator;
     }
 
     @Override
@@ -52,7 +62,16 @@ public final class ConfigStateManagerImpl implements ConfigStateManager {
             reloadableManager.register(new Reloadable() {
                 @Override
                 public void reload() {
+                    JsonStorageWriteBuffer previousState = new JsonStorageWriteBuffer();
+                    config.writeTo(previousState);
+
                     ConfigStateManagerImpl.this.reload(config);
+
+                    JsonStorageWriteBuffer currentState = new JsonStorageWriteBuffer();
+                    config.writeTo(currentState);
+
+                    SimpleBuffer diffBuffer = bufferDiffGenerator.generateLeftDiff(previousState, currentState);
+                    config.afterReload(diffBuffer);
                 }
 
                 @Override
