@@ -1,1 +1,3 @@
 Update Russian translations (kyrtion)
+Prevent Mod Menu from crashing the dev environment due to config changes when hopping between MC versions.
+Fixed language change waiting for restart to fully take effect
