@@ -2,7 +2,6 @@ package dev.the_fireplace.lib.io.access;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
@@ -52,7 +51,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile), Short.MAX_VALUE)) {
-            JsonStorageWriteBuffer writeBuffer = new JsonStorageWriteBuffer(new JsonObject());
+            JsonStorageWriteBuffer writeBuffer = new JsonStorageWriteBuffer();
             writable.writeTo(writeBuffer);
             gson.toJson(writeBuffer.getObj(), bw);
             return true;
