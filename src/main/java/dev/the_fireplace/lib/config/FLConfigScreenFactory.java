@@ -1,6 +1,5 @@
 package dev.the_fireplace.lib.config;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
@@ -47,19 +46,17 @@ public final class FLConfigScreenFactory {
         this.configScreenBuilderFactory = configScreenBuilderFactory;
     }
 
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return parent -> {
-            this.configScreenBuilder = configScreenBuilderFactory.create(
-                translator,
-                TRANSLATION_BASE + "title",
-                TRANSLATION_BASE + "global",
-                parent,
-                () -> configStateManager.save(config)
-            );
-            addGlobalCategoryEntries();
+    public Screen getConfigScreen(Screen parent) {
+        this.configScreenBuilder = configScreenBuilderFactory.create(
+            translator,
+            TRANSLATION_BASE + "title",
+            TRANSLATION_BASE + "global",
+            parent,
+            () -> configStateManager.save(config)
+        );
+        addGlobalCategoryEntries();
 
-            return this.configScreenBuilder.build();
-        };
+        return this.configScreenBuilder.build();
     }
 
     private void addGlobalCategoryEntries() {

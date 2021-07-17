@@ -6,6 +6,7 @@ import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.config.FLConfigScreenFactory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Screen;
 
 @Environment(EnvType.CLIENT)
 public final class ModMenuEntrypoint implements ModMenuApi {
@@ -13,6 +14,6 @@ public final class ModMenuEntrypoint implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return flConfigScreenFactory.getModConfigScreenFactory();
+        return (ConfigScreenFactory<Screen>) flConfigScreenFactory::getConfigScreen;
     }
 }
