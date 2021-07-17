@@ -8,7 +8,8 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
-    "clothconfig.ListWidgetMixin"
+    "clothconfig.ListWidgetMixin",
+    "modmenu.ModMenuConfigMixin"
   ],
   "injectors": {
     "defaultRequire": 1
