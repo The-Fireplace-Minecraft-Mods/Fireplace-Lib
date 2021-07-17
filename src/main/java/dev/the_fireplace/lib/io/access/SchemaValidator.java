@@ -10,11 +10,11 @@ public final class SchemaValidator {
     private static final Pattern VALID_SCHEMA_REGEX = Pattern.compile('^' + SCHEMA_PATTERN_STRING + '$');
     private static final Pattern DASHES = Pattern.compile("-", Pattern.LITERAL);
 
-    static boolean isValid(String s) {
+    public static boolean isValid(String s) {
         return VALID_SCHEMA_REGEX.matcher(s).matches();
     }
 
-    static String minimizeSchema(String s) {
+    public static String minimizeSchema(String s) {
         return DASHES.matcher(s).replaceAll(Matcher.quoteReplacement("")).toLowerCase(Locale.ROOT);
     }
 }
