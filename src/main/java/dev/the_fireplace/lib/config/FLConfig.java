@@ -1,10 +1,12 @@
 package dev.the_fireplace.lib.config;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
+import dev.the_fireplace.lib.chat.translation.ModLanguageMaps;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
@@ -25,6 +27,13 @@ public final class FLConfig implements Config, ConfigValues {
     public FLConfig(ConfigStateManager configStateManager, @Named("default") ConfigValues defaultConfig) {
         this.defaultConfig = defaultConfig;
         configStateManager.initialize(this);
+    }
+
+    @Override
+    public void afterReload(SimpleBuffer changedValues) {
+        if (changedValues.hasKey("locale")) {
+            ModLanguageMaps.reloadLanguage();
+        }
     }
 
     @Override
