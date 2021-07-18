@@ -22,19 +22,4 @@ public final class FLConfigDefaults implements ConfigValues {
     public short getNonEssentialThreadPoolSize() {
         return 8;
     }
-
-    @Override
-    public void setLocale(String locale) {
-
-    }
-
-    @Override
-    public void setEssentialThreadPoolSize(short essentialThreadPoolSize) {
-
-    }
-
-    @Override
-    public void setNonEssentialThreadPoolSize(short nonEssentialThreadPoolSize) {
-
-    }
 }
