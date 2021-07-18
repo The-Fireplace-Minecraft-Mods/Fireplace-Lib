@@ -70,17 +70,14 @@ public final class FLConfig implements Config, ConfigValues {
         return nonEssentialThreadPoolSize;
     }
 
-    @Override
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
-    @Override
     public void setEssentialThreadPoolSize(short essentialThreadPoolSize) {
         this.essentialThreadPoolSize = essentialThreadPoolSize;
     }
 
-    @Override
     public void setNonEssentialThreadPoolSize(short nonEssentialThreadPoolSize) {
         this.nonEssentialThreadPoolSize = nonEssentialThreadPoolSize;
     }
