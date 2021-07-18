@@ -6,10 +6,4 @@ public interface ConfigValues {
     short getEssentialThreadPoolSize();
 
     short getNonEssentialThreadPoolSize();
-
-    void setLocale(String locale);
-
-    void setEssentialThreadPoolSize(short essentialThreadPoolSize);
-
-    void setNonEssentialThreadPoolSize(short nonEssentialThreadPoolSize);
 }
