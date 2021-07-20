@@ -48,6 +48,16 @@ Data Generator Factory provides methods to build an additive or destructive (nor
 ## Usage
 To use this with your mod, include the following in `build.gradle`:
 ```
+repositories {
+  maven {
+		name 'Cloth Config'
+		url 'https://maven.shedaniel.me/'
+	}
+	maven {
+		name 'Terraformers Backup - Mod Menu'
+		url 'https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/'
+	}
+}
 dependencies {
   modCompileOnly "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}:api"
   modRuntime "dev.the-fireplace:Fireplace-Lib:${project.fireplacelib_version}"
