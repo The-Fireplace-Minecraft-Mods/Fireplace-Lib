@@ -1,5 +1,7 @@
 package dev.the_fireplace.lib.api.client.interfaces;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
@@ -9,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SuppressWarnings({"UnusedReturnValue", "unused"})
+@Environment(EnvType.CLIENT)
 public interface ConfigScreenBuilder {
     ConfigScreenBuilder startCategory(String translationKey);
 

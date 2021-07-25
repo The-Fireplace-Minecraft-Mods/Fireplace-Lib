@@ -1,1 +1,1 @@
-[1.17.X] Fix a broken Mixin
+Fix crash when loading dedicated server
