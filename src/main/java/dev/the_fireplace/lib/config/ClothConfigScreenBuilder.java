@@ -169,7 +169,6 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
             .setSelections(dropdownEntries)
-            .setSuggestionMode(suggestionMode)
             .setErrorSupplier(errorSupplier);
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
