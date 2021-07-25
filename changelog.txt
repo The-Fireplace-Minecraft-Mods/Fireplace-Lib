@@ -1,1 +1,1 @@
-Updated Config Screen Builder to allow setting an error handler
+[1.17.X] Fix a broken Mixin
