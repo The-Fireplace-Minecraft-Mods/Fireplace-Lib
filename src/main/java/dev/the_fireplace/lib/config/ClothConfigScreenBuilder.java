@@ -160,7 +160,22 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         boolean suggestionMode,
         byte descriptionRowCount
     ) {
-        return addStringDropdown(optionTranslationBase, currentValue, defaultValue, dropdownEntries, saveFunction, suggestionMode, descriptionRowCount, s -> Optional.empty());
+        return addStringDropdown(optionTranslationBase, currentValue, defaultValue, dropdownEntries, saveFunction, suggestionMode, descriptionRowCount, requiredValueSupplier(dropdownEntries, suggestionMode));
+    }
+
+    private Function<String, Optional<String>> requiredValueSupplier(Iterable<String> dropdownEntries, boolean suggestionMode) {
+        return newValue -> {
+            if (suggestionMode) {
+                return Optional.empty();
+            }
+            for (String entry : dropdownEntries) {
+                if (entry.equals(newValue)) {
+                    return Optional.empty();
+                }
+            }
+
+            return Optional.of(translator.getTranslatedString("text.configgui.choose_from_list"));
+        };
     }
 
     @Override
@@ -169,7 +184,15 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
             .setSelections(dropdownEntries)
-            .setErrorSupplier(errorSupplier);
+            .setErrorSupplier(newValue -> {
+                Optional<String> requiredValueError = requiredValueSupplier(dropdownEntries, suggestionMode).apply((String) newValue);
+
+                if (!requiredValueError.isPresent()) {
+                    return errorSupplier.apply((String) newValue);
+                }
+
+                return requiredValueError;
+            });
         attachDescription(optionTranslationBase, descriptionRowCount, builder);
         AbstractConfigListEntry<?> entry = builder.build();
         this.dependencyTracker.addOption(category, optionTranslationBase, entry);

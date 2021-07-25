@@ -15,5 +15,7 @@
   "text.config.fireplacelib.option.essentialThreadPoolSize": "Essential Thread Pool Size",
   "text.config.fireplacelib.option.essentialThreadPoolSize.desc": "Don't touch unless you know what you're doing.",
   "text.config.fireplacelib.option.nonEssentialThreadPoolSize": "Non-Essential Thread Pool Size",
-  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "Don't touch unless you know what you're doing."
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "Don't touch unless you know what you're doing.",
+
+  "text.configgui.choose_from_list": "The entered option was not found in the dropdown, please choose from the dropdown."
 }
