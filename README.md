@@ -54,8 +54,8 @@ repositories {
 		url 'https://maven.shedaniel.me/'
 	}
 	maven {
-		name 'Terraformers Backup - Mod Menu'
-		url 'https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/'
+		name 'Mod Menu'
+		url 'https://maven.terraformersmc.com/releases/'
 	}
 }
 dependencies {
