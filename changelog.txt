@@ -1,1 +1,1 @@
-Fix crash when loading dedicated server
+[1.14.X] Avoid cloth config bug where error supplier on dropdown causes crash
