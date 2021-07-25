@@ -1,8 +1,10 @@
 package dev.the_fireplace.lib.api.client.interfaces;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.text.Text;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -25,6 +27,15 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addStringField(
+        String optionTranslationBase,
+        String currentValue,
+        String defaultValue,
+        Consumer<String> saveFunction,
+        byte descriptionRowCount,
+        Function<String, Optional<Text>> errorSupplier
+    );
+
     <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(
         String optionTranslationBase,
         T currentValue,
@@ -40,6 +51,16 @@ public interface ConfigScreenBuilder {
         Iterable<T> dropdownEntries,
         Consumer<T> saveFunction,
         byte descriptionRowCount
+    );
+
+    <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(
+        String optionTranslationBase,
+        T currentValue,
+        T defaultValue,
+        Iterable<T> dropdownEntries,
+        Consumer<T> saveFunction,
+        byte descriptionRowCount,
+        Function<T, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addStringDropdown(
@@ -61,6 +82,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addStringDropdown(
+        String optionTranslationBase,
+        String currentValue,
+        String defaultValue,
+        Iterable<String> dropdownEntries,
+        Consumer<String> saveFunction,
+        boolean suggestionMode,
+        byte descriptionRowCount,
+        Function<String, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addStringListField(
         String optionTranslationBase,
         List<String> currentValue,
@@ -74,6 +106,15 @@ public interface ConfigScreenBuilder {
         List<String> defaultValue,
         Consumer<List<String>> saveFunction,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addStringListField(
+        String optionTranslationBase,
+        List<String> currentValue,
+        List<String> defaultValue,
+        Consumer<List<String>> saveFunction,
+        byte descriptionRowCount,
+        Function<List<String>, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addFloatField(
@@ -102,6 +143,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addFloatField(
+        String optionTranslationBase,
+        float currentValue,
+        float defaultValue,
+        Consumer<Float> saveFunction,
+        float min,
+        float max,
+        byte descriptionRowCount,
+        Function<Float, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addFloatSlider(
         String optionTranslationBase,
         float currentValue,
@@ -121,6 +173,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addFloatSlider(
+        String optionTranslationBase,
+        float currentValue,
+        float defaultValue,
+        Consumer<Float> saveFunction,
+        float min,
+        float max,
+        byte descriptionRowCount,
+        Function<Float, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addFloatListField(
         String optionTranslationBase,
         List<Float> currentValue,
@@ -136,6 +199,15 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addFloatListField(
+        String optionTranslationBase,
+        List<Float> currentValue,
+        List<Float> defaultValue,
+        Consumer<List<Float>> saveFunction,
+        byte descriptionRowCount,
+        Function<List<Float>, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addDoubleField(
         String optionTranslationBase,
         double currentValue,
@@ -160,6 +232,17 @@ public interface ConfigScreenBuilder {
         double min,
         double max,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addDoubleField(
+        String optionTranslationBase,
+        double currentValue,
+        double defaultValue,
+        Consumer<Double> saveFunction,
+        double min,
+        double max,
+        byte descriptionRowCount,
+        Function<Double, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addDoubleSlider(
@@ -192,6 +275,18 @@ public interface ConfigScreenBuilder {
         byte precision
     );
 
+    ConfigScreenBuilder addDoubleSlider(
+        String optionTranslationBase,
+        double currentValue,
+        double defaultValue,
+        Consumer<Double> saveFunction,
+        double min,
+        double max,
+        byte descriptionRowCount,
+        byte precision,
+        Function<Double, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addDoublePercentSlider(
         String optionTranslationBase,
         double currentValue,
@@ -206,6 +301,16 @@ public interface ConfigScreenBuilder {
         Consumer<Double> saveFunction,
         byte descriptionRowCount,
         byte precision
+    );
+
+    ConfigScreenBuilder addDoublePercentSlider(
+        String optionTranslationBase,
+        double currentValue,
+        double defaultValue,
+        Consumer<Double> saveFunction,
+        byte descriptionRowCount,
+        byte precision,
+        Function<Double, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addDoubleListField(
@@ -221,6 +326,15 @@ public interface ConfigScreenBuilder {
         List<Double> defaultValue,
         Consumer<List<Double>> saveFunction,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addDoubleListField(
+        String optionTranslationBase,
+        List<Double> currentValue,
+        List<Double> defaultValue,
+        Consumer<List<Double>> saveFunction,
+        byte descriptionRowCount,
+        Function<List<Double>, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addLongField(
@@ -249,6 +363,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addLongField(
+        String optionTranslationBase,
+        long currentValue,
+        long defaultValue,
+        Consumer<Long> saveFunction,
+        long min,
+        long max,
+        byte descriptionRowCount,
+        Function<Long, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addLongSlider(
         String optionTranslationBase,
         long currentValue,
@@ -268,6 +393,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addLongSlider(
+        String optionTranslationBase,
+        long currentValue,
+        long defaultValue,
+        Consumer<Long> saveFunction,
+        long min,
+        long max,
+        byte descriptionRowCount,
+        Function<Long, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addLongListField(
         String optionTranslationBase,
         List<Long> currentValue,
@@ -281,6 +417,15 @@ public interface ConfigScreenBuilder {
         List<Long> defaultValue,
         Consumer<List<Long>> saveFunction,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addLongListField(
+        String optionTranslationBase,
+        List<Long> currentValue,
+        List<Long> defaultValue,
+        Consumer<List<Long>> saveFunction,
+        byte descriptionRowCount,
+        Function<List<Long>, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addIntField(
@@ -309,6 +454,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addIntField(
+        String optionTranslationBase,
+        int currentValue,
+        int defaultValue,
+        Consumer<Integer> saveFunction,
+        int min,
+        int max,
+        byte descriptionRowCount,
+        Function<Integer, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addIntSlider(
         String optionTranslationBase,
         int currentValue,
@@ -328,6 +484,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addIntSlider(
+        String optionTranslationBase,
+        int currentValue,
+        int defaultValue,
+        Consumer<Integer> saveFunction,
+        int min,
+        int max,
+        byte descriptionRowCount,
+        Function<Integer, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addIntListField(
         String optionTranslationBase,
         List<Integer> currentValue,
@@ -341,6 +508,15 @@ public interface ConfigScreenBuilder {
         List<Integer> defaultValue,
         Consumer<List<Integer>> saveFunction,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addIntListField(
+        String optionTranslationBase,
+        List<Integer> currentValue,
+        List<Integer> defaultValue,
+        Consumer<List<Integer>> saveFunction,
+        byte descriptionRowCount,
+        Function<List<Integer>, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addShortField(
@@ -369,6 +545,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addShortField(
+        String optionTranslationBase,
+        short currentValue,
+        short defaultValue,
+        Consumer<Short> saveFunction,
+        short min,
+        short max,
+        byte descriptionRowCount,
+        Function<Short, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addShortSlider(
         String optionTranslationBase,
         short currentValue,
@@ -386,6 +573,17 @@ public interface ConfigScreenBuilder {
         short min,
         short max,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addShortSlider(
+        String optionTranslationBase,
+        short currentValue,
+        short defaultValue,
+        Consumer<Short> saveFunction,
+        short min,
+        short max,
+        byte descriptionRowCount,
+        Function<Short, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addByteField(
@@ -414,6 +612,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addByteField(
+        String optionTranslationBase,
+        byte currentValue,
+        byte defaultValue,
+        Consumer<Byte> saveFunction,
+        byte min,
+        byte max,
+        byte descriptionRowCount,
+        Function<Byte, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addByteSlider(
         String optionTranslationBase,
         byte currentValue,
@@ -433,6 +642,17 @@ public interface ConfigScreenBuilder {
         byte descriptionRowCount
     );
 
+    ConfigScreenBuilder addByteSlider(
+        String optionTranslationBase,
+        byte currentValue,
+        byte defaultValue,
+        Consumer<Byte> saveFunction,
+        byte min,
+        byte max,
+        byte descriptionRowCount,
+        Function<Byte, Optional<Text>> errorSupplier
+    );
+
     ConfigScreenBuilder addBoolToggle(
         String optionTranslationBase,
         boolean currentValue,
@@ -446,6 +666,15 @@ public interface ConfigScreenBuilder {
         boolean defaultValue,
         Consumer<Boolean> saveFunction,
         byte descriptionRowCount
+    );
+
+    ConfigScreenBuilder addBoolToggle(
+        String optionTranslationBase,
+        boolean currentValue,
+        boolean defaultValue,
+        Consumer<Boolean> saveFunction,
+        byte descriptionRowCount,
+        Function<Boolean, Optional<Text>> errorSupplier
     );
 
     ConfigScreenBuilder addOptionDependency(
