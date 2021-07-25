@@ -76,7 +76,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addStringField(String optionTranslationBase, String currentValue, String defaultValue, Consumer<String> saveFunction, byte descriptionRowCount, Function<String, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addStringField(String optionTranslationBase, String currentValue, String defaultValue, Consumer<String> saveFunction, byte descriptionRowCount, Function<String, Optional<String>> errorSupplier) {
         StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -120,7 +120,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(String optionTranslationBase, T currentValue, T defaultValue, Iterable<T> dropdownEntries, Consumer<T> saveFunction, byte descriptionRowCount, Function<T, Optional<Text>> errorSupplier) {
+    public <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(String optionTranslationBase, T currentValue, T defaultValue, Iterable<T> dropdownEntries, Consumer<T> saveFunction, byte descriptionRowCount, Function<T, Optional<String>> errorSupplier) {
         List<String> stringEntries = new ArrayList<>();
         for (T entry: dropdownEntries) {
             stringEntries.add(entry.toString());
@@ -163,7 +163,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addStringDropdown(String optionTranslationBase, String currentValue, String defaultValue, Iterable<String> dropdownEntries, Consumer<String> saveFunction, boolean suggestionMode, byte descriptionRowCount, Function<String, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addStringDropdown(String optionTranslationBase, String currentValue, String defaultValue, Iterable<String> dropdownEntries, Consumer<String> saveFunction, boolean suggestionMode, byte descriptionRowCount, Function<String, Optional<String>> errorSupplier) {
         DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -200,7 +200,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addStringListField(String optionTranslationBase, List<String> currentValue, List<String> defaultValue, Consumer<List<String>> saveFunction, byte descriptionRowCount, Function<List<String>, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addStringListField(String optionTranslationBase, List<String> currentValue, List<String> defaultValue, Consumer<List<String>> saveFunction, byte descriptionRowCount, Function<List<String>, Optional<String>> errorSupplier) {
         StringListBuilder builder = entryBuilder.startStrList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -249,7 +249,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addFloatField(String optionTranslationBase, float currentValue, float defaultValue, Consumer<Float> saveFunction, float min, float max, byte descriptionRowCount, Function<Float, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addFloatField(String optionTranslationBase, float currentValue, float defaultValue, Consumer<Float> saveFunction, float min, float max, byte descriptionRowCount, Function<Float, Optional<String>> errorSupplier) {
         FloatFieldBuilder builder = entryBuilder.startFloatField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
@@ -290,7 +290,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addFloatSlider(String optionTranslationBase, float currentValue, float defaultValue, Consumer<Float> saveFunction, float min, float max, byte descriptionRowCount, Function<Float, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addFloatSlider(String optionTranslationBase, float currentValue, float defaultValue, Consumer<Float> saveFunction, float min, float max, byte descriptionRowCount, Function<Float, Optional<String>> errorSupplier) {
         LongSliderBuilder builder = entryBuilder.startLongSlider(
             translator.getTranslatedString(optionTranslationBase),
             FloatingPointClothConverter.floatToGuiValue(currentValue),
@@ -331,7 +331,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addFloatListField(String optionTranslationBase, List<Float> currentValue, List<Float> defaultValue, Consumer<List<Float>> saveFunction, byte descriptionRowCount, Function<List<Float>, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addFloatListField(String optionTranslationBase, List<Float> currentValue, List<Float> defaultValue, Consumer<List<Float>> saveFunction, byte descriptionRowCount, Function<List<Float>, Optional<String>> errorSupplier) {
         FloatListBuilder builder = entryBuilder.startFloatList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -380,7 +380,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addDoubleField(String optionTranslationBase, double currentValue, double defaultValue, Consumer<Double> saveFunction, double min, double max, byte descriptionRowCount, Function<Double, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addDoubleField(String optionTranslationBase, double currentValue, double defaultValue, Consumer<Double> saveFunction, double min, double max, byte descriptionRowCount, Function<Double, Optional<String>> errorSupplier) {
         DoubleFieldBuilder builder = entryBuilder.startDoubleField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
@@ -435,7 +435,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addDoubleSlider(String optionTranslationBase, double currentValue, double defaultValue, Consumer<Double> saveFunction, double min, double max, byte descriptionRowCount, byte precision, Function<Double, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addDoubleSlider(String optionTranslationBase, double currentValue, double defaultValue, Consumer<Double> saveFunction, double min, double max, byte descriptionRowCount, byte precision, Function<Double, Optional<String>> errorSupplier) {
         LongSliderBuilder builder = entryBuilder.startLongSlider(
             translator.getTranslatedString(optionTranslationBase),
             FloatingPointClothConverter.doubleToGuiValue(currentValue, precision),
@@ -477,7 +477,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addDoublePercentSlider(String optionTranslationBase, double currentValue, double defaultValue, Consumer<Double> saveFunction, byte descriptionRowCount, byte precision, Function<Double, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addDoublePercentSlider(String optionTranslationBase, double currentValue, double defaultValue, Consumer<Double> saveFunction, byte descriptionRowCount, byte precision, Function<Double, Optional<String>> errorSupplier) {
         LongSliderBuilder builder = entryBuilder.startLongSlider(
             translator.getTranslatedString(optionTranslationBase),
             FloatingPointClothConverter.doubleToGuiValue(currentValue, precision),
@@ -518,7 +518,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addDoubleListField(String optionTranslationBase, List<Double> currentValue, List<Double> defaultValue, Consumer<List<Double>> saveFunction, byte descriptionRowCount, Function<List<Double>, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addDoubleListField(String optionTranslationBase, List<Double> currentValue, List<Double> defaultValue, Consumer<List<Double>> saveFunction, byte descriptionRowCount, Function<List<Double>, Optional<String>> errorSupplier) {
         DoubleListBuilder builder = entryBuilder.startDoubleList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -567,7 +567,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addLongField(String optionTranslationBase, long currentValue, long defaultValue, Consumer<Long> saveFunction, long min, long max, byte descriptionRowCount, Function<Long, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addLongField(String optionTranslationBase, long currentValue, long defaultValue, Consumer<Long> saveFunction, long min, long max, byte descriptionRowCount, Function<Long, Optional<String>> errorSupplier) {
         LongFieldBuilder builder = entryBuilder.startLongField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
@@ -608,7 +608,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addLongSlider(String optionTranslationBase, long currentValue, long defaultValue, Consumer<Long> saveFunction, long min, long max, byte descriptionRowCount, Function<Long, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addLongSlider(String optionTranslationBase, long currentValue, long defaultValue, Consumer<Long> saveFunction, long min, long max, byte descriptionRowCount, Function<Long, Optional<String>> errorSupplier) {
         LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -643,7 +643,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addLongListField(String optionTranslationBase, List<Long> currentValue, List<Long> defaultValue, Consumer<List<Long>> saveFunction, byte descriptionRowCount, Function<List<Long>, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addLongListField(String optionTranslationBase, List<Long> currentValue, List<Long> defaultValue, Consumer<List<Long>> saveFunction, byte descriptionRowCount, Function<List<Long>, Optional<String>> errorSupplier) {
         LongListBuilder builder = entryBuilder.startLongList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -692,7 +692,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addIntField(String optionTranslationBase, int currentValue, int defaultValue, Consumer<Integer> saveFunction, int min, int max, byte descriptionRowCount, Function<Integer, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addIntField(String optionTranslationBase, int currentValue, int defaultValue, Consumer<Integer> saveFunction, int min, int max, byte descriptionRowCount, Function<Integer, Optional<String>> errorSupplier) {
         IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
@@ -733,7 +733,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addIntSlider(String optionTranslationBase, int currentValue, int defaultValue, Consumer<Integer> saveFunction, int min, int max, byte descriptionRowCount, Function<Integer, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addIntSlider(String optionTranslationBase, int currentValue, int defaultValue, Consumer<Integer> saveFunction, int min, int max, byte descriptionRowCount, Function<Integer, Optional<String>> errorSupplier) {
         IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -768,7 +768,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addIntListField(String optionTranslationBase, List<Integer> currentValue, List<Integer> defaultValue, Consumer<List<Integer>> saveFunction, byte descriptionRowCount, Function<List<Integer>, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addIntListField(String optionTranslationBase, List<Integer> currentValue, List<Integer> defaultValue, Consumer<List<Integer>> saveFunction, byte descriptionRowCount, Function<List<Integer>, Optional<String>> errorSupplier) {
         IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)
@@ -817,7 +817,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addShortField(String optionTranslationBase, short currentValue, short defaultValue, Consumer<Short> saveFunction, short min, short max, byte descriptionRowCount, Function<Short, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addShortField(String optionTranslationBase, short currentValue, short defaultValue, Consumer<Short> saveFunction, short min, short max, byte descriptionRowCount, Function<Short, Optional<String>> errorSupplier) {
         IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
@@ -858,7 +858,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addShortSlider(String optionTranslationBase, short currentValue, short defaultValue, Consumer<Short> saveFunction, short min, short max, byte descriptionRowCount, Function<Short, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addShortSlider(String optionTranslationBase, short currentValue, short defaultValue, Consumer<Short> saveFunction, short min, short max, byte descriptionRowCount, Function<Short, Optional<String>> errorSupplier) {
         IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.shortValue()))
@@ -907,7 +907,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addByteField(String optionTranslationBase, byte currentValue, byte defaultValue, Consumer<Byte> saveFunction, byte min, byte max, byte descriptionRowCount, Function<Byte, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addByteField(String optionTranslationBase, byte currentValue, byte defaultValue, Consumer<Byte> saveFunction, byte min, byte max, byte descriptionRowCount, Function<Byte, Optional<String>> errorSupplier) {
         IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setMin(min)
@@ -948,7 +948,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addByteSlider(String optionTranslationBase, byte currentValue, byte defaultValue, Consumer<Byte> saveFunction, byte min, byte max, byte descriptionRowCount, Function<Byte, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addByteSlider(String optionTranslationBase, byte currentValue, byte defaultValue, Consumer<Byte> saveFunction, byte min, byte max, byte descriptionRowCount, Function<Byte, Optional<String>> errorSupplier) {
         IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(newValue -> saveFunction.accept(newValue.byteValue()))
@@ -983,7 +983,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public ConfigScreenBuilder addBoolToggle(String optionTranslationBase, boolean currentValue, boolean defaultValue, Consumer<Boolean> saveFunction, byte descriptionRowCount, Function<Boolean, Optional<Text>> errorSupplier) {
+    public ConfigScreenBuilder addBoolToggle(String optionTranslationBase, boolean currentValue, boolean defaultValue, Consumer<Boolean> saveFunction, byte descriptionRowCount, Function<Boolean, Optional<String>> errorSupplier) {
         BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedString(optionTranslationBase), currentValue)
             .setDefaultValue(defaultValue)
             .setSaveConsumer(saveFunction)

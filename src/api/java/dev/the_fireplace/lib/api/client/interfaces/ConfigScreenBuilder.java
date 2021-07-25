@@ -1,7 +1,6 @@
 package dev.the_fireplace.lib.api.client.interfaces;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +32,7 @@ public interface ConfigScreenBuilder {
         String defaultValue,
         Consumer<String> saveFunction,
         byte descriptionRowCount,
-        Function<String, Optional<Text>> errorSupplier
+        Function<String, Optional<String>> errorSupplier
     );
 
     <T extends Enum<T>> ConfigScreenBuilder addEnumDropdown(
@@ -60,7 +59,7 @@ public interface ConfigScreenBuilder {
         Iterable<T> dropdownEntries,
         Consumer<T> saveFunction,
         byte descriptionRowCount,
-        Function<T, Optional<Text>> errorSupplier
+        Function<T, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addStringDropdown(
@@ -90,7 +89,7 @@ public interface ConfigScreenBuilder {
         Consumer<String> saveFunction,
         boolean suggestionMode,
         byte descriptionRowCount,
-        Function<String, Optional<Text>> errorSupplier
+        Function<String, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addStringListField(
@@ -114,7 +113,7 @@ public interface ConfigScreenBuilder {
         List<String> defaultValue,
         Consumer<List<String>> saveFunction,
         byte descriptionRowCount,
-        Function<List<String>, Optional<Text>> errorSupplier
+        Function<List<String>, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addFloatField(
@@ -151,7 +150,7 @@ public interface ConfigScreenBuilder {
         float min,
         float max,
         byte descriptionRowCount,
-        Function<Float, Optional<Text>> errorSupplier
+        Function<Float, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addFloatSlider(
@@ -181,7 +180,7 @@ public interface ConfigScreenBuilder {
         float min,
         float max,
         byte descriptionRowCount,
-        Function<Float, Optional<Text>> errorSupplier
+        Function<Float, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addFloatListField(
@@ -205,7 +204,7 @@ public interface ConfigScreenBuilder {
         List<Float> defaultValue,
         Consumer<List<Float>> saveFunction,
         byte descriptionRowCount,
-        Function<List<Float>, Optional<Text>> errorSupplier
+        Function<List<Float>, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addDoubleField(
@@ -242,7 +241,7 @@ public interface ConfigScreenBuilder {
         double min,
         double max,
         byte descriptionRowCount,
-        Function<Double, Optional<Text>> errorSupplier
+        Function<Double, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addDoubleSlider(
@@ -284,7 +283,7 @@ public interface ConfigScreenBuilder {
         double max,
         byte descriptionRowCount,
         byte precision,
-        Function<Double, Optional<Text>> errorSupplier
+        Function<Double, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addDoublePercentSlider(
@@ -310,7 +309,7 @@ public interface ConfigScreenBuilder {
         Consumer<Double> saveFunction,
         byte descriptionRowCount,
         byte precision,
-        Function<Double, Optional<Text>> errorSupplier
+        Function<Double, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addDoubleListField(
@@ -334,7 +333,7 @@ public interface ConfigScreenBuilder {
         List<Double> defaultValue,
         Consumer<List<Double>> saveFunction,
         byte descriptionRowCount,
-        Function<List<Double>, Optional<Text>> errorSupplier
+        Function<List<Double>, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addLongField(
@@ -371,7 +370,7 @@ public interface ConfigScreenBuilder {
         long min,
         long max,
         byte descriptionRowCount,
-        Function<Long, Optional<Text>> errorSupplier
+        Function<Long, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addLongSlider(
@@ -401,7 +400,7 @@ public interface ConfigScreenBuilder {
         long min,
         long max,
         byte descriptionRowCount,
-        Function<Long, Optional<Text>> errorSupplier
+        Function<Long, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addLongListField(
@@ -425,7 +424,7 @@ public interface ConfigScreenBuilder {
         List<Long> defaultValue,
         Consumer<List<Long>> saveFunction,
         byte descriptionRowCount,
-        Function<List<Long>, Optional<Text>> errorSupplier
+        Function<List<Long>, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addIntField(
@@ -462,7 +461,7 @@ public interface ConfigScreenBuilder {
         int min,
         int max,
         byte descriptionRowCount,
-        Function<Integer, Optional<Text>> errorSupplier
+        Function<Integer, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addIntSlider(
@@ -492,7 +491,7 @@ public interface ConfigScreenBuilder {
         int min,
         int max,
         byte descriptionRowCount,
-        Function<Integer, Optional<Text>> errorSupplier
+        Function<Integer, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addIntListField(
@@ -516,7 +515,7 @@ public interface ConfigScreenBuilder {
         List<Integer> defaultValue,
         Consumer<List<Integer>> saveFunction,
         byte descriptionRowCount,
-        Function<List<Integer>, Optional<Text>> errorSupplier
+        Function<List<Integer>, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addShortField(
@@ -553,7 +552,7 @@ public interface ConfigScreenBuilder {
         short min,
         short max,
         byte descriptionRowCount,
-        Function<Short, Optional<Text>> errorSupplier
+        Function<Short, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addShortSlider(
@@ -583,7 +582,7 @@ public interface ConfigScreenBuilder {
         short min,
         short max,
         byte descriptionRowCount,
-        Function<Short, Optional<Text>> errorSupplier
+        Function<Short, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addByteField(
@@ -620,7 +619,7 @@ public interface ConfigScreenBuilder {
         byte min,
         byte max,
         byte descriptionRowCount,
-        Function<Byte, Optional<Text>> errorSupplier
+        Function<Byte, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addByteSlider(
@@ -650,7 +649,7 @@ public interface ConfigScreenBuilder {
         byte min,
         byte max,
         byte descriptionRowCount,
-        Function<Byte, Optional<Text>> errorSupplier
+        Function<Byte, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addBoolToggle(
@@ -674,7 +673,7 @@ public interface ConfigScreenBuilder {
         boolean defaultValue,
         Consumer<Boolean> saveFunction,
         byte descriptionRowCount,
-        Function<Boolean, Optional<Text>> errorSupplier
+        Function<Boolean, Optional<String>> errorSupplier
     );
 
     ConfigScreenBuilder addOptionDependency(
