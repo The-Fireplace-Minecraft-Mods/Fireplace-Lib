@@ -1,5 +1,5 @@
 # Fireplace Lib
-[![CurseForge](http://cf.way2muchnoise.eu/short_432845_downloads.svg)](https://minecraft.curseforge.com/projects/fireplace-lib)
+[![CurseForge](http://cf.way2muchnoise.eu/short_432845_downloads.svg)](https://minecraft.curseforge.com/projects/fireplace-lib) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/dev.the-fireplace/Fireplace-Lib/badge.png)](https://maven-badges.herokuapp.com/maven-central/dev.the-fireplace/Fireplace-Lib)
 
 A library of common functionality used by my mods, in one place for easier maintenance and faster updates.
 
