@@ -1,1 +1,1 @@
-[1.14.X] Avoid cloth config bug where error supplier on dropdown causes crash
+Added an argument type for possibly offline players
