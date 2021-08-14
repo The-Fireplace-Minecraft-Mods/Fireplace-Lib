@@ -35,6 +35,7 @@ Concurrent Execution Manager provides a convenient way to run tasks on different
 - Help Command builder for easier custom help commands, with support for sub-commands.
 - Feedback Sender handles sending messages to various kinds of message targets.
 - Requirements Helper provides a few basic types of requirements that are commonly given to commands.
+- Argument Type Factory provides an extra argument type to be used by commands supporting offline players
 
 #### Data Generator
 Data Generator Factory provides methods to build an additive or destructive (normal) data generator. The additive generator won't clear the output directory before generating new data.
