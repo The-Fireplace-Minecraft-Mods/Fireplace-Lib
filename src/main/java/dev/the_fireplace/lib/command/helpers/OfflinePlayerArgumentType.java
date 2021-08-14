@@ -50,7 +50,7 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
         if (context.getSource() instanceof CommandSource commandSource) {
             StringReader reader = new StringReader(builder.getInput());
             reader.setCursor(builder.getStart());
-            EntitySelectorReader entitySelectorReader = new EntitySelectorReader(reader, commandSource.hasPermissionLevel(2));
+            EntitySelectorReader entitySelectorReader = new EntitySelectorReader(reader);
 
             try {
                 entitySelectorReader.read();
