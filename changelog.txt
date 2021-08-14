@@ -1,1 +1,1 @@
-Fix crash when loading dedicated server
+Added an argument type for possibly offline players
