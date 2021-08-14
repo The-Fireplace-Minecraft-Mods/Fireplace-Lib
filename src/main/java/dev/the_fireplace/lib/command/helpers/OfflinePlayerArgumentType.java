@@ -17,10 +17,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.UserCache;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerArgumentType {
@@ -50,10 +47,9 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        if (context.getSource() instanceof CommandSource) {
+        if (context.getSource() instanceof CommandSource commandSource) {
             StringReader reader = new StringReader(builder.getInput());
             reader.setCursor(builder.getStart());
-            CommandSource commandSource = (CommandSource)context.getSource();
             EntitySelectorReader entitySelectorReader = new EntitySelectorReader(reader, commandSource.hasPermissionLevel(2));
 
             try {
@@ -96,16 +92,16 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
 
                 return new SelectedPlayerArgument(player.getGameProfile(), player);
             } catch (CommandSyntaxException e) {
-                MinecraftServer server = source.getMinecraftServer();
+                MinecraftServer server = source.getServer();
                 UserCache.setUseRemote(true);
-                GameProfile offlinePlayerProfileByName = server.getUserCache().findByName(offlinePlayerName);
-                if (offlinePlayerProfileByName != null) {
-                    return new SelectedPlayerArgument(offlinePlayerProfileByName);
+                Optional<GameProfile> offlinePlayerProfileByName = server.getUserCache().findByName(offlinePlayerName);
+                if (offlinePlayerProfileByName.isPresent()) {
+                    return new SelectedPlayerArgument(offlinePlayerProfileByName.get());
                 }
                 try {
-                    GameProfile offlinePlayerProfileById = server.getUserCache().getByUuid(UUID.fromString(offlinePlayerName));
-                    if (offlinePlayerProfileById != null) {
-                        return new SelectedPlayerArgument(offlinePlayerProfileById);
+                    Optional<GameProfile> offlinePlayerProfileById = server.getUserCache().getByUuid(UUID.fromString(offlinePlayerName));
+                    if (offlinePlayerProfileById.isPresent()) {
+                        return new SelectedPlayerArgument(offlinePlayerProfileById.get());
                     }
                 } catch(IllegalArgumentException ignored) {}
             }
