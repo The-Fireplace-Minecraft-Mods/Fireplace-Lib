@@ -87,11 +87,6 @@ task apiJar(type: Jar, dependsOn: classes) {
 	from sourceSets.api.output
 }
 
-task apiSourcesJar(type: Jar, dependsOn: classes) {
-	archiveClassifier.set('api-sources')
-	from sourceSets.api.allSource
-}
-
 jar {
 	from sourceSets.api.output
 	from("LICENSE") {
@@ -155,7 +150,6 @@ if (hasProperty('nexusUsername')) {
 				}
 				artifact javadocJar
 				artifact apiJar
-				artifact apiSourcesJar
 				pom {
 					name = 'Fireplace Lib'
 					packaging = 'jar'
