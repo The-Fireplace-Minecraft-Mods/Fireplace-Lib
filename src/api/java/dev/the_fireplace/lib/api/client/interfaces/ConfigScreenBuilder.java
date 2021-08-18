@@ -14,6 +14,7 @@ import java.util.function.Function;
 @Environment(EnvType.CLIENT)
 public interface ConfigScreenBuilder {
     ConfigScreenBuilder startCategory(String translationKey);
+    ConfigScreenBuilder startCategory(String translationKey, Object... translationParameters);
 
     ConfigScreenBuilder addStringField(
         String optionTranslationBase,
