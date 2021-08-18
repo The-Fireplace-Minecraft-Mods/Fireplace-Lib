@@ -1,1 +1,1 @@
-[1.16.X] Fix language manager mixin failure
+Added the ability to start the second or later categories in the Config GUI with translation parameters
