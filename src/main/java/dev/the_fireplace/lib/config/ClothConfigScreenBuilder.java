@@ -50,7 +50,13 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
 
     @Override
     public ConfigScreenBuilder startCategory(String translationKey) {
-        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedString(translationKey));
+        return startCategory(translationKey, new Object[0]);
+    }
+
+    @Override
+    public ConfigScreenBuilder startCategory(String translationKey, Object... translationParameters) {
+        String categoryName = translator.getTranslatedString(translationKey, translationParameters);
+        this.category = configBuilder.getOrCreateCategory(categoryName);
         return this;
     }
 
