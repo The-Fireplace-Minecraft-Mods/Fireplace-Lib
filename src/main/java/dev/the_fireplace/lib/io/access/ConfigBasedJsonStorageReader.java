@@ -5,15 +5,21 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageReader;
 import dev.the_fireplace.lib.api.io.injectables.JsonFileReader;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
+import dev.the_fireplace.lib.api.io.interfaces.Readable;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
+import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
+import dev.the_fireplace.lib.domain.io.HierarchicalConfigReader;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.nio.file.Path;
 
-@Implementation
 @Singleton
-public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageReader {
+@Implementation({
+    "dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageReader",
+    "dev.the_fireplace.lib.domain.io.HierarchicalConfigReader",
+})
+public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageReader, HierarchicalConfigReader {
     private final JsonFileReader fileReader;
     private final JsonStoragePath jsonStoragePath;
 
@@ -25,7 +31,19 @@ public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageRea
 
     @Override
     public void readTo(ConfigBasedSerializable readable) {
-        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(readable);
+        String domain = readable.getSubfolderName();
+        String id = readable.getId();
+
+        read(readable, domain, id);
+    }
+
+    @Override
+    public void readTo(HierarchicalConfig readable, String domain, String id) {
+        read(readable, domain, id);
+    }
+
+    private void read(Readable readable, String domain, String id) {
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         JsonObject obj = fileReader.readJsonFile(filePath.toFile());
         if (obj == null) {

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
+import dev.the_fireplace.lib.api.io.interfaces.Writable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +34,14 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
 
     @Override
     public boolean write(ConfigBasedSerializable writable) {
-        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(writable);
+        String domain = writable.getSubfolderName();
+        String id = writable.getId();
+
+        return write(writable, domain, id);
+    }
+
+    private boolean write(Writable writable, String domain, String id) {
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists() && !folder.mkdirs()) {
@@ -63,7 +71,14 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
 
     @Override
     public boolean delete(ConfigBasedSerializable writable) {
-        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(writable);
+        String domain = writable.getSubfolderName();
+        String id = writable.getId();
+
+        return delete(domain, id);
+    }
+
+    private boolean delete(String domain, String id) {
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         File folder = filePath.getParent().toFile();
         if (!folder.exists()) {
