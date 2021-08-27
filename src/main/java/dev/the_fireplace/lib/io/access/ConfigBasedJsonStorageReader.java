@@ -9,6 +9,7 @@ import dev.the_fireplace.lib.api.io.interfaces.Readable;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigReader;
+import net.minecraft.util.Identifier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,9 +43,24 @@ public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageRea
         read(readable, domain, id);
     }
 
+    @Override
+    public void readTo(HierarchicalConfig readable, String domain, Identifier id) {
+        read(readable, domain, id);
+    }
+
     private void read(Readable readable, String domain, String id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
+        read(readable, filePath);
+    }
+
+    private void read(Readable readable, String domain, Identifier id) {
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
+
+        read(readable, filePath);
+    }
+
+    private void read(Readable readable, Path filePath) {
         JsonObject obj = fileReader.readJsonFile(filePath.toFile());
         if (obj == null) {
             obj = new JsonObject();
