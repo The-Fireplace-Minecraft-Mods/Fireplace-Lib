@@ -1,1 +1,1 @@
-Added the ability to start the second or later categories in the Config GUI with translation parameters
+Added a Hierarchical Config management system
