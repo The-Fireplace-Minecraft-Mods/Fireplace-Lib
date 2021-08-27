@@ -102,12 +102,14 @@ public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> i
         return configLoader.delete(module, domain, moduleId);
     }
 
+    @Override
     public void saveAllCustoms() {
         for (Map.Entry<String, T> moduleEntry : modules.entrySet()) {
             configLoader.save(moduleEntry.getValue(), domain, moduleEntry.getKey());
         }
     }
 
+    @Override
     public void saveCustom(String id) {
         T module = modules.get(id);
         if (module == null) {

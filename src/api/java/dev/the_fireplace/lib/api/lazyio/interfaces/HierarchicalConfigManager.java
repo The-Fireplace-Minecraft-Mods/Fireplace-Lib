@@ -10,4 +10,8 @@ public interface HierarchicalConfigManager<T extends HierarchicalConfig> {
     void addCustom(String moduleId, T module);
     
     boolean deleteCustom(String moduleId);
+
+    void saveAllCustoms();
+
+    void saveCustom(String id);
 }
