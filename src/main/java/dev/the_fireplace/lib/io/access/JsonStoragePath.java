@@ -46,15 +46,15 @@ public final class JsonStoragePath {
         return filePath;
     }
 
-    Path resolveConfigBasedJsonFilePath(ConfigBasedSerializable configBasedSerializable) {
+    public Path resolveConfigBasedJsonFilePath(String domain, String id) {
         Path filePath = directoryResolver.getConfigPath();
 
-        String subfolder = SchemaValidator.minimizeSchema(configBasedSerializable.getSubfolderName());
+        String subfolder = SchemaValidator.minimizeSchema(domain);
         if (!subfolder.isEmpty() && SchemaValidator.isValid(subfolder)) {
             filePath = filePath.resolve(subfolder);
         }
-        if (!configBasedSerializable.getId().isEmpty() && SchemaValidator.isValid(configBasedSerializable.getId())) {
-            filePath = filePath.resolve(SchemaValidator.minimizeSchema(configBasedSerializable.getId()) + ".json");
+        if (!id.isEmpty() && SchemaValidator.isValid(id)) {
+            filePath = filePath.resolve(SchemaValidator.minimizeSchema(id) + ".json");
         } else {
             throw new IllegalStateException("Invalid storable ID!");
         }
