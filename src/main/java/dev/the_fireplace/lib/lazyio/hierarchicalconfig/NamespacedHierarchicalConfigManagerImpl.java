@@ -14,16 +14,16 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements NamespacedHierarchicalConfigManager<T> {
+public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements NamespacedHierarchicalConfigManager<T> {
 
-    private final HierarchicalConfigLoader configLoader;
-    private final JsonStoragePath jsonStoragePath;
-    private final ReloadableManager reloadableManager;
+    protected final HierarchicalConfigLoader configLoader;
+    protected final JsonStoragePath jsonStoragePath;
+    protected final ReloadableManager reloadableManager;
 
-    private final String domain;
-    private final T defaultConfig;
-    private final Iterable<Identifier> allowedModuleIds;
-    private final Map<Identifier, T> modules;
+    protected final String domain;
+    protected final T defaultConfig;
+    protected final Iterable<Identifier> allowedModuleIds;
+    protected final Map<Identifier, T> modules;
 
     public NamespacedHierarchicalConfigManagerImpl(
         String domain,
@@ -41,12 +41,12 @@ public final class NamespacedHierarchicalConfigManagerImpl<T extends Hierarchica
         this.jsonStoragePath = jsonStoragePath;
         this.reloadableManager = reloadableManager;
 
-        loadExistingHierarchy();
+        loadExistingHierarchy(allowedModuleIds);
         registerHierarchyReloadable();
     }
 
-    private void loadExistingHierarchy() {
-        for (Identifier id: allowedModuleIds) {
+    protected void loadExistingHierarchy(Iterable<Identifier> allowedModuleIds) {
+        for (Identifier id : allowedModuleIds) {
             Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
             if (filePath.toFile().exists() && !modules.containsKey(id)) {
                 HierarchicalConfig module = defaultConfig.clone();
@@ -60,11 +60,11 @@ public final class NamespacedHierarchicalConfigManagerImpl<T extends Hierarchica
         }
     }
 
-    private void registerHierarchyReloadable() {
+    protected void registerHierarchyReloadable() {
         reloadableManager.register(new Reloadable() {
             @Override
             public void reload() {
-                loadExistingHierarchy();
+                loadExistingHierarchy(getAllowedModuleIds());
             }
 
             @Override
