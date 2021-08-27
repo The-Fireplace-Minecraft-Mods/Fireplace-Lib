@@ -3,6 +3,7 @@ package dev.the_fireplace.lib.io.access;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.io.interfaces.SaveBasedSerializable;
+import net.minecraft.util.Identifier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -55,6 +56,27 @@ public final class JsonStoragePath {
         }
         if (!id.isEmpty() && SchemaValidator.isValid(id)) {
             filePath = filePath.resolve(SchemaValidator.minimizeSchema(id) + ".json");
+        } else {
+            throw new IllegalStateException("Invalid storable ID!");
+        }
+
+        return filePath;
+    }
+
+    public Path resolveConfigBasedJsonFilePath(String domain, Identifier id) {
+        Path filePath = directoryResolver.getConfigPath();
+
+        String subfolder = SchemaValidator.minimizeSchema(domain);
+        if (!subfolder.isEmpty() && SchemaValidator.isValid(subfolder)) {
+            filePath = filePath.resolve(subfolder);
+        }
+        String idNamespace = SchemaValidator.minimizeSchema(id.getNamespace());
+        if (!idNamespace.isEmpty() && SchemaValidator.isValid(idNamespace)) {
+            filePath = filePath.resolve(idNamespace);
+        }
+        String idPath = id.getPath();
+        if (!idPath.isEmpty() && SchemaValidator.isValid(idPath)) {
+            filePath = filePath.resolve(SchemaValidator.minimizeSchema(idPath) + ".json");
         } else {
             throw new IllegalStateException("Invalid storable ID!");
         }

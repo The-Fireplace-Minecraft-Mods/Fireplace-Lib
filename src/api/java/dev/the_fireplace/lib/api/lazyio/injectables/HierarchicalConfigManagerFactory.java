@@ -2,6 +2,8 @@ package dev.the_fireplace.lib.api.lazyio.injectables;
 
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfigManager;
+import dev.the_fireplace.lib.api.lazyio.interfaces.NamespacedHierarchicalConfigManager;
+import net.minecraft.util.Identifier;
 
 public interface HierarchicalConfigManagerFactory {
     /**
@@ -14,4 +16,10 @@ public interface HierarchicalConfigManagerFactory {
      *  The allowed IDs that can be used to override the default config. These are used to scan for which existing overrides can be loaded/reloaded from the config/domain folder.
      */
     <E extends HierarchicalConfig> HierarchicalConfigManager<E> create(String domain, E defaultConfig, Iterable<String> allowedModuleIds);
+
+    /**
+     * Create a hierarchical config manager based around {@link Identifier} IDs instead of Strings. Each identifier's domain will have a folder within the config/domain folder.
+     * @see HierarchicalConfigManagerFactory#create
+     */
+    <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createNamespaced(String domain, E defaultConfig, Iterable<Identifier> allowedModuleIds);
 }

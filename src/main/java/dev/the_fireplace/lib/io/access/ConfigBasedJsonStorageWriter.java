@@ -7,7 +7,10 @@ import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.io.interfaces.Writable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
+import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
+import dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
@@ -18,9 +21,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@Implementation
 @Singleton
-public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter {
+@Implementation({
+    "dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter",
+    "dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter",
+})
+public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter, HierarchicalConfigWriter {
     private final Gson gson;
     private final Logger logger;
     private final JsonStoragePath jsonStoragePath;
@@ -40,9 +46,29 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
         return write(writable, domain, id);
     }
 
+    @Override
+    public boolean write(HierarchicalConfig writable, String domain, String id) {
+        return write((Writable) writable, domain, id);
+    }
+
+    @Override
+    public boolean write(HierarchicalConfig writable, String domain, Identifier id) {
+        return write((Writable) writable, domain, id);
+    }
+
     private boolean write(Writable writable, String domain, String id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
+        return write(writable, filePath);
+    }
+
+    private boolean write(Writable writable, String domain, Identifier id) {
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
+
+        return write(writable, filePath);
+    }
+
+    private boolean write(Writable writable, Path filePath) {
         File folder = filePath.getParent().toFile();
         if (!folder.exists() && !folder.mkdirs()) {
             logger.error("Unable to make folder for {}!", filePath.toString());
@@ -77,9 +103,21 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
         return delete(domain, id);
     }
 
-    private boolean delete(String domain, String id) {
+    @Override
+    public boolean delete(String domain, String id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
+        return delete(filePath);
+    }
+
+    @Override
+    public boolean delete(String domain, Identifier id) {
+        Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
+
+        return delete(filePath);
+    }
+
+    private boolean delete(Path filePath) {
         File folder = filePath.getParent().toFile();
         if (!folder.exists()) {
             return false;
