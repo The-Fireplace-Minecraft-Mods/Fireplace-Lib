@@ -1,2 +1,1 @@
-Added a Hierarchical Config management system
-Fixed OfflinePlayer argument type not working as server-side only
+Added a Dynamic Namespaced Hierarchical Config for setups that depend on a dynamic registry and may not have all entries on startup.
