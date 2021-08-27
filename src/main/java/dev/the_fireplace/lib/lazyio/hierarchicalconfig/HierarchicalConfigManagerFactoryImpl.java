@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.concurrent.Callable;
 
 @Singleton
 @Implementation
@@ -35,5 +36,10 @@ public final class HierarchicalConfigManagerFactoryImpl implements HierarchicalC
     @Override
     public <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createNamespaced(String domain, E defaultConfig, Iterable<Identifier> allowedModuleIds) {
         return new NamespacedHierarchicalConfigManagerImpl<>(domain, defaultConfig, allowedModuleIds, configLoader, jsonStoragePath, reloadableManager);
+    }
+
+    @Override
+    public <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createDynamicNamespaced(String domain, E defaultConfig, Iterable<Identifier> defaultAllowedModuleIds, Callable<Iterable<Identifier>> getAllowedModuleIds) {
+        return new DynamicNamespacedHierarchicalConfigManager<>(domain, defaultConfig, defaultAllowedModuleIds, getAllowedModuleIds, configLoader, jsonStoragePath, reloadableManager);
     }
 }
