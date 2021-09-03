@@ -3,8 +3,6 @@ package dev.the_fireplace.lib.mixin;
 import com.mojang.brigadier.arguments.ArgumentType;
 import dev.the_fireplace.lib.command.helpers.ArgumentTypeFactoryImpl;
 import dev.the_fireplace.lib.command.helpers.OfflinePlayerArgumentType;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -14,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ArgumentTypes.class)
-@Environment(EnvType.SERVER)
 public final class ArgumentTypesMixin {
     private static final Identifier ENTITY_ARGUMENT_ID = new Identifier("minecraft", "entity");
 
