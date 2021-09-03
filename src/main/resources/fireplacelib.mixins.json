@@ -12,6 +12,9 @@
     "clothconfig.ListWidgetMixin",
     "modmenu.ModMenuConfigMixin"
   ],
+  "server": [
+    "ArgumentTypesMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

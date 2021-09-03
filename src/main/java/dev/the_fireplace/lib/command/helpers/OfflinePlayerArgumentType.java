@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.command.helpers;
 
+import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContext;
@@ -11,6 +12,8 @@ import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.command.EntitySelectorReader;
 import net.minecraft.command.arguments.EntityArgumentType;
+import net.minecraft.command.argument.serialize.ArgumentSerializer;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
@@ -107,10 +110,37 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
                     if (offlinePlayerProfileById != null) {
                         return new SelectedPlayerArgument(offlinePlayerProfileById);
                     }
-                } catch(IllegalArgumentException ignored) {}
+                } catch (IllegalArgumentException ignored) {
+                }
             }
 
             throw EntityArgumentType.PLAYER_NOT_FOUND_EXCEPTION.create();
+        }
+    }
+
+    /**
+     * Serialize like {@link EntityArgumentType.Serializer} so we can mimic it when sending to a client that doesn't have FL installed.
+     */
+    public static class Serializer implements ArgumentSerializer<OfflinePlayerArgumentType> {
+        @Override
+        public void toPacket(OfflinePlayerArgumentType entityArgumentType, PacketByteBuf packetByteBuf) {
+            byte b = 0;
+            b = (byte) (b | 1);
+
+            b = (byte) (b | 2);
+
+            packetByteBuf.writeByte(b);
+        }
+
+        @Override
+        public OfflinePlayerArgumentType fromPacket(PacketByteBuf packetByteBuf) {
+            return new OfflinePlayerArgumentType();
+        }
+
+        @Override
+        public void toJson(OfflinePlayerArgumentType entityArgumentType, JsonObject jsonObject) {
+            jsonObject.addProperty("amount", "single");
+            jsonObject.addProperty("type", "players");
         }
     }
 }

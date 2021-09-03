@@ -1,1 +1,2 @@
 Added a Hierarchical Config management system
+Fixed OfflinePlayer argument type not working as server-side only
