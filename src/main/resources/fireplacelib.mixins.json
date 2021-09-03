@@ -3,6 +3,7 @@
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ArgumentTypesMixin",
     "PlayerManagerMixin"
   ],
   "client": [
@@ -10,9 +11,6 @@
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
     "clothconfig.ListWidgetMixin"
-  ],
-  "server": [
-    "ArgumentTypesMixin"
   ],
   "injectors": {
     "defaultRequire": 1
