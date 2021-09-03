@@ -12,6 +12,9 @@
     "clothconfig.ListEntryMixin",
     "modmenu.ModMenuConfigMixin"
   ],
+  "server": [
+    "ArgumentTypesMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

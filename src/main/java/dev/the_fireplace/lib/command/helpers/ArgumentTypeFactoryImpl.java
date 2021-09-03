@@ -7,6 +7,7 @@ import dev.the_fireplace.lib.api.command.injectables.ArgumentTypeFactory;
 import dev.the_fireplace.lib.api.command.interfaces.OfflineSupportedPlayerArgumentType;
 import dev.the_fireplace.lib.api.command.interfaces.PlayerSelector;
 import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
+import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.server.command.ServerCommandSource;
 
 import javax.inject.Singleton;
@@ -14,6 +15,8 @@ import javax.inject.Singleton;
 @Implementation
 @Singleton
 public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory {
+    public static final OfflinePlayerArgumentType.Serializer OFFLINE_PLAYER_ARGUMENT_SERIALIZER = new OfflinePlayerArgumentType.Serializer();
+
     @Override
     public OfflineSupportedPlayerArgumentType possiblyOfflinePlayer() {
         return new OfflinePlayerArgumentType();
@@ -22,5 +25,9 @@ public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory {
     @Override
     public PossiblyOfflinePlayer getPossiblyOfflinePlayer(CommandContext<ServerCommandSource> commandContext, String string) throws CommandSyntaxException {
         return commandContext.getArgument(string, PlayerSelector.class).get(commandContext.getSource());
+    }
+
+    public void registerArgumentTypes() {
+        ArgumentTypes.register("offline_player", OfflinePlayerArgumentType.class, OFFLINE_PLAYER_ARGUMENT_SERIALIZER);
     }
 }
