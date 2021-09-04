@@ -9,7 +9,9 @@ import dev.the_fireplace.lib.io.access.JsonStoragePath;
 import net.minecraft.util.Identifier;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements NamespacedHierarchicalConfigManager<T> {
@@ -80,6 +82,11 @@ public final class NamespacedHierarchicalConfigManagerImpl<T extends Hierarchica
     @Override
     public T get(Identifier moduleId) {
         return modules.getOrDefault(moduleId, defaultConfig);
+    }
+
+    @Override
+    public Collection<Identifier> getCustoms() {
+        return Set.copyOf(modules.keySet());
     }
 
     @Override
