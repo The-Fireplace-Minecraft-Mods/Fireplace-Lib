@@ -28,7 +28,11 @@ Current functionality:
 - ReloadableManager allows reloading supported data from the files. LazyConfig is reloadable, so mods can easily implement commands to reload config without restarting the server.
 
 #### Config
-- (Client) ConfigScreenBuilder provides helper methods to reduce redundancy when making common Config GUI components, and allows setting up dependency between config options.
+- In addition to the Lazy Config mentioned under Storage Utilities, there is also a Hierarchical Config and Namespaced
+  Hierarchical Config, which are designed for easily setting up a config system where a default set of settings can be
+  overridden on a case-by-case basis.
+- (Client) ConfigScreenBuilder provides helper methods to reduce redundancy when making common Config GUI components,
+  and allows setting up dependency between config options.
 
 #### Multithreading
 Concurrent Execution Manager provides a convenient way to run tasks on different threads and choose if the server should wait for them to finish when shutting down. Using this for nonessessential threads is still useful because it limits the number of threads running at once to prevent stack overflow errors.
