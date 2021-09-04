@@ -8,7 +8,9 @@ import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.io.access.JsonStoragePath;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements HierarchicalConfigManager<T> {
@@ -79,6 +81,11 @@ public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> i
     @Override
     public T get(String moduleId) {
         return modules.getOrDefault(moduleId, defaultConfig);
+    }
+
+    @Override
+    public Collection<String> getCustoms() {
+        return Set.copyOf(modules.keySet());
     }
 
     @Override
