@@ -7,7 +7,7 @@ import dev.the_fireplace.lib.api.command.injectables.ArgumentTypeFactory;
 import dev.the_fireplace.lib.api.command.interfaces.OfflineSupportedPlayerArgumentType;
 import dev.the_fireplace.lib.api.command.interfaces.PlayerSelector;
 import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
-import net.minecraft.command.argument.ArgumentTypes;
+import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.server.command.ServerCommandSource;
 
 import javax.inject.Singleton;
