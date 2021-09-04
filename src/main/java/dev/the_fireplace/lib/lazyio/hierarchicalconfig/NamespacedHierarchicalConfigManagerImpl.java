@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.lazyio.hierarchicalconfig;
 
+import com.google.common.collect.Sets;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.api.lazyio.interfaces.NamespacedHierarchicalConfigManager;
@@ -11,7 +12,6 @@ import net.minecraft.util.Identifier;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements NamespacedHierarchicalConfigManager<T> {
@@ -86,7 +86,7 @@ public final class NamespacedHierarchicalConfigManagerImpl<T extends Hierarchica
 
     @Override
     public Collection<Identifier> getCustoms() {
-        return Set.copyOf(modules.keySet());
+        return Sets.newHashSet(modules.keySet());
     }
 
     @Override
