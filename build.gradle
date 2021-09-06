@@ -62,8 +62,8 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = "UTF-8"
-	it.options.release = 16
+	it.options.encoding = 'UTF-8'
+	it.options.release.set(16)
 }
 
 java {
@@ -89,7 +89,7 @@ task apiJar(type: Jar, dependsOn: classes) {
 
 jar {
 	from sourceSets.api.output
-	from("LICENSE") {
+	from('LICENSE') {
 		rename { "${it}_${project.archivesBaseName}"}
 	}
 }
@@ -105,7 +105,7 @@ if (hasProperty('curseForgeApiKey')) {
 			addGameVersion '1.17'
 			addGameVersion 'Java 16'
 			addGameVersion 'Fabric'
-			mainArtifact(new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")) {
+			mainArtifact(new File(new File(buildDir, 'libs'), "$archivesBaseName-${version}.jar")) {
 				displayName = "$archivesBaseName-$version"
 				relations {
 					requiredDependency 'fabric-api'
@@ -129,7 +129,7 @@ if (hasProperty('modrinthApiKey')) {
 		projectId = 'ING0LAPF'
 		versionNumber = version
 		versionName = project.mod_version
-		uploadFile = new File(new File(buildDir, "libs"), "$archivesBaseName-${version}.jar")
+		uploadFile = new File(new File(buildDir, 'libs'), "$archivesBaseName-${version}.jar")
 		changelog = file('changelog.txt').getText()
 		releaseType = project.release_type
 		addGameVersion(project.minecraft_version as String)
