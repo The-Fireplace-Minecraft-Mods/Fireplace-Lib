@@ -42,7 +42,7 @@
   },
 
   "suggests": {
-    "modmenu": "*"
+    "modmenu": ">2.0.2"
   },
 
   "custom": {
