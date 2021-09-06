@@ -3,6 +3,8 @@ package dev.the_fireplace.lib.config;
 import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
+import dev.the_fireplace.lib.compat.modmenu.ModMenuCompat;
+import dev.the_fireplace.lib.compat.modmenu.OldModMenuCompat;
 import dev.the_fireplace.lib.domain.config.ClothConfigDependencyTracker;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
@@ -13,6 +15,10 @@ import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.SemanticVersion;
+import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
@@ -45,8 +51,23 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setTitle(translator.getTranslatedText(titleTranslationKey));
         this.entryBuilder = configBuilder.entryBuilder();
         this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
-        this.configBuilder.setSavingRunnable(save);
+        this.configBuilder.setSavingRunnable(() -> {
+            save.run();
+            runOldModMenuCompat();
+        });
         this.dependencyTracker = new ClothConfigDependencyHandler();
+    }
+
+    private void runOldModMenuCompat() {
+        Optional<ModContainer> modmenu = FabricLoader.getInstance().getModContainer("modmenu");
+        try {
+            if (modmenu.isPresent() && SemanticVersion.parse(modmenu.get().getMetadata().getVersion().getFriendlyString()).compareTo(SemanticVersion.parse("2.0.2")) < 1) {
+                ModMenuCompat compat = new OldModMenuCompat();
+                compat.reloadClothConfigGUIs();
+            }
+        } catch (VersionParsingException e) {
+            FireplaceLib.getLogger().error("Unable to parse mod menu version", e);
+        }
     }
 
     @Override

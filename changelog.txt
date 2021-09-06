@@ -1,1 +1,1 @@
-Added a Dynamic Namespaced Hierarchical Config for setups that depend on a dynamic registry and may not have all entries on startup.
+Fix issues caused by mod menu's old caching mechanism, which shouldn't be used with Cloth Config
