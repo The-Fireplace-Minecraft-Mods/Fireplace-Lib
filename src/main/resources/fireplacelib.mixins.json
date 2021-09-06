@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ArgumentTypesMixin",
-    "PlayerManagerMixin"
+    "PlayerManagerMixin",
+    "ServerCommandSourceAccessor"
   ],
   "client": [
     "ClientPlayNetworkHandlerMixin",

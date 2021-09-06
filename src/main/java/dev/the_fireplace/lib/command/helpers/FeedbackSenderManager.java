@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.command.helpers;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;
@@ -16,14 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class FeedbackSenderManager implements FeedbackSenderFactory {
 	private final Map<Translator, FeedbackSender> feedbackSenders = new ConcurrentHashMap<>();
 	private final TextStyles textStyles;
+	private final MessageQueue messageQueue;
 
 	@Inject
-	public FeedbackSenderManager(TextStyles textStyles) {
+	public FeedbackSenderManager(TextStyles textStyles, MessageQueue messageQueue) {
 		this.textStyles = textStyles;
+		this.messageQueue = messageQueue;
 	}
 
 	@Override
 	public FeedbackSender get(Translator translator) {
-		return feedbackSenders.computeIfAbsent(translator, t -> new SendFeedback(t, textStyles));
+		return feedbackSenders.computeIfAbsent(translator, t -> new SendFeedback(t, textStyles, messageQueue));
 	}
 }
