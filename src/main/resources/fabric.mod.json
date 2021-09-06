@@ -30,7 +30,8 @@
     ]
   },
   "mixins": [
-    "fireplacelib.mixins.json"
+    "fireplacelib.mixins.json",
+    "optional.mixins.json"
   ],
 
   "depends": {
