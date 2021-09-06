@@ -6,8 +6,6 @@ import net.minecraft.text.Text;
 public interface MultilineMessageBuffer {
     /**
      * Create a new message buffer.
-     * @param expectedMessageCount
-     * @param target
      * @return
      * The id of the newly created buffer
      */
@@ -15,9 +13,6 @@ public interface MultilineMessageBuffer {
 
     /**
      * Add a message to the buffer with the given id.
-     * @param bufferId
-     * @param position
-     * @param value
      */
     void put(int bufferId, byte position, Text value);
 }
