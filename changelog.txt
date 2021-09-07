@@ -1,2 +1,1 @@
-Fix issues caused by mod menu's old caching mechanism, which shouldn't be used with Cloth Config
 Command feedback sender now uses MessageQueue to reduce likelihood of interfering with multiline messages
