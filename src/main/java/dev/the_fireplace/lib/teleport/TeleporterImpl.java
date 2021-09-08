@@ -21,7 +21,7 @@ public final class TeleporterImpl implements Teleporter {
     public Entity teleport(Entity entity, ServerWorld targetWorld, double targetX, double targetY, double targetZ) {
         preloadTargetChunk(targetWorld, targetX, targetZ);
         if (entity instanceof ServerPlayerEntity) {
-            ((ServerPlayerEntity) entity).teleport(targetWorld, targetX, targetY, targetZ, entity.getYaw(), entity.getPitch());
+            ((ServerPlayerEntity) entity).teleport(targetWorld, targetX, targetY, targetZ, entity.yaw, entity.pitch);
             return entity;
         }
         Entity entityInTargetWorld = entity.moveToWorld(targetWorld);
@@ -35,8 +35,8 @@ public final class TeleporterImpl implements Teleporter {
     }
 
     private void preloadTargetChunk(ServerWorld targetWorld, double targetBlockX, double targetBlockZ) {
-        int chunkX = ChunkSectionPos.getSectionCoord(targetBlockX);
-        int chunkZ = ChunkSectionPos.getSectionCoord(targetBlockZ);
+        int chunkX = ChunkSectionPos.getSectionCoord((int) Math.floor(targetBlockX));
+        int chunkZ = ChunkSectionPos.getSectionCoord((int) Math.floor(targetBlockZ));
         targetWorld.getChunk(chunkX, chunkZ, ChunkStatus.FULL, true);
     }
 }
