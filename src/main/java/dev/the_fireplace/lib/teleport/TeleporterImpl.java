@@ -9,6 +9,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.dimension.DimensionType;
 
 @Implementation
 public final class TeleporterImpl implements Teleporter {
@@ -24,9 +25,10 @@ public final class TeleporterImpl implements Teleporter {
             ((ServerPlayerEntity) entity).teleport(targetWorld, targetX, targetY, targetZ, entity.getYaw(), entity.getPitch());
             return entity;
         }
-        Entity entityInTargetWorld = entity.moveToWorld(targetWorld);
+        DimensionType targetDimensionType = targetWorld.getDimension().getType();
+        Entity entityInTargetWorld = targetDimensionType.equals(entity.dimension) ? entity : entity.changeDimension(targetDimensionType);
         if (entityInTargetWorld != null) {
-            entityInTargetWorld.setPosition(targetX, targetY, targetZ);
+            entityInTargetWorld.teleport(targetX, targetY, targetZ);
             return entityInTargetWorld;
         } else {
             FireplaceLib.getLogger().warn("Entity was removed before it could be moved to target world.", new Exception("Stack Trace"));
