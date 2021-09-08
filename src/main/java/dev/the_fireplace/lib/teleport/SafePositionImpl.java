@@ -33,8 +33,8 @@ public final class SafePositionImpl implements SafePosition {
     );
     private final ImmutableList<Vec3i> teleportAreaOffsets = new ImmutableList.Builder<Vec3i>()
         .addAll(xzOffsets)
-        .addAll(xzOffsets.stream().map(Vec3i::down).iterator())
-        .addAll(xzOffsets.stream().map(v3i -> v3i.down(-1)).iterator())
+        .addAll(xzOffsets.stream().map(v3i -> new Vec3i(v3i.getX(), v3i.getY() - 1, v3i.getZ())).iterator())
+        .addAll(xzOffsets.stream().map(v3i -> new Vec3i(v3i.getX(), v3i.getY() + 1, v3i.getZ())).iterator())
         .add(new Vec3i(0, 1, 0))
         .build();
     private final Set<Block> blocksNothingCanSpawnInside = Sets.newHashSet(
@@ -97,7 +97,7 @@ public final class SafePositionImpl implements SafePosition {
             return null;
         } else {
             Vec3d vec3d = getCenteredSpawnVector(blockPos, dismountHeight);
-            return world.getBlockCollisions(null, getCollisionBoxForPosition(entityType.getDimensions(), vec3d.getX(), vec3d.getY(), vec3d.getZ()))
+            return world.method_20812(null, getCollisionBoxForPosition(entityType.getDimensions(), vec3d.getX(), vec3d.getY(), vec3d.getZ()))
                 .allMatch(VoxelShape::isEmpty)
                 ? vec3d
                 : null;
