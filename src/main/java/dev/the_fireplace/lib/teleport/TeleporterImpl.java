@@ -20,8 +20,8 @@ public final class TeleporterImpl implements Teleporter {
 
     @Override
     public Entity teleport(Entity entity, ServerWorld targetWorld, double targetX, double targetY, double targetZ) {
-        preloadTargetChunk(targetWorld, targetX, targetZ);
         if (entity instanceof ServerPlayerEntity) {
+            preloadTargetChunk(targetWorld, targetX, targetZ);
             ((ServerPlayerEntity) entity).teleport(targetWorld, targetX, targetY, targetZ, entity.yaw, entity.pitch);
             return entity;
         }
