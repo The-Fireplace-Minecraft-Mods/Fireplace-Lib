@@ -1,1 +1,1 @@
-Added teleport utilities
+Improved logging
