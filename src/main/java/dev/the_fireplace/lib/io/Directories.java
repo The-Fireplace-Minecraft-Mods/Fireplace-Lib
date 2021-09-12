@@ -8,7 +8,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.dimension.DimensionType;
 
 import javax.inject.Singleton;
-import java.io.File;
 import java.nio.file.Path;
 
 @Implementation
@@ -32,6 +31,6 @@ public final class Directories implements DirectoryResolver {
 
     @Override
     public String getLangDirectory(String modid) {
-        return File.separatorChar + "assets" + File.separatorChar + modid + File.separatorChar + "lang" + File.separatorChar;
+        return "/assets/" + modid + "/lang/";
     }
 }
