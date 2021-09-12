@@ -1,1 +1,1 @@
-Improved logging
+Fixed issues loading translations on Windows.
