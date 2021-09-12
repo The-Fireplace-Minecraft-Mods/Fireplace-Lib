@@ -68,7 +68,9 @@ public final class TextPaginatorImpl implements TextPaginator {
 
     private Text getPaginationHeader(CommandOutput target, int currentPage, int totalPageCount) {
         Text counter = translator.getTextForTarget(target, "fireplacelib.chat.page.num", currentPage, totalPageCount);
-        return new LiteralText("-----------------").setStyle(textStyles.green()).append(counter).append("-------------------").setStyle(textStyles.green());
+        return new LiteralText("-----------------").setStyle(textStyles.green())
+            .append(counter)
+            .append("-------------------").setStyle(textStyles.green());
     }
 
     private static List<? extends Text> getPageContents(List<? extends Text> allContents, int page) {
@@ -78,14 +80,24 @@ public final class TextPaginatorImpl implements TextPaginator {
     private Text getPaginationFooter(CommandOutput target, String switchPageCommand, int currentPage, int totalPageCount) {
         Text nextButton = getNextButton(target, switchPageCommand, currentPage, totalPageCount);
         Text prevButton = getPreviousButton(target, switchPageCommand, currentPage);
-        return new LiteralText("---------------").setStyle(textStyles.green()).append(prevButton).append("---").setStyle(textStyles.green()).append(nextButton).append("-------------").setStyle(textStyles.green());
+        return new LiteralText("---------------").setStyle(textStyles.green())
+            .append(prevButton)
+            .append("---").setStyle(textStyles.green())
+            .append(nextButton)
+            .append("-------------").setStyle(textStyles.green());
     }
 
     private Text getNextButton(CommandOutput target, String switchPageCommand, int currentPage, int totalPageCount) {
-        return currentPage < totalPageCount ? translator.getTextForTarget(target, "fireplacelib.chat.page.next").setStyle(new Style().setClickEvent(new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage +1)))) : new LiteralText("-----");
+        ClickEvent viewNextPage = new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage + 1));
+        return currentPage < totalPageCount
+            ? translator.getTextForTarget(target, "fireplacelib.chat.page.next").setStyle(new Style().setClickEvent(viewNextPage))
+            : new LiteralText("-----");
     }
 
     private Text getPreviousButton(CommandOutput target, String switchPageCommand, int currentPage) {
-        return currentPage > 1 ? translator.getTextForTarget(target, "fireplacelib.chat.page.prev").setStyle(new Style().setClickEvent(new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage -1)))) : new LiteralText("------");
+        ClickEvent viewPreviousPage = new ClickEvent(Action.RUN_COMMAND, String.format(switchPageCommand, currentPage - 1));
+        return currentPage > 1
+            ? translator.getTextForTarget(target, "fireplacelib.chat.page.prev").setStyle(new Style().setClickEvent(viewPreviousPage))
+            : new LiteralText("------");
     }
 }
