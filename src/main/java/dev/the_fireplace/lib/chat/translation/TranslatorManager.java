@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
 @Singleton
 @Implementation
 public final class TranslatorManager implements TranslatorFactory {
-    private final ConcurrentMap<String, Translator> TRANSLATION_SERVICES = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Translator> modTranslators = new ConcurrentHashMap<>();
     private final EmptyUUID emptyUUID;
     private final LocalizedClients localizedClients;
     private final I18n i18n;
@@ -43,17 +43,17 @@ public final class TranslatorManager implements TranslatorFactory {
 
     @Override
     public void addTranslator(String modid) {
-        TRANSLATION_SERVICES.put(modid, new TranslatorImpl(modid));
+        modTranslators.put(modid, new TranslatorImpl(modid));
     }
 
     @Override
     public Translator getTranslator(String modid) {
-        return TRANSLATION_SERVICES.computeIfAbsent(modid, TranslatorImpl::new);
+        return modTranslators.computeIfAbsent(modid, TranslatorImpl::new);
     }
 
     @Override
     public Collection<String> availableTranslators() {
-        return TRANSLATION_SERVICES.keySet();
+        return modTranslators.keySet();
     }
 
     @ThreadSafe
