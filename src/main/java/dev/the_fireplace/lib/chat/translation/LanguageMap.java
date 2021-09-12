@@ -48,6 +48,7 @@ final class LanguageMap {
         }
         if (inputstream == null) {
             FireplaceLib.getLogger().error("Unable to read language file in directory {}!", langDir);
+            FireplaceLib.getLogger().error("Class loader: {}", LanguageMap.class.getClassLoader().getName());
             return new JsonObject();
         }
         JsonElement jsonelement = new Gson().fromJson(new InputStreamReader(inputstream, StandardCharsets.UTF_8), JsonElement.class);
