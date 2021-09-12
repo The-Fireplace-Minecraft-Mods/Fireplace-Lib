@@ -38,7 +38,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     private final ClothConfigDependencyTracker dependencyTracker;
     private ConfigCategory category;
 
-    protected ClothConfigScreenBuilder(
+    public ClothConfigScreenBuilder(
         Translator translator,
         String titleTranslationKey,
         String initialCategoryTranslationKey,
@@ -51,23 +51,35 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             .setTitle(translator.getTranslatedText(titleTranslationKey));
         this.entryBuilder = configBuilder.entryBuilder();
         this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
-        this.configBuilder.setSavingRunnable(() -> {
-            save.run();
-            runOldModMenuCompat();
-        });
+        if (hasOldModMenu()) {
+            FireplaceLib.getLogger().info("Mod Menu 2.0.2 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
+            this.configBuilder.setSavingRunnable(() -> {
+                save.run();
+                runOldModMenuCompat();
+            });
+        } else {
+            this.configBuilder.setSavingRunnable(save);
+        }
         this.dependencyTracker = new ClothConfigDependencyHandler();
     }
 
-    private void runOldModMenuCompat() {
+    private boolean hasOldModMenu() {
         Optional<ModContainer> modmenu = FabricLoader.getInstance().getModContainer("modmenu");
         try {
-            if (modmenu.isPresent() && SemanticVersion.parse(modmenu.get().getMetadata().getVersion().getFriendlyString()).compareTo(SemanticVersion.parse("2.0.2")) < 1) {
-                ModMenuCompat compat = new OldModMenuCompat();
-                compat.reloadClothConfigGUIs();
+            if (modmenu.isPresent()) {
+                SemanticVersion modMenuVersion = SemanticVersion.parse(modmenu.get().getMetadata().getVersion().getFriendlyString());
+                return modMenuVersion.compareTo(SemanticVersion.parse("2.0.2")) < 1;
             }
         } catch (VersionParsingException e) {
             FireplaceLib.getLogger().error("Unable to parse mod menu version", e);
         }
+
+        return false;
+    }
+
+    private void runOldModMenuCompat() {
+        ModMenuCompat compat = new OldModMenuCompat();
+        compat.reloadClothConfigGUIs();
     }
 
     @Override
