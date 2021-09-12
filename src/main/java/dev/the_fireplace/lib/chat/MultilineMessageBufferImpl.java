@@ -41,7 +41,7 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
         if (buffer != null) {
             buffer.put(position, value);
         } else {
-            FireplaceLib.getLogger().warn("Tried to add a message to nonexistant buffer "+bufferId+"!", new Exception("Stack trace"));
+            FireplaceLib.getLogger().warn("Tried to add a message to nonexistent buffer " + bufferId + "!", new Exception("Stack trace"));
         }
     }
 
