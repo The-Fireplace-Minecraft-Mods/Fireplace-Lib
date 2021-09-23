@@ -69,24 +69,19 @@ public final class FLConfigScreenFactory {
             config.getLocale(),
             defaultConfigValues.getLocale(),
             MinecraftClient.getInstance().getLanguageManager().getAllLanguages().parallelStream().map(LanguageDefinition::getCode).collect(Collectors.toList()),
-            config::setLocale,
-            false
+            config::setLocale
         );
         configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "essentialThreadPoolSize",
             config.getEssentialThreadPoolSize(),
             defaultConfigValues.getEssentialThreadPoolSize(),
-            config::setEssentialThreadPoolSize,
-            (short) 1,
-            Short.MAX_VALUE
-        );
+            config::setEssentialThreadPoolSize
+        ).setMinimum((short) 1);
         configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "nonEssentialThreadPoolSize",
             config.getNonEssentialThreadPoolSize(),
             defaultConfigValues.getNonEssentialThreadPoolSize(),
-            config::setNonEssentialThreadPoolSize,
-            (short) 1,
-            Short.MAX_VALUE
-        );
+            config::setNonEssentialThreadPoolSize
+        ).setMinimum((short) 1);
     }
 }
