@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.mixin.clothconfig;
 
-import dev.the_fireplace.lib.config.ClothConfigDependencyHandler;
+import dev.the_fireplace.lib.config.cloth.ClothConfigDependencyHandler;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.gui.ClothConfigScreen;
 import me.shedaniel.clothconfig2.gui.widget.DynamicElementListWidget;
