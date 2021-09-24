@@ -4,12 +4,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
+import dev.the_fireplace.lib.config.cloth.ClothParameterTypeConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -83,7 +83,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
     protected void setDefaultValue(S defaultValue) {
         T clothDefaultValue = typeConverter.convertToClothType(defaultValue);
         try {
-            Method setDefaultValue = findMethod("setDefaultValue", clothDefaultValue.getClass());
+            Method setDefaultValue = findSingleParameterMethod("setDefaultValue", clothDefaultValue.getClass());
             setDefaultValue.invoke(fieldBuilder, clothDefaultValue);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set default value for field builder of type " + fieldBuilder.getClass() + " with default value type " + clothDefaultValue.getClass(), e);
@@ -94,7 +94,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
     private void setSaveConsumer(Consumer<S> saveConsumer) {
         Consumer<T> clothSaveConsumer = value -> saveConsumer.accept(typeConverter.convertFromClothType(value));
         try {
-            Method setSaveConsumer = findMethod("setSaveConsumer", clothSaveConsumer.getClass());
+            Method setSaveConsumer = findSingleParameterMethod("setSaveConsumer", clothSaveConsumer.getClass());
             setSaveConsumer.invoke(fieldBuilder, clothSaveConsumer);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set save consumer for field builder of type " + fieldBuilder.getClass(), e);
@@ -131,7 +131,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
     public OptionBuilder<S> setErrorSupplier(Function<S, Optional<Text>> errorSupplier) {
         Function<T, Optional<Text>> clothErrorSupplier = value -> errorSupplier.apply(typeConverter.convertFromClothType(value));
         try {
-            Method setErrorSupplier = findMethod("setErrorSupplier", clothErrorSupplier.getClass());
+            Method setErrorSupplier = findSingleParameterMethod("setErrorSupplier", clothErrorSupplier.getClass());
             setErrorSupplier.invoke(fieldBuilder, clothErrorSupplier);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set error supplier for field builder of type " + fieldBuilder.getClass(), e);
@@ -140,8 +140,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
         return this;
     }
 
-    protected Method findMethod(String methodName, Class<?> parameterClass) throws NoSuchMethodException {
-        Iterator<Class<?>> checkClasses = getPotentialClasses(parameterClass);
+    protected Method findSingleParameterMethod(String methodName, Class<?> parameterClass) throws NoSuchMethodException {
+        Iterator<Class<?>> checkClasses = ClothParameterTypeConverter.getPotentialClasses(parameterClass);
         while (true) {
             try {
                 Class<?> testClass = checkClasses.next();
@@ -153,21 +153,6 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
                 throw e;
             }
         }
-    }
-
-    private Iterator<Class<?>> getPotentialClasses(Class<?> parameterClass) {
-        List<Class<?>> potentialClasses = Lists.newArrayList(parameterClass);
-        Class<?> primitiveClass = ClassUtils.wrapperToPrimitive(parameterClass);
-        if (primitiveClass != null) {
-            potentialClasses.add(primitiveClass);
-        }
-        if (parameterClass.getName().contains("$$Lambda$")) {
-            potentialClasses.add(Consumer.class);
-            potentialClasses.add(Function.class);
-        }
-        potentialClasses.add(Object.class);
-
-        return potentialClasses.iterator();
     }
 
     @Override
