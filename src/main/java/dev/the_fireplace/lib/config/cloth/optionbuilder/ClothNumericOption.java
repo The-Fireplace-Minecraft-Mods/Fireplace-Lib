@@ -24,7 +24,7 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
     public NumericOptionBuilder<S> setMinimum(S minimum) {
         T clothMinimum = typeConverter.convertToClothType(minimum);
         try {
-            Method setMinimum = findMethod("setMin", clothMinimum.getClass());
+            Method setMinimum = findSingleParameterMethod("setMin", clothMinimum.getClass());
             setMinimum.invoke(fieldBuilder, clothMinimum);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass(), e);
@@ -37,7 +37,7 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
     public NumericOptionBuilder<S> setMaximum(S maximum) {
         T clothMaximum = typeConverter.convertToClothType(maximum);
         try {
-            Method setMaximum = findMethod("setMax", clothMaximum.getClass());
+            Method setMaximum = findSingleParameterMethod("setMax", clothMaximum.getClass());
             setMaximum.invoke(fieldBuilder, clothMaximum);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass(), e);
