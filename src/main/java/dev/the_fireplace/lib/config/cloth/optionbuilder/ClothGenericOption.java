@@ -98,7 +98,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
             setSaveConsumer.invoke(fieldBuilder, clothSaveConsumer);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set save consumer for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLib.getLogger().error(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));//TODO trace
+            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
