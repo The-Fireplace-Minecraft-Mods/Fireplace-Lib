@@ -79,7 +79,7 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
     protected void resetDisplayPrecision() {
         Function<T, Text> textGetter = value -> Text.of(String.format("%." + precision + "f", typeConverter.convertFromClothType(value)) + (isPercent ? "%" : ""));
         try {
-            Method setDefaultValue = findMethod("setTextGetter", textGetter.getClass());
+            Method setDefaultValue = findSingleParameterMethod("setTextGetter", textGetter.getClass());
             setDefaultValue.invoke(fieldBuilder, textGetter);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set display precision for field builder of type " + fieldBuilder.getClass(), e);
