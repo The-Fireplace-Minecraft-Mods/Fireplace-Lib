@@ -1,8 +1,10 @@
 package dev.the_fireplace.lib.io.access;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
 
+import java.util.List;
 import java.util.UUID;
 
 public final class JsonStorageWriteBuffer implements StorageWriteBuffer {
@@ -58,5 +60,32 @@ public final class JsonStorageWriteBuffer implements StorageWriteBuffer {
     @Override
     public void writeBool(String key, boolean value) {
         obj.addProperty(key, value);
+    }
+
+    @Override
+    public void writeBoolList(String key, List<Boolean> values) {
+        JsonArray jsonArray = new JsonArray();
+        for (Boolean value : values) {
+            jsonArray.add(value);
+        }
+        obj.add(key, jsonArray);
+    }
+
+    @Override
+    public void writeNumberList(String key, List<Number> values) {
+        JsonArray jsonArray = new JsonArray();
+        for (Number value : values) {
+            jsonArray.add(value);
+        }
+        obj.add(key, jsonArray);
+    }
+
+    @Override
+    public void writeStringList(String key, List<String> values) {
+        JsonArray jsonArray = new JsonArray();
+        for (String value : values) {
+            jsonArray.add(value);
+        }
+        obj.add(key, jsonArray);
     }
 }
