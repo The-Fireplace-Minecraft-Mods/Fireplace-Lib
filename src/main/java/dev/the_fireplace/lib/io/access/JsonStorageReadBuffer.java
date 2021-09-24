@@ -1,12 +1,12 @@
 package dev.the_fireplace.lib.io.access;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JsonStorageReadBuffer implements StorageReadBuffer {
@@ -66,6 +66,51 @@ public class JsonStorageReadBuffer implements StorageReadBuffer {
     @Override
     public boolean readBool(String key, boolean ifAbsent) {
         return obj.has(key) ? obj.get(key).getAsBoolean() : ifAbsent;
+    }
+
+    @Override
+    public List<Boolean> readBoolList(String key, List<Boolean> ifAbsent) {
+        if (!obj.has(key)) {
+            return ifAbsent;
+        }
+
+        List<Boolean> list = new ArrayList<>();
+        JsonArray array = obj.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            list.add(element.getAsBoolean());
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Number> readNumberList(String key, List<Number> ifAbsent) {
+        if (!obj.has(key)) {
+            return ifAbsent;
+        }
+
+        List<Number> list = new ArrayList<>();
+        JsonArray array = obj.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            list.add(element.getAsNumber());
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<String> readStringList(String key, List<String> ifAbsent) {
+        if (!obj.has(key)) {
+            return ifAbsent;
+        }
+
+        List<String> list = new ArrayList<>();
+        JsonArray array = obj.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            list.add(element.getAsString());
+        }
+
+        return list;
     }
 
     @Override
