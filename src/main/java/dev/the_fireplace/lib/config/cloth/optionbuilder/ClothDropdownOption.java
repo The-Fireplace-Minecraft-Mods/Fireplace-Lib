@@ -23,7 +23,7 @@ public class ClothDropdownOption<S, T> extends ClothGenericOption<S, T> implemen
     @Override
     public DropdownOptionBuilder<S> enableSuggestionMode() {
         try {
-            Method setMaximum = findMethod("setSuggestionMode", Boolean.class);
+            Method setMaximum = findSingleParameterMethod("setSuggestionMode", Boolean.class);
             setMaximum.invoke(fieldBuilder, true);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set suggestion mode for field builder of type " + fieldBuilder.getClass(), e);
