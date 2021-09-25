@@ -36,13 +36,13 @@ public final class TestCustomButtonScreen extends Screen implements CustomButton
 
     @Override
     protected void init() {
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 202, this.height - 60, 200, 20, Text.of("Assign random value"), (button) -> {
+        this.addButton(new ButtonWidget(this.width / 2 - 202, this.height - 60, 200, 20, Text.of("Assign random value"), (button) -> {
             this.newValue = generateValue();
         }));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 202, this.height - 60 + 22, 200, 20, Text.of("Confirm and exit"), (button) -> {
+        this.addButton(new ButtonWidget(this.width / 2 - 202, this.height - 60 + 22, 200, 20, Text.of("Confirm and exit"), (button) -> {
             closeScreen();
         }));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + 2, this.height - 60, 200, 20, Text.of("Cancel"), (button) -> {
+        this.addButton(new ButtonWidget(this.width / 2 + 2, this.height - 60, 200, 20, Text.of("Cancel"), (button) -> {
             promise.setSuccess(Optional.empty());
             closeScreen();
         }));

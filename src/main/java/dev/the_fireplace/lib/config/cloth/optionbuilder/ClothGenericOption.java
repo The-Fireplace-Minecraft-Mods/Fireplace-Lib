@@ -47,7 +47,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
             throw new IllegalStateException("No type converter provided for Cloth Option!", e);
         }
         this.optionTranslationBase = optionTranslationBase;
-        this.typeConverter = new OptionTypeConverter<>() {
+        this.typeConverter = new OptionTypeConverter<S, T>() {
             @Override
             public T convertToClothType(S source) {
                 //noinspection unchecked

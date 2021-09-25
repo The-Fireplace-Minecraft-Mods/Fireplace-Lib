@@ -2,6 +2,7 @@ package dev.the_fireplace.lib.config.cloth;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.*;
 import dev.the_fireplace.lib.compat.modmenu.ModMenuCompat;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
-    private static final OptionTypeConverter<Short, Integer> SHORT_TYPE_CONVERTER = new OptionTypeConverter<>() {
+    private static final OptionTypeConverter<Short, Integer> SHORT_TYPE_CONVERTER = new OptionTypeConverter<Short, Integer>() {
         @Override
         public Integer convertToClothType(Short source) {
             return Integer.valueOf(source);
@@ -45,7 +46,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             return clothValue.shortValue();
         }
     };
-    private static final OptionTypeConverter<Byte, Integer> BYTE_TYPE_CONVERTER = new OptionTypeConverter<>() {
+    private static final OptionTypeConverter<Byte, Integer> BYTE_TYPE_CONVERTER = new OptionTypeConverter<Byte, Integer>() {
         @Override
         public Integer convertToClothType(Byte source) {
             return Integer.valueOf(source);
@@ -81,7 +82,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         this.entryBuilder = configBuilder.entryBuilder();
         this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
         if (hasOldModMenu()) {
-            FireplaceLib.getLogger().info("Mod Menu 2.0.2 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
+            FireplaceLib.getLogger().info("Mod Menu 1.16.9 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
             this.configBuilder.setSavingRunnable(() -> {
                 save.run();
                 runOldModMenuCompat();
@@ -98,7 +99,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         try {
             if (modmenu.isPresent()) {
                 SemanticVersion modMenuVersion = SemanticVersion.parse(modmenu.get().getMetadata().getVersion().getFriendlyString());
-                return modMenuVersion.compareTo(SemanticVersion.parse("2.0.2")) < 1;
+                return modMenuVersion.compareTo(SemanticVersion.parse("1.16.9")) < 1;
             }
         } catch (VersionParsingException e) {
             FireplaceLib.getLogger().error("Unable to parse mod menu version", e);
@@ -150,7 +151,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
 
     @Override
     public <T extends Enum<T>> OptionBuilder<T> addEnumDropdown(String optionTranslationBase, T currentValue, T defaultValue, T[] dropdownEntries, Consumer<T> saveFunction) {
-        OptionTypeConverter<T, String> enumTypeConverter = new OptionTypeConverter<>() {
+        OptionTypeConverter<T, String> enumTypeConverter = new OptionTypeConverter<T, String>() {
             @Override
             public String convertToClothType(T source) {
                 return source.name();
@@ -169,7 +170,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             builder,
             optionTranslationBase,
             defaultValue,
-            Set.of(dropdownEntries),
+            Sets.newHashSet(dropdownEntries),
             saveFunction,
             enumTypeConverter
         );
@@ -541,7 +542,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Short> defaultValue,
         Consumer<List<Short>> saveFunction
     ) {
-        OptionTypeConverter<List<Short>, List<Integer>> typeConverter = new OptionTypeConverter<>() {
+        OptionTypeConverter<List<Short>, List<Integer>> typeConverter = new OptionTypeConverter<List<Short>, List<Integer>>() {
             @Override
             public List<Integer> convertToClothType(List<Short> source) {
                 return source.stream().map(Integer::valueOf).collect(Collectors.toList());
@@ -617,7 +618,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Byte> defaultValue,
         Consumer<List<Byte>> saveFunction
     ) {
-        OptionTypeConverter<List<Byte>, List<Integer>> typeConverter = new OptionTypeConverter<>() {
+        OptionTypeConverter<List<Byte>, List<Integer>> typeConverter = new OptionTypeConverter<List<Byte>, List<Integer>>() {
             @Override
             public List<Integer> convertToClothType(List<Byte> source) {
                 return source.stream().map(Integer::valueOf).collect(Collectors.toList());
@@ -713,7 +714,8 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     @SuppressWarnings({"unchecked", "rawtypes", "SuspiciousMethodCalls"})
     private void buildDependencies(Collection<OptionBuilder<?>> optionBuilders, Map<OptionBuilder<?>, AbstractConfigListEntry<?>> builtOptions) {
         for (OptionBuilder<?> optionBuilder : optionBuilders) {
-            if (optionBuilder instanceof ClothGenericOption clothGenericOption) {
+            if (optionBuilder instanceof ClothGenericOption) {
+                ClothGenericOption clothGenericOption = (ClothGenericOption) optionBuilder;
                 clothGenericOption.getDependencies().forEach((key, value) ->
                     this.dependencyTracker.addDependency(builtOptions.get(key), builtOptions.get(optionBuilder), (Predicate) value)
                 );
@@ -727,7 +729,8 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         SubCategoryTracker subCategoryTracker = null;
 
         for (OptionBuilder optionBuilder : optionBuilders) {
-            if (optionBuilder instanceof ClothGenericOption clothGenericOption) {
+            if (optionBuilder instanceof ClothGenericOption) {
+                ClothGenericOption clothGenericOption = (ClothGenericOption) optionBuilder;
                 AbstractConfigListEntry configListEntry = clothGenericOption.getFieldBuilder().build();
 
                 this.dependencyTracker.addOption(configListEntry, clothGenericOption.getTypeConverter());
