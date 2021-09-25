@@ -5,6 +5,7 @@ import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreen;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreenFactory;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
+import dev.the_fireplace.lib.config.cloth.ClothConfigDependencyHandler;
 import io.netty.util.concurrent.Promise;
 import me.shedaniel.clothconfig2.gui.entries.TooltipListEntry;
 import net.fabricmc.api.EnvType;
@@ -101,6 +102,9 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
 
     @Override
     public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isHovered, float delta) {
+        if (ClothConfigDependencyHandler.DISABLED_ENTRIES.contains(this)) {
+            return;
+        }
         super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta);
         Window window = MinecraftClient.getInstance().getWindow();
         this.resetButton.active = this.isEditable() && this.getDefaultValue().isPresent() && !Objects.equals(this.defaultValue.get(), this.value.get());
