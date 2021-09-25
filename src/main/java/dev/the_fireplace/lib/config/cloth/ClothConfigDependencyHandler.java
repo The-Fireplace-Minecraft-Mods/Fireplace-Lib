@@ -4,7 +4,6 @@ import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.mixin.clothconfig.AbstractConfigEntryAccessor;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
-import net.minecraft.text.Text;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,8 +42,8 @@ public final class ClothConfigDependencyHandler {
         Predicate<Object> shouldShowChildBasedOnParentValue
     ) {
         @SuppressWarnings({"unchecked", "rawtypes"})
-        Supplier<Optional<Text>> configEntryErrorSupplier = ((AbstractConfigEntryAccessor) parent).getErrorSupplier();
-        Supplier<Optional<Text>> dependencyCheckingErrorSupplier = addDependencyCheckToErrorSupplier(
+        Supplier<Optional<String>> configEntryErrorSupplier = ((AbstractConfigEntryAccessor) parent).getErrorSupplier();
+        Supplier<Optional<String>> dependencyCheckingErrorSupplier = addDependencyCheckToErrorSupplier(
             parent,
             child,
             shouldShowChildBasedOnParentValue,
@@ -54,11 +53,11 @@ public final class ClothConfigDependencyHandler {
     }
 
     @Nonnull
-    private Supplier<Optional<Text>> addDependencyCheckToErrorSupplier(
+    private Supplier<Optional<String>> addDependencyCheckToErrorSupplier(
         AbstractConfigListEntry<?> parentConfigEntry,
         AbstractConfigListEntry<?> childConfigEntry,
         Predicate<Object> shouldShowChildBasedOnParentValue,
-        @Nullable Supplier<Optional<Text>> errorSupplier
+        @Nullable Supplier<Optional<String>> errorSupplier
     ) {
         return () -> {
             Object parentEntryGuiValue = getClothOptionDependency(parentConfigEntry).getConvertedValue();

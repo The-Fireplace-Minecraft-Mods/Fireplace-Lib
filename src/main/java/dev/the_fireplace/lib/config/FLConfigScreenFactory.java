@@ -14,7 +14,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.LanguageDefinition;
-import net.minecraft.text.LiteralText;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -102,7 +101,7 @@ public final class FLConfigScreenFactory {
                 },
                 TestCustomButtonScreen::new
             )
-            .setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()))
+            .setButtonTextSupplier(value -> value + " Button")
             .setDescriptionRowCount((byte) 0);
     }
 }
