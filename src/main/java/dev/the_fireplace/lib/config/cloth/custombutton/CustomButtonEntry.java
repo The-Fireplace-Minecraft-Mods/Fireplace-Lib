@@ -13,6 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.Window;
 
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.function.Supplier;
 @Environment(EnvType.CLIENT)
 public class CustomButtonEntry extends TooltipListEntry<String> {
     private final AtomicReference<String> value;
-    private final String original;
     private final ButtonWidget buttonWidget;
     private final ButtonWidget resetButton;
     private final Consumer<String> saveConsumer;
@@ -47,7 +47,6 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
     ) {
         super(fieldName, null);
         this.defaultValue = defaultValue;
-        this.original = currentValue;
         this.value = new AtomicReference<>(currentValue);
         this.buttonWidget = new ButtonWidget(0, 0, 150, 20, "", (widget) -> {
             Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(MinecraftClient.getInstance().currentScreen, this.value.get());
@@ -62,18 +61,17 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
                     e.printStackTrace();
                 }
                 builderReturnedValue.ifPresent(this.value::set);
+                getScreen().setEdited(true, isRequiresRestart());
             });
         });
-        this.resetButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(resetButtonKey) + 6, 20, resetButtonKey, (widget) -> {
+        String resetButtonText = I18n.translate(resetButtonKey);
+        this.resetButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(resetButtonText) + 6, 20, resetButtonText, (widget) -> {
             this.value.set(defaultValue.get());
+            getScreen().setEdited(true, isRequiresRestart());
         });
         this.saveConsumer = saveConsumer;
-        this.widgets = Lists.newArrayList(new Element[]{this.buttonWidget, this.resetButton});
+        this.widgets = Lists.newArrayList(this.buttonWidget, this.resetButton);
         this.getDisplayString = getDisplayString;
-    }
-
-    public boolean isEdited() {
-        return !Objects.equals(this.original, this.value.get());
     }
 
     @Override
@@ -103,7 +101,7 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
         this.buttonWidget.y = y;
         String buttonText = getDisplayString != null ? getDisplayString.apply(this.value.get()) : this.value.get();
         this.buttonWidget.setMessage(buttonText);
-        String displayedFieldName = this.getFieldName();
+        String displayedFieldName = I18n.translate(this.getFieldName());
         if (MinecraftClient.getInstance().textRenderer.isRightToLeft()) {
             MinecraftClient.getInstance().textRenderer.drawWithShadow(displayedFieldName, (float) (window.getScaledWidth() - x - MinecraftClient.getInstance().textRenderer.getStringWidth(displayedFieldName)), (float) (y + 6), 0xFFFFFF);
             this.resetButton.x = x;
