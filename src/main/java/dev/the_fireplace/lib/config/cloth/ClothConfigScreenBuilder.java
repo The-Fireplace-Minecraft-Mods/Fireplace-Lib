@@ -9,6 +9,7 @@ import dev.the_fireplace.lib.compat.modmenu.OldModMenuCompat;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonFieldBuilder;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonOption;
 import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothGenericOption;
+import dev.the_fireplace.lib.config.cloth.optionbuilder.SubCategoryTracker;
 import dev.the_fireplace.lib.domain.config.OptionBuilderFactory;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
@@ -62,6 +63,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     private final OptionBuilderFactory optionBuilderFactory;
     private final Multimap<ConfigCategory, OptionBuilder<?>> categoryEntries;
     private ConfigCategory category;
+    private SubCategoryTracker subCategory = null;
 
     public ClothConfigScreenBuilder(
         OptionBuilderFactory optionBuilderFactory,
@@ -114,6 +116,21 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     public void startCategory(String translationKey, Object... translationParameters) {
         Text categoryName = translator.getTranslatedText(translationKey, translationParameters);
         this.category = configBuilder.getOrCreateCategory(categoryName);
+        if (this.subCategory != null) {
+            FireplaceLib.getLogger().warn("Sub-Category {} not explicitly ended before starting a new category! Ending it...", subCategory.getBuilder().getFieldNameKey().asString());
+            this.endSubCategory();
+        }
+    }
+
+    @Override
+    public void startSubCategory(String translationKey, Object... translationParameters) {
+        this.subCategory = new SubCategoryTracker(new SubCategoryBuilder(entryBuilder.getResetButtonKey(), translator.getTranslatedText(translationKey, translationParameters)));
+        this.categoryEntries.put(this.category, this.subCategory);
+    }
+
+    @Override
+    public void endSubCategory() {
+        this.subCategory = null;
     }
 
     @Override
@@ -126,7 +143,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -156,7 +173,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             enumTypeConverter
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -178,7 +195,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             dropdownEntries,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -198,7 +215,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -218,7 +235,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -251,7 +268,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             max,
             typeConverter
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -271,7 +288,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -291,7 +308,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -324,7 +341,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             max,
             typeConverter
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -344,7 +361,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -364,7 +381,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -386,7 +403,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -406,7 +423,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -426,7 +443,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -448,7 +465,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -468,7 +485,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -489,7 +506,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             SHORT_TYPE_CONVERTER
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -512,7 +529,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             SHORT_TYPE_CONVERTER
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -544,7 +561,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             typeConverter
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -565,7 +582,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             BYTE_TYPE_CONVERTER
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -588,7 +605,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             BYTE_TYPE_CONVERTER
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -620,7 +637,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             saveFunction,
             typeConverter
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -640,7 +657,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
     }
@@ -660,9 +677,16 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             defaultValue,
             saveFunction
         );
-        categoryEntries.put(category, optionBuilder);
+        registerBuilder(optionBuilder);
 
         return optionBuilder;
+    }
+
+    private void registerBuilder(OptionBuilder<?> optionBuilder) {
+        categoryEntries.put(category, optionBuilder);
+        if (subCategory != null) {
+            subCategory.addEntry(optionBuilder);
+        }
     }
 
     @Override
@@ -683,27 +707,48 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     @SuppressWarnings({"unchecked", "rawtypes", "SuspiciousMethodCalls"})
     private void buildDependencies(Collection<OptionBuilder<?>> optionBuilders, Map<OptionBuilder<?>, AbstractConfigListEntry<?>> builtOptions) {
         for (OptionBuilder<?> optionBuilder : optionBuilders) {
-            ClothGenericOption clothGenericOption = (ClothGenericOption) optionBuilder;
-            clothGenericOption.getDependencies().forEach((key, value) ->
-                this.dependencyTracker.addDependency(builtOptions.get(key), builtOptions.get(optionBuilder), (Predicate) value)
-            );
+            if (optionBuilder instanceof ClothGenericOption clothGenericOption) {
+                clothGenericOption.getDependencies().forEach((key, value) ->
+                    this.dependencyTracker.addDependency(builtOptions.get(key), builtOptions.get(optionBuilder), (Predicate) value)
+                );
+            }
         }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Map<OptionBuilder<?>, AbstractConfigListEntry<?>> buildCategory(ConfigCategory configCategory, Collection<OptionBuilder<?>> optionBuilders) {
         Map<OptionBuilder<?>, AbstractConfigListEntry<?>> builtOptions = new HashMap<>();
+        SubCategoryTracker subCategoryTracker = null;
 
         for (OptionBuilder optionBuilder : optionBuilders) {
-            ClothGenericOption clothGenericOption = (ClothGenericOption) optionBuilder;
-            AbstractConfigListEntry configListEntry = clothGenericOption.getFieldBuilder().build();
+            if (optionBuilder instanceof ClothGenericOption clothGenericOption) {
+                AbstractConfigListEntry configListEntry = clothGenericOption.getFieldBuilder().build();
 
-            this.dependencyTracker.addOption(configListEntry, clothGenericOption.getTypeConverter());
-            builtOptions.put(optionBuilder, configListEntry);
+                this.dependencyTracker.addOption(configListEntry, clothGenericOption.getTypeConverter());
+                builtOptions.put(optionBuilder, configListEntry);
 
-            configCategory.addEntry(configListEntry);
+                if (subCategoryTracker != null) {
+                    subCategoryTracker.getBuilder().add(configListEntry);
+                    if (subCategoryTracker.getLastEntry() == optionBuilder) {
+                        finishSubCategory(configCategory, subCategoryTracker);
+                        subCategoryTracker = null;
+                    }
+                } else {
+                    configCategory.addEntry(configListEntry);
+                }
+            } else if (optionBuilder instanceof SubCategoryTracker) {
+                subCategoryTracker = (SubCategoryTracker) optionBuilder;
+                if (!subCategoryTracker.hasEntries()) {
+                    finishSubCategory(configCategory, subCategoryTracker);
+                    subCategoryTracker = null;
+                }
+            }
         }
 
         return builtOptions;
+    }
+
+    private void finishSubCategory(ConfigCategory configCategory, SubCategoryTracker tracker) {
+        configCategory.addEntry(tracker.getBuilder().build());
     }
 }
