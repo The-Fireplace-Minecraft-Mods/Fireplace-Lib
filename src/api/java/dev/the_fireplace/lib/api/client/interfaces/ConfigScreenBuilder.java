@@ -191,12 +191,12 @@ public interface ConfigScreenBuilder {
         Consumer<Boolean> saveFunction
     );
 
-    CustomButtonBuilder<String> addCustomOptionButton(
+    <T extends Screen & CustomButtonScreen<String>> CustomButtonBuilder<String> addCustomOptionButton(
         String optionTranslationBase,
         String currentValue,
         String defaultValue,
         Consumer<String> saveFunction,
-        CustomButtonScreenFactory<String> buildOptionScreenFactory
+        CustomButtonScreenFactory<String, T> buildOptionScreenFactory
     );
 
     Screen build();

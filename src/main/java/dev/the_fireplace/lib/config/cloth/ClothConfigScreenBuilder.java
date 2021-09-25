@@ -663,7 +663,13 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     }
 
     @Override
-    public CustomButtonBuilder<String> addCustomOptionButton(String optionTranslationBase, String currentValue, String defaultValue, Consumer<String> saveFunction, CustomButtonScreenFactory<String> buildOptionScreenFactory) {
+    public <T extends Screen & CustomButtonScreen<String>> CustomButtonBuilder<String> addCustomOptionButton(
+        String optionTranslationBase,
+        String currentValue,
+        String defaultValue,
+        Consumer<String> saveFunction,
+        CustomButtonScreenFactory<String, T> buildOptionScreenFactory
+    ) {
         CustomButtonFieldBuilder builder = new CustomButtonFieldBuilder(
             entryBuilder.getResetButtonKey(),
             translator.getTranslatedText(optionTranslationBase),
