@@ -11,7 +11,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -123,11 +122,6 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
         this.buttonWidget.setWidth(150 - this.resetButton.getWidth() - 2);
         this.resetButton.render(matrices, mouseX, mouseY, delta);
         this.buttonWidget.render(matrices, mouseX, mouseY, delta);
-    }
-
-    @Override
-    public List<? extends Selectable> narratables() {
-        return widgets;
     }
 
     @Override
