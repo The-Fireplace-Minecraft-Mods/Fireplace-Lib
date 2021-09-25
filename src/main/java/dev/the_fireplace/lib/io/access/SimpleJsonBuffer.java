@@ -1,9 +1,11 @@
 package dev.the_fireplace.lib.io.access;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
 
-import java.util.UUID;
+import java.util.*;
 
 public final class SimpleJsonBuffer implements SimpleBuffer {
 
@@ -61,6 +63,51 @@ public final class SimpleJsonBuffer implements SimpleBuffer {
     @Override
     public boolean readBool(String key) {
         return jsonObject.get(key).getAsBoolean();
+    }
+
+    @Override
+    public List<Boolean> readBoolList(String key) {
+        List<Boolean> list = new ArrayList<>();
+        JsonArray array = jsonObject.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            list.add(element.getAsBoolean());
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Number> readNumberList(String key) {
+        List<Number> list = new ArrayList<>();
+        JsonArray array = jsonObject.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            list.add(element.getAsNumber());
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<String> readStringList(String key) {
+        List<String> list = new ArrayList<>();
+        JsonArray array = jsonObject.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            list.add(element.getAsString());
+        }
+
+        return list;
+    }
+
+    @Override
+    public Map<String, String> readStringToStringMap(String key) {
+        Map<String, String> map = new HashMap<>();
+        JsonArray array = jsonObject.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            JsonObject object = element.getAsJsonObject();
+            map.put(object.get("key").getAsString(), object.get("value").getAsString());
+        }
+
+        return map;
     }
 
     @Override
