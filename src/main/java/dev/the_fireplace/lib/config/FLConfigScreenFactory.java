@@ -79,6 +79,7 @@ public final class FLConfigScreenFactory {
             MinecraftClient.getInstance().getLanguageManager().getAllLanguages().parallelStream().map(LanguageDefinition::getCode).collect(Collectors.toList()),
             config::setLocale
         );
+        configScreenBuilder.startSubCategory(TRANSLATION_BASE + "advanced");
         configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "essentialThreadPoolSize",
             config.getEssentialThreadPoolSize(),
@@ -91,6 +92,7 @@ public final class FLConfigScreenFactory {
             defaultConfigValues.getNonEssentialThreadPoolSize(),
             config::setNonEssentialThreadPoolSize
         ).setMinimum((short) 1);
+        configScreenBuilder.endSubCategory();
     }
 
     private void addDeveloperEntries() {
