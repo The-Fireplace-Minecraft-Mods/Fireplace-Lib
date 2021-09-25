@@ -5,8 +5,6 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
-import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreen;
-import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreenFactory;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.config.cloth.test.TestCustomButtonScreen;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
@@ -97,18 +95,12 @@ public final class FLConfigScreenFactory {
 
     private void addDeveloperEntries() {
         configScreenBuilder.addCustomOptionButton(
-            "Custom Button Test",
-            "Null",
+                "Custom Button Test",
+                "Null",
                 "Null",
                 value -> {
                 },
-                new CustomButtonScreenFactory<>() {
-                    @Override
-                    public <T extends Screen & CustomButtonScreen<String>> T createScreen(Screen parent, String currentValue) {
-                        //noinspection unchecked
-                        return (T) new TestCustomButtonScreen(parent, currentValue);
-                    }
-                }
+                TestCustomButtonScreen::new
             )
             .setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()))
             .setDescriptionRowCount((byte) 0);
