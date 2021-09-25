@@ -5,6 +5,7 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
+import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.config.cloth.test.TestCustomButtonScreen;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
@@ -34,6 +35,7 @@ public final class FLConfigScreenFactory {
     private final TextStyles textStyles;
 
     private ConfigScreenBuilder configScreenBuilder;
+    private OptionBuilder<Short> essentialThreadPoolBuilder;
 
     @Inject
     public FLConfigScreenFactory(
@@ -77,7 +79,7 @@ public final class FLConfigScreenFactory {
             config::setLocale
         );
         configScreenBuilder.startSubCategory(TRANSLATION_BASE + "advanced");
-        configScreenBuilder.addShortField(
+        essentialThreadPoolBuilder = configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "essentialThreadPoolSize",
             config.getEssentialThreadPoolSize(),
             defaultConfigValues.getEssentialThreadPoolSize(),
@@ -102,6 +104,7 @@ public final class FLConfigScreenFactory {
                 TestCustomButtonScreen::new
             )
             .setButtonTextSupplier(value -> value + " Button")
-            .setDescriptionRowCount((byte) 0);
+            .setDescriptionRowCount((byte) 0)
+            .addDependency(essentialThreadPoolBuilder, essentialThreadPoolSize -> essentialThreadPoolSize > 4);
     }
 }
