@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public final class JsonStorageWriteBuffer implements StorageWriteBuffer {
@@ -85,6 +86,18 @@ public final class JsonStorageWriteBuffer implements StorageWriteBuffer {
         JsonArray jsonArray = new JsonArray();
         for (String value : values) {
             jsonArray.add(value);
+        }
+        obj.add(key, jsonArray);
+    }
+
+    @Override
+    public void writeStringToStringMap(String key, Map<String, String> values) {
+        JsonArray jsonArray = new JsonArray();
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            JsonObject object = new JsonObject();
+            object.addProperty("key", entry.getKey());
+            object.addProperty("value", entry.getValue());
+            jsonArray.add(object);
         }
         obj.add(key, jsonArray);
     }
