@@ -20,6 +20,6 @@ public final class ModMenuEntrypoint implements ModMenuApi {
 
     @Override
     public Function<Screen, ? extends Screen> getConfigScreenFactory() {
-        return flConfigScreenFactory.getConfigScreenFactory();
+        return flConfigScreenFactory::getConfigScreen;
     }
 }

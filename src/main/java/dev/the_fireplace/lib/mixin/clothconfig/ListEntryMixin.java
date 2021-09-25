@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.mixin.clothconfig;
 
-import dev.the_fireplace.lib.config.ClothConfigDependencyHandler;
+import dev.the_fireplace.lib.config.cloth.ClothConfigDependencyHandler;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.gui.entries.*;
 import org.spongepowered.asm.mixin.Mixin;

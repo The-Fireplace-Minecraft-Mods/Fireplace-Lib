@@ -35,7 +35,7 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
     private final List<Element> widgets;
     private final Function<String, String> getDisplayString;
 
-    @SuppressWarnings({"deprecation", "UnstableApiUsage"})
+    @SuppressWarnings("deprecation")
     public CustomButtonEntry(
         String fieldName,
         String currentValue,
@@ -94,7 +94,7 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
     @Override
     public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
         super.render(index, y, x, entryWidth, entryHeight, mouseX, mouseY, isSelected, delta);
-        Window window = MinecraftClient.getInstance().getWindow();
+        Window window = MinecraftClient.getInstance().window;
         this.resetButton.active = this.isEditable() && this.getDefaultValue().isPresent() && !Objects.equals(this.defaultValue.get(), this.value.get());
         this.resetButton.y = y;
         this.buttonWidget.active = this.isEditable();
