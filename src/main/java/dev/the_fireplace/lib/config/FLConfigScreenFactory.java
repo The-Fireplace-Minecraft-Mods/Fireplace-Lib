@@ -99,16 +99,18 @@ public final class FLConfigScreenFactory {
         configScreenBuilder.addCustomOptionButton(
             "Custom Button Test",
             "Null",
-            "Null",
-            value -> {
-            },
-            new CustomButtonScreenFactory<>() {
-                @Override
-                public <T extends Screen & CustomButtonScreen<String>> T createScreen(Screen parent, String currentValue) {
-                    //noinspection unchecked
-                    return (T) new TestCustomButtonScreen(parent, currentValue);
+                "Null",
+                value -> {
+                },
+                new CustomButtonScreenFactory<>() {
+                    @Override
+                    public <T extends Screen & CustomButtonScreen<String>> T createScreen(Screen parent, String currentValue) {
+                        //noinspection unchecked
+                        return (T) new TestCustomButtonScreen(parent, currentValue);
+                    }
                 }
-            }
-        ).setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()));
+            )
+            .setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()))
+            .setDescriptionRowCount((byte) 0);
     }
 }

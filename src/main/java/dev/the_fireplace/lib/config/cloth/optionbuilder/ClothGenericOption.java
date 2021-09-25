@@ -62,6 +62,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
         };
         setDefaultValue(defaultValue);
         setSaveConsumer(saveFunction);
+        setDescriptionRowCount((byte) 1);
     }
 
     public ClothGenericOption(
@@ -78,6 +79,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
         this.typeConverter = typeConverter;
         setDefaultValue(defaultValue);
         setSaveConsumer(saveFunction);
+        setDescriptionRowCount((byte) 1);
     }
 
     protected void setDefaultValue(S defaultValue) {
