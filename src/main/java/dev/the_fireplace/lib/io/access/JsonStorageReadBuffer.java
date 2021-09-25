@@ -114,6 +114,22 @@ public class JsonStorageReadBuffer implements StorageReadBuffer {
     }
 
     @Override
+    public Map<String, String> readStringToStringMap(String key, Map<String, String> ifAbsent) {
+        if (!obj.has(key)) {
+            return ifAbsent;
+        }
+
+        Map<String, String> map = new HashMap<>();
+        JsonArray array = obj.getAsJsonArray(key);
+        for (JsonElement element : array) {
+            JsonObject object = element.getAsJsonObject();
+            map.put(object.get("key").getAsString(), object.get("value").getAsString());
+        }
+
+        return map;
+    }
+
+    @Override
     public Collection<String> getKeys() {
         return obj.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
     }

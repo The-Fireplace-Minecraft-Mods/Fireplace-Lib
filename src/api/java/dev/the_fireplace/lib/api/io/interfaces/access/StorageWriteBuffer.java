@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.api.io.interfaces.access;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface StorageWriteBuffer {
@@ -27,4 +28,6 @@ public interface StorageWriteBuffer {
     void writeNumberList(String key, List<Number> values);
 
     void writeStringList(String key, List<String> values);
+
+    void writeStringToStringMap(String key, Map<String, String> values);
 }
