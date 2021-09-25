@@ -12,6 +12,10 @@ import java.util.function.Consumer;
 public interface ConfigScreenBuilder {
     void startCategory(String translationKey, Object... translationParameters);
 
+    void startSubCategory(String translationKey, Object... translationParameters);
+
+    void endSubCategory();
+
     OptionBuilder<String> addStringField(
         String optionTranslationBase,
         String currentValue,
