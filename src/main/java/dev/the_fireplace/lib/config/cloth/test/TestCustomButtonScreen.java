@@ -9,8 +9,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 
 import java.util.Optional;
 import java.util.Random;
@@ -23,7 +22,7 @@ public final class TestCustomButtonScreen extends Screen implements CustomButton
     private String newValue;
 
     public TestCustomButtonScreen(Screen parent, String currentValue) {
-        super(Text.of("Button Custom Screen Test. New value:"));
+        super(new LiteralText("Button Custom Screen Test. New value:"));
         promise = new DefaultPromise<>(new DefaultEventExecutor());
         this.newValue = currentValue;
         this.parent = parent;
@@ -36,13 +35,13 @@ public final class TestCustomButtonScreen extends Screen implements CustomButton
 
     @Override
     protected void init() {
-        this.addButton(new ButtonWidget(this.width / 2 - 202, this.height - 60, 200, 20, Text.of("Assign random value"), (button) -> {
+        this.addButton(new ButtonWidget(this.width / 2 - 202, this.height - 60, 200, 20, "Assign random value", (button) -> {
             this.newValue = generateValue();
         }));
-        this.addButton(new ButtonWidget(this.width / 2 - 202, this.height - 60 + 22, 200, 20, Text.of("Confirm and exit"), (button) -> {
+        this.addButton(new ButtonWidget(this.width / 2 - 202, this.height - 60 + 22, 200, 20, "Confirm and exit", (button) -> {
             closeScreen();
         }));
-        this.addButton(new ButtonWidget(this.width / 2 + 2, this.height - 60, 200, 20, Text.of("Cancel"), (button) -> {
+        this.addButton(new ButtonWidget(this.width / 2 + 2, this.height - 60, 200, 20, "Cancel", (button) -> {
             promise.setSuccess(Optional.empty());
             closeScreen();
         }));
@@ -65,10 +64,10 @@ public final class TestCustomButtonScreen extends Screen implements CustomButton
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, this.height / 2 - 9 * 2, 0xFFFFFF);
-        drawCenteredText(matrices, this.textRenderer, Text.of(newValue), this.width / 2, this.height / 2, 0xFFFFFF);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(int mouseX, int mouseY, float delta) {
+        this.renderBackground();
+        drawCenteredString(MinecraftClient.getInstance().textRenderer, this.title.asString(), this.width / 2, this.height / 2 - 9 * 2, 0xFFFFFF);
+        drawCenteredString(MinecraftClient.getInstance().textRenderer, newValue, this.width / 2, this.height / 2, 0xFFFFFF);
+        super.render(mouseX, mouseY, delta);
     }
 }

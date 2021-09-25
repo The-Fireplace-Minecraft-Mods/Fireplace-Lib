@@ -107,10 +107,10 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
     @Override
     public OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount) {
         try {
-            Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", Text[].class);
+            Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", String[].class);
             String descriptionTranslationKey = optionTranslationBase + ".desc";
             if (descriptionRowCount == 1) {
-                setTooltip.invoke(fieldBuilder, (Object) new Text[]{translator.getTranslatedText(descriptionTranslationKey)});
+                setTooltip.invoke(fieldBuilder, (Object) new String[]{translator.getTranslatedString(descriptionTranslationKey)});
             } else {
                 setTooltip.invoke(fieldBuilder, (Object) generateMultilineDescription(descriptionTranslationKey, descriptionRowCount));
             }
@@ -121,12 +121,12 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
         return this;
     }
 
-    private Text[] generateMultilineDescription(String baseKey, int count) {
-        List<Text> texts = Lists.newArrayList();
+    private String[] generateMultilineDescription(String baseKey, int count) {
+        List<String> texts = Lists.newArrayList();
         for (int i = 0; i < count; i++) {
-            texts.add(translator.getTranslatedText(baseKey + "[" + i + "]"));
+            texts.add(translator.getTranslatedString(baseKey + "[" + i + "]"));
         }
-        return texts.toArray(new Text[0]);
+        return texts.toArray(new String[0]);
     }
 
     @Override

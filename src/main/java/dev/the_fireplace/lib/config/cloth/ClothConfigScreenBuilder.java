@@ -5,8 +5,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.*;
-import dev.the_fireplace.lib.compat.modmenu.ModMenuCompat;
-import dev.the_fireplace.lib.compat.modmenu.OldModMenuCompat;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonFieldBuilder;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonOption;
 import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothGenericOption;
@@ -21,14 +19,12 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.SemanticVersion;
-import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -78,54 +74,27 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         this.translator = translator;
         this.configBuilder = ConfigBuilder.create()
             .setParentScreen(parent)
-            .setTitle(translator.getTranslatedText(titleTranslationKey));
+            .setTitle(translator.getTranslatedString(titleTranslationKey));
         this.entryBuilder = configBuilder.entryBuilder();
-        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
-        if (hasOldModMenu()) {
-            FireplaceLib.getLogger().info("Mod Menu 1.16.9 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
-            this.configBuilder.setSavingRunnable(() -> {
-                save.run();
-                runOldModMenuCompat();
-            });
-        } else {
-            this.configBuilder.setSavingRunnable(save);
-        }
+        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedString(initialCategoryTranslationKey));
+        this.configBuilder.setSavingRunnable(save);
         this.dependencyTracker = new ClothConfigDependencyHandler();
         this.categoryEntries = ArrayListMultimap.create();
     }
 
-    private boolean hasOldModMenu() {
-        Optional<ModContainer> modmenu = FabricLoader.getInstance().getModContainer("modmenu");
-        try {
-            if (modmenu.isPresent()) {
-                SemanticVersion modMenuVersion = SemanticVersion.parse(modmenu.get().getMetadata().getVersion().getFriendlyString());
-                return modMenuVersion.compareTo(SemanticVersion.parse("1.16.9")) < 1;
-            }
-        } catch (VersionParsingException e) {
-            FireplaceLib.getLogger().error("Unable to parse mod menu version", e);
-        }
-
-        return false;
-    }
-
-    private void runOldModMenuCompat() {
-        ModMenuCompat compat = new OldModMenuCompat();
-        compat.reloadClothConfigGUIs();
-    }
-
     @Override
     public void startCategory(String translationKey, Object... translationParameters) {
-        Text categoryName = translator.getTranslatedText(translationKey, translationParameters);
+        String categoryName = translator.getTranslatedString(translationKey, translationParameters);
         this.category = configBuilder.getOrCreateCategory(categoryName);
         if (this.subCategory != null) {
-            FireplaceLib.getLogger().warn("Sub-Category {} not explicitly ended before starting a new category! Ending it...", subCategory.getBuilder().getFieldNameKey().asString());
+            FireplaceLib.getLogger().warn("Sub-Category {} not explicitly ended before starting a new category! Ending it...", subCategory.getBuilder().getFieldNameKey());
             this.endSubCategory();
         }
     }
 
     @Override
     public void startSubCategory(String translationKey, Object... translationParameters) {
-        this.subCategory = new SubCategoryTracker(new SubCategoryBuilder(entryBuilder.getResetButtonKey(), translator.getTranslatedText(translationKey, translationParameters)));
+        this.subCategory = new SubCategoryTracker(new SubCategoryBuilder(entryBuilder.getResetButtonKey(), translator.getTranslatedString(translationKey, translationParameters)));
         this.categoryEntries.put(this.category, this.subCategory);
     }
 
@@ -136,7 +105,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
 
     @Override
     public OptionBuilder<String> addStringField(String optionTranslationBase, String currentValue, String defaultValue, Consumer<String> saveFunction) {
-        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<String> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -163,7 +132,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
                 return (T) Enum.valueOf(currentValue.getClass(), clothValue);
             }
         };
-        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedText(optionTranslationBase), enumTypeConverter.convertToClothType(currentValue));
+        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedString(optionTranslationBase), enumTypeConverter.convertToClothType(currentValue));
 
         OptionBuilder<T> optionBuilder = optionBuilderFactory.createDropdown(
             translator,
@@ -187,7 +156,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         Iterable<String> dropdownEntries,
         Consumer<String> saveFunction
     ) {
-        DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedText(optionTranslationBase), currentValue);
+        DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedString(optionTranslationBase), currentValue);
         DropdownOptionBuilder<String> optionBuilder = optionBuilderFactory.createDropdown(
             translator,
             builder,
@@ -208,7 +177,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<String> defaultValue,
         Consumer<List<String>> saveFunction
     ) {
-        StringListBuilder builder = entryBuilder.startStrList(translator.getTranslatedText(optionTranslationBase), currentValue);
+        StringListBuilder builder = entryBuilder.startStrList(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<List<String>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -228,7 +197,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         float defaultValue,
         Consumer<Float> saveFunction
     ) {
-        FloatFieldBuilder builder = entryBuilder.startFloatField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        FloatFieldBuilder builder = entryBuilder.startFloatField(translator.getTranslatedString(optionTranslationBase), currentValue);
         NumericOptionBuilder<Float> optionBuilder = optionBuilderFactory.createNumeric(
             translator,
             builder,
@@ -252,7 +221,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     ) {
         OptionTypeConverter<Float, Long> typeConverter = new FloatingPointClothConverter<>();
         LongSliderBuilder builder = entryBuilder.startLongSlider(
-            translator.getTranslatedText(optionTranslationBase),
+            translator.getTranslatedString(optionTranslationBase),
             typeConverter.convertToClothType(currentValue),
             typeConverter.convertToClothType(min),
             typeConverter.convertToClothType(max)
@@ -281,7 +250,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Float> defaultValue,
         Consumer<List<Float>> saveFunction
     ) {
-        FloatListBuilder builder = entryBuilder.startFloatList(translator.getTranslatedText(optionTranslationBase), currentValue);
+        FloatListBuilder builder = entryBuilder.startFloatList(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<List<Float>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -301,7 +270,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         double defaultValue,
         Consumer<Double> saveFunction
     ) {
-        DoubleFieldBuilder builder = entryBuilder.startDoubleField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        DoubleFieldBuilder builder = entryBuilder.startDoubleField(translator.getTranslatedString(optionTranslationBase), currentValue);
         NumericOptionBuilder<Double> optionBuilder = optionBuilderFactory.createNumeric(
             translator,
             builder,
@@ -325,7 +294,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     ) {
         OptionTypeConverter<Double, Long> typeConverter = new FloatingPointClothConverter<>();
         LongSliderBuilder builder = entryBuilder.startLongSlider(
-            translator.getTranslatedText(optionTranslationBase),
+            translator.getTranslatedString(optionTranslationBase),
             typeConverter.convertToClothType(currentValue),
             typeConverter.convertToClothType(min),
             typeConverter.convertToClothType(max)
@@ -354,7 +323,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Double> defaultValue,
         Consumer<List<Double>> saveFunction
     ) {
-        DoubleListBuilder builder = entryBuilder.startDoubleList(translator.getTranslatedText(optionTranslationBase), currentValue);
+        DoubleListBuilder builder = entryBuilder.startDoubleList(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<List<Double>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -374,7 +343,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         long defaultValue,
         Consumer<Long> saveFunction
     ) {
-        LongFieldBuilder builder = entryBuilder.startLongField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        LongFieldBuilder builder = entryBuilder.startLongField(translator.getTranslatedString(optionTranslationBase), currentValue);
         NumericOptionBuilder<Long> optionBuilder = optionBuilderFactory.createNumeric(
             translator,
             builder,
@@ -396,7 +365,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         long min,
         long max
     ) {
-        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max);
+        LongSliderBuilder builder = entryBuilder.startLongSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max);
         OptionBuilder<Long> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -416,7 +385,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Long> defaultValue,
         Consumer<List<Long>> saveFunction
     ) {
-        LongListBuilder builder = entryBuilder.startLongList(translator.getTranslatedText(optionTranslationBase), currentValue);
+        LongListBuilder builder = entryBuilder.startLongList(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<List<Long>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -436,7 +405,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         int defaultValue,
         Consumer<Integer> saveFunction
     ) {
-        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue);
         NumericOptionBuilder<Integer> optionBuilder = optionBuilderFactory.createNumeric(
             translator,
             builder,
@@ -458,7 +427,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         int min,
         int max
     ) {
-        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max);
+        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max);
         OptionBuilder<Integer> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -478,7 +447,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Integer> defaultValue,
         Consumer<List<Integer>> saveFunction
     ) {
-        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedText(optionTranslationBase), currentValue);
+        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<List<Integer>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -498,7 +467,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         short defaultValue,
         Consumer<Short> saveFunction
     ) {
-        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue);
         NumericOptionBuilder<Short> optionBuilder = optionBuilderFactory.createNumeric(
             translator,
             builder,
@@ -521,7 +490,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         short min,
         short max
     ) {
-        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max);
+        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max);
         OptionBuilder<Short> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -553,7 +522,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
                 return clothValue.stream().map(Integer::shortValue).collect(Collectors.toList());
             }
         };
-        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedText(optionTranslationBase), typeConverter.convertToClothType(currentValue));
+        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedString(optionTranslationBase), typeConverter.convertToClothType(currentValue));
         OptionBuilder<List<Short>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -574,7 +543,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         byte defaultValue,
         Consumer<Byte> saveFunction
     ) {
-        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedText(optionTranslationBase), currentValue);
+        IntFieldBuilder builder = entryBuilder.startIntField(translator.getTranslatedString(optionTranslationBase), currentValue);
         NumericOptionBuilder<Byte> optionBuilder = optionBuilderFactory.createNumeric(
             translator,
             builder,
@@ -597,7 +566,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         byte min,
         byte max
     ) {
-        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedText(optionTranslationBase), currentValue, min, max);
+        IntSliderBuilder builder = entryBuilder.startIntSlider(translator.getTranslatedString(optionTranslationBase), currentValue, min, max);
         OptionBuilder<Byte> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -629,7 +598,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
                 return clothValue.stream().map(Integer::byteValue).collect(Collectors.toList());
             }
         };
-        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedText(optionTranslationBase), typeConverter.convertToClothType(currentValue));
+        IntListBuilder builder = entryBuilder.startIntList(translator.getTranslatedString(optionTranslationBase), typeConverter.convertToClothType(currentValue));
         OptionBuilder<List<Byte>> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -650,7 +619,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         boolean defaultValue,
         Consumer<Boolean> saveFunction
     ) {
-        BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedText(optionTranslationBase), currentValue);
+        BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedString(optionTranslationBase), currentValue);
         OptionBuilder<Boolean> optionBuilder = optionBuilderFactory.create(
             translator,
             builder,
@@ -673,7 +642,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     ) {
         CustomButtonFieldBuilder builder = new CustomButtonFieldBuilder(
             entryBuilder.getResetButtonKey(),
-            translator.getTranslatedText(optionTranslationBase),
+            translator.getTranslatedString(optionTranslationBase),
             currentValue,
             buildOptionScreenFactory
         );

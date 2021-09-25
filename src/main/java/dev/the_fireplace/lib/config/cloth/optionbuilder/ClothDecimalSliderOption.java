@@ -6,7 +6,6 @@ import dev.the_fireplace.lib.config.cloth.FloatingPointClothConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
@@ -77,7 +76,7 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
     }
 
     protected void resetDisplayPrecision() {
-        Function<T, Text> textGetter = value -> Text.of(String.format("%." + precision + "f", typeConverter.convertFromClothType(value)) + (isPercent ? "%" : ""));
+        Function<T, String> textGetter = value -> String.format("%." + precision + "f", typeConverter.convertFromClothType(value)) + (isPercent ? "%" : "");
         try {
             Method setDefaultValue = findSingleParameterMethod("setTextGetter", textGetter.getClass());
             setDefaultValue.invoke(fieldBuilder, textGetter);
