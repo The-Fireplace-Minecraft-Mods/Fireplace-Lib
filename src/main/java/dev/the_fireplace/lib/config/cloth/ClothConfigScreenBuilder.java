@@ -6,6 +6,8 @@ import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.*;
 import dev.the_fireplace.lib.compat.modmenu.ModMenuCompat;
 import dev.the_fireplace.lib.compat.modmenu.OldModMenuCompat;
+import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonFieldBuilder;
+import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonOption;
 import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothGenericOption;
 import dev.the_fireplace.lib.domain.config.OptionBuilderFactory;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
@@ -632,6 +634,26 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
     ) {
         BooleanToggleBuilder builder = entryBuilder.startBooleanToggle(translator.getTranslatedText(optionTranslationBase), currentValue);
         OptionBuilder<Boolean> optionBuilder = optionBuilderFactory.create(
+            translator,
+            builder,
+            optionTranslationBase,
+            defaultValue,
+            saveFunction
+        );
+        categoryEntries.put(category, optionBuilder);
+
+        return optionBuilder;
+    }
+
+    @Override
+    public CustomButtonBuilder<String> addCustomOptionButton(String optionTranslationBase, String currentValue, String defaultValue, Consumer<String> saveFunction, CustomButtonScreenFactory<String> buildOptionScreenFactory) {
+        CustomButtonFieldBuilder builder = new CustomButtonFieldBuilder(
+            entryBuilder.getResetButtonKey(),
+            translator.getTranslatedText(optionTranslationBase),
+            currentValue,
+            buildOptionScreenFactory
+        );
+        CustomButtonBuilder<String> optionBuilder = new CustomButtonOption(
             translator,
             builder,
             optionTranslationBase,
