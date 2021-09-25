@@ -47,7 +47,7 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
         Text resetButtonKey,
         Supplier<String> defaultValue,
         Consumer<String> saveConsumer,
-        CustomButtonScreenFactory<String> buildOptionScreenFactory,
+        CustomButtonScreenFactory<String, ?> buildOptionScreenFactory,
         Function<String, Text> getDisplayText
     ) {
         super(fieldName, null);

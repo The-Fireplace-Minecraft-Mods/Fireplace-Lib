@@ -25,9 +25,9 @@ public class CustomButtonFieldBuilder extends FieldBuilder<String, CustomButtonE
     @Nullable
     private Function<String, Text> buttonTextSupplier = null;
 
-    private final CustomButtonScreenFactory<String> buildOptionScreenFactory;
+    private final CustomButtonScreenFactory<String, ?> buildOptionScreenFactory;
 
-    public CustomButtonFieldBuilder(Text resetButtonKey, Text fieldNameKey, String value, CustomButtonScreenFactory<String> buildOptionScreenFactory) {
+    public CustomButtonFieldBuilder(Text resetButtonKey, Text fieldNameKey, String value, CustomButtonScreenFactory<String, ?> buildOptionScreenFactory) {
         super(resetButtonKey, fieldNameKey);
         this.value = value;
         this.buildOptionScreenFactory = buildOptionScreenFactory;
