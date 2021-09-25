@@ -2,6 +2,7 @@ package dev.the_fireplace.lib.api.io.interfaces.access;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface StorageReadBuffer {
@@ -28,6 +29,8 @@ public interface StorageReadBuffer {
     List<Number> readNumberList(String key, List<Number> ifAbsent);
 
     List<String> readStringList(String key, List<String> ifAbsent);
+
+    Map<String, String> readStringToStringMap(String key, Map<String, String> ifAbsent);
 
     Collection<String> getKeys();
 }
