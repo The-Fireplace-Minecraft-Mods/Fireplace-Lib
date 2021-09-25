@@ -1,1 +1,5 @@
-Fixed issues loading translations on Windows.
+Overhauled config GUI building
+- creating options is now more flexible and convenient, no more overloaded functions to set settings
+- dependencies are more convenient to add, no more tracking translations and categories
+- added subcategory support
+- added the ability to have a button entry in the Config GUI open a custom screen which can be used to build a new value. Currently only supports Strings.
