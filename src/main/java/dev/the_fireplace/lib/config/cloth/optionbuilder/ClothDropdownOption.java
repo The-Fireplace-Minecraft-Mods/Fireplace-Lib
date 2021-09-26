@@ -17,23 +17,29 @@ public class ClothDropdownOption<S, T> extends ClothGenericOption<S, T> implemen
     public ClothDropdownOption(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
         setSelections(entries);
+        setSuggestionMode(false);
     }
 
     public ClothDropdownOption(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction, typeConverter);
         setSelections(entries);
+        setSuggestionMode(false);
     }
 
     @Override
     public DropdownOptionBuilder<S> enableSuggestionMode() {
+        setSuggestionMode(true);
+        return this;
+    }
+
+    private void setSuggestionMode(boolean suggestionMode) {
         try {
             Method setMaximum = findSingleParameterMethod("setSuggestionMode", Boolean.class);
-            setMaximum.invoke(fieldBuilder, true);
+            setMaximum.invoke(fieldBuilder, suggestionMode);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLib.getLogger().error("Unable to set suggestion mode for field builder of type " + fieldBuilder.getClass(), e);
             FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
-        return this;
     }
 
     private void setSelections(Iterable<S> entries) {
