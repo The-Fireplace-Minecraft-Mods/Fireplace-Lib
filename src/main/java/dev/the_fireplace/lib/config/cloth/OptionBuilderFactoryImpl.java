@@ -55,11 +55,11 @@ public class OptionBuilderFactoryImpl implements OptionBuilderFactory {
 
     @Override
     public <S> DropdownOptionBuilder<S> createDropdown(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
-        return new ClothDropdownOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
+        return new ClothDropdownOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, entries, saveFunction);
     }
 
     @Override
     public <S, T> DropdownOptionBuilder<S> createDropdown(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
-        return new ClothDropdownOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction, typeConverter);
+        return new ClothDropdownOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, entries, saveFunction, typeConverter);
     }
 }
