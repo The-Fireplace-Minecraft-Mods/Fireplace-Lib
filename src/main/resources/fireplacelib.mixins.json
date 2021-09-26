@@ -11,6 +11,7 @@
     "ClientPlayNetworkHandlerMixin",
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
+    "clothconfig.DropdownBoxEntryMixin",
     "clothconfig.ListEntryMixin",
     "modmenu.ModMenuConfigMixin"
   ],
