@@ -17,6 +17,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.LanguageDefinition;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -116,6 +117,6 @@ public final class FLConfigScreenFactory {
             Lists.newArrayList("Cloth", "Config", "Crash", "Error"),
             value -> {
             }
-        ).setErrorSupplier(value -> value.startsWith("E") ? Optional.of("Cannot start with E") : Optional.empty());
+        ).setErrorSupplier(value -> value.startsWith("E") ? Optional.of(Text.of("Cannot start with E")) : Optional.empty());
     }
 }
