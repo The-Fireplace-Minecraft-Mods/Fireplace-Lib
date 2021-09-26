@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.config;
 
+import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
@@ -20,6 +21,7 @@ import net.minecraft.text.LiteralText;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -107,5 +109,13 @@ public final class FLConfigScreenFactory {
             .setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()))
             .setDescriptionRowCount((byte) 0)
             .addDependency(essentialThreadPoolBuilder, essentialThreadPoolSize -> essentialThreadPoolSize > 4);
+        configScreenBuilder.addStringDropdown(
+            "Crash Test Dummy",
+            "Cloth",
+            "Cloth",
+            Lists.newArrayList("Cloth", "Config", "Crash", "Error"),
+            value -> {
+            }
+        ).setErrorSupplier(value -> value.startsWith("E") ? Optional.of("Cannot start with E") : Optional.empty());
     }
 }
