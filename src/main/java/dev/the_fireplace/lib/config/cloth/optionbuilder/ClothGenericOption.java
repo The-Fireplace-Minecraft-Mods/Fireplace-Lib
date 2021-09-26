@@ -8,7 +8,6 @@ import dev.the_fireplace.lib.config.cloth.ClothParameterTypeConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -130,8 +129,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
     }
 
     @Override
-    public OptionBuilder<S> setErrorSupplier(Function<S, Optional<Text>> errorSupplier) {
-        Function<T, Optional<Text>> clothErrorSupplier = value -> errorSupplier.apply(typeConverter.convertFromClothType(value));
+    public OptionBuilder<S> setErrorSupplier(Function<S, Optional<String>> errorSupplier) {
+        Function<T, Optional<String>> clothErrorSupplier = value -> errorSupplier.apply(typeConverter.convertFromClothType(value));
         try {
             Method setErrorSupplier = findSingleParameterMethod("setErrorSupplier", clothErrorSupplier.getClass());
             setErrorSupplier.invoke(fieldBuilder, clothErrorSupplier);

@@ -2,7 +2,6 @@ package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
-import net.minecraft.text.Text;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -38,7 +37,7 @@ public final class SubCategoryTracker implements OptionBuilder<Object> {
     }
 
     @Override
-    public OptionBuilder<Object> setErrorSupplier(Function<Object, Optional<Text>> errorSupplier) {
+    public OptionBuilder<Object> setErrorSupplier(Function<Object, Optional<String>> errorSupplier) {
         return null;
     }
 
