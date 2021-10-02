@@ -4,6 +4,8 @@ import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.mixin.clothconfig.AbstractConfigEntryAccessor;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,6 +15,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+@Environment(EnvType.CLIENT)
 public final class ClothConfigDependencyHandler {
     public static final Set<AbstractConfigEntry<?>> DISABLED_ENTRIES = new HashSet<>();
     private final Set<ClothOptionDependency<?, ?>> configEntries = new HashSet<>();

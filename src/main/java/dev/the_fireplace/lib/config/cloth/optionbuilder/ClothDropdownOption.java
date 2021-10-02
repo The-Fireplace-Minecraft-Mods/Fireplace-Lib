@@ -5,6 +5,8 @@ import dev.the_fireplace.lib.api.client.interfaces.DropdownOptionBuilder;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Environment(EnvType.CLIENT)
 public class ClothDropdownOption<S, T> extends ClothGenericOption<S, T> implements DropdownOptionBuilder<S> {
     public ClothDropdownOption(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);

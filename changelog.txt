@@ -1,1 +1,1 @@
-Fix string lists in Config GUI causing errors (for real this time)
+Fix crash on dedicated server
