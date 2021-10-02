@@ -132,7 +132,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
                 return (T) Enum.valueOf(currentValue.getClass(), clothValue);
             }
         };
-        StringFieldBuilder builder = entryBuilder.startStrField(translator.getTranslatedString(optionTranslationBase), enumTypeConverter.convertToClothType(currentValue));
+        DropdownMenuBuilder<String> builder = entryBuilder.startStringDropdownMenu(translator.getTranslatedString(optionTranslationBase), enumTypeConverter.convertToClothType(currentValue));
 
         OptionBuilder<T> optionBuilder = optionBuilderFactory.createDropdown(
             translator,
