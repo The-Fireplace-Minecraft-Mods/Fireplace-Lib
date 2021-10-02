@@ -1,9 +1,13 @@
 package dev.the_fireplace.lib.api.client.interfaces;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@Environment(EnvType.CLIENT)
 public interface OptionBuilder<S> {
     OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount);
 
