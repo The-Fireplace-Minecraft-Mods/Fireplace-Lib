@@ -2,12 +2,15 @@ package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@Environment(EnvType.CLIENT)
 public final class SubCategoryTracker implements OptionBuilder<Object> {
     private OptionBuilder<?> lastEntry = null;
     private final SubCategoryBuilder builder;

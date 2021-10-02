@@ -5,12 +5,15 @@ import dev.the_fireplace.lib.api.client.interfaces.NumericOptionBuilder;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
+@Environment(EnvType.CLIENT)
 public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implements NumericOptionBuilder<S> {
     public ClothNumericOption(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);

@@ -13,9 +13,12 @@ import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothNumericOption;
 import dev.the_fireplace.lib.domain.config.OptionBuilderFactory;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.function.Consumer;
 
+@Environment(EnvType.CLIENT)
 @Implementation
 public class OptionBuilderFactoryImpl implements OptionBuilderFactory {
     @Override

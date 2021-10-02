@@ -8,6 +8,8 @@ import dev.the_fireplace.lib.config.cloth.ClothParameterTypeConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -25,6 +27,7 @@ import java.util.function.Predicate;
  * @param <S> Source type - what's in the config
  * @param <T> Target Cloth type - what type Cloth Config actually accepts
  */
+@Environment(EnvType.CLIENT)
 public class ClothGenericOption<S, T> implements OptionBuilder<S> {
     private final Translator translator;
     protected final FieldBuilder<T, ?> fieldBuilder;

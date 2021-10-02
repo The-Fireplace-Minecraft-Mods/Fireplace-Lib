@@ -6,6 +6,8 @@ import dev.the_fireplace.lib.config.cloth.FloatingPointClothConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -15,6 +17,7 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@Environment(EnvType.CLIENT)
 public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> implements DecimalSliderOptionBuilder<S> {
     private final S originalMinimum;
     private final S originalMaximum;
