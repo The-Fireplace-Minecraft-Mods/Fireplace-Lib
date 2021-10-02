@@ -19,6 +19,9 @@ public final class ClothParameterTypeConverter {
             potentialClasses.add(Consumer.class);
             potentialClasses.add(Function.class);
         }
+        if (parameterClass.isAssignableFrom(List.class)) {
+            potentialClasses.add(List.class);
+        }
         potentialClasses.add(Object.class);
 
         return potentialClasses.iterator();

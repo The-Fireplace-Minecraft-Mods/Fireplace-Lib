@@ -1,1 +1,1 @@
-Fix enum dropdowns causing errors
+Fix string lists in Config GUI causing errors
