@@ -118,5 +118,12 @@ public final class FLConfigScreenFactory {
             value -> {
             }
         ).setErrorSupplier(value -> value.startsWith("E") ? Optional.of(Text.of("Cannot start with E")) : Optional.empty());
+        configScreenBuilder.addStringListField(
+            "String List Test",
+            Lists.newArrayList("Value"),
+            Lists.newArrayList("Value"),
+            value -> {
+            }
+        );
     }
 }
