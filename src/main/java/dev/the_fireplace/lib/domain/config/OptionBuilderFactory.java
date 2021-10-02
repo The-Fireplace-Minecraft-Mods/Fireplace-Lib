@@ -6,9 +6,12 @@ import dev.the_fireplace.lib.api.client.interfaces.DropdownOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.NumericOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.function.Consumer;
 
+@Environment(EnvType.CLIENT)
 public interface OptionBuilderFactory {
     <S> OptionBuilder<S> create(
         Translator translator,
