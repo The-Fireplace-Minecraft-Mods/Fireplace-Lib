@@ -3,7 +3,8 @@
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "clothconfig.AbstractConfigScreenAccessor"
+    "clothconfig.AbstractConfigScreenAccessor",
+    "clothconfig.ClothConfigScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 0
