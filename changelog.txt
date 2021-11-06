@@ -1,1 +1,1 @@
-Prevent Cloth Config screens from rendering before they have fully initialized. Fixes occasional crash when opening config GUI on 1.15.2, possibly other versions.
+Prevent Cloth Config screens from rendering before they have fully initialized. Fixes occasional crash when opening Overlord skeleton orders GUI
