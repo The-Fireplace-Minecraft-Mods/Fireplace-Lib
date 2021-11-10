@@ -1,1 +1,3 @@
-Prevent Cloth Config screens from rendering before they have fully initialized. Fixes occasional crash when opening Overlord skeleton orders GUI
+Undo unnecessary Cloth Config mixin
+Update bundled Annotated DI to 2.0.4
+Update to Fabric Loader 0.12
