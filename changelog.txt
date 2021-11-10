@@ -1,3 +1,4 @@
 Undo unnecessary Cloth Config mixin
 Update bundled Annotated DI to 2.0.4
 Update to Fabric Loader 0.12
+Update bundled Cloth Config to 5.1.40
