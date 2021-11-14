@@ -44,8 +44,8 @@ public final class ExternalResourceToJson implements JsonFileReader
         JsonParser jsonParser = new JsonParser();
         try (BufferedReader br = new BufferedReader(reader, Short.MAX_VALUE)) {
             JsonElement jsonElement = jsonParser.parse(br);
-            if (jsonElement instanceof JsonObject jsonObject) {
-                return jsonObject;
+            if (jsonElement instanceof JsonObject) {
+                return (JsonObject) jsonElement;
             }
         } catch (JsonParseException e) {
             FireplaceLib.getLogger().warn("Unable to parse json file!", e);
