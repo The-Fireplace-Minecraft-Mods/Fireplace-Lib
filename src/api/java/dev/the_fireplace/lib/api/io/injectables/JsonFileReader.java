@@ -4,8 +4,13 @@ import com.google.gson.JsonObject;
 
 import javax.annotation.Nullable;
 import java.io.File;
+import java.io.InputStream;
 
-public interface JsonFileReader {
+public interface JsonFileReader
+{
     @Nullable
     JsonObject readJsonFile(File file);
+
+    @Nullable
+    JsonObject readJsonFromStream(InputStream stream);
 }
