@@ -28,6 +28,9 @@ public final class SaveTimerImpl implements SaveTimer {
         if (saveIntervalInMinutes < 1) {
             throw new IllegalArgumentException("Save interval must be at least one minute!");
         }
+        if (saveRunnables.length == 0) {
+            throw new IllegalArgumentException("Must be registering at least one save runnable!");
+        }
         Collections.addAll(
             saveIntervalFunctions.computeIfAbsent(saveIntervalInMinutes, newSaveIntervalInMinutes -> {
                 addIntervalToTimer(newSaveIntervalInMinutes);
@@ -55,6 +58,9 @@ public final class SaveTimerImpl implements SaveTimer {
         if (!saveIntervalFunctions.containsKey(saveIntervalInMinutes)) {
             FireplaceLib.getLogger().warn("Attempted to remove save runnables from invalid time interval.", new Exception("Stack Trace"));
             return;
+        }
+        if (saveRunnables.length == 0) {
+            throw new IllegalArgumentException("Must be unregistering at least one save runnable!");
         }
 
         saveIntervalFunctions.get(saveIntervalInMinutes).removeAll(Set.of(saveRunnables));
