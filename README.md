@@ -52,6 +52,8 @@ generator won't clear the output directory before generating new data.
 ### Inventory
 
 - Inventory Searcher for easier searching with the Inventory interface
+- Inventory Arrangement for rearranging items within an inventory. Currently only has a function to swap contents
+  between two slots.
 
 ### Teleporter
 
