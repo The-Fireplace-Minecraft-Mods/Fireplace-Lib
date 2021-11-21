@@ -1,1 +1,3 @@
-Add a function to JsonFileReader to read from a stream
+Add functions to ConfigStateManager and SaveDataStateManager to safely delete data
+Fix memory leak caused by SaveDataStateManager#tearDown not properly tearing down autosave timers
+Fix SaveTimer#register and SaveTimer#unregister not giving any warning if no Runnables are provided.

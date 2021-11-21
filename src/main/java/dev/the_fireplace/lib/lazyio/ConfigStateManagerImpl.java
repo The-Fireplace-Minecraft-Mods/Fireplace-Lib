@@ -15,15 +15,19 @@ import dev.the_fireplace.lib.io.access.SchemaValidator;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Implementation
 @Singleton
-public final class ConfigStateManagerImpl implements ConfigStateManager {
-
+public final class ConfigStateManagerImpl implements ConfigStateManager
+{
     private final ConfigBasedStorageReader storageReader;
     private final ConfigBasedStorageWriter storageWriter;
     private final ReloadableManager reloadableManager;
     private final JsonBufferDiffGenerator bufferDiffGenerator;
+
+    private final ConcurrentMap<Config, Reloadable> configReloadables;
 
     @Inject
     public ConfigStateManagerImpl(
@@ -36,6 +40,7 @@ public final class ConfigStateManagerImpl implements ConfigStateManager {
         this.storageWriter = storageWriter;
         this.reloadableManager = reloadableManager;
         this.bufferDiffGenerator = bufferDiffGenerator;
+        configReloadables = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -59,7 +64,8 @@ public final class ConfigStateManagerImpl implements ConfigStateManager {
         }
 
         if (!reloadGroup.toString().isEmpty()) {
-            reloadableManager.register(new Reloadable() {
+            Reloadable reloadable = new Reloadable()
+            {
                 @Override
                 public void reload() {
                     JsonStorageWriteBuffer previousState = new JsonStorageWriteBuffer();
@@ -78,7 +84,9 @@ public final class ConfigStateManagerImpl implements ConfigStateManager {
                 public String getReloadGroup() {
                     return reloadGroup.toString();
                 }
-            });
+            };
+            configReloadables.put(config, reloadable);
+            reloadableManager.register(reloadable);
         } else {
             FireplaceLib.getLogger().warn("Config was registered without ID or Subfolder, unable to register reloadable!", new Exception("Stacktrace"));
         }
@@ -97,5 +105,18 @@ public final class ConfigStateManagerImpl implements ConfigStateManager {
     @Override
     public void save(Config config) {
         storageWriter.write(config);
+    }
+
+    @Override
+    public void delete(Config config) {
+        tearDown(config);
+        storageWriter.delete(config);
+    }
+
+    private void tearDown(Config config) {
+        Reloadable reloadable = configReloadables.remove(config);
+        if (reloadable != null) {
+            reloadableManager.unregister(reloadable);
+        }
     }
 }

@@ -8,22 +8,23 @@ import io.netty.util.internal.ConcurrentSet;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 @Implementation
 @Singleton
-public final class ReloadableObjectManager implements ReloadableManager {
+public final class ReloadableObjectManager implements ReloadableManager
+{
+    private static final Function<String, Collection<Reloadable>> NEW_CONCURRENT_COLLECTION = unused -> new ConcurrentSet<>();
     private final ConcurrentHashMap<String, Collection<Reloadable>> reloadableGroups = new ConcurrentHashMap<>(1);
 
     @Override
     public void register(Reloadable reloadable) {
-        reloadableGroups.computeIfAbsent(reloadable.getReloadGroup(), unused -> new ConcurrentSet<>())
-            .add(reloadable);
+        reloadableGroups.computeIfAbsent(reloadable.getReloadGroup(), NEW_CONCURRENT_COLLECTION).add(reloadable);
     }
 
     @Override
     public boolean unregister(Reloadable reloadable) {
-        return reloadableGroups.computeIfAbsent(reloadable.getReloadGroup(), unused -> new ConcurrentSet<>())
-            .remove(reloadable);
+        return reloadableGroups.computeIfAbsent(reloadable.getReloadGroup(), NEW_CONCURRENT_COLLECTION).remove(reloadable);
     }
 
     @Override
