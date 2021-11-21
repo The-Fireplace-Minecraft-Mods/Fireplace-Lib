@@ -49,6 +49,10 @@ Concurrent Execution Manager provides a convenient way to run tasks on different
 Data Generator Factory provides methods to build an additive or destructive (normal) data generator. The additive
 generator won't clear the output directory before generating new data.
 
+### Inventory
+
+- Inventory Searcher for easier searching with the Inventory interface
+
 ### Teleporter
 
 - Safe Position utility to help find a good spot to teleport to
