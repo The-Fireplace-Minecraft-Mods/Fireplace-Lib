@@ -1,3 +1,4 @@
 Add functions to ConfigStateManager and SaveDataStateManager to safely delete data
 Fix memory leak caused by SaveDataStateManager#tearDown not properly tearing down autosave timers
 Fix SaveTimer#register and SaveTimer#unregister not giving any warning if no Runnables are provided.
+Bring in the InventorySearcher interface from Overlord, with some adjustments for clarity and reusability
