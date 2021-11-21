@@ -16,8 +16,8 @@ import java.util.concurrent.ConcurrentMap;
 
 @Implementation
 @Singleton
-public final class SaveDataStateManagerImpl implements SaveDataStateManager {
-
+public final class SaveDataStateManagerImpl implements SaveDataStateManager
+{
     private final SaveBasedStorageReader storageReader;
     private final SaveBasedStorageWriter storageWriter;
     private final SaveTimer saveTimer;
@@ -42,14 +42,15 @@ public final class SaveDataStateManagerImpl implements SaveDataStateManager {
         if (saveIntervalInMinutes <= 0) {
             throw new IllegalArgumentException("Save interval must be greater than 0!");
         }
-        dataStates.put(getStateKey(saveData), new SaveDataState(saveIntervalInMinutes));
+        Runnable autosaveRunnable = () -> save(saveData);
+        dataStates.put(getStateKey(saveData), new SaveDataState(saveIntervalInMinutes, autosaveRunnable));
         initialize(saveData);
-        saveTimer.register(saveIntervalInMinutes, () -> save(saveData));
+        saveTimer.register(saveIntervalInMinutes, autosaveRunnable);
     }
 
     @Override
     public void initializeWithoutAutosave(SaveData saveData) {
-        dataStates.put(getStateKey(saveData), new SaveDataState((short)0));
+        dataStates.put(getStateKey(saveData), new SaveDataState((short) 0, null));
         initialize(saveData);
         if (isNonDefault(saveData)) {
             forceSave(saveData);
@@ -101,11 +102,17 @@ public final class SaveDataStateManagerImpl implements SaveDataStateManager {
         String key = getStateKey(saveData);
         if (dataStates.containsKey(key)) {
             SaveDataState state = dataStates.get(key);
-            if (state.autosaveInterval > 0) {
-                saveTimer.unregister(state.autosaveInterval);
+            if (state.autosaveInterval > 0 && state.autosaveRunnable != null) {
+                saveTimer.unregister(state.autosaveInterval, state.autosaveRunnable);
             }
             dataStates.remove(key);
         }
+    }
+
+    @Override
+    public void delete(SaveData saveData) {
+        tearDown(saveData);
+        storageWriter.delete(saveData);
     }
 
     private SaveDataState getState(SaveData saveData) {
