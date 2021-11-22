@@ -1,5 +1,5 @@
 {
-  "required": false,
+  "required": true,
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
@@ -11,7 +11,6 @@
     "ClientPlayNetworkHandlerMixin",
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
-    "clothconfig.ListWidgetMixin",
     "modmenu.ModMenuConfigMixin"
   ],
   "injectors": {
