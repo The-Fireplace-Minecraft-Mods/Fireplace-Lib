@@ -8,7 +8,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
@@ -44,17 +43,17 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
                 AbstractConfigEntry<?> configEntry = this.disabledEntries.remove(index);
                 this.entries.set(index, (E) configEntry);
             } else if (!disabledEntries.containsKey(index)
-                && children.get(index) instanceof AbstractConfigEntry<?> configEntry
-                && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains(configEntry)
+                && children.get(index) instanceof AbstractConfigEntry<?>
+                && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains((AbstractConfigEntry<?>) children.get(index))
             ) {
-                this.disabledEntries.put(index, configEntry);
+                this.disabledEntries.put(index, (AbstractConfigEntry<?>) children.get(index));
                 this.entries.set(index, (E) createEmptyEntry());
             }
         }
     }
 
     private AbstractConfigEntry<E> createEmptyEntry() {
-        return new AbstractConfigEntry<>()
+        return new AbstractConfigEntry<E>()
         {
             @Override
             public List<? extends Element> children() {
@@ -99,11 +98,6 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
             @Override
             public int getItemHeight() {
                 return 4;
-            }
-
-            @Override
-            public List<? extends Selectable> narratables() {
-                return Collections.emptyList();
             }
         };
     }
