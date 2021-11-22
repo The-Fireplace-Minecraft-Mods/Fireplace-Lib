@@ -21,8 +21,8 @@ public final class InventorySearcherImpl implements InventorySearcher
 {
     @Override
     public boolean hasSlotMatching(Inventory inventory, Predicate<ItemStack> matcher) {
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+        for (int slot = 0; slot < inventory.getInvSize(); slot++) {
+            if (matcher.test(inventory.getInvStack(slot))) {
                 return true;
             }
         }
@@ -32,8 +32,8 @@ public final class InventorySearcherImpl implements InventorySearcher
 
     @Override
     public Optional<Integer> findFirstMatchingSlot(Inventory inventory, Predicate<ItemStack> matcher) {
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+        for (int slot = 0; slot < inventory.getInvSize(); slot++) {
+            if (matcher.test(inventory.getInvStack(slot))) {
                 return Optional.of(slot);
             }
         }
@@ -45,8 +45,8 @@ public final class InventorySearcherImpl implements InventorySearcher
     public List<Integer> findMatchingSlots(Inventory inventory, Predicate<ItemStack> matcher) {
         IntList slotList = new IntArrayList();
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+        for (int slot = 0; slot < inventory.getInvSize(); slot++) {
+            if (matcher.test(inventory.getInvStack(slot))) {
                 slotList.add(slot);
             }
         }
@@ -58,8 +58,8 @@ public final class InventorySearcherImpl implements InventorySearcher
     public Multimap<Integer, Integer> getMatchingSlotsByPriority(Inventory inventory, Predicate<ItemStack> matcher, ToIntFunction<ItemStack> priorityMapper) {
         IntList slotList = new IntArrayList();
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+        for (int slot = 0; slot < inventory.getInvSize(); slot++) {
+            if (matcher.test(inventory.getInvStack(slot))) {
                 slotList.add(slot);
             }
         }
@@ -67,7 +67,7 @@ public final class InventorySearcherImpl implements InventorySearcher
         Multimap<Integer, Integer> slotPriorityMap = LinkedHashMultimap.create();
 
         for (int slot : slotList) {
-            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getStack(slot)), slot);
+            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getInvStack(slot)), slot);
         }
 
         slotPriorityMap = sortByKey(slotPriorityMap);
@@ -79,8 +79,8 @@ public final class InventorySearcherImpl implements InventorySearcher
     public Multimap<Integer, Integer> getSlotsByPriority(Inventory inventory, ToIntFunction<ItemStack> priorityMapper) {
         Multimap<Integer, Integer> slotPriorityMap = LinkedHashMultimap.create();
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getStack(slot)), slot);
+        for (int slot = 0; slot < inventory.getInvSize(); slot++) {
+            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getInvStack(slot)), slot);
         }
 
         slotPriorityMap = sortByKey(slotPriorityMap);
