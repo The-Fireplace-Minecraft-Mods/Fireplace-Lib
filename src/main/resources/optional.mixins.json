@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "package": "dev.the_fireplace.lib.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "LanguageManagerMixin",
+    "clothconfig.AbstractConfigScreenAccessor",
+    "clothconfig.ListWidgetMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

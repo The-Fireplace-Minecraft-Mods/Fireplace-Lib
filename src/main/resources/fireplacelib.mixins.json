@@ -1,5 +1,5 @@
 {
-  "required": false,
+  "required": true,
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
@@ -12,7 +12,6 @@
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigEntryAccessor",
     "clothconfig.DropdownBoxEntryMixin",
-    "clothconfig.ListEntryMixin",
     "modmenu.ModMenuConfigMixin"
   ],
   "injectors": {
