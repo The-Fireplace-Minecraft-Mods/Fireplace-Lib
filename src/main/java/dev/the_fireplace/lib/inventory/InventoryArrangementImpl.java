@@ -10,9 +10,9 @@ public final class InventoryArrangementImpl implements InventoryArrangement
 {
     @Override
     public void swapSlotContents(Inventory inventory, int slot1, int slot2) {
-        ItemStack stack1 = inventory.removeStack(slot1);
-        ItemStack stack2 = inventory.removeStack(slot2);
-        inventory.setStack(slot1, stack2);
-        inventory.setStack(slot2, stack1);
+        ItemStack stack1 = inventory.removeInvStack(slot1);
+        ItemStack stack2 = inventory.removeInvStack(slot2);
+        inventory.setInvStack(slot1, stack2);
+        inventory.setInvStack(slot2, stack1);
     }
 }
