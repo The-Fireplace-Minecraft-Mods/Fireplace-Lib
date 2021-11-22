@@ -5,7 +5,7 @@
   "client": [
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigScreenAccessor",
-    "clothconfig.ListWidgetMixin"
+    "clothconfig.DynamicEntryListWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 0
