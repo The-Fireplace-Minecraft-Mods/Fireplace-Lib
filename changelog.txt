@@ -3,4 +3,3 @@ Fix memory leak caused by SaveDataStateManager#tearDown not properly tearing dow
 Fix SaveTimer#register and SaveTimer#unregister not giving any warning if no Runnables are provided.
 Bring in the InventorySearcher interface from Overlord, with some adjustments for clarity and reusability
 Add Inventory Arrangement interface to swap slot contents
-Improve disabled option hiding on cloth config screens - hidden options no longer leave a space
