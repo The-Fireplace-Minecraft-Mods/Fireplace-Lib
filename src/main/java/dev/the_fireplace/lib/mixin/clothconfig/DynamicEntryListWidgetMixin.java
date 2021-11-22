@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
 
@@ -51,19 +50,6 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
                 this.disabledEntries.put(index, configEntry);
                 this.entries.set(index, (E) createEmptyEntry());
             }
-        }
-    }
-
-    @Inject(method = "getItem", at = @At("HEAD"), cancellable = true)
-    private void getItem(int index, CallbackInfoReturnable<E> cir) {
-        if (!((Object) this instanceof ClothConfigScreen.ListWidget)) {
-            return;
-        }
-        Element item = this.children().get(index);
-        if (item instanceof AbstractConfigEntry<?> configEntry && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains(configEntry)) {
-            E emptyEntry = (E) createEmptyEntry();
-
-            cir.setReturnValue(emptyEntry);
         }
     }
 
