@@ -8,8 +8,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,7 +31,7 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
     private final Map<Integer, AbstractConfigEntry<?>> disabledEntries = new HashMap<>();
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void swapEntriesBeforeRender(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void swapEntriesBeforeRender(int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!((Object) this instanceof ClothConfigScreen.ListWidget)) {
             return;
         }
@@ -61,7 +59,7 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
             }
 
             @Override
-            public void render(MatrixStack matrixStack, int i, int i1, int i2, int i3, int i4, int i5, int i6, boolean b, float v) {
+            public void render(int i, int i1, int i2, int i3, int i4, int i5, int i6, boolean b, float v) {
 
             }
 
@@ -76,8 +74,8 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
             }
 
             @Override
-            public Text getFieldName() {
-                return Text.of("");
+            public String getFieldName() {
+                return "";
             }
 
             @Override
