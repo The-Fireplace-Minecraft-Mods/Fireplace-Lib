@@ -90,6 +90,8 @@ task apiJar(type: Jar, dependsOn: classes) {
 	from 'src/api/dummyresources/fabric.mod.json'
 }
 
+build.dependsOn(apiJar)
+
 jar {
 	from sourceSets.api.output
 	from('LICENSE') {
