@@ -159,7 +159,6 @@ if (hasProperty('nexusUsername')) {
 		publications {
 			mavenJava(MavenPublication) {
 				from components.java
-				//artifact apiJar
 				pom {
 					name = 'Fireplace Lib'
 					packaging = 'jar'
