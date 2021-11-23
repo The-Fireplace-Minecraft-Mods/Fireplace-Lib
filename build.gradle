@@ -99,6 +99,10 @@ jar {
 	}
 }
 
+configurations {
+	apiElements.outgoing.artifact(apiJar)
+}
+
 if (hasProperty('curseForgeApiKey')) {
 	curseforge {
 		apiKey = curseForgeApiKey
@@ -146,7 +150,7 @@ if (hasProperty('nexusUsername')) {
 		publications {
 			mavenJava(MavenPublication) {
 				from components.java
-				artifact apiJar
+				//artifact apiJar
 				pom {
 					name = 'Fireplace Lib'
 					packaging = 'jar'
