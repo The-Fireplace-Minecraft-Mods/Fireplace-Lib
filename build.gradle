@@ -66,16 +66,17 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release.set(8)
 }
 
-java {
-	withJavadocJar()
-}
-
-javadoc.options.addStringOption('Xdoclint:none', '-quiet')
-
 task sourcesJar(type: Jar, dependsOn: classes) {
 	archiveClassifier.set('sources')
 	from sourceSets.main.allSource + sourceSets.api.allSource
 }
+
+java {
+	withJavadocJar()
+	withSourcesJar()
+}
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
 javadoc {
 	source sourceSets.api.allJava
@@ -152,9 +153,6 @@ if (hasProperty('nexusUsername')) {
 		publications {
 			mavenJava(MavenPublication) {
 				from components.java
-				artifact(sourcesJar) {
-					builtBy remapSourcesJar
-				}
 				artifact apiJar
 				pom {
 					name = 'Fireplace Lib'
