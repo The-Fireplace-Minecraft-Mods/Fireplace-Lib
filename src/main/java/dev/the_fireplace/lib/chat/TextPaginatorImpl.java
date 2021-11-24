@@ -24,7 +24,8 @@ import java.util.List;
 @ThreadSafe
 @Implementation
 @Singleton
-public final class TextPaginatorImpl implements TextPaginator {
+public final class TextPaginatorImpl implements TextPaginator
+{
     private static final int RESULTS_PER_PAGE = 7;
     private final MessageQueue messageQueue;
     private final Translator translator;
@@ -67,14 +68,14 @@ public final class TextPaginatorImpl implements TextPaginator {
     }
 
     private Text getPaginationHeader(CommandOutput target, int currentPage, int totalPageCount) {
-        Text counter = translator.getTextForTarget(target, "fireplacelib.chat.page.num", currentPage, totalPageCount);
+        Text pageNumber = translator.getTextForTarget(target, "fireplacelib.chat.page.num", currentPage, totalPageCount);
         return new LiteralText("-----------------").setStyle(textStyles.green())
-            .append(counter)
+            .append(pageNumber)
             .append("-------------------").setStyle(textStyles.green());
     }
 
     private static List<? extends Text> getPageContents(List<? extends Text> allContents, int page) {
-        return Lists.partition(allContents, RESULTS_PER_PAGE).get(page-1);
+        return Lists.partition(allContents, RESULTS_PER_PAGE).get(page - 1);
     }
 
     private Text getPaginationFooter(CommandOutput target, String switchPageCommand, int currentPage, int totalPageCount) {
