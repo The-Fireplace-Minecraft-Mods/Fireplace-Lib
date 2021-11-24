@@ -18,8 +18,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-final class LanguageMap {
-    /** Pattern that matches numeric variable placeholders in a resource string, such as "%d", "%3$d", "%.2f" */
+final class LanguageMap
+{
+    /**
+     * Pattern that matches numeric variable placeholders in a resource string, such as "%d", "%3$d", "%.2f"
+     */
     @SuppressWarnings("RegExpRedundantEscape")
     private static final Pattern NUMERIC_VARIABLE_PATTERN = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
     private final Map<String, String> languageList = new ConcurrentHashMap<>();
@@ -36,7 +39,8 @@ final class LanguageMap {
             }
         } catch (JsonParseException e) {
             FireplaceLib.getLogger().error(langDir + locale + ".json is improperly formatted.", e);
-        } catch(IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
     private JsonElement getLangJsonElement(String locale, String langDir) throws IOException {

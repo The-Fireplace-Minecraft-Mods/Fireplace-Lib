@@ -24,7 +24,8 @@ import java.util.concurrent.ConcurrentMap;
 @ThreadSafe
 @Singleton
 @Implementation
-public final class TranslatorManager implements TranslatorFactory {
+public final class TranslatorManager implements TranslatorFactory
+{
     private final ConcurrentMap<String, Translator> modTranslators = new ConcurrentHashMap<>();
     private final EmptyUUID emptyUUID;
     private final LocalizedClients localizedClients;
@@ -57,7 +58,8 @@ public final class TranslatorManager implements TranslatorFactory {
     }
 
     @ThreadSafe
-    private class TranslatorImpl implements Translator {
+    private class TranslatorImpl implements Translator
+    {
         private final String modid;
 
         private TranslatorImpl(String modid) {
@@ -84,18 +86,18 @@ public final class TranslatorManager implements TranslatorFactory {
         }
 
         @Override
-        public LiteralText getTranslatedText(String translationKey, Object... args) {
-            Object[] convertedArgs = getArgsWithTextConvertedToString(args);
+        public LiteralText getTranslatedText(String translationKey, Object... translationArguments) {
+            Object[] readableTranslationArguments = convertArgumentsToStrings(translationArguments);
 
-            return new LiteralText(i18n.translateToLocalFormatted(modid, translationKey, convertedArgs));
+            return new LiteralText(i18n.translateToLocalFormatted(modid, translationKey, readableTranslationArguments));
         }
 
-        private Object[] getArgsWithTextConvertedToString(Object[] args) {
-            Object[] convertedArgs = args.clone();
+        private Object[] convertArgumentsToStrings(Object[] arguments) {
+            Object[] convertedArgs = arguments.clone();
 
-            for (int i = 0; i < args.length; i++) {
-                if (args[i] instanceof Text) {
-                    convertedArgs[i] = ((Text) args[i]).getString();
+            for (int argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
+                if (arguments[argumentIndex] instanceof Text) {
+                    convertedArgs[argumentIndex] = ((Text) args[i]).getString();
                 }
             }
 
@@ -103,8 +105,8 @@ public final class TranslatorManager implements TranslatorFactory {
         }
 
         @Override
-        public String getTranslatedString(String translationKey, Object... args) {
-            return getTranslatedText(translationKey, args).getString();
+        public String getTranslatedString(String translationKey, Object... translationArguments) {
+            return getTranslatedText(translationKey, translationArguments).getString();
         }
 
         @Override
@@ -122,7 +124,9 @@ public final class TranslatorManager implements TranslatorFactory {
         }
 
         protected UUID getTargetId(ServerCommandSource commandSource) {
-            return commandSource.getEntity() instanceof ServerPlayerEntity ? commandSource.getEntity().getUuid() : emptyUUID.get();
+            return commandSource.getEntity() instanceof ServerPlayerEntity
+                ? commandSource.getEntity().getUuid()
+                : emptyUUID.get();
         }
 
         protected UUID getTargetId(CommandOutput commandOutput) {
