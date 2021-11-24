@@ -88,8 +88,7 @@ public final class HelpCommandImpl implements HelpCommand
             stringBuilder.append("root->");
         }
         Optional<? extends CommandNode<?>> firstGrandchild = node.getChildren().stream().sorted().findFirst();
-        //noinspection OptionalIsPresent
-        if (!firstGrandchild.isPresent()) {
+        if (firstGrandchild.isEmpty()) {
             return stringBuilder.append(node.getCommand().toString()).toString().hashCode();
         } else {
             return buildChildPathHash(stringBuilder, firstGrandchild.get());
