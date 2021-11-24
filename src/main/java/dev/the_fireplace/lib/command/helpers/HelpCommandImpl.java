@@ -22,10 +22,13 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
 import java.util.*;
+import java.util.function.Function;
 
-public final class HelpCommandImpl implements HelpCommand {
-    private final TextStyles textStyles = DIContainer.get().getInstance(TextStyles.class);
-    private final TextPaginator textPaginator = DIContainer.get().getInstance(TextPaginator.class);
+public final class HelpCommandImpl implements HelpCommand
+{
+    private static final Function<String, Collection<String>> NEW_CHILD_NODE_SET = unused -> new HashSet<>(2);
+    private final TextStyles textStyles;
+    private final TextPaginator textPaginator;
     private final Translator translator;
     private final String modid;
     private final LiteralArgumentBuilder<ServerCommandSource> helpCommandBase;
@@ -36,6 +39,8 @@ public final class HelpCommandImpl implements HelpCommand {
         this.modid = modid;
         this.helpCommandBase = helpCommandBase;
         this.translator = DIContainer.get().getInstance(TranslatorManager.class).getTranslator(modid);
+        this.textStyles = DIContainer.get().getInstance(TextStyles.class);
+        this.textPaginator = DIContainer.get().getInstance(TextPaginator.class);
     }
 
     @Override
@@ -47,7 +52,7 @@ public final class HelpCommandImpl implements HelpCommand {
 
     @Override
     public HelpCommand addCommands(String... commands) {
-        for (String command: commands) {
+        for (String command : commands) {
             this.commands.putIfAbsent(command, Collections.emptySet());
         }
         this.commands.putIfAbsent(helpCommandBase.getLiteral(), Collections.emptySet());
@@ -57,12 +62,12 @@ public final class HelpCommandImpl implements HelpCommand {
 
     @Override
     public HelpCommand addSubCommandsFromCommands(CommandNode<?>... commands) {
-        for (CommandNode<?> node: commands) {
-            for (Iterator<? extends CommandNode<?>> it = node.getChildren().stream().sorted().iterator(); it.hasNext();) {
+        for (CommandNode<?> node : commands) {
+            for (Iterator<? extends CommandNode<?>> it = node.getChildren().stream().sorted().iterator(); it.hasNext(); ) {
                 CommandNode<?> child = it.next();
                 int childPathHash = buildChildPathHash(new StringBuilder(), child);
                 if (isNewChild(child, childPathHash)) {
-                    this.commands.computeIfAbsent(node.getName(), n -> new HashSet<>(2)).add(child.getName());
+                    this.commands.computeIfAbsent(node.getName(), NEW_CHILD_NODE_SET).add(child.getName());
                     this.grandchildNodeHashes.add(childPathHash);
                 }
             }
@@ -108,12 +113,12 @@ public final class HelpCommandImpl implements HelpCommand {
 
     private List<? extends Text> getHelpsList(CommandContext<ServerCommandSource> command) {
         List<MutableText> helps = Lists.newArrayList();
-        for (Map.Entry<String, Collection<String>> commandName: commands.entrySet()) {
+        for (Map.Entry<String, Collection<String>> commandName : commands.entrySet()) {
             if (commandName.getValue().isEmpty()) {
                 MutableText commandHelp = buildCommandDescription(command, commandName.getKey());
                 helps.add(commandHelp);
             } else {
-                for (String subCommand: commandName.getValue()) {
+                for (String subCommand : commandName.getValue()) {
                     MutableText commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
                     helps.add(commandHelp);
                 }
@@ -122,7 +127,7 @@ public final class HelpCommandImpl implements HelpCommand {
         helps.sort(Comparator.comparing(Text::getString));
 
         int i = 0;
-        for (MutableText helpText: helps) {
+        for (MutableText helpText : helps) {
             helpText.setStyle(i++ % 2 == 0 ? textStyles.white() : textStyles.grey());
         }
 

@@ -11,22 +11,28 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 @Implementation
 @Singleton
-public final class FeedbackSenderManager implements FeedbackSenderFactory {
+public final class FeedbackSenderFactoryImpl implements FeedbackSenderFactory
+{
 	private final Map<Translator, FeedbackSender> feedbackSenders = new ConcurrentHashMap<>();
 	private final TextStyles textStyles;
 	private final MessageQueue messageQueue;
 
 	@Inject
-	public FeedbackSenderManager(TextStyles textStyles, MessageQueue messageQueue) {
+	public FeedbackSenderFactoryImpl(TextStyles textStyles, MessageQueue messageQueue) {
 		this.textStyles = textStyles;
 		this.messageQueue = messageQueue;
 	}
 
 	@Override
 	public FeedbackSender get(Translator translator) {
-		return feedbackSenders.computeIfAbsent(translator, t -> new SendFeedback(t, textStyles, messageQueue));
+		return feedbackSenders.computeIfAbsent(translator, computeNewFeedbackSender());
+	}
+
+	private Function<Translator, FeedbackSender> computeNewFeedbackSender() {
+		return translator -> new SendFeedback(translator, textStyles, messageQueue);
 	}
 }
