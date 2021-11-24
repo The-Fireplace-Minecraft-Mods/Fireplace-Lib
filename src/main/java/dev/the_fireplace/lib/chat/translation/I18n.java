@@ -3,9 +3,12 @@ package dev.the_fireplace.lib.chat.translation;
 import javax.inject.Singleton;
 
 @Singleton
-public final class I18n {
+public final class I18n
+{
     public String translateToLocalFormatted(String modid, String key, Object... format) {
-        return hasPrimaryTranslation(modid, key) ? translateToPrimary(modid, key, format) : translateToFallback(modid, key, format);
+        return hasPrimaryTranslation(modid, key)
+            ? translateToPrimary(modid, key, format)
+            : translateToFallback(modid, key, format);
     }
 
     private String translateToPrimary(String modid, String key, Object... format) {
