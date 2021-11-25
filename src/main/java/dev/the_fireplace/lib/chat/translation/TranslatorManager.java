@@ -98,7 +98,7 @@ public final class TranslatorManager implements TranslatorFactory
 
             for (int argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
                 if (arguments[argumentIndex] instanceof StringVisitable) {
-                    convertedArgs[argumentIndex] = ((StringVisitable) args[i]).getString();
+                    convertedArgs[argumentIndex] = ((StringVisitable) arguments[argumentIndex]).getString();
                 }
             }
 
