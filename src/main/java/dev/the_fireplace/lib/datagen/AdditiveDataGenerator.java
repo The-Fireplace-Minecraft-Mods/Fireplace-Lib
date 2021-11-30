@@ -43,7 +43,7 @@ public class AdditiveDataGenerator extends DataGenerator {
     }
 
     @Override
-    public void install(DataProvider dataProvider) {
+    public void addProvider(DataProvider dataProvider) {
         this.providers.add(dataProvider);
     }
 }

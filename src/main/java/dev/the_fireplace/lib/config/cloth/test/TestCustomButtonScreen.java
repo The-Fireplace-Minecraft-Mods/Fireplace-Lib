@@ -50,7 +50,7 @@ public final class TestCustomButtonScreen extends Screen implements CustomButton
 
     private void closeScreen() {
         onClose();
-        MinecraftClient.getInstance().openScreen(parent);
+        MinecraftClient.getInstance().setScreen(parent);
     }
 
     private String generateValue() {

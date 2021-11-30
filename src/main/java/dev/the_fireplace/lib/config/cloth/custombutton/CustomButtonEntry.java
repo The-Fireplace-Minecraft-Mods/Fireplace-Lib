@@ -59,7 +59,7 @@ public class CustomButtonEntry extends TooltipListEntry<String> {
             Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(MinecraftClient.getInstance().currentScreen, this.value.get());
             //noinspection unchecked
             Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();
-            MinecraftClient.getInstance().openScreen(optionBuilderScreen);
+            MinecraftClient.getInstance().setScreen(optionBuilderScreen);
             DIContainer.get().getInstance(ExecutionManager.class).runKillable(() -> {
                 Optional<String> builderReturnedValue = Optional.empty();
                 try {

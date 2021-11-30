@@ -37,12 +37,12 @@
   "depends": {
     "fabricloader": ">=0.12.0",
     "fabric": "*",
-    "minecraft": ">=1.17",
+    "minecraft": ">=1.18",
     "annotateddi": ">=2 <3"
   },
 
   "suggests": {
-    "modmenu": ">2.0.2"
+    "modmenu": "*"
   },
 
   "custom": {

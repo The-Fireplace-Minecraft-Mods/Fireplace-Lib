@@ -1,7 +1,7 @@
 {
   "required": false,
   "package": "dev.the_fireplace.lib.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "client": [
     "LanguageManagerMixin",
     "clothconfig.AbstractConfigScreenAccessor",
