@@ -1,7 +1,6 @@
 package dev.the_fireplace.lib.io.access;
 
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
-import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.io.interfaces.SaveBasedSerializable;
 import net.minecraft.util.Identifier;
 
@@ -48,12 +47,7 @@ public final class JsonStoragePath {
     }
 
     public Path resolveConfigBasedJsonFilePath(String domain, String id) {
-        Path filePath = directoryResolver.getConfigPath();
-
-        String subfolder = SchemaValidator.minimizeSchema(domain);
-        if (!subfolder.isEmpty() && SchemaValidator.isValid(subfolder)) {
-            filePath = filePath.resolve(subfolder);
-        }
+        Path filePath = resolveConfigSubfolderPath(domain);
         if (!id.isEmpty() && SchemaValidator.isValid(id)) {
             filePath = filePath.resolve(SchemaValidator.minimizeSchema(id) + ".json");
         } else {
@@ -63,13 +57,18 @@ public final class JsonStoragePath {
         return filePath;
     }
 
-    public Path resolveConfigBasedJsonFilePath(String domain, Identifier id) {
+    Path resolveConfigSubfolderPath(String subfolder) {
         Path filePath = directoryResolver.getConfigPath();
 
-        String subfolder = SchemaValidator.minimizeSchema(domain);
+        subfolder = SchemaValidator.minimizeSchema(subfolder);
         if (!subfolder.isEmpty() && SchemaValidator.isValid(subfolder)) {
             filePath = filePath.resolve(subfolder);
         }
+        return filePath;
+    }
+
+    public Path resolveConfigBasedJsonFilePath(String domain, Identifier id) {
+        Path filePath = resolveConfigSubfolderPath(domain);
         String idNamespace = SchemaValidator.minimizeSchema(id.getNamespace());
         if (!idNamespace.isEmpty() && SchemaValidator.isValid(idNamespace)) {
             filePath = filePath.resolve(idNamespace);
