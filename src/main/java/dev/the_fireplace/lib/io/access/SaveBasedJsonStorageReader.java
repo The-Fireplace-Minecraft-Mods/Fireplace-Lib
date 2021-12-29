@@ -15,14 +15,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Implementation
 @Singleton
 public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader {
-    @SuppressWarnings("HardcodedFileSeparator")
-    private static final Pattern JSON_FILE_REGEX = Pattern.compile('^' + SchemaValidator.SCHEMA_PATTERN_STRING + "\\.json$");
-    private static final Pattern JSON_EXTENSION_LITERAL = Pattern.compile(".json", Pattern.LITERAL);
     private final JsonFileReader fileReader;
     private final JsonStoragePath jsonStoragePath;
 
@@ -49,10 +45,10 @@ public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader 
     public Iterator<String> getStoredIdsIterator(String database, String table) {
         Path saveDirectory = jsonStoragePath.resolveSaveBasedJsonDirectory(database, table);
 
-        File[] files = saveDirectory.toFile().listFiles((file, s) -> JSON_FILE_REGEX.matcher(s).matches());
+        File[] files = saveDirectory.toFile().listFiles((file, s) -> JsonFileConstants.JSON_FILE_REGEX.matcher(s).matches());
 
         return Arrays.stream(files == null ? new File[]{} : files).map(f ->
-            JSON_EXTENSION_LITERAL.matcher(f.getName().toLowerCase(Locale.ROOT)).replaceAll(Matcher.quoteReplacement(""))
+            JsonFileConstants.JSON_EXTENSION_LITERAL.matcher(f.getName().toLowerCase(Locale.ROOT)).replaceAll(Matcher.quoteReplacement(""))
         ).iterator();
     }
 

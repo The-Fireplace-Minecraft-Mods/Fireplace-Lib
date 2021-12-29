@@ -13,7 +13,12 @@ import net.minecraft.util.Identifier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.File;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.regex.Matcher;
 
 @Singleton
 @Implementation({
@@ -36,6 +41,17 @@ public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageRea
         String id = readable.getId();
 
         read(readable, domain, id);
+    }
+
+    @Override
+    public Iterator<String> getStoredConfigs(String subfolder) {
+        Path configDirectory = jsonStoragePath.resolveConfigSubfolderPath(subfolder);
+
+        File[] files = configDirectory.toFile().listFiles((file, s) -> JsonFileConstants.JSON_FILE_REGEX.matcher(s).matches());
+
+        return Arrays.stream(files == null ? new File[]{} : files).map(f ->
+            JsonFileConstants.JSON_EXTENSION_LITERAL.matcher(f.getName().toLowerCase(Locale.ROOT)).replaceAll(Matcher.quoteReplacement(""))
+        ).iterator();
     }
 
     @Override
