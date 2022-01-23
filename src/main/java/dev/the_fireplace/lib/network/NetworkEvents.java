@@ -11,7 +11,8 @@ import javax.inject.Singleton;
 import java.util.UUID;
 
 @Singleton
-public final class NetworkEvents {
+public final class NetworkEvents
+{
     public static final Identifier CLIENT_CONNECTED_CHANNEL_NAME = new Identifier(FireplaceLib.MODID, "client_connected");
 
     private final ServerPacketReceiverRegistry registry;
@@ -28,7 +29,7 @@ public final class NetworkEvents {
         this.clientConnectedPacketReceiver = clientConnectedPacketReceiver;
         this.localizedClients = localizedClients;
     }
-    
+
     public void init() {
         registry.register(clientConnectedPacketReceiver);
     }

@@ -18,7 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ThreadSafe
 @Implementation
 @Singleton
-public final class MultilineMessageBufferImpl implements MultilineMessageBuffer {
+public final class MultilineMessageBufferImpl implements MultilineMessageBuffer
+{
     private final Map<Integer, Buffer> messageBuffers = new ConcurrentHashMap<>();
     private final AtomicInteger currentBufferId = new AtomicInteger(Integer.MIN_VALUE);
     private final MessageQueue messageQueue;
@@ -45,7 +46,8 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer 
         }
     }
 
-    private class Buffer {
+    private class Buffer
+    {
         private final int bufferId;
         private final Text[] messages;
         private final CommandOutput target;

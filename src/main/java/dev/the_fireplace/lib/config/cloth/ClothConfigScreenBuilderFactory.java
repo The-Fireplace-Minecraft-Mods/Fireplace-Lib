@@ -13,7 +13,8 @@ import javax.inject.Inject;
 
 @Implementation
 @Environment(EnvType.CLIENT)
-public final class ClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory {
+public final class ClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory
+{
     private final OptionBuilderFactory optionBuilderFactory;
 
     @Inject

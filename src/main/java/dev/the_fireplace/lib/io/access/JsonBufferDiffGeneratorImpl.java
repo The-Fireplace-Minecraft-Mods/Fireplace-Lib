@@ -14,14 +14,17 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 @Implementation
-public final class JsonBufferDiffGeneratorImpl implements JsonBufferDiffGenerator {
+public final class JsonBufferDiffGeneratorImpl implements JsonBufferDiffGenerator
+{
     @Override
     public SimpleBuffer generateLeftDiff(JsonStorageWriteBuffer buffer1, JsonStorageWriteBuffer buffer2) {
         if (buffer1.getObj() == buffer2.getObj()) {
             return new SimpleJsonBuffer(new JsonObject());
         }
         Gson g = new Gson();
-        Type mapType = new TypeToken<Map<String, JsonElement>>(){}.getType();
+        Type mapType = new TypeToken<Map<String, JsonElement>>()
+        {
+        }.getType();
         Map<String, JsonElement> firstMap = g.fromJson(buffer1.getObj(), mapType);
         Map<String, JsonElement> secondMap = g.fromJson(buffer2.getObj(), mapType);
         MapDifference<String, JsonElement> diff = Maps.difference(firstMap, secondMap);

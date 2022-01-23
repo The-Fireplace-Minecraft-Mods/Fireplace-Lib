@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ArgumentTypes.class)
-public final class ArgumentTypesMixin {
+public final class ArgumentTypesMixin
+{
     private static final Identifier ENTITY_ARGUMENT_ID = new Identifier("minecraft", "entity");
 
     @Inject(at = @At("HEAD"), method = "toPacket", cancellable = true)

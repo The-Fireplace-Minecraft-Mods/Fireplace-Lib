@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LanguageManager.class)
 @Environment(EnvType.CLIENT)
-public class LanguageManagerMixin {
+public class LanguageManagerMixin
+{
     @Inject(at = @At("RETURN"), method = "reload")
     private void resetFireplaceLibLanguages(ResourceManager manager, CallbackInfo ci) {
         ModLanguageMaps.reloadLanguage();

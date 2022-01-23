@@ -5,7 +5,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 
 @Environment(EnvType.CLIENT)
-public class ClientLocaleProxy extends LocaleProxy {
+public class ClientLocaleProxy extends LocaleProxy
+{
     @Override
     public String getLocale() {
         return MinecraftClient.getInstance().getLanguageManager().getLanguage().getCode();

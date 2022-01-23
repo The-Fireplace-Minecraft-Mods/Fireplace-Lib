@@ -8,7 +8,8 @@ import net.minecraft.world.CollisionView;
 
 import java.util.Optional;
 
-public interface SafePosition {
+public interface SafePosition
+{
     Optional<Vec3d> findBy(EntityType<?> entityType, CollisionView world, BlockPos blockPos);
 
     boolean canSpawnInside(EntityType<?> entityType, BlockState state);

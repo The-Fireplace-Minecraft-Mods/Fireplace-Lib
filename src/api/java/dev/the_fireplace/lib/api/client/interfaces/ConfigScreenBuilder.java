@@ -9,7 +9,8 @@ import java.util.function.Consumer;
 
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 @Environment(EnvType.CLIENT)
-public interface ConfigScreenBuilder {
+public interface ConfigScreenBuilder
+{
     void startCategory(String translationKey, Object... translationParameters);
 
     void startSubCategory(String translationKey, Object... translationParameters);

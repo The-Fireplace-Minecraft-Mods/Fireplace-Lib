@@ -12,7 +12,8 @@ import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.dimension.DimensionType;
 
 @Implementation
-public final class TeleporterImpl implements Teleporter {
+public final class TeleporterImpl implements Teleporter
+{
     @Override
     public Entity teleport(Entity entity, ServerWorld targetWorld, BlockPos targetPos) {
         return teleport(entity, targetWorld, targetPos.getX(), targetPos.getY(), targetPos.getZ());

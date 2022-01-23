@@ -12,7 +12,8 @@ import javax.inject.Singleton;
 @Environment(EnvType.CLIENT)
 @Implementation
 @Singleton
-public final class ClientPacketReceiverRegistryImpl implements ClientPacketReceiverRegistry {
+public final class ClientPacketReceiverRegistryImpl implements ClientPacketReceiverRegistry
+{
 
     @Override
     public void register(ClientPacketReceiver receiver) {

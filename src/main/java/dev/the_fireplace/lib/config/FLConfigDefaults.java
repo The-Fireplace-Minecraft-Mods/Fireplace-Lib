@@ -5,9 +5,10 @@ import dev.the_fireplace.lib.domain.config.ConfigValues;
 
 import javax.inject.Singleton;
 
-@Implementation(name="default")
+@Implementation(name = "default")
 @Singleton
-public final class FLConfigDefaults implements ConfigValues {
+public final class FLConfigDefaults implements ConfigValues
+{
     @Override
     public String getLocale() {
         return "en_us";

@@ -16,7 +16,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Singleton
-public final class ClientConnectedPacketReceiver implements ServerPacketReceiver {
+public final class ClientConnectedPacketReceiver implements ServerPacketReceiver
+{
 
     private final LocalizedClients localizedClients;
 

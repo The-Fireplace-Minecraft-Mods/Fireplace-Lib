@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 
 @Implementation
 @Singleton
-public final class ServerPacketReceiverRegistryImpl implements ServerPacketReceiverRegistry {
+public final class ServerPacketReceiverRegistryImpl implements ServerPacketReceiverRegistry
+{
 
     @Override
     public void register(ServerPacketReceiver receiver) {

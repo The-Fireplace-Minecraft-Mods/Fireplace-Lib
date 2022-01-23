@@ -5,11 +5,13 @@ import net.minecraft.data.DataGenerator;
 import java.nio.file.Path;
 import java.util.Collection;
 
-public interface DataGeneratorFactory {
+public interface DataGeneratorFactory
+{
     /**
      * @see DataGeneratorFactory#createAdditive(Path, Collection)
      */
     DataGenerator createAdditive(Path outputDirectory);
+
     /**
      * Create a data generator that will only delete existing files from the target directory if they're being replaced
      */
@@ -19,6 +21,7 @@ public interface DataGeneratorFactory {
      * @see DataGeneratorFactory#createDestructive(Path, Collection)
      */
     DataGenerator createDestructive(Path outputDirectory);
+
     /**
      * Create a data generator that will always delete previously existing files from the target directory before generating
      */
