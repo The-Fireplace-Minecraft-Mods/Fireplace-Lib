@@ -26,7 +26,8 @@ import java.nio.file.Path;
     "dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter",
     "dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter",
 })
-public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter, HierarchicalConfigWriter {
+public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter, HierarchicalConfigWriter
+{
     private final Gson gson;
     private final Logger logger;
     private final JsonStoragePath jsonStoragePath;

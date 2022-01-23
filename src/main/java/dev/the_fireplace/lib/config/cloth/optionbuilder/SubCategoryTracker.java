@@ -10,7 +10,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Environment(EnvType.CLIENT)
-public final class SubCategoryTracker implements OptionBuilder<Object> {
+public final class SubCategoryTracker implements OptionBuilder<Object>
+{
     private OptionBuilder<?> lastEntry = null;
     private final SubCategoryBuilder builder;
 

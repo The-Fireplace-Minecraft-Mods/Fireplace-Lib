@@ -9,7 +9,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import javax.inject.Inject;
 
 @Environment(EnvType.CLIENT)
-public final class ClientNetworkEvents {
+public final class ClientNetworkEvents
+{
     private final TranslatorFactory translatorFactory;
     private final ClientConnectedPacketBufferBuilder bufferBuilder;
 

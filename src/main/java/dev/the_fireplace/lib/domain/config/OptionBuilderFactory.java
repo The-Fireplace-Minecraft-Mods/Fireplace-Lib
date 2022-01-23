@@ -12,7 +12,8 @@ import net.fabricmc.api.Environment;
 import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
-public interface OptionBuilderFactory {
+public interface OptionBuilderFactory
+{
     <S> OptionBuilder<S> create(
         Translator translator,
         FieldBuilder<S, ?> fieldBuilder,

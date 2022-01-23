@@ -3,11 +3,12 @@ package dev.the_fireplace.lib.api.chat.injectables;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 
-public interface MultilineMessageBuffer {
+public interface MultilineMessageBuffer
+{
     /**
      * Create a new message buffer.
-     * @return
-     * The id of the newly created buffer
+     *
+     * @return The id of the newly created buffer
      */
     int create(byte expectedMessageCount, CommandOutput target);
 

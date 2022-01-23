@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class ClothParameterTypeConverter {
+public final class ClothParameterTypeConverter
+{
     public static Iterator<Class<?>> getPotentialClasses(Class<?> parameterClass) {
         List<Class<?>> potentialClasses = Lists.newArrayList(parameterClass);
         Class<?> primitiveClass = ClassUtils.wrapperToPrimitive(parameterClass);

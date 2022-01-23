@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public interface StorageReadBuffer {
+public interface StorageReadBuffer
+{
     UUID readUUID(String key, UUID ifAbsent);
 
     String readString(String key, String ifAbsent);

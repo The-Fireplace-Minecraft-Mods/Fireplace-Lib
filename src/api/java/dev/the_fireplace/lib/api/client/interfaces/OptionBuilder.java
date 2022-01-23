@@ -8,7 +8,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Environment(EnvType.CLIENT)
-public interface OptionBuilder<S> {
+public interface OptionBuilder<S>
+{
     OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount);
 
     OptionBuilder<S> setErrorSupplier(Function<S, Optional<String>> errorSupplier);

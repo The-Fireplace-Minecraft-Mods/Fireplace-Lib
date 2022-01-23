@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements HierarchicalConfigManager<T> {
+public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements HierarchicalConfigManager<T>
+{
 
     private final HierarchicalConfigLoader configLoader;
     private final JsonStoragePath jsonStoragePath;
@@ -45,7 +46,7 @@ public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> i
     }
 
     private void loadExistingHierarchy() {
-        for (String id: allowedModuleIds) {
+        for (String id : allowedModuleIds) {
             Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
             if (filePath.toFile().exists() && !modules.containsKey(id)) {
                 HierarchicalConfig module = defaultConfig.clone();
@@ -60,7 +61,8 @@ public final class HierarchicalConfigManagerImpl<T extends HierarchicalConfig> i
     }
 
     private void registerHierarchyReloadable() {
-        reloadableManager.register(new Reloadable() {
+        reloadableManager.register(new Reloadable()
+        {
             @Override
             public void reload() {
                 loadExistingHierarchy();

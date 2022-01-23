@@ -7,7 +7,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class SelectedPlayerArgument implements PossiblyOfflinePlayer {
+public class SelectedPlayerArgument implements PossiblyOfflinePlayer
+{
 
     private final GameProfile profile;
     @Nullable

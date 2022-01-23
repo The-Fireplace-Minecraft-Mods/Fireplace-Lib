@@ -20,7 +20,8 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 @Implementation
-public final class SafePositionImpl implements SafePosition {
+public final class SafePositionImpl implements SafePosition
+{
     private final ImmutableList<Vec3i> xzOffsets = ImmutableList.of(
         new Vec3i(0, 0, -1),
         new Vec3i(-1, 0, 0),
@@ -42,7 +43,6 @@ public final class SafePositionImpl implements SafePosition {
         Blocks.SWEET_BERRY_BUSH,
         Blocks.CACTUS
     );
-
     @Override
     public Optional<Vec3d> findBy(EntityType<?> entityType, CollisionView world, BlockPos blockPos) {
         return findRespawnPosition(entityType, world, blockPos);

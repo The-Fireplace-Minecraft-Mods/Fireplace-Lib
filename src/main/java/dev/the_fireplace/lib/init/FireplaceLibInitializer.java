@@ -14,7 +14,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public final class FireplaceLibInitializer {
+public final class FireplaceLibInitializer
+{
 
     private boolean initialized = false;
     private final TranslatorFactory translatorFactory;

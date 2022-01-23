@@ -11,7 +11,8 @@ import java.util.Collections;
 
 @Implementation
 @Singleton
-public final class DataGeneratorFactoryImpl implements DataGeneratorFactory {
+public final class DataGeneratorFactoryImpl implements DataGeneratorFactory
+{
 
     @Override
     public DataGenerator createAdditive(Path outputDirectory) {

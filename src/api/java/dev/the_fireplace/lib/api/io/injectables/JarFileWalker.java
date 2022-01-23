@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Collection;
 
-public interface JarFileWalker {
+public interface JarFileWalker
+{
     Collection<Path> getFiles(String path) throws IOException, URISyntaxException;
 }

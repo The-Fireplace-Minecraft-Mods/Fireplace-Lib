@@ -14,7 +14,8 @@ import javax.inject.Singleton;
 
 @Implementation
 @Singleton
-public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory {
+public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory
+{
     public static final OfflinePlayerArgumentType.Serializer OFFLINE_PLAYER_ARGUMENT_SERIALIZER = new OfflinePlayerArgumentType.Serializer();
 
     @Override

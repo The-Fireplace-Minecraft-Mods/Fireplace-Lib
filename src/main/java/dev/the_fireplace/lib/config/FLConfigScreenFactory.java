@@ -25,7 +25,8 @@ import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 @Singleton
-public final class FLConfigScreenFactory {
+public final class FLConfigScreenFactory
+{
     private static final String TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".";
     private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".option.";
 

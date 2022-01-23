@@ -4,7 +4,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class SchemaValidator {
+public final class SchemaValidator
+{
     @SuppressWarnings("HardcodedFileSeparator")
     static final String SCHEMA_PATTERN_STRING = "[a-zA-Z0-9_\\-]+";
     private static final Pattern VALID_SCHEMA_REGEX = Pattern.compile('^' + SCHEMA_PATTERN_STRING + '$');

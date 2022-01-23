@@ -10,11 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 
-public final class FireplaceLib implements DIModInitializer {
+public final class FireplaceLib implements DIModInitializer
+{
     public static final String MODID = "fireplacelib";
 
     @Nullable
     private static MinecraftServer minecraftServer = null;
+
     public static MinecraftServer getServer() {
         if (minecraftServer == null) {
             throw new IllegalStateException("Attempted to get server before it starts!");
@@ -29,6 +31,7 @@ public final class FireplaceLib implements DIModInitializer {
     }
 
     private static final Logger LOGGER = LogManager.getLogger(MODID);
+
     public static Logger getLogger() {
         return LOGGER;
     }

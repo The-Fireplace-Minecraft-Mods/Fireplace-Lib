@@ -2,7 +2,8 @@ package dev.the_fireplace.lib.config.cloth;
 
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 
-public final class FloatingPointClothConverter<T extends Number> implements OptionTypeConverter<T, Long> {
+public final class FloatingPointClothConverter<T extends Number> implements OptionTypeConverter<T, Long>
+{
     public static final byte INITIAL_PRECISION = 1;
 
     private byte precision = INITIAL_PRECISION;

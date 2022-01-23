@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public interface ClientPacketReceiver extends ClientPlayNetworking.PlayChannelHandler {
+public interface ClientPacketReceiver extends ClientPlayNetworking.PlayChannelHandler
+{
     Identifier getId();
 }

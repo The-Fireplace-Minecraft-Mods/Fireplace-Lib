@@ -7,7 +7,8 @@ import javax.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
-public final class ClientConnectedPacketBufferBuilder {
+public final class ClientConnectedPacketBufferBuilder
+{
     public PacketByteBuf build(Collection<String> availableTranslators) {
         PacketByteBuf buffer = PacketByteBufs.create();
         for (String translatorModid : availableTranslators) {

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class JsonStorageWriteBuffer implements StorageWriteBuffer {
+public final class JsonStorageWriteBuffer implements StorageWriteBuffer
+{
     private final JsonObject obj;
+
     public JsonStorageWriteBuffer() {
         this.obj = new JsonObject();
     }

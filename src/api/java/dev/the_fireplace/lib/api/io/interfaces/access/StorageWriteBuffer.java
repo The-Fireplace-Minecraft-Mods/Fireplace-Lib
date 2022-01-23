@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public interface StorageWriteBuffer {
+public interface StorageWriteBuffer
+{
     void writeUUID(String key, UUID value);
 
     void writeString(String key, String value);
