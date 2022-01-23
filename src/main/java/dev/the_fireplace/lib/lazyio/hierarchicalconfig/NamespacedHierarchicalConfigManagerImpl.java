@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements NamespacedHierarchicalConfigManager<T> {
+public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfig> implements NamespacedHierarchicalConfigManager<T>
+{
 
     protected final HierarchicalConfigLoader configLoader;
     protected final JsonStoragePath jsonStoragePath;
@@ -61,7 +62,8 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
     }
 
     protected void registerHierarchyReloadable() {
-        reloadableManager.register(new Reloadable() {
+        reloadableManager.register(new Reloadable()
+        {
             @Override
             public void reload() {
                 loadExistingHierarchy(getAllowedModuleIds());

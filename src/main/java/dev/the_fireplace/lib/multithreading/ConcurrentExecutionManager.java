@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 @Implementation
-public final class ConcurrentExecutionManager implements ExecutionManager {
+public final class ConcurrentExecutionManager implements ExecutionManager
+{
     private final ConfigValues configValues;
     private ExecutorService essentialExecutorService;
     private ExecutorService nonessentialExecutorService;

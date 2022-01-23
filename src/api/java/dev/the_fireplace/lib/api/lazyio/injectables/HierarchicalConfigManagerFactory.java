@@ -7,7 +7,8 @@ import net.minecraft.util.Identifier;
 
 import java.util.concurrent.Callable;
 
-public interface HierarchicalConfigManagerFactory {
+public interface HierarchicalConfigManagerFactory
+{
     /**
      * Create a hierarchical config manager. With this, you can have a default/fallback config, and custom defined configs that override it for specific cases.
      *

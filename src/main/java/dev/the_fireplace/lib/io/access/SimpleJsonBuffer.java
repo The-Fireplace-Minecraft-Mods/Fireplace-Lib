@@ -7,7 +7,8 @@ import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
 
 import java.util.*;
 
-public final class SimpleJsonBuffer implements SimpleBuffer {
+public final class SimpleJsonBuffer implements SimpleBuffer
+{
 
     private final JsonObject jsonObject;
 

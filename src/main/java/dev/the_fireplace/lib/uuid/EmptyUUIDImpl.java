@@ -8,7 +8,8 @@ import java.util.UUID;
 
 @Implementation
 @Singleton
-public final class EmptyUUIDImpl implements EmptyUUID {
+public final class EmptyUUIDImpl implements EmptyUUID
+{
     private static final UUID EMPTY_UUID = new UUID(0, 0);
 
     @Override

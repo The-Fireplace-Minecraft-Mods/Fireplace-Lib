@@ -20,7 +20,8 @@ import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 @Implementation
-public class OptionBuilderFactoryImpl implements OptionBuilderFactory {
+public class OptionBuilderFactoryImpl implements OptionBuilderFactory
+{
     @Override
     public <S> OptionBuilder<S> create(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
         return new ClothGenericOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);

@@ -5,7 +5,8 @@ import dev.the_fireplace.lib.chat.translation.proxy.LocaleProxy;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class ModLanguageMaps {
+public final class ModLanguageMaps
+{
     private static final Map<String, LanguageMap> PRIMARY_LANGUAGE_MAPS = new ConcurrentHashMap<>();
     private static final Map<String, LanguageMap> FALLBACK_LANGUAGE_MAPS = new ConcurrentHashMap<>();
 

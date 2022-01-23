@@ -2,7 +2,8 @@ package dev.the_fireplace.lib.api.lazyio.interfaces;
 
 import java.util.Collection;
 
-public interface HierarchicalConfigManager<T extends HierarchicalConfig> {
+public interface HierarchicalConfigManager<T extends HierarchicalConfig>
+{
     Iterable<String> getAllowedModuleIds();
 
     T get(String moduleId);

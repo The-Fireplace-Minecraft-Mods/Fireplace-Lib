@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Environment(EnvType.CLIENT)
 @Mixin(value = AbstractConfigScreen.class, remap = false)
-public interface AbstractConfigScreenAccessor {
+public interface AbstractConfigScreenAccessor
+{
     @Accessor
     Screen getParent();
 }

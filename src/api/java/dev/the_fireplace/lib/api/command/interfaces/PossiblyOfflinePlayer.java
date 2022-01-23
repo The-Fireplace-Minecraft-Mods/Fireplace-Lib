@@ -5,9 +5,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public interface PossiblyOfflinePlayer {
+public interface PossiblyOfflinePlayer
+{
     UUID getId();
+
     String getName();
+
     @Nullable
     ServerPlayerEntity entity();
 }

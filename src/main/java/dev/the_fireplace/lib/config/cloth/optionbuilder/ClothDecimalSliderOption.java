@@ -18,7 +18,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> implements DecimalSliderOptionBuilder<S> {
+public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> implements DecimalSliderOptionBuilder<S>
+{
     private final S originalMinimum;
     private final S originalMaximum;
     private final S originalCurrent;

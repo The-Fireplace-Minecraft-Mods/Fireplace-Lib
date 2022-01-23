@@ -11,7 +11,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
 
-public final class SendFeedback implements FeedbackSender {
+public final class SendFeedback implements FeedbackSender
+{
     private final Translator translator;
     private final TextStyles textStyles;
     private final MessageQueue messageQueue;

@@ -8,7 +8,8 @@ import javax.annotation.Nullable;
 import java.io.File;
 
 @Environment(EnvType.CLIENT)
-public interface FileDialogFactory {
+public interface FileDialogFactory
+{
     @Nullable
     File showOpenFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription);
 

@@ -6,7 +6,9 @@ import dev.the_fireplace.lib.api.command.interfaces.OfflineSupportedPlayerArgume
 import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
 import net.minecraft.server.command.ServerCommandSource;
 
-public interface ArgumentTypeFactory {
+public interface ArgumentTypeFactory
+{
     OfflineSupportedPlayerArgumentType possiblyOfflinePlayer();
+
     PossiblyOfflinePlayer getPossiblyOfflinePlayer(CommandContext<ServerCommandSource> commandContext, String string) throws CommandSyntaxException;
 }

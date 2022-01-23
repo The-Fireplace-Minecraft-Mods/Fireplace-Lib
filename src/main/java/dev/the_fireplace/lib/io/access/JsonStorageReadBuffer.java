@@ -9,8 +9,10 @@ import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JsonStorageReadBuffer implements StorageReadBuffer {
+public class JsonStorageReadBuffer implements StorageReadBuffer
+{
     private final JsonObject obj;
+
     JsonStorageReadBuffer(JsonObject obj) {
         this.obj = obj;
     }

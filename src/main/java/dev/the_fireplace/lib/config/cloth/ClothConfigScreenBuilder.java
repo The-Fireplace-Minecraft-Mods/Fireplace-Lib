@@ -33,8 +33,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
-public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
-    private static final OptionTypeConverter<Short, Integer> SHORT_TYPE_CONVERTER = new OptionTypeConverter<>() {
+public final class ClothConfigScreenBuilder implements ConfigScreenBuilder
+{
+    private static final OptionTypeConverter<Short, Integer> SHORT_TYPE_CONVERTER = new OptionTypeConverter<>()
+    {
         @Override
         public Integer convertToClothType(Short source) {
             return Integer.valueOf(source);
@@ -45,7 +47,8 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
             return clothValue.shortValue();
         }
     };
-    private static final OptionTypeConverter<Byte, Integer> BYTE_TYPE_CONVERTER = new OptionTypeConverter<>() {
+    private static final OptionTypeConverter<Byte, Integer> BYTE_TYPE_CONVERTER = new OptionTypeConverter<>()
+    {
         @Override
         public Integer convertToClothType(Byte source) {
             return Integer.valueOf(source);
@@ -150,7 +153,8 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
 
     @Override
     public <T extends Enum<T>> OptionBuilder<T> addEnumDropdown(String optionTranslationBase, T currentValue, T defaultValue, T[] dropdownEntries, Consumer<T> saveFunction) {
-        OptionTypeConverter<T, String> enumTypeConverter = new OptionTypeConverter<>() {
+        OptionTypeConverter<T, String> enumTypeConverter = new OptionTypeConverter<>()
+        {
             @Override
             public String convertToClothType(T source) {
                 return source.name();
@@ -541,7 +545,8 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Short> defaultValue,
         Consumer<List<Short>> saveFunction
     ) {
-        OptionTypeConverter<List<Short>, List<Integer>> typeConverter = new OptionTypeConverter<>() {
+        OptionTypeConverter<List<Short>, List<Integer>> typeConverter = new OptionTypeConverter<>()
+        {
             @Override
             public List<Integer> convertToClothType(List<Short> source) {
                 return source.stream().map(Integer::valueOf).collect(Collectors.toList());
@@ -617,7 +622,8 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder {
         List<Byte> defaultValue,
         Consumer<List<Byte>> saveFunction
     ) {
-        OptionTypeConverter<List<Byte>, List<Integer>> typeConverter = new OptionTypeConverter<>() {
+        OptionTypeConverter<List<Byte>, List<Integer>> typeConverter = new OptionTypeConverter<>()
+        {
             @Override
             public List<Integer> convertToClothType(List<Byte> source) {
                 return source.stream().map(Integer::valueOf).collect(Collectors.toList());

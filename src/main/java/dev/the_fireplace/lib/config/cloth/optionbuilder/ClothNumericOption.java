@@ -14,7 +14,8 @@ import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
-public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implements NumericOptionBuilder<S> {
+public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implements NumericOptionBuilder<S>
+{
     public ClothNumericOption(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
     }

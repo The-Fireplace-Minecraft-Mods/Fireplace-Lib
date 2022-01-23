@@ -12,7 +12,8 @@ import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 @Mixin(value = AbstractConfigEntry.class, remap = false)
-public interface AbstractConfigEntryAccessor<T> {
+public interface AbstractConfigEntryAccessor<T>
+{
     @Accessor
     Supplier<Optional<Text>> getErrorSupplier();
 }

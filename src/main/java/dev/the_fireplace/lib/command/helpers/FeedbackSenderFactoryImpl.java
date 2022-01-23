@@ -17,22 +17,22 @@ import java.util.function.Function;
 @Singleton
 public final class FeedbackSenderFactoryImpl implements FeedbackSenderFactory
 {
-	private final Map<Translator, FeedbackSender> feedbackSenders = new ConcurrentHashMap<>();
-	private final TextStyles textStyles;
-	private final MessageQueue messageQueue;
+    private final Map<Translator, FeedbackSender> feedbackSenders = new ConcurrentHashMap<>();
+    private final TextStyles textStyles;
+    private final MessageQueue messageQueue;
 
-	@Inject
-	public FeedbackSenderFactoryImpl(TextStyles textStyles, MessageQueue messageQueue) {
-		this.textStyles = textStyles;
-		this.messageQueue = messageQueue;
-	}
+    @Inject
+    public FeedbackSenderFactoryImpl(TextStyles textStyles, MessageQueue messageQueue) {
+        this.textStyles = textStyles;
+        this.messageQueue = messageQueue;
+    }
 
-	@Override
-	public FeedbackSender get(Translator translator) {
-		return feedbackSenders.computeIfAbsent(translator, computeNewFeedbackSender());
-	}
+    @Override
+    public FeedbackSender get(Translator translator) {
+        return feedbackSenders.computeIfAbsent(translator, computeNewFeedbackSender());
+    }
 
-	private Function<Translator, FeedbackSender> computeNewFeedbackSender() {
-		return translator -> new SendFeedback(translator, textStyles, messageQueue);
-	}
+    private Function<Translator, FeedbackSender> computeNewFeedbackSender() {
+        return translator -> new SendFeedback(translator, textStyles, messageQueue);
+    }
 }

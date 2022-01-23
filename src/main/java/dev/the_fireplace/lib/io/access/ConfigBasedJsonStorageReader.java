@@ -25,7 +25,8 @@ import java.util.regex.Matcher;
     "dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageReader",
     "dev.the_fireplace.lib.domain.io.HierarchicalConfigReader",
 })
-public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageReader, HierarchicalConfigReader {
+public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageReader, HierarchicalConfigReader
+{
     private final JsonFileReader fileReader;
     private final JsonStoragePath jsonStoragePath;
 

@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public interface SimpleBuffer {
+public interface SimpleBuffer
+{
     UUID readUUID(String key);
 
     String readString(String key);

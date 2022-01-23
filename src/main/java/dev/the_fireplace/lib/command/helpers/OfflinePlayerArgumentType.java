@@ -23,7 +23,8 @@ import net.minecraft.util.UserCache;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerArgumentType {
+public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerArgumentType
+{
     private static final Collection<String> EXAMPLES = Arrays.asList("PlayerName", "@p", "dd12be42-52a9-4a91-a8a1-11c01849e498");
 
     @Override
@@ -57,7 +58,8 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
 
             try {
                 entitySelectorReader.read();
-            } catch (CommandSyntaxException ignored) {}
+            } catch (CommandSyntaxException ignored) {
+            }
 
             return entitySelectorReader.listSuggestions(builder, (suggestionsBuilder) -> {
                 Iterable<String> iterable = commandSource.getPlayerNames();
@@ -74,7 +76,8 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
     }
 
 
-    private static class PlayerSelector implements dev.the_fireplace.lib.api.command.interfaces.PlayerSelector {
+    private static class PlayerSelector implements dev.the_fireplace.lib.api.command.interfaces.PlayerSelector
+    {
 
         private final EntitySelector entitySelector;
         private final String offlinePlayerName;
@@ -117,7 +120,8 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
     /**
      * Serialize like {@link EntityArgumentType.Serializer} so we can mimic it when sending to a client that doesn't have FL installed.
      */
-    public static class Serializer implements ArgumentSerializer<OfflinePlayerArgumentType> {
+    public static class Serializer implements ArgumentSerializer<OfflinePlayerArgumentType>
+    {
         @Override
         public void toPacket(OfflinePlayerArgumentType entityArgumentType, PacketByteBuf packetByteBuf) {
             byte b = 0;
