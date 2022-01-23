@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
-public interface CustomButtonScreen<T> {
+public interface CustomButtonScreen<T>
+{
     Promise<Optional<T>> getNewValuePromise();
 }

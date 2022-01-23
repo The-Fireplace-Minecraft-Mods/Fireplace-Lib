@@ -6,7 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ServerLocaleProxy extends LocaleProxy {
+public class ServerLocaleProxy extends LocaleProxy
+{
 
     private final ConfigValues values;
 

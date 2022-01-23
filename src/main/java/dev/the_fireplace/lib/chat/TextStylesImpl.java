@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 
 @Singleton
 @Implementation
-public final class TextStylesImpl implements TextStyles {
+public final class TextStylesImpl implements TextStyles
+{
     private final Style RED = new Style().setColor(Formatting.RED);
     private final Style BLUE = new Style().setColor(Formatting.BLUE);
     private final Style YELLOW = new Style().setColor(Formatting.YELLOW);

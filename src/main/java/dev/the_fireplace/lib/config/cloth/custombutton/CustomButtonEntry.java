@@ -27,7 +27,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
-public class CustomButtonEntry extends TooltipListEntry<String> {
+public class CustomButtonEntry extends TooltipListEntry<String>
+{
     private final AtomicReference<String> value;
     private final ButtonWidget buttonWidget;
     private final ButtonWidget resetButton;

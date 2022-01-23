@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.domain.config;
 
-public interface ConfigValues {
+public interface ConfigValues
+{
     String getLocale();
 
     short getEssentialThreadPoolSize();

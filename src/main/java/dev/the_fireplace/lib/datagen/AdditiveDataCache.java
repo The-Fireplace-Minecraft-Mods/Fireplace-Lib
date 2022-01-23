@@ -16,7 +16,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AdditiveDataCache extends DataCache {
+public class AdditiveDataCache extends DataCache
+{
     protected static final Logger LOGGER = LogManager.getLogger("AdditiveDataCache");
     protected final Path root;
     protected final Path recordFile;

@@ -6,7 +6,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ServerCommandSource.class)
-public interface ServerCommandSourceAccessor {
+public interface ServerCommandSourceAccessor
+{
     @Accessor
     CommandOutput getOutput();
 }

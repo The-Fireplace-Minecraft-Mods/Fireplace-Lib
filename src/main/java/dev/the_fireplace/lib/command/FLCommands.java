@@ -8,7 +8,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public final class FLCommands {
+public final class FLCommands
+{
     private final FLReloadCommand flReloadCommand;
 
     @Inject

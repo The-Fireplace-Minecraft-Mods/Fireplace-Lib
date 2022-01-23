@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.api.io.interfaces;
 
-public interface ConfigBasedSerializable extends Readable, Writable {
+public interface ConfigBasedSerializable extends Readable, Writable
+{
 
     /**
      * Subfolder name. If not empty, this is used to make a folder within the config folder.
@@ -10,6 +11,7 @@ public interface ConfigBasedSerializable extends Readable, Writable {
     default String getSubfolderName() {
         return "";
     }
+
     /**
      * Config ID. This is used to determine the file name before the extension.
      * Required to match ^[a-zA-Z0-9_\-]+$

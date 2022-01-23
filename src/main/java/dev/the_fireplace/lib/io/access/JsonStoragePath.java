@@ -9,14 +9,15 @@ import javax.inject.Singleton;
 import java.nio.file.Path;
 
 @Singleton
-public final class JsonStoragePath {
+public final class JsonStoragePath
+{
     private final DirectoryResolver directoryResolver;
 
     @Inject
     public JsonStoragePath(DirectoryResolver directoryResolver) {
         this.directoryResolver = directoryResolver;
     }
-    
+
     Path resolveSaveBasedJsonFilePath(SaveBasedSerializable saveBasedSerializable) {
         return resolveSaveBasedJsonFilePath(saveBasedSerializable.getDatabase(), saveBasedSerializable.getTable(), saveBasedSerializable.getId());
     }

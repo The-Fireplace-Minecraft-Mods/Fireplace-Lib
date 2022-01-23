@@ -12,7 +12,8 @@ import java.nio.file.Path;
 
 @Implementation
 @Singleton
-public final class Directories implements DirectoryResolver {
+public final class Directories implements DirectoryResolver
+{
 
     @Override
     public Path getSavePath() {

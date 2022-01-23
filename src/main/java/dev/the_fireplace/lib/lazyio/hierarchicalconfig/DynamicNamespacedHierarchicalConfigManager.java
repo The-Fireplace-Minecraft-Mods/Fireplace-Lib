@@ -10,7 +10,8 @@ import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public final class DynamicNamespacedHierarchicalConfigManager<T extends HierarchicalConfig> extends NamespacedHierarchicalConfigManagerImpl<T> implements Reloadable {
+public final class DynamicNamespacedHierarchicalConfigManager<T extends HierarchicalConfig> extends NamespacedHierarchicalConfigManagerImpl<T> implements Reloadable
+{
 
     private final Callable<Iterable<Identifier>> getAllowedModuleIds;
     private final AtomicBoolean hasPendingUpdates = new AtomicBoolean(true);

@@ -4,7 +4,8 @@ import net.minecraft.util.Identifier;
 
 import java.util.Collection;
 
-public interface NamespacedHierarchicalConfigManager<T extends HierarchicalConfig> {
+public interface NamespacedHierarchicalConfigManager<T extends HierarchicalConfig>
+{
     Iterable<Identifier> getAllowedModuleIds();
 
     T get(Identifier moduleId);

@@ -11,7 +11,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public class CustomButtonOption extends ClothGenericOption<String, String> implements CustomButtonBuilder<String> {
+public class CustomButtonOption extends ClothGenericOption<String, String> implements CustomButtonBuilder<String>
+{
     public CustomButtonOption(Translator translator, CustomButtonFieldBuilder fieldBuilder, String optionTranslationBase, String defaultValue, Consumer<String> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
     }

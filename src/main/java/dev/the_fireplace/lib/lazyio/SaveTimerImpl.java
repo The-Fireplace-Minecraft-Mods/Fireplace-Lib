@@ -14,7 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Implementation
 @Singleton
-public final class SaveTimerImpl implements SaveTimer {
+public final class SaveTimerImpl implements SaveTimer
+{
     private final Map<Short, Set<Runnable>> saveIntervalFunctions = new ConcurrentHashMap<>();
     private Timer timer = new Timer();
     private final ExecutionManager executionManager;
@@ -44,10 +45,11 @@ public final class SaveTimerImpl implements SaveTimer {
     private void addIntervalToTimer(short newSaveIntervalInMinutes) {
         int saveIntervalInMilliseconds = 1000 * 60 * newSaveIntervalInMinutes;
         int randomOffset = 200 + new Random().nextInt(59800);
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask()
+        {
             @Override
             public void run() {
-                for (Runnable runnable: saveIntervalFunctions.get(newSaveIntervalInMinutes)) {
+                for (Runnable runnable : saveIntervalFunctions.get(newSaveIntervalInMinutes)) {
                     executionManager.run(runnable);
                 }
             }
@@ -79,8 +81,8 @@ public final class SaveTimerImpl implements SaveTimer {
     }
 
     private void saveAll() {
-        for (Set<Runnable> intervalRunnables: saveIntervalFunctions.values()) {
-            for (Runnable runnable: intervalRunnables) {
+        for (Set<Runnable> intervalRunnables : saveIntervalFunctions.values()) {
+            for (Runnable runnable : intervalRunnables) {
                 executionManager.run(runnable);
             }
         }

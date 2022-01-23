@@ -18,7 +18,8 @@ import java.util.regex.Matcher;
 
 @Implementation
 @Singleton
-public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader {
+public final class SaveBasedJsonStorageReader implements SaveBasedStorageReader
+{
     private final JsonFileReader fileReader;
     private final JsonStoragePath jsonStoragePath;
 

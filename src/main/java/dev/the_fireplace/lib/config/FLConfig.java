@@ -16,7 +16,8 @@ import javax.inject.Singleton;
 
 @Implementation("dev.the_fireplace.lib.domain.config.ConfigValues")
 @Singleton
-public final class FLConfig implements Config, ConfigValues {
+public final class FLConfig implements Config, ConfigValues
+{
     private final ConfigValues defaultConfig;
 
     private String locale;

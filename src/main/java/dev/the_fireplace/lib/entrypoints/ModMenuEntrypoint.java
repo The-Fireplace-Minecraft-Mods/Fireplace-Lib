@@ -10,7 +10,8 @@ import net.minecraft.client.gui.screen.Screen;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public final class ModMenuEntrypoint implements ModMenuApi {
+public final class ModMenuEntrypoint implements ModMenuApi
+{
     private final FLConfigScreenFactory flConfigScreenFactory = DIContainer.get().getInstance(FLConfigScreenFactory.class);
 
     @Override

@@ -17,7 +17,8 @@ import java.util.stream.Stream;
 
 @Implementation
 @Singleton
-public final class JarFileWalkerImpl implements JarFileWalker {
+public final class JarFileWalkerImpl implements JarFileWalker
+{
     private final ConcurrentMap<String, Object> locks = new ConcurrentHashMap<>();
 
     @Override

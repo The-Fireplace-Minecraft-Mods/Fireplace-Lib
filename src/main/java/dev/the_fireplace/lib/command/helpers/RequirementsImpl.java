@@ -9,7 +9,8 @@ import javax.inject.Singleton;
 
 @Implementation
 @Singleton
-public final class RequirementsImpl implements Requirements {
+public final class RequirementsImpl implements Requirements
+{
     private static final int PERMISSION_LEVEL_MANAGE_GAME_SETTINGS = 2;
     private static final int PERMISSION_LEVEL_MANAGE_PLAYER_ACCESS = 3;
     private static final int PERMISSION_LEVEL_OP = 4;
