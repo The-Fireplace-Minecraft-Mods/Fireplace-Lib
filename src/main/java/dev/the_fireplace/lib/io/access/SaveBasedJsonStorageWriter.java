@@ -19,7 +19,8 @@ import java.nio.file.Path;
 
 @Implementation
 @Singleton
-public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter {
+public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter
+{
     private final Gson gson;
     private final Logger logger;
     private final JsonStoragePath jsonStoragePath;

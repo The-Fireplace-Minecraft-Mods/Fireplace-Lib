@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public interface CustomButtonBuilder<S> extends OptionBuilder<S> {
+public interface CustomButtonBuilder<S> extends OptionBuilder<S>
+{
     CustomButtonBuilder<S> setButtonTextSupplier(@Nullable Function<String, Text> buttonTextSupplier);
 }

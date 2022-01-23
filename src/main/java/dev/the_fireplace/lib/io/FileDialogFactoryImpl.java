@@ -21,7 +21,8 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 @Implementation
 @Singleton
-public final class FileDialogFactoryImpl implements FileDialogFactory {
+public final class FileDialogFactoryImpl implements FileDialogFactory
+{
 
     private final FilePathStorage filePathStorage;
 
@@ -67,7 +68,7 @@ public final class FileDialogFactoryImpl implements FileDialogFactory {
         storePathToMemory(rememberPath, displayedTitle, filePath);
         String[] filePaths = filePath.split("\\|");
         List<File> files = new ArrayList<>(filePaths.length);
-        for (String path: filePaths) {
+        for (String path : filePaths) {
             files.add(new File(path));
         }
 

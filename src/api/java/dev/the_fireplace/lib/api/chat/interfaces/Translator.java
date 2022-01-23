@@ -7,7 +7,8 @@ import net.minecraft.text.MutableText;
 
 import java.util.UUID;
 
-public interface Translator {
+public interface Translator
+{
     MutableText getTextForTarget(ServerCommandSource target, String translationKey, Object... args);
 
     MutableText getTextForTarget(CommandOutput target, String translationKey, Object... args);

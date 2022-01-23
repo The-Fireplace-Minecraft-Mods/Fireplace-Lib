@@ -20,7 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @ThreadSafe
 @Implementation
 @Singleton
-public final class MessageQueueImpl implements MessageQueue {
+public final class MessageQueueImpl implements MessageQueue
+{
     private final Map<CommandOutput, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
     private final ExecutionManager executionManager;
     private final EmptyUUID emptyUUID;
@@ -41,7 +42,8 @@ public final class MessageQueueImpl implements MessageQueue {
     }
 
     @ThreadSafe
-    private class TargetMessageQueue {
+    private class TargetMessageQueue
+    {
         private final Queue<Text> messages = new ArrayDeque<>();
         private final CommandOutput messageTarget;
         private final AtomicBoolean sendingMessages = new AtomicBoolean(false);

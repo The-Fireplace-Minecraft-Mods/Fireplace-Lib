@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerManager.class)
-public class PlayerManagerMixin {
+public class PlayerManagerMixin
+{
     @Inject(at = @At("HEAD"), method = "remove")
     public void remove(ServerPlayerEntity player, CallbackInfo info) {
         DIContainer.get().getInstance(NetworkEvents.class).onDisconnected(player.getUuid());

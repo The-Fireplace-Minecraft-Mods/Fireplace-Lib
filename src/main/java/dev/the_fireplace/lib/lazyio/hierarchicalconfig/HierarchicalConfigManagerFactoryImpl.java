@@ -15,7 +15,8 @@ import java.util.concurrent.Callable;
 
 @Singleton
 @Implementation
-public final class HierarchicalConfigManagerFactoryImpl implements HierarchicalConfigManagerFactory {
+public final class HierarchicalConfigManagerFactoryImpl implements HierarchicalConfigManagerFactory
+{
 
     private final HierarchicalConfigLoader configLoader;
     private final JsonStoragePath jsonStoragePath;

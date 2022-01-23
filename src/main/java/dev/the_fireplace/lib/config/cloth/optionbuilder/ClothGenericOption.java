@@ -28,7 +28,8 @@ import java.util.function.Predicate;
  * @param <T> Target Cloth type - what type Cloth Config actually accepts
  */
 @Environment(EnvType.CLIENT)
-public class ClothGenericOption<S, T> implements OptionBuilder<S> {
+public class ClothGenericOption<S, T> implements OptionBuilder<S>
+{
     private final Translator translator;
     protected final FieldBuilder<T, ?> fieldBuilder;
     private final String optionTranslationBase;
@@ -50,7 +51,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S> {
             throw new IllegalStateException("No type converter provided for Cloth Option!", e);
         }
         this.optionTranslationBase = optionTranslationBase;
-        this.typeConverter = new OptionTypeConverter<>() {
+        this.typeConverter = new OptionTypeConverter<>()
+        {
             @Override
             public T convertToClothType(S source) {
                 //noinspection unchecked

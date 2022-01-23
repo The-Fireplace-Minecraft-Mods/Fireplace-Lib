@@ -18,7 +18,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-public final class HierarchicalConfigLoader {
+public final class HierarchicalConfigLoader
+{
 
     private final HierarchicalConfigReader storageReader;
     private final HierarchicalConfigWriter storageWriter;
@@ -93,7 +94,8 @@ public final class HierarchicalConfigLoader {
     }
 
     private Reloadable buildConfigReloadable(HierarchicalConfig config, String domain, String id, String reloadId) {
-        return new Reloadable() {
+        return new Reloadable()
+        {
             @Override
             public void reload() {
                 JsonStorageWriteBuffer previousState = new JsonStorageWriteBuffer();
@@ -116,7 +118,8 @@ public final class HierarchicalConfigLoader {
     }
 
     private Reloadable buildConfigReloadable(HierarchicalConfig config, String domain, Identifier id, String reloadId) {
-        return new Reloadable() {
+        return new Reloadable()
+        {
             @Override
             public void reload() {
                 JsonStorageWriteBuffer previousState = new JsonStorageWriteBuffer();

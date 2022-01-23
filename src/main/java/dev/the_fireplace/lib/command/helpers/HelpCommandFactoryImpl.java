@@ -10,9 +10,10 @@ import javax.inject.Singleton;
 
 @Implementation
 @Singleton
-public final class HelpCommandFactoryImpl implements HelpCommandFactory {
-	@Override
-	public HelpCommand create(String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
-		return new HelpCommandImpl(modid, helpCommandBase);
-	}
+public final class HelpCommandFactoryImpl implements HelpCommandFactory
+{
+    @Override
+    public HelpCommand create(String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
+        return new HelpCommandImpl(modid, helpCommandBase);
+    }
 }

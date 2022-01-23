@@ -17,12 +17,14 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
-public final class ClothConfigDependencyHandler {
+public final class ClothConfigDependencyHandler
+{
     public static final Set<AbstractConfigEntry<?>> DISABLED_ENTRIES = new HashSet<>();
     private final Set<ClothOptionDependency<?, ?>> configEntries = new HashSet<>();
 
     public <S, T> void addOption(AbstractConfigListEntry<T> option, OptionTypeConverter<S, T> typeConverter) {
-        configEntries.add(new ClothOptionDependency<S, T>() {
+        configEntries.add(new ClothOptionDependency<S, T>()
+        {
             @Override
             public AbstractConfigListEntry<T> getEntry() {
                 return option;

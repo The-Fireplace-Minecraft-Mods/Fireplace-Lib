@@ -14,7 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class AdditiveDataGenerator extends DataGenerator {
+public class AdditiveDataGenerator extends DataGenerator
+{
     private static final Logger LOGGER = LogManager.getLogger("AdditiveDataGenerator");
     private final List<DataProvider> providers = Lists.newArrayList();
 

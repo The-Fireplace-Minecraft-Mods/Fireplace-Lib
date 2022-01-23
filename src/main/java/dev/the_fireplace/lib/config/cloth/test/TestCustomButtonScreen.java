@@ -16,7 +16,8 @@ import java.util.Optional;
 import java.util.Random;
 
 @Environment(EnvType.CLIENT)
-public final class TestCustomButtonScreen extends Screen implements CustomButtonScreen<String> {
+public final class TestCustomButtonScreen extends Screen implements CustomButtonScreen<String>
+{
 
     private final Promise<Optional<String>> promise;
     private final Screen parent;

@@ -12,7 +12,8 @@ import net.minecraft.world.CollisionView;
 import java.util.Optional;
 
 @Implementation
-public final class SafePositionImpl implements SafePosition {
+public final class SafePositionImpl implements SafePosition
+{
     @Override
     public Optional<Vec3d> findBy(EntityType<?> entityType, CollisionView world, BlockPos blockPos) {
         return RespawnAnchorBlock.findRespawnPosition(entityType, world, blockPos);

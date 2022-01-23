@@ -5,6 +5,7 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public interface TextPaginator {
+public interface TextPaginator
+{
     void sendPaginatedChat(ServerCommandSource targetCommandSource, String switchPageCommand, List<? extends Text> allItems, int pageIndex);
 }

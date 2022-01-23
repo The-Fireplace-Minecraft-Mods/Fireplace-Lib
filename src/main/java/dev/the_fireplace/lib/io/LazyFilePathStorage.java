@@ -18,7 +18,8 @@ import java.util.concurrent.ConcurrentMap;
 
 @Implementation("dev.the_fireplace.lib.api.io.injectables.FilePathStorage")
 @Singleton
-public final class LazyFilePathStorage implements Config, Defaultable, FilePathStorage {
+public final class LazyFilePathStorage implements Config, Defaultable, FilePathStorage
+{
     private final ConcurrentMap<String, String> lazyMemory;
     private final ConfigStateManager configStateManager;
 
@@ -41,14 +42,14 @@ public final class LazyFilePathStorage implements Config, Defaultable, FilePathS
 
     @Override
     public void readFrom(StorageReadBuffer buffer) {
-        for (String key: buffer.getKeys()) {
+        for (String key : buffer.getKeys()) {
             lazyMemory.put(key, buffer.readString(key, ""));
         }
     }
 
     @Override
     public void writeTo(StorageWriteBuffer buffer) {
-        for (Map.Entry<String, String> entry: lazyMemory.entrySet()) {
+        for (Map.Entry<String, String> entry : lazyMemory.entrySet()) {
             buffer.writeString(entry.getKey(), entry.getValue());
         }
     }
