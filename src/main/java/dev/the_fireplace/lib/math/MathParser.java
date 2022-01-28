@@ -4,7 +4,8 @@ package dev.the_fireplace.lib.math;
  * Formula parse code taken and modified from https://stackoverflow.com/a/26227947
  * Use this instead of javascript to avoid any problems with Minecraft's built in Java version not having a JavaScript engine.
  */
-final class MathParser {
+final class MathParser
+{
     private int currentPosition = -1;
     private int currentCharacter;
     private final String formula;
@@ -15,8 +16,8 @@ final class MathParser {
 
     private void nextChar() {
         currentCharacter = (++currentPosition < formula.length())
-                ? formula.charAt(currentPosition)
-                : -1;
+            ? formula.charAt(currentPosition)
+            : -1;
     }
 
     private boolean eat(int charToEat) {
