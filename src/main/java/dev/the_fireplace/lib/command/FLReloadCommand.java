@@ -3,6 +3,7 @@ package dev.the_fireplace.lib.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;
@@ -10,7 +11,6 @@ import dev.the_fireplace.lib.api.command.injectables.Requirements;
 import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.api.command.interfaces.RegisterableCommand;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
@@ -31,7 +31,7 @@ public final class FLReloadCommand implements RegisterableCommand
         FeedbackSenderFactory feedbackSenderFactory,
         ReloadableManager reloadableManager
     ) {
-        Translator translator = translatorFactory.getTranslator(FireplaceLib.MODID);
+        Translator translator = translatorFactory.getTranslator(FireplaceLibConstants.MODID);
         this.feedbackSender = feedbackSenderFactory.get(translator);
         this.requirements = requirements;
         this.reloadableManager = reloadableManager;
@@ -46,7 +46,7 @@ public final class FLReloadCommand implements RegisterableCommand
     }
 
     private int execute(CommandContext<ServerCommandSource> commandContext) {
-        reloadableManager.reload(FireplaceLib.MODID);
+        reloadableManager.reload(FireplaceLibConstants.MODID);
         feedbackSender.basic(commandContext, "fireplacelib.command.reload.reloaded");
         return 1;
     }

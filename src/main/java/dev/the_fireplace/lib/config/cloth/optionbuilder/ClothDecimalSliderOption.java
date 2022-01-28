@@ -1,10 +1,10 @@
 package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.DecimalSliderOptionBuilder;
 import dev.the_fireplace.lib.config.cloth.FloatingPointClothConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -74,8 +74,8 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
             Field currentValueField = fieldBuilder.getClass().getField("value");
             currentValueField.set(fieldBuilder, clothCurrentValue);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            FireplaceLib.getLogger().error("Unable to set current value for field builder of type " + fieldBuilder.getClass() + " with current value type " + clothCurrentValue.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getFields()));
+            FireplaceLibConstants.getLogger().error("Unable to set current value for field builder of type " + fieldBuilder.getClass() + " with current value type " + clothCurrentValue.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getFields()));
         }
     }
 
@@ -85,8 +85,8 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
             Method setDefaultValue = findSingleParameterMethod("setTextGetter", textGetter.getClass());
             setDefaultValue.invoke(fieldBuilder, textGetter);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set display precision for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set display precision for field builder of type " + fieldBuilder.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 }

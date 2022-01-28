@@ -5,8 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.JsonFileReader;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
@@ -48,7 +48,7 @@ public final class ExternalResourceToJson implements JsonFileReader
                 return (JsonObject) jsonElement;
             }
         } catch (JsonParseException e) {
-            FireplaceLib.getLogger().warn("Unable to parse json file!", e);
+            FireplaceLibConstants.getLogger().warn("Unable to parse json file!", e);
         }
         return null;
     }

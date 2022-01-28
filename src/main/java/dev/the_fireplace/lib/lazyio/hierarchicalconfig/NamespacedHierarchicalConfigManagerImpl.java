@@ -1,11 +1,11 @@
 package dev.the_fireplace.lib.lazyio.hierarchicalconfig;
 
 import com.google.common.collect.Sets;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.api.lazyio.interfaces.NamespacedHierarchicalConfigManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Reloadable;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.io.access.JsonStoragePath;
 import net.minecraft.util.Identifier;
 
@@ -55,7 +55,7 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
                     //noinspection unchecked
                     addCustom(id, (T) module);
                 } catch (ClassCastException exception) {
-                    FireplaceLib.getLogger().error("Cloned hierarchical config was not of the expected type!", exception);
+                    FireplaceLibConstants.getLogger().error("Cloned hierarchical config was not of the expected type!", exception);
                 }
             }
         }
@@ -123,7 +123,7 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
     public void saveCustom(Identifier id) {
         T module = modules.get(id);
         if (module == null) {
-            FireplaceLib.getLogger().error("Custom config does not exist, and cannot be saved: " + id);
+            FireplaceLibConstants.getLogger().error("Custom config does not exist, and cannot be saved: " + id);
             return;
         }
         configLoader.save(module, domain, id);
