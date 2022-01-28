@@ -20,7 +20,6 @@ import javax.inject.Singleton;
 @Singleton
 public final class FLReloadCommand implements RegisterableCommand
 {
-
     private final Requirements requirements;
     private final ReloadableManager reloadableManager;
     private final FeedbackSender feedbackSender;
