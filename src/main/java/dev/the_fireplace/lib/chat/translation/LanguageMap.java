@@ -5,8 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.util.JsonHelper;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ final class LanguageMap
                 this.languageList.put(entry.getKey(), s);
             }
         } catch (JsonParseException e) {
-            FireplaceLib.getLogger().error(langDir + locale + ".json is improperly formatted.", e);
+            FireplaceLibConstants.getLogger().error(langDir + locale + ".json is improperly formatted.", e);
         } catch (IOException ignored) {
         }
     }
@@ -47,12 +47,12 @@ final class LanguageMap
         String langJsonPath = langDir + locale + ".json";
         InputStream inputstream = LanguageMap.class.getResourceAsStream(langJsonPath);
         if (inputstream == null) {
-            FireplaceLib.getLogger().error("Invalid locale: {}, defaulting to en_us.", locale);
+            FireplaceLibConstants.getLogger().error("Invalid locale: {}, defaulting to en_us.", locale);
             inputstream = LanguageMap.class.getResourceAsStream(langDir + "en_us.json");
         }
         if (inputstream == null) {
-            FireplaceLib.getLogger().error("Unable to read language file in directory {}!", langDir);
-            FireplaceLib.getLogger().error("Class loader: {}", LanguageMap.class.getClassLoader().getName());
+            FireplaceLibConstants.getLogger().error("Unable to read language file in directory {}!", langDir);
+            FireplaceLibConstants.getLogger().error("Class loader: {}", LanguageMap.class.getClassLoader().getName());
             return new JsonObject();
         }
         JsonElement jsonelement = new Gson().fromJson(new InputStreamReader(inputstream, StandardCharsets.UTF_8), JsonElement.class);

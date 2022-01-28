@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.network;
 
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.network.injectables.ServerPacketReceiverRegistry;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.network.server.ClientConnectedPacketReceiver;
 import net.minecraft.util.Identifier;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Singleton
 public final class NetworkEvents
 {
-    public static final Identifier CLIENT_CONNECTED_CHANNEL_NAME = new Identifier(FireplaceLib.MODID, "client_connected");
+    public static final Identifier CLIENT_CONNECTED_CHANNEL_NAME = new Identifier(FireplaceLibConstants.MODID, "client_connected");
 
     private final ServerPacketReceiverRegistry registry;
     private final ClientConnectedPacketReceiver clientConnectedPacketReceiver;

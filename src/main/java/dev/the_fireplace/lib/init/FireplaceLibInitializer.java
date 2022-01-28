@@ -1,11 +1,11 @@
 package dev.the_fireplace.lib.init;
 
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.command.FLCommands;
 import dev.the_fireplace.lib.command.helpers.ArgumentTypeFactoryImpl;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
@@ -45,17 +45,17 @@ public final class FireplaceLibInitializer
     public void init() {
         if (!initialized) {
             initialized = true;
-            translatorFactory.addTranslator(FireplaceLib.MODID);
+            translatorFactory.addTranslator(FireplaceLibConstants.MODID);
             networkEvents.init();
             argumentTypeFactory.registerArgumentTypes();
             ServerLifecycleEvents.SERVER_STARTING.register(this::onServerStarting);
             ServerLifecycleEvents.SERVER_STOPPING.register(this::onServerStopping);
-            ServerLifecycleEvents.SERVER_STOPPED.register(s -> FireplaceLib.setMinecraftServer(null));
+            ServerLifecycleEvents.SERVER_STOPPED.register(s -> FireplaceLibConstants.setMinecraftServer(null));
         }
     }
 
     private void onServerStarting(MinecraftServer server) {
-        FireplaceLib.setMinecraftServer(server);
+        FireplaceLibConstants.setMinecraftServer(server);
         executionManager.startExecutors();
         saveTimer.resetTimer();
         fireplaceLibCommands.register(server);
@@ -66,7 +66,7 @@ public final class FireplaceLibInitializer
         try {
             executionManager.waitForCompletion();
         } catch (InterruptedException e) {
-            FireplaceLib.getLogger().error("Interrupted while trying to wait for execution manager to complete.", e);
+            FireplaceLibConstants.getLogger().error("Interrupted while trying to wait for execution manager to complete.", e);
         }
     }
 }

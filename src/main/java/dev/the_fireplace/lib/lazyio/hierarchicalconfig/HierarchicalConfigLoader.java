@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.lazyio.hierarchicalconfig;
 
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
@@ -7,7 +8,6 @@ import dev.the_fireplace.lib.api.lazyio.interfaces.Reloadable;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigReader;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter;
 import dev.the_fireplace.lib.domain.io.JsonBufferDiffGenerator;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.io.access.JsonStorageWriteBuffer;
 import dev.the_fireplace.lib.io.access.SchemaValidator;
 import net.minecraft.util.Identifier;
@@ -63,7 +63,7 @@ public final class HierarchicalConfigLoader
         String reloadId = getReloadId(domain, id);
 
         if (reloadId.isEmpty()) {
-            FireplaceLib.getLogger().warn("Hierarchical Config was registered without ID or Domain, unable to register reloadable!", new Exception("Stacktrace"));
+            FireplaceLibConstants.getLogger().warn("Hierarchical Config was registered without ID or Domain, unable to register reloadable!", new Exception("Stacktrace"));
             return;
         }
         Reloadable configReloader = buildConfigReloadable(config, domain, id, reloadId);
@@ -75,7 +75,7 @@ public final class HierarchicalConfigLoader
         String reloadId = getReloadId(domain, id);
 
         if (reloadId.isEmpty()) {
-            FireplaceLib.getLogger().warn("Hierarchical Config was registered without ID or Domain, unable to register reloadable!", new Exception("Stacktrace"));
+            FireplaceLibConstants.getLogger().warn("Hierarchical Config was registered without ID or Domain, unable to register reloadable!", new Exception("Stacktrace"));
             return;
         }
         Reloadable configReloader = buildConfigReloadable(config, domain, id, reloadId);
