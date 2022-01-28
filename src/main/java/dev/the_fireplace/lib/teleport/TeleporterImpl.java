@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.teleport;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.teleport.injectables.Teleporter;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -32,7 +32,7 @@ public final class TeleporterImpl implements Teleporter
             entityInTargetWorld.teleport(targetX, targetY, targetZ);
             return entityInTargetWorld;
         } else {
-            FireplaceLib.getLogger().warn("Entity was removed before it could be moved to target world.", new Exception("Stack Trace"));
+            FireplaceLibConstants.getLogger().warn("Entity was removed before it could be moved to target world.", new Exception("Stack Trace"));
             return entity;
         }
     }

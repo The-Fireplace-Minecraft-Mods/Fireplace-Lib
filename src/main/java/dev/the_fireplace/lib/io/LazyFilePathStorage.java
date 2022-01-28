@@ -1,13 +1,13 @@
 package dev.the_fireplace.lib.io;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.FilePathStorage;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ public final class LazyFilePathStorage implements Config, Defaultable, FilePathS
 
     @Override
     public String getSubfolderName() {
-        return FireplaceLib.MODID;
+        return FireplaceLibConstants.MODID;
     }
 
     @Override

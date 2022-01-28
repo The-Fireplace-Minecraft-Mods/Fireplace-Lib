@@ -2,9 +2,9 @@ package dev.the_fireplace.lib.lazyio;
 
 import com.google.common.collect.Sets;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import io.netty.util.internal.ConcurrentSet;
 
 import javax.inject.Inject;
@@ -59,7 +59,7 @@ public final class SaveTimerImpl implements SaveTimer
     @Override
     public void unregister(short saveIntervalInMinutes, Runnable... saveRunnables) {
         if (!saveIntervalFunctions.containsKey(saveIntervalInMinutes)) {
-            FireplaceLib.getLogger().warn("Attempted to remove save runnables from invalid time interval.", new Exception("Stack Trace"));
+            FireplaceLibConstants.getLogger().warn("Attempted to remove save runnables from invalid time interval.", new Exception("Stack Trace"));
             return;
         }
         if (saveRunnables.length == 0) {

@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.config;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageWriteBuffer;
@@ -8,7 +9,6 @@ import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
 import dev.the_fireplace.lib.chat.translation.ModLanguageMaps;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -53,7 +53,7 @@ public final class FLConfig implements Config, ConfigValues
 
     @Override
     public String getId() {
-        return FireplaceLib.MODID;
+        return FireplaceLibConstants.MODID;
     }
 
     @Override

@@ -3,6 +3,7 @@ package dev.the_fireplace.lib.config.cloth;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.*;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonFieldBuilder;
@@ -11,7 +12,6 @@ import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothGenericOption;
 import dev.the_fireplace.lib.config.cloth.optionbuilder.SubCategoryTracker;
 import dev.the_fireplace.lib.domain.config.OptionBuilderFactory;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -90,7 +90,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder
         String categoryName = translator.getTranslatedString(translationKey, translationParameters);
         this.category = configBuilder.getOrCreateCategory(categoryName);
         if (this.subCategory != null) {
-            FireplaceLib.getLogger().warn("Sub-Category {} not explicitly ended before starting a new category! Ending it...", subCategory.getBuilder().getFieldNameKey());
+            FireplaceLibConstants.getLogger().warn("Sub-Category {} not explicitly ended before starting a new category! Ending it...", subCategory.getBuilder().getFieldNameKey());
             this.endSubCategory();
         }
     }

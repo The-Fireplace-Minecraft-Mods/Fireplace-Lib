@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.io;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.dimension.DimensionType;
@@ -17,7 +17,7 @@ public final class Directories implements DirectoryResolver
 
     @Override
     public Path getSavePath() {
-        return getSavePath(FireplaceLib.getServer());
+        return getSavePath(FireplaceLibConstants.getServer());
     }
 
     @Override
