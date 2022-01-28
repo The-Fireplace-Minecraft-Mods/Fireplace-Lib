@@ -1,3 +1,4 @@
 Improving the buildscript
 Added a generic formula parser
 Added a generic config GUI registry/entrypoint as a replacement for Mod Menu's entrypoint - provides a consistent entrypoint across versions, and will be used for more config improvements down the line.
+Fix occasional RejectedExecutionException when shutting down the server with concurrent tasks running

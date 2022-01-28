@@ -4,11 +4,13 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 import dev.the_fireplace.lib.entrypoints.FireplaceLib;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -16,11 +18,13 @@ import java.util.concurrent.TimeUnit;
 public final class ConcurrentExecutionManager implements ExecutionManager
 {
     private final ConfigValues configValues;
+    private final Logger logger;
     private ExecutorService essentialExecutorService;
     private ExecutorService nonessentialExecutorService;
 
     @Inject
     public ConcurrentExecutionManager(ConfigValues configValues) {
+        this.logger = FireplaceLib.getLogger();
         this.configValues = configValues;
         essentialExecutorService = Executors.newFixedThreadPool(configValues.getEssentialThreadPoolSize());
         nonessentialExecutorService = Executors.newFixedThreadPool(configValues.getNonEssentialThreadPoolSize());
@@ -29,9 +33,14 @@ public final class ConcurrentExecutionManager implements ExecutionManager
     @Override
     public void run(Runnable runnable) {
         if (!essentialExecutorService.isShutdown()) {
-            essentialExecutorService.execute(runnable);
+            try {
+                essentialExecutorService.execute(runnable);
+            } catch (RejectedExecutionException exception) {
+                logger.debug("Running essential runnable immediately because the executor rejected it.", exception);
+                runnable.run();
+            }
         } else {
-            FireplaceLib.getLogger().trace("Running essential runnable immediately because the executor has already stopped.", new Exception("Stack trace"));
+            logger.trace("Running essential runnable immediately because the executor has already stopped.", new Exception("Stack trace"));
             // We'll usually reach this if essential threads are finishing up and try to create more essential threads in the process.
             runnable.run();
         }
@@ -40,9 +49,13 @@ public final class ConcurrentExecutionManager implements ExecutionManager
     @Override
     public void runKillable(Runnable runnable) {
         if (!nonessentialExecutorService.isShutdown()) {
-            nonessentialExecutorService.execute(runnable);
+            try {
+                nonessentialExecutorService.execute(runnable);
+            } catch (RejectedExecutionException exception) {
+                logger.debug("Failed to add nonessential runnable because the executor rejected it.", exception);
+            }
         } else {
-            FireplaceLib.getLogger().debug("Failed to add nonessential runnable!", new Exception("Stack trace"));
+            logger.trace("Failed to add nonessential runnable because the executor has already stopped.", new Exception("Stack trace"));
         }
     }
 
