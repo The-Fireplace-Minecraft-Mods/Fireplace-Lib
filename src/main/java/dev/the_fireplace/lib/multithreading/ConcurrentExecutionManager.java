@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.multithreading;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ public final class ConcurrentExecutionManager implements ExecutionManager
 
     @Inject
     public ConcurrentExecutionManager(ConfigValues configValues) {
-        this.logger = FireplaceLib.getLogger();
+        this.logger = FireplaceLibConstants.getLogger();
         this.configValues = configValues;
         essentialExecutorService = Executors.newFixedThreadPool(configValues.getEssentialThreadPoolSize());
         nonessentialExecutorService = Executors.newFixedThreadPool(configValues.getNonEssentialThreadPoolSize());
@@ -65,7 +65,7 @@ public final class ConcurrentExecutionManager implements ExecutionManager
         nonessentialExecutorService.shutdownNow();
         boolean timedOut = !essentialExecutorService.awaitTermination(1, TimeUnit.DAYS);
         if (timedOut) {
-            FireplaceLib.getLogger().error("Timed out awaiting essential threads to terminate.");
+            FireplaceLibConstants.getLogger().error("Timed out awaiting essential threads to terminate.");
         }
     }
 
@@ -75,7 +75,7 @@ public final class ConcurrentExecutionManager implements ExecutionManager
             try {
                 waitForCompletion();
             } catch (InterruptedException e) {
-                FireplaceLib.getLogger().error("Interrupted while waiting to complete essential execution!", e);
+                FireplaceLibConstants.getLogger().error("Interrupted while waiting to complete essential execution!", e);
             }
             essentialExecutorService = Executors.newFixedThreadPool(configValues.getEssentialThreadPoolSize());
             nonessentialExecutorService = Executors.newFixedThreadPool(configValues.getNonEssentialThreadPoolSize());

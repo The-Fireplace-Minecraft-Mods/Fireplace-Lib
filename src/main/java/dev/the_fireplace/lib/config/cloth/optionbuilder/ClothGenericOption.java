@@ -2,11 +2,11 @@ package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import dev.the_fireplace.lib.config.cloth.ClothParameterTypeConverter;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -93,8 +93,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             Method setDefaultValue = findSingleParameterMethod("setDefaultValue", clothDefaultValue.getClass());
             setDefaultValue.invoke(fieldBuilder, clothDefaultValue);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set default value for field builder of type " + fieldBuilder.getClass() + " with default value type " + clothDefaultValue.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set default value for field builder of type " + fieldBuilder.getClass() + " with default value type " + clothDefaultValue.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
@@ -104,8 +104,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             Method setSaveConsumer = findSingleParameterMethod("setSaveConsumer", clothSaveConsumer.getClass());
             setSaveConsumer.invoke(fieldBuilder, clothSaveConsumer);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set save consumer for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set save consumer for field builder of type " + fieldBuilder.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
@@ -120,8 +120,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
                 setTooltip.invoke(fieldBuilder, (Object) generateMultilineDescription(descriptionTranslationKey, descriptionRowCount));
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set tooltip for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set tooltip for field builder of type " + fieldBuilder.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
@@ -141,8 +141,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             Method setErrorSupplier = findSingleParameterMethod("setErrorSupplier", clothErrorSupplier.getClass());
             setErrorSupplier.invoke(fieldBuilder, clothErrorSupplier);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set error supplier for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLib.getLogger().error(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set error supplier for field builder of type " + fieldBuilder.getClass(), e);
+            FireplaceLibConstants.getLogger().error(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
