@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.config;
 
 import com.google.common.collect.Lists;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
@@ -10,7 +11,6 @@ import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.config.cloth.test.TestCustomButtonScreen;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 @Singleton
 public final class FLConfigScreenFactory
 {
-    private static final String TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".";
-    private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLib.MODID + ".option.";
+    private static final String TRANSLATION_BASE = "text.config." + FireplaceLibConstants.MODID + ".";
+    private static final String OPTION_TRANSLATION_BASE = "text.config." + FireplaceLibConstants.MODID + ".option.";
 
     private final Translator translator;
     private final ConfigStateManager configStateManager;
@@ -51,7 +51,7 @@ public final class FLConfigScreenFactory
         ConfigScreenBuilderFactory configScreenBuilderFactory,
         TextStyles textStyles
     ) {
-        this.translator = translatorFactory.getTranslator(FireplaceLib.MODID);
+        this.translator = translatorFactory.getTranslator(FireplaceLibConstants.MODID);
         this.configStateManager = configStateManager;
         this.config = config;
         this.defaultConfigValues = defaultConfigValues;
@@ -68,7 +68,7 @@ public final class FLConfigScreenFactory
             () -> configStateManager.save(config)
         );
         addGlobalCategoryEntries();
-        if (FireplaceLib.isDevelopmentEnvironment()) {
+        if (FireplaceLibConstants.isDevelopmentEnvironment()) {
             addDeveloperEntries();
         }
 

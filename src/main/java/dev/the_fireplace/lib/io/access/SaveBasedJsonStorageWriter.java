@@ -3,10 +3,10 @@ package dev.the_fireplace.lib.io.access;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.SaveBasedStorageWriter;
 import dev.the_fireplace.lib.api.io.interfaces.SaveBasedSerializable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
@@ -28,7 +28,7 @@ public final class SaveBasedJsonStorageWriter implements SaveBasedStorageWriter
     @Inject
     public SaveBasedJsonStorageWriter(JsonStoragePath jsonStoragePath) {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.logger = FireplaceLib.getLogger();
+        this.logger = FireplaceLibConstants.getLogger();
         this.jsonStoragePath = jsonStoragePath;
     }
 

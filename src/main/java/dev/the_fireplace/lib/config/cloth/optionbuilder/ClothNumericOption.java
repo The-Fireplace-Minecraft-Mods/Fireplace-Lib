@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.NumericOptionBuilder;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -31,8 +31,8 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
             Method setMinimum = findSingleParameterMethod("setMin", clothMinimum.getClass());
             setMinimum.invoke(fieldBuilder, clothMinimum);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
@@ -44,8 +44,8 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
             Method setMaximum = findSingleParameterMethod("setMax", clothMaximum.getClass());
             setMaximum.invoke(fieldBuilder, clothMaximum);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLib.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass(), e);
-            FireplaceLib.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass(), e);
+            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }

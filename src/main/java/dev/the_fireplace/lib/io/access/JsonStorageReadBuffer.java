@@ -3,8 +3,8 @@ package dev.the_fireplace.lib.io.access;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ public class JsonStorageReadBuffer implements StorageReadBuffer
             try {
                 return UUID.fromString(uuidString);
             } catch (IllegalArgumentException e) {
-                FireplaceLib.getLogger().warn("Expected UUID for key '{}', got '{}'. Using default data instead.", key, uuidString);
+                FireplaceLibConstants.getLogger().warn("Expected UUID for key '{}', got '{}'. Using default data instead.", key, uuidString);
             }
         }
         return ifAbsent;

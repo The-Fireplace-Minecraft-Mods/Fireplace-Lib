@@ -3,13 +3,13 @@ package dev.the_fireplace.lib.io.access;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter;
 import dev.the_fireplace.lib.api.io.interfaces.ConfigBasedSerializable;
 import dev.the_fireplace.lib.api.io.interfaces.Writable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +35,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
     @Inject
     public ConfigBasedJsonStorageWriter(JsonStoragePath jsonStoragePath) {
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-        this.logger = FireplaceLib.getLogger();
+        this.logger = FireplaceLibConstants.getLogger();
         this.jsonStoragePath = jsonStoragePath;
     }
 

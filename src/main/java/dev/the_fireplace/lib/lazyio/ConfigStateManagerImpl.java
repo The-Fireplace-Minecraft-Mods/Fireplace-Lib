@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.lazyio;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageReader;
 import dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter;
 import dev.the_fireplace.lib.api.io.interfaces.access.SimpleBuffer;
@@ -9,7 +10,6 @@ import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Config;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Reloadable;
 import dev.the_fireplace.lib.domain.io.JsonBufferDiffGenerator;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import dev.the_fireplace.lib.io.access.JsonStorageWriteBuffer;
 import dev.the_fireplace.lib.io.access.SchemaValidator;
 
@@ -88,7 +88,7 @@ public final class ConfigStateManagerImpl implements ConfigStateManager
             configReloadables.put(config, reloadable);
             reloadableManager.register(reloadable);
         } else {
-            FireplaceLib.getLogger().warn("Config was registered without ID or Subfolder, unable to register reloadable!", new Exception("Stacktrace"));
+            FireplaceLibConstants.getLogger().warn("Config was registered without ID or Subfolder, unable to register reloadable!", new Exception("Stacktrace"));
         }
     }
 

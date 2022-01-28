@@ -1,9 +1,9 @@
 package dev.the_fireplace.lib.chat;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.MultilineMessageBuffer;
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
@@ -42,7 +42,7 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer
         if (buffer != null) {
             buffer.put(position, value);
         } else {
-            FireplaceLib.getLogger().warn("Tried to add a message to nonexistent buffer " + bufferId + "!", new Exception("Stack trace"));
+            FireplaceLibConstants.getLogger().warn("Tried to add a message to nonexistent buffer " + bufferId + "!", new Exception("Stack trace"));
         }
     }
 
