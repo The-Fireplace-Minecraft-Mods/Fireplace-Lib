@@ -13,6 +13,8 @@ public interface OptionBuilder<S>
 {
     OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount);
 
+    OptionBuilder<S> appendCustomDescriptionRow(Text customRow);
+
     OptionBuilder<S> setErrorSupplier(Function<S, Optional<Text>> errorSupplier);
 
     OptionBuilder<S> addDependency(OptionBuilder<Boolean> parent);

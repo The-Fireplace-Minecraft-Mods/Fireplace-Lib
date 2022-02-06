@@ -110,7 +110,8 @@ public final class FLConfigScreenFactory
             )
             .setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()))
             .setDescriptionRowCount((byte) 0)
-            .addDependency(essentialThreadPoolBuilder, essentialThreadPoolSize -> essentialThreadPoolSize > 4);
+            .addDependency(essentialThreadPoolBuilder, essentialThreadPoolSize -> essentialThreadPoolSize > 4)
+            .appendCustomDescriptionRow(Text.of("This is a test."));
         configScreenBuilder.addStringDropdown(
             "Crash Test Dummy",
             "Cloth",
