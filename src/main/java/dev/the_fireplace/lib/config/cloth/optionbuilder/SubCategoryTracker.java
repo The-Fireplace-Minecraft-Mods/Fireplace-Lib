@@ -42,6 +42,11 @@ public final class SubCategoryTracker implements OptionBuilder<Object>
     }
 
     @Override
+    public OptionBuilder<Object> appendCustomDescriptionRow(Text customRow) {
+        return null;
+    }
+
+    @Override
     public OptionBuilder<Object> setErrorSupplier(Function<Object, Optional<Text>> errorSupplier) {
         return null;
     }
