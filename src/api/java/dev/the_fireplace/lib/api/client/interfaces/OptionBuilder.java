@@ -12,6 +12,8 @@ public interface OptionBuilder<S>
 {
     OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount);
 
+    OptionBuilder<S> appendCustomDescriptionRow(String customRow);
+
     OptionBuilder<S> setErrorSupplier(Function<S, Optional<String>> errorSupplier);
 
     OptionBuilder<S> addDependency(OptionBuilder<Boolean> parent);

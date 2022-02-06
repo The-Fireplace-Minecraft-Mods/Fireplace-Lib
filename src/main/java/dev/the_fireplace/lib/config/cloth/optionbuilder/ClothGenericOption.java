@@ -1,7 +1,6 @@
 package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
@@ -14,10 +13,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -32,8 +29,9 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
     private final Translator translator;
     protected final FieldBuilder<T, ?> fieldBuilder;
     private final String optionTranslationBase;
-    private final Map<OptionBuilder<?>, Predicate<?>> dependencies = Maps.newConcurrentMap();
+    private final Map<OptionBuilder<?>, Predicate<?>> dependencies = new ConcurrentHashMap<>();
     protected final OptionTypeConverter<S, T> typeConverter;
+    protected final List<String> tooltipRows = new ArrayList<>();
 
     public ClothGenericOption(
         Translator translator,
@@ -67,6 +65,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         setDefaultValue(defaultValue);
         setSaveConsumer(saveFunction);
         setDescriptionRowCount((byte) 1);
+        this.tooltipRows.clear();
     }
 
     public ClothGenericOption(
@@ -110,23 +109,38 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
 
     @Override
     public OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount) {
+        String[] descriptionRows;
+
+        String descriptionTranslationKey = optionTranslationBase + ".desc";
+        if (descriptionRowCount == 1) {
+            descriptionRows = new String[]{translator.getTranslatedString(descriptionTranslationKey)};
+        } else {
+            descriptionRows = generateMultilineDescription(descriptionTranslationKey, descriptionRowCount);
+        }
+        this.tooltipRows.addAll(Lists.newArrayList(descriptionRows));
+        setTooltip();
+        return this;
+    }
+
+    private void setTooltip() {
         try {
-            Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", String[].class);
-            String descriptionTranslationKey = optionTranslationBase + ".desc";
-            if (descriptionRowCount == 1) {
-                setTooltip.invoke(fieldBuilder, (Object) new String[]{translator.getTranslatedString(descriptionTranslationKey)});
-            } else {
-                setTooltip.invoke(fieldBuilder, (Object) generateMultilineDescription(descriptionTranslationKey, descriptionRowCount));
-            }
+            Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", Text[].class);
+            setTooltip.invoke(fieldBuilder, (Object) this.tooltipRows.toArray(new Text[0]));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set tooltip for field builder of type " + fieldBuilder.getClass(), e);
             FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
+    }
+
+    @Override
+    public OptionBuilder<S> appendCustomDescriptionRow(Text customRow) {
+        this.tooltipRows.add(customRow);
+        this.setTooltip();
         return this;
     }
 
     private String[] generateMultilineDescription(String baseKey, int count) {
-        List<String> texts = Lists.newArrayList();
+        List<String> texts = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             texts.add(translator.getTranslatedString(baseKey + "[" + i + "]"));
         }
