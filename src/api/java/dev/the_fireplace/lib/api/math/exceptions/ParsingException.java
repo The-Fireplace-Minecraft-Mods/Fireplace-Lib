@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.api.math.exception;
+package dev.the_fireplace.lib.api.math.exceptions;
 
 public class ParsingException extends Exception
 {

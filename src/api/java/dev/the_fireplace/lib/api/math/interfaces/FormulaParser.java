@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.api.math.interfaces;
 
-import dev.the_fireplace.lib.api.math.exception.ParsingException;
+import dev.the_fireplace.lib.api.math.exceptions.ParsingException;
 
 public interface FormulaParser
 {
