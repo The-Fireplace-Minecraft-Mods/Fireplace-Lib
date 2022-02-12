@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.math;
 
-import dev.the_fireplace.lib.api.math.exception.ParsingException;
+import dev.the_fireplace.lib.api.math.exceptions.ParsingException;
 import dev.the_fireplace.lib.api.math.injectables.FormulaParserFactory;
 import dev.the_fireplace.lib.api.math.interfaces.FormulaParser;
 
