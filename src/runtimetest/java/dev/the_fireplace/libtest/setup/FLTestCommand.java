@@ -24,22 +24,15 @@ public final class FLTestCommand
 
     public CommandNode<ServerCommandSource> register(CommandDispatcher<ServerCommandSource> commandDispatcher) {
         return commandDispatcher.register(CommandManager.literal("fltest")
-            .executes(this::execute)
             .then(CommandManager.argument("suiteName", StringArgumentType.word())
                 .executes(this::executeSuite)
             )
         );
     }
 
-    private int execute(CommandContext<ServerCommandSource> commandContext) {
-        String result = tests.execute();
-        commandContext.getSource().sendFeedback(Text.of(result), false);
-        return 1;
-    }
-
     private int executeSuite(CommandContext<ServerCommandSource> commandContext) {
         String suiteName = commandContext.getArgument("suiteName", String.class);
-        String result = tests.execute(suiteName);
+        String result = tests.execute(commandContext, suiteName);
         commandContext.getSource().sendFeedback(Text.of(result), false);
         return 1;
     }
