@@ -1,10 +1,12 @@
 package dev.the_fireplace.libtest.player;
 
+import com.mojang.brigadier.context.CommandContext;
 import dev.the_fireplace.libtest.setup.TestSuite;
+import net.minecraft.server.command.ServerCommandSource;
 
 import javax.inject.Inject;
 
-public final class PlayerSuite implements TestSuite
+public final class PlayerSuite extends TestSuite
 {
     private final GameProfileFinderTest gameProfileFinderTest;
 
@@ -14,7 +16,7 @@ public final class PlayerSuite implements TestSuite
     }
 
     @Override
-    public void execute() {
+    public void execute(CommandContext<ServerCommandSource> commandContext) {
         this.gameProfileFinderTest.execute();
     }
 }
