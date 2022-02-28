@@ -11,7 +11,7 @@ public final class FireplaceLibConstants
 {
     public static final String MODID = "fireplacelib";
 
-    private static final Logger LOGGER = LogManager.getLogger(MODID);
+    private static Logger LOGGER = LogManager.getLogger(MODID);
 
     @Nullable
     private static MinecraftServer minecraftServer = null;
@@ -31,6 +31,10 @@ public final class FireplaceLibConstants
 
     public static Logger getLogger() {
         return LOGGER;
+    }
+
+    public static void setLogger(Logger logger) {
+        LOGGER = logger;
     }
 
     public static boolean isDevelopmentEnvironment() {
