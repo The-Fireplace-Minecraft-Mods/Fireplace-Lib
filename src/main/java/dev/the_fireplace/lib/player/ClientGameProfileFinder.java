@@ -5,12 +5,14 @@ import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
+import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.UserCache;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,16 +28,22 @@ import java.util.concurrent.ConcurrentHashMap;
 @Environment(EnvType.CLIENT)
 public final class ClientGameProfileFinder implements GameProfileFinder
 {
+    private final EmptyUUID emptyUUID;
     private final MinecraftClient client;
     private final Map<UUID, Optional<GameProfile>> profilesById = new ConcurrentHashMap<>();
     private final Map<String, Optional<GameProfile>> profilesByName = new ConcurrentHashMap<>();
 
-    public ClientGameProfileFinder() {
-        client = MinecraftClient.getInstance();
+    @Inject
+    public ClientGameProfileFinder(EmptyUUID emptyUUID) {
+        this.emptyUUID = emptyUUID;
+        this.client = MinecraftClient.getInstance();
     }
 
     @Override
     public Optional<GameProfile> findProfile(UUID playerId) {
+        if (emptyUUID.is(playerId)) {
+            return Optional.empty();
+        }
         if (profilesById.containsKey(playerId)) {
             return profilesById.get(playerId);
         }
@@ -54,6 +62,9 @@ public final class ClientGameProfileFinder implements GameProfileFinder
 
     @Override
     public Optional<GameProfile> findProfile(String playerName) {
+        if (playerName.isEmpty()) {
+            return Optional.empty();
+        }
         if (profilesByName.containsKey(playerName)) {
             return profilesByName.get(playerName);
         }
