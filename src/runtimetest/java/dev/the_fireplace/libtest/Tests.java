@@ -2,6 +2,7 @@ package dev.the_fireplace.libtest;
 
 import com.mojang.brigadier.context.CommandContext;
 import dev.the_fireplace.libtest.chat.ChatSuite;
+import dev.the_fireplace.libtest.math.MathSuite;
 import dev.the_fireplace.libtest.player.PlayerSuite;
 import dev.the_fireplace.libtest.setup.TestFailedError;
 import dev.the_fireplace.libtest.setup.TestSuite;
@@ -19,8 +20,9 @@ public final class Tests
     private final Logger logger = LogManager.getLogger("Fireplace Lib Integration Tests");
 
     @Inject
-    public Tests(ChatSuite chatSuite, PlayerSuite playerSuite) {
+    public Tests(ChatSuite chatSuite, MathSuite mathSuite, PlayerSuite playerSuite) {
         this.testSuites.put("chat", chatSuite);
+        this.testSuites.put("math", mathSuite);
         this.testSuites.put("player", playerSuite);
     }
 
