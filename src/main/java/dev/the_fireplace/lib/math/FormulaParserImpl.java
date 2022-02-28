@@ -56,7 +56,12 @@ public final class FormulaParserImpl implements FormulaParser
                 if (variable == entry.getKey()) {
                     return;
                 }
-                valueParser.setVariable(variable, value);
+                valueParser.setVariable(
+                    variable,
+                    variableValues.containsKey(variable)
+                        ? String.valueOf(variableValues.get(variable))
+                        : value
+                );
             });
             variableValues.put(entry.getKey(), valueParser.parseDouble());
         }
