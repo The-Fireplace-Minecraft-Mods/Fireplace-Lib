@@ -18,9 +18,18 @@ sourceSets {
 	api {
 		compileClasspath += sourceSets.main.compileClasspath
 	}
+	runtimetest {
+		compileClasspath += sourceSets.main.compileClasspath
+		compileClasspath += sourceSets.api.output
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.runtimeClasspath
+		runtimeClasspath += sourceSets.api.output
+		runtimeClasspath += sourceSets.main.output
+	}
 	main {
 		compileClasspath += sourceSets.api.output
 		runtimeClasspath += sourceSets.api.output
+		runtimeClasspath += sourceSets.runtimetest.output
 	}
 }
 
