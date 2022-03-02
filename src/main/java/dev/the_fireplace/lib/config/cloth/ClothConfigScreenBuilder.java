@@ -84,7 +84,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder
         this.entryBuilder = configBuilder.entryBuilder();
         this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
         if (hasOldModMenu()) {
-            FireplaceLib.getLogger().info("Mod Menu 2.0.2 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
+            FireplaceLibConstants.getLogger().info("Mod Menu 2.0.2 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
             this.configBuilder.setSavingRunnable(() -> {
                 save.run();
                 runOldModMenuCompat();
@@ -104,7 +104,7 @@ public final class ClothConfigScreenBuilder implements ConfigScreenBuilder
                 return modMenuVersion.compareTo(SemanticVersion.parse("2.0.2")) < 1;
             }
         } catch (VersionParsingException e) {
-            FireplaceLib.getLogger().error("Unable to parse mod menu version", e);
+            FireplaceLibConstants.getLogger().error("Unable to parse mod menu version", e);
         }
 
         return false;
