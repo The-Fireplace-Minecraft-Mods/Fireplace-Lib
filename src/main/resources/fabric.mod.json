@@ -27,9 +27,6 @@
     ],
     "modmenu": [
       "dev.the_fireplace.lib.entrypoints.ModMenu"
-    ],
-    "fireplacelib": [
-      "dev.the_fireplace.lib.entrypoints.ConfigGui"
     ]
   },
   "mixins": [
