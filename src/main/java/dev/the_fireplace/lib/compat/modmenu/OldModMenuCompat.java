@@ -16,7 +16,8 @@ import java.util.Set;
  * See also: https://github.com/TerraformersMC/ModMenu/issues/254
  */
 @Environment(EnvType.CLIENT)
-public final class OldModMenuCompat implements ModMenuCompat {
+public final class OldModMenuCompat implements ModMenuCompat
+{
     @Override
     public void reloadClothConfigGUIs() {
         Screen screen = MinecraftClient.getInstance().currentScreen;
