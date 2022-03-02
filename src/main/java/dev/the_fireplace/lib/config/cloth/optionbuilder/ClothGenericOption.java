@@ -124,8 +124,8 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
 
     private void setTooltip() {
         try {
-            Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", Text[].class);
-            setTooltip.invoke(fieldBuilder, (Object) this.tooltipRows.toArray(new Text[0]));
+            Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", String[].class);
+            setTooltip.invoke(fieldBuilder, (Object) this.tooltipRows.toArray(new String[0]));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set tooltip for field builder of type " + fieldBuilder.getClass(), e);
             FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
@@ -133,7 +133,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
     }
 
     @Override
-    public OptionBuilder<S> appendCustomDescriptionRow(Text customRow) {
+    public OptionBuilder<S> appendCustomDescriptionRow(String customRow) {
         this.tooltipRows.add(customRow);
         this.setTooltip();
         return this;

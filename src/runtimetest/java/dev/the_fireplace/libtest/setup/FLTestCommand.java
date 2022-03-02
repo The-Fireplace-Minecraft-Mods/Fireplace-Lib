@@ -7,7 +7,7 @@ import com.mojang.brigadier.tree.CommandNode;
 import dev.the_fireplace.libtest.Tests;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,7 +33,7 @@ public final class FLTestCommand
     private int executeSuite(CommandContext<ServerCommandSource> commandContext) {
         String suiteName = commandContext.getArgument("suiteName", String.class);
         String result = tests.execute(commandContext, suiteName);
-        commandContext.getSource().sendFeedback(Text.of(result), false);
+        commandContext.getSource().sendFeedback(new LiteralText(result), false);
         return 1;
     }
 }
