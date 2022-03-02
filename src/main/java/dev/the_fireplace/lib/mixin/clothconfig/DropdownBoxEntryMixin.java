@@ -10,7 +10,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Mixin(value = DropdownBoxEntry.DefaultSelectionTopCellElement.class, remap = false)
-public abstract class DropdownBoxEntryMixin<R> extends DropdownBoxEntry.SelectionTopCellElement<R> {
+public abstract class DropdownBoxEntryMixin<R> extends DropdownBoxEntry.SelectionTopCellElement<R>
+{
     @Shadow
     protected TextFieldWidget textFieldWidget;
     @Shadow

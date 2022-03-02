@@ -21,7 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
     TextListEntry.class,
     SelectionListEntry.class,
 }, remap = false)
-public abstract class ListEntryMixin<T> extends AbstractConfigListEntry<T> {
+public abstract class ListEntryMixin<T> extends AbstractConfigListEntry<T>
+{
 
     public ListEntryMixin(String fieldName, boolean requiresRestart) {
         super(fieldName, requiresRestart);

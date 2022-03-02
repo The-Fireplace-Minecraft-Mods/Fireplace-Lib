@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = ModMenuConfig.class, remap = false)
 @Environment(EnvType.CLIENT)
-public class ModMenuConfigMixin {
+public class ModMenuConfigMixin
+{
     @Shadow
     private ModMenuConfig.Sorting sorting;
 

@@ -43,6 +43,7 @@ public final class SafePositionImpl implements SafePosition
         Blocks.SWEET_BERRY_BUSH,
         Blocks.CACTUS
     );
+
     @Override
     public Optional<Vec3d> findBy(EntityType<?> entityType, CollisionView world, BlockPos blockPos) {
         return findRespawnPosition(entityType, world, blockPos);
