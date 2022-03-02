@@ -4,3 +4,4 @@ Added a generic config GUI registry/entrypoint as a replacement for Mod Menu's e
 Added a way to append a custom tooltip to a config GUI entry
 Added a utility to find GameProfile using player ID or Name
 Fix occasional RejectedExecutionException when shutting down the server with concurrent tasks running
+Add support for 1.18.2
