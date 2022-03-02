@@ -1,12 +1,12 @@
 package dev.the_fireplace.lib.entrypoints;
 
 import com.google.inject.Injector;
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.api.client.entrypoints.ConfigGuiEntrypoint;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigGuiRegistry;
 import dev.the_fireplace.lib.config.FLConfigScreenFactory;
+import io.github.prospector.modmenu.api.ConfigScreenFactory;
+import io.github.prospector.modmenu.api.ModMenuApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;

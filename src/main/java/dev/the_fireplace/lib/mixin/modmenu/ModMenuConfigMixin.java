@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.mixin.modmenu;
 
-import dev.the_fireplace.lib.entrypoints.FireplaceLib;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import io.github.prospector.modmenu.config.ModMenuConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,7 +18,7 @@ public class ModMenuConfigMixin {
 
     @Inject(at = @At("HEAD"), method = "getSorting", cancellable = true)
     private void preventCrashWhenSwitchingBetweenMajorVersions(CallbackInfoReturnable<ModMenuConfig.Sorting> cir) {
-        if (FireplaceLib.isDevelopmentEnvironment() && sorting == null) {
+        if (FireplaceLibConstants.isDevelopmentEnvironment() && sorting == null) {
             cir.setReturnValue(ModMenuConfig.Sorting.ASCENDING);
         }
     }
