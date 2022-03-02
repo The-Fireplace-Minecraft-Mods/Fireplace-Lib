@@ -3,4 +3,5 @@ Added a generic formula parser
 Added a generic config GUI registry/entrypoint as a replacement for Mod Menu's entrypoint - provides a consistent entrypoint across versions, and will be used for more config improvements down the line.
 Added a way to append a custom tooltip to a config GUI entry
 Added a utility to find GameProfile using player ID or Name
+Update the bundled Cloth Config version
 Fix occasional RejectedExecutionException when shutting down the server with concurrent tasks running
