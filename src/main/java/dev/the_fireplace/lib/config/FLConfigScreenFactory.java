@@ -1,28 +1,21 @@
 package dev.the_fireplace.lib.config;
 
-import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.FireplaceLibConstants;
-import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
-import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
-import dev.the_fireplace.lib.config.cloth.test.TestCustomButtonScreen;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.LanguageDefinition;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -37,10 +30,8 @@ public final class FLConfigScreenFactory
     private final FLConfig config;
     private final ConfigValues defaultConfigValues;
     private final ConfigScreenBuilderFactory configScreenBuilderFactory;
-    private final TextStyles textStyles;
 
     private ConfigScreenBuilder configScreenBuilder;
-    private OptionBuilder<Short> essentialThreadPoolBuilder;
 
     @Inject
     public FLConfigScreenFactory(
@@ -48,15 +39,13 @@ public final class FLConfigScreenFactory
         ConfigStateManager configStateManager,
         FLConfig config,
         @Named("default") ConfigValues defaultConfigValues,
-        ConfigScreenBuilderFactory configScreenBuilderFactory,
-        TextStyles textStyles
+        ConfigScreenBuilderFactory configScreenBuilderFactory
     ) {
         this.translator = translatorFactory.getTranslator(FireplaceLibConstants.MODID);
         this.configStateManager = configStateManager;
         this.config = config;
         this.defaultConfigValues = defaultConfigValues;
         this.configScreenBuilderFactory = configScreenBuilderFactory;
-        this.textStyles = textStyles;
     }
 
     public Screen getConfigScreen(Screen parent) {
@@ -68,9 +57,6 @@ public final class FLConfigScreenFactory
             () -> configStateManager.save(config)
         );
         addGlobalCategoryEntries();
-        if (FireplaceLibConstants.isDevelopmentEnvironment()) {
-            addDeveloperEntries();
-        }
 
         return this.configScreenBuilder.build();
     }
@@ -84,7 +70,7 @@ public final class FLConfigScreenFactory
             config::setLocale
         );
         configScreenBuilder.startSubCategory(TRANSLATION_BASE + "advanced");
-        essentialThreadPoolBuilder = configScreenBuilder.addShortField(
+        configScreenBuilder.addShortField(
             OPTION_TRANSLATION_BASE + "essentialThreadPoolSize",
             config.getEssentialThreadPoolSize(),
             defaultConfigValues.getEssentialThreadPoolSize(),
@@ -97,35 +83,5 @@ public final class FLConfigScreenFactory
             config::setNonEssentialThreadPoolSize
         ).setMinimum((short) 1);
         configScreenBuilder.endSubCategory();
-    }
-
-    private void addDeveloperEntries() {
-        configScreenBuilder.addCustomOptionButton(
-                "Custom Button Test",
-                "Null",
-                "Null",
-                value -> {
-                },
-                TestCustomButtonScreen::new
-            )
-            .setButtonTextSupplier(value -> new LiteralText(value).setStyle(textStyles.gold()))
-            .setDescriptionRowCount((byte) 0)
-            .addDependency(essentialThreadPoolBuilder, essentialThreadPoolSize -> essentialThreadPoolSize > 4)
-            .appendCustomDescriptionRow(Text.of("This is a test."));
-        configScreenBuilder.addStringDropdown(
-            "Crash Test Dummy",
-            "Cloth",
-            "Cloth",
-            Lists.newArrayList("Cloth", "Config", "Crash", "Error"),
-            value -> {
-            }
-        ).setErrorSupplier(value -> value.startsWith("E") ? Optional.of(Text.of("Cannot start with E")) : Optional.empty());
-        configScreenBuilder.addStringListField(
-            "String List Test",
-            Lists.newArrayList("Value"),
-            Lists.newArrayList("Value"),
-            value -> {
-            }
-        );
     }
 }
