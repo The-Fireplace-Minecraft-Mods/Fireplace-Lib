@@ -71,7 +71,7 @@ public final class ClientGameProfileFinder implements GameProfileFinder
         MinecraftServer server = client.getServer();
         if (server != null) {
             UserCache.setUseRemote(true);
-            Optional<GameProfile> foundProfile = server.getUserCache().findByName(playerName);
+            Optional<GameProfile> foundProfile = Optional.ofNullable(server.getUserCache().findByName(playerName));
             profilesByName.put(playerName, foundProfile);
             return foundProfile;
         }

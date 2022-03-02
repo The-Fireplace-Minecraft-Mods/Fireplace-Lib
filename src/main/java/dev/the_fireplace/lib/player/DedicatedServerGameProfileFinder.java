@@ -43,9 +43,9 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (uuidsWithoutProfiles.contains(playerId)) {
             return Optional.empty();
         }
-        Optional<GameProfile> cachedProfile = userCache.getByUuid(playerId);
-        if (cachedProfile.isPresent()) {
-            return cachedProfile;
+        GameProfile cachedProfile = userCache.getByUuid(playerId);
+        if (cachedProfile != null) {
+            return Optional.of(cachedProfile);
         }
         GameProfile profile = new GameProfile(playerId, "");
         profile = sessionService.fillProfileProperties(profile, false);
@@ -64,10 +64,10 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
             return Optional.empty();
         }
         UserCache.setUseRemote(true);
-        Optional<GameProfile> profile = userCache.findByName(playerName);
-        if (profile.isEmpty()) {
+        GameProfile profile = userCache.findByName(playerName);
+        if (profile == null) {
             namesWithoutProfiles.add(playerName);
         }
-        return profile;
+        return Optional.ofNullable(profile);
     }
 }

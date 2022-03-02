@@ -12,7 +12,7 @@ public abstract class TestSuite
 
     protected CommandOutput getCommandOutput(CommandContext<ServerCommandSource> commandContext) {
         Entity entity = commandContext.getSource().getEntity();
-        MinecraftServer server = commandContext.getSource().getServer();
+        MinecraftServer server = commandContext.getSource().getMinecraftServer();
 
         return entity != null ? entity : server;
     }
