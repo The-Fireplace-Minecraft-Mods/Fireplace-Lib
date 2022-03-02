@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.config.cloth.optionbuilder;
 
+import com.google.common.collect.Lists;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
@@ -117,7 +118,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         } else {
             descriptionRows = generateMultilineDescription(descriptionTranslationKey, descriptionRowCount);
         }
-        this.tooltipRows.addAll(List.of(descriptionRows));
+        this.tooltipRows.addAll(Lists.newArrayList(descriptionRows));
         setTooltip();
         return this;
     }

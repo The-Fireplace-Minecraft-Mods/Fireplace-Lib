@@ -55,7 +55,7 @@ public final class GameProfileFinderTest
 
     private void test_findProfile_validUuid_returnValidData() {
         Optional<GameProfile> playerProfileFromId = gameProfileFinder.findProfile(PLAYER_UUID);
-        if (playerProfileFromId.isEmpty()) {
+        if (!playerProfileFromId.isPresent()) {
             throw new TestFailedError("Profile from uuid not found.");
         }
         if (!PLAYER_NAME.equals(playerProfileFromId.get().getName())) {
@@ -65,7 +65,7 @@ public final class GameProfileFinderTest
 
     private void test_findProfile_validName_returnValidData() {
         Optional<GameProfile> playerProfileFromName = gameProfileFinder.findProfile(PLAYER_NAME);
-        if (playerProfileFromName.isEmpty()) {
+        if (!playerProfileFromName.isPresent()) {
             throw new TestFailedError("Profile from name not found.");
         }
         if (!PLAYER_UUID.equals(playerProfileFromName.get().getId())) {

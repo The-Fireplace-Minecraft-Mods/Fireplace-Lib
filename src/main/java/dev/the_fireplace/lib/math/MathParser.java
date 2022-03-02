@@ -130,11 +130,20 @@ final class MathParser
     private double performFunction(double x, String func) {
         switch (func) {
             //TODO Make it possible to use these
-            case "sqrt" -> x = Math.sqrt(x);
-            case "sin" -> x = Math.sin(Math.toRadians(x));
-            case "cos" -> x = Math.cos(Math.toRadians(x));
-            case "tan" -> x = Math.tan(Math.toRadians(x));
-            default -> throw new RuntimeException("Unknown function: " + func);
+            case "sqrt":
+                x = Math.sqrt(x);
+                break;
+            case "sin":
+                x = Math.sin(Math.toRadians(x));
+                break;
+            case "cos":
+                x = Math.cos(Math.toRadians(x));
+                break;
+            case "tan":
+                x = Math.tan(Math.toRadians(x));
+                break;
+            default:
+                throw new RuntimeException("Unknown function: " + func);
         }
         return x;
     }
