@@ -1,6 +1,5 @@
 {
-  "modmenu.descriptionTranslation.fireplacelib": "A library of common functionality used by my mods, in one place for easier maintenance and faster updates.",
-  "modmenu.summaryTranslation.fireplacelib": "Common functionality for The_Fireplace's mods.",
+  "modmenu.descriptionTranslation.fireplacelib": "${description}",
   "fireplacelib.chat.page.next": "[Next]",
   "fireplacelib.chat.page.prev": "[Previous]",
   "fireplacelib.chat.page.num": "Page: %s/%s",
