@@ -1,5 +1,1 @@
-Improving the buildscript
-Added a generic formula parser
-Added a way to append a custom tooltip to a config GUI entry
-Added a utility to find GameProfile using player ID or Name
-Fix occasional RejectedExecutionException when shutting down the server with concurrent tasks running
+Fixed an issue with some config GUI entries getting extra untranslated lines.

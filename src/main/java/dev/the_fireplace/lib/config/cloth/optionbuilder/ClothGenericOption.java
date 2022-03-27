@@ -83,6 +83,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         setDefaultValue(defaultValue);
         setSaveConsumer(saveFunction);
         setDescriptionRowCount((byte) 1);
+        this.tooltipRows.clear();
     }
 
     protected void setDefaultValue(S defaultValue) {
