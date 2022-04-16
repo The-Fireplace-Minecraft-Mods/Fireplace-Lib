@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.the_fireplace.lib.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ArgumentTypesMixin",
+    "CommandSourceStackAccessor",
+    "PlayerListMixin"
+  ],
+  "client": [
+    "ClientPacketListenerMixin",
+    "modmenu.ModMenuConfigMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "${refmap_target}refmap.json"
+}

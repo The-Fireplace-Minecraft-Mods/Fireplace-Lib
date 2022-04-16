@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "dev.the_fireplace.lib.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "LanguageManagerMixin",
+    "clothconfig.DynamicEntryListWidgetMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "refmap": "${refmap_target}refmap.json"
+}
