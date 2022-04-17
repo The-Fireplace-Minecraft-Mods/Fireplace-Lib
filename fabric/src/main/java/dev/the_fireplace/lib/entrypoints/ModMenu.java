@@ -10,7 +10,7 @@ import dev.the_fireplace.lib.config.FLConfigScreenFactory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 import java.util.HashMap;
 import java.util.Map;

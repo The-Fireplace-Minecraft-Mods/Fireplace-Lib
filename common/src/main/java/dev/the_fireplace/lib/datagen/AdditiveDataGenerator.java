@@ -2,9 +2,9 @@ package dev.the_fireplace.lib.datagen;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import net.minecraft.data.DataCache;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,8 +25,8 @@ public class AdditiveDataGenerator extends DataGenerator
 
     @Override
     public void run() throws IOException {
-        DataCache dataCache = new AdditiveDataCache(this.getOutput(), "cache");
-        dataCache.ignore(this.getOutput().resolve("version.json"));
+        HashCache dataCache = new AdditiveHashCache(this.getOutputFolder(), "cache");
+        dataCache.keep(this.getOutputFolder().resolve("version.json"));
         Stopwatch stopwatch = Stopwatch.createStarted();
         Stopwatch stopwatch2 = Stopwatch.createUnstarted();
 
@@ -40,7 +40,7 @@ public class AdditiveDataGenerator extends DataGenerator
         }
 
         LOGGER.info("All providers took: {} ms", stopwatch.elapsed(TimeUnit.MILLISECONDS));
-        dataCache.write();
+        dataCache.purgeStaleAndWrite();
     }
 
     @Override

@@ -1,21 +1,21 @@
 package dev.the_fireplace.lib.api.client.interfaces;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-@Environment(EnvType.CLIENT)
+/**
+ * Client side only.
+ */
 public interface OptionBuilder<S>
 {
     OptionBuilder<S> setDescriptionRowCount(byte descriptionRowCount);
 
-    OptionBuilder<S> appendCustomDescriptionRow(Text customRow);
+    OptionBuilder<S> appendCustomDescriptionRow(Component customRow);
 
-    OptionBuilder<S> setErrorSupplier(Function<S, Optional<Text>> errorSupplier);
+    OptionBuilder<S> setErrorSupplier(Function<S, Optional<Component>> errorSupplier);
 
     OptionBuilder<S> addDependency(OptionBuilder<Boolean> parent);
 

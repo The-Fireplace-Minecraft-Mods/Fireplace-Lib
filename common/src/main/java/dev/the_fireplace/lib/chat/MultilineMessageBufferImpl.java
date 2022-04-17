@@ -6,8 +6,6 @@ import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.MultilineMessageBuffer;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.command.CommandOutput;
-import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -51,16 +49,16 @@ public final class MultilineMessageBufferImpl implements MultilineMessageBuffer
     private class Buffer
     {
         private final int bufferId;
-        private final Text[] messages;
-        private final CommandOutput target;
+        private final Component[] messages;
+        private final CommandSource target;
 
-        private Buffer(int bufferId, byte expectedMessageCount, CommandOutput target) {
+        private Buffer(int bufferId, byte expectedMessageCount, CommandSource target) {
             this.bufferId = bufferId;
-            this.messages = new Text[expectedMessageCount];
+            this.messages = new Component[expectedMessageCount];
             this.target = target;
         }
 
-        private void put(byte position, Text value) {
+        private void put(byte position, Component value) {
             messages[position] = value;
             if (isBufferFull()) {
                 sendBufferedMessages();

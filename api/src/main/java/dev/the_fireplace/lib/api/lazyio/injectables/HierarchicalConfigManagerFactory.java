@@ -3,7 +3,7 @@ package dev.the_fireplace.lib.api.lazyio.injectables;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfigManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.NamespacedHierarchicalConfigManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.concurrent.Callable;
 
@@ -19,16 +19,16 @@ public interface HierarchicalConfigManagerFactory
     <E extends HierarchicalConfig> HierarchicalConfigManager<E> create(String domain, E defaultConfig, Iterable<String> allowedModuleIds);
 
     /**
-     * Create a hierarchical config manager based around {@link Identifier} IDs instead of Strings. Each identifier's domain will have a folder within the config/domain folder.
+     * Create a hierarchical config manager based around {@link ResourceLocation} IDs instead of Strings. Each identifier's domain will have a folder within the config/domain folder.
      *
      * @see HierarchicalConfigManagerFactory#create
      */
-    <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createNamespaced(String domain, E defaultConfig, Iterable<Identifier> allowedModuleIds);
+    <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createNamespaced(String domain, E defaultConfig, Iterable<ResourceLocation> allowedModuleIds);
 
     /**
      * Create a dynamic namespaced hierarchical config manager. It is similar to a standard namespaced config manager, except the domain of allowed module IDs can change after initial creation. Use {@link ReloadableManager} with group "dynamic_(domain)" to notify it that the list of allowed IDs may have changed.
      *
      * @see HierarchicalConfigManagerFactory#createNamespaced
      */
-    <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createDynamicNamespaced(String domain, E defaultConfig, Iterable<Identifier> defaultAllowedModuleIds, Callable<Iterable<Identifier>> getAllowedModuleIds);
+    <E extends HierarchicalConfig> NamespacedHierarchicalConfigManager<E> createDynamicNamespaced(String domain, E defaultConfig, Iterable<ResourceLocation> defaultAllowedModuleIds, Callable<Iterable<ResourceLocation>> getAllowedModuleIds);
 }

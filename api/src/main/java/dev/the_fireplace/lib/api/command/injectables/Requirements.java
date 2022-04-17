@@ -1,16 +1,16 @@
 package dev.the_fireplace.lib.api.command.injectables;
 
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
 
 public interface Requirements
 {
-    boolean entity(ServerCommandSource commandSource);
+    boolean entity(CommandSourceStack commandSource);
 
-    boolean player(ServerCommandSource commandSource);
+    boolean player(CommandSourceStack commandSource);
 
-    boolean manageGameSettings(ServerCommandSource commandSource);
+    boolean manageGameSettings(CommandSourceStack commandSource);
 
-    boolean managePlayerAccess(ServerCommandSource commandSource);
+    boolean managePlayerAccess(CommandSourceStack commandSource);
 
-    boolean manageServer(ServerCommandSource commandSource);
+    boolean manageServer(CommandSourceStack commandSource);
 }

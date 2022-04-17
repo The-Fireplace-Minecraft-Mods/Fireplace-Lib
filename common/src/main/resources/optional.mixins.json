@@ -3,9 +3,7 @@
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "LanguageManagerMixin",
-    "clothconfig.AbstractConfigScreenAccessor",
-    "clothconfig.DynamicEntryListWidgetMixin"
+    "LanguageManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 0

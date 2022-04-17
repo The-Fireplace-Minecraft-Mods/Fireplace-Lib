@@ -4,12 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArgumentTypesMixin",
-    "PlayerManagerMixin",
-    "ServerCommandSourceAccessor"
+    "CommandSourceStackAccessor",
+    "PlayerListMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "clothconfig.AbstractConfigEntryAccessor"
+    "ClientPacketListenerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -2,11 +2,11 @@ package dev.the_fireplace.lib.api.client.injectables;
 
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
-@Environment(EnvType.CLIENT)
+/**
+ * Client side only.
+ */
 public interface ConfigScreenBuilderFactory
 {
     ConfigScreenBuilder create(

@@ -2,9 +2,9 @@ package dev.the_fireplace.lib.api.command.interfaces;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.CommandNode;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
 
 public interface RegisterableCommand
 {
-    CommandNode<ServerCommandSource> register(CommandDispatcher<ServerCommandSource> commandDispatcher);
+    CommandNode<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> commandDispatcher);
 }

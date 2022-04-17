@@ -3,10 +3,8 @@ package dev.the_fireplace.lib.io;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.client.injectables.FileDialogFactory;
 import dev.the_fireplace.lib.api.io.injectables.FilePathStorage;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
@@ -18,8 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
-@Implementation
+@Implementation(environment = "CLIENT")
 @Singleton
 public final class FileDialogFactoryImpl implements FileDialogFactory
 {
@@ -34,12 +31,12 @@ public final class FileDialogFactoryImpl implements FileDialogFactory
     @Override
     @Nullable
     public File showOpenFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        return showOpenFileDialog(new TranslatableText(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
+        return showOpenFileDialog(new TranslatableComponent(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
     }
 
     @Override
     @Nullable
-    public File showOpenFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
+    public File showOpenFileDialog(Component title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
         PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
@@ -52,12 +49,12 @@ public final class FileDialogFactoryImpl implements FileDialogFactory
     @Override
     @Nullable
     public File[] showOpenMultiFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        return showOpenMultiFileDialog(new TranslatableText(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
+        return showOpenMultiFileDialog(new TranslatableComponent(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
     }
 
     @Override
     @Nullable
-    public File[] showOpenMultiFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
+    public File[] showOpenMultiFileDialog(Component title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
         PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);
@@ -78,12 +75,12 @@ public final class FileDialogFactoryImpl implements FileDialogFactory
     @Override
     @Nullable
     public File showSaveFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        return showSaveFileDialog(new TranslatableText(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
+        return showSaveFileDialog(new TranslatableComponent(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
     }
 
     @Override
     @Nullable
-    public File showSaveFileDialog(Text title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
+    public File showSaveFileDialog(Component title, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
         PointerBuffer pointerBuffer = convertToPointerBuffer(allowedFileTypePatterns);
         String displayedTitle = title.getString();
         String rememberedPath = getPathFromMemory(rememberPath, displayedTitle);

@@ -10,7 +10,7 @@ buildscript {
 }
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java-library'
     // Mod Hosting Publish
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version '1.1.0'
@@ -22,8 +22,18 @@ def mainArtifactFile = new File(new File(buildDir, 'libs'), "$archivesBaseName-$
 def changelogFile = file('../changelog.txt')
 
 sourceSets {
-    api {}
-    main {}
+    api {
+        compileClasspath += sourceSets.main.compileClasspath
+    }
+    main {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
+}
+
+repositories {
+    maven { url 'https://maven.shedaniel.me/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
@@ -31,6 +41,11 @@ dependencies {
     minecraft forgeDependency
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    api(fg.deobf("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}"))
+    //annotationProcessor "dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}:processor"
+
+    //api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.forge_clothconfig_version}"))
 
     apiImplementation forgeDependency
 

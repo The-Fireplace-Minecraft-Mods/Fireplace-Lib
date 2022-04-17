@@ -6,8 +6,6 @@ import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.command.CommandOutput;
-import net.minecraft.text.Text;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.inject.Inject;
@@ -24,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Singleton
 public final class MessageQueueImpl implements MessageQueue
 {
-    private final Map<CommandOutput, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
+    private final Map<CommandSource, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
     private final ExecutionManager executionManager;
     private final EmptyUUID emptyUUID;
 
@@ -34,7 +32,7 @@ public final class MessageQueueImpl implements MessageQueue
         this.emptyUUID = emptyUUID;
     }
 
-    private TargetMessageQueue getOrCreateQueue(CommandOutput messageTarget) {
+    private TargetMessageQueue getOrCreateQueue(CommandSource messageTarget) {
         return messageQueues.computeIfAbsent(messageTarget, TargetMessageQueue::new);
     }
 
@@ -46,15 +44,15 @@ public final class MessageQueueImpl implements MessageQueue
     @ThreadSafe
     private class TargetMessageQueue
     {
-        private final Queue<Text> messages = new ArrayDeque<>();
-        private final CommandOutput messageTarget;
+        private final Queue<Component> messages = new ArrayDeque<>();
+        private final CommandSource messageTarget;
         private final AtomicBoolean sendingMessages = new AtomicBoolean(false);
 
-        private TargetMessageQueue(CommandOutput messageTarget) {
+        private TargetMessageQueue(CommandSource messageTarget) {
             this.messageTarget = messageTarget;
         }
 
-        private synchronized void queueMessages(Text... messages) {
+        private synchronized void queueMessages(Component... messages) {
             this.messages.addAll(Arrays.asList(messages));
             if (!sendingMessages.get()) {
                 MessageQueueImpl.this.executionManager.runKillable(this::sendMessages);
@@ -64,7 +62,7 @@ public final class MessageQueueImpl implements MessageQueue
         private synchronized void sendMessages() {
             sendingMessages.set(true);
             while (!messages.isEmpty()) {
-                messageTarget.sendSystemMessage(messages.remove(), emptyUUID.get());
+                messageTarget.sendMessage(messages.remove(), emptyUUID.get());
             }
             sendingMessages.set(false);
         }

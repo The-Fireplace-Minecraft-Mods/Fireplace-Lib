@@ -1,8 +1,8 @@
 package dev.the_fireplace.lib.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +18,7 @@ public final class FLCommands
     }
 
     public void register(MinecraftServer server) {
-        CommandDispatcher<ServerCommandSource> dispatcher = server.getCommandManager().getDispatcher();
+        CommandDispatcher<CommandSourceStack> dispatcher = server.getCommands().getDispatcher();
 
         flReloadCommand.register(dispatcher);
     }

@@ -10,7 +10,7 @@ import dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter;
 import dev.the_fireplace.lib.domain.io.JsonBufferDiffGenerator;
 import dev.the_fireplace.lib.io.access.JsonStorageWriteBuffer;
 import dev.the_fireplace.lib.io.access.SchemaValidator;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -51,7 +51,7 @@ public final class HierarchicalConfigLoader
         return config;
     }
 
-    public <T extends HierarchicalConfig> T initialize(T config, String domain, Identifier id) {
+    public <T extends HierarchicalConfig> T initialize(T config, String domain, ResourceLocation id) {
         load(config, domain, id);
         save(config, domain, id);
         registerReloadable(config, domain, id);
@@ -71,7 +71,7 @@ public final class HierarchicalConfigLoader
         registerReloader(reloadId, configReloader);
     }
 
-    private void registerReloadable(HierarchicalConfig config, String domain, Identifier id) {
+    private void registerReloadable(HierarchicalConfig config, String domain, ResourceLocation id) {
         String reloadId = getReloadId(domain, id);
 
         if (reloadId.isEmpty()) {
@@ -117,7 +117,7 @@ public final class HierarchicalConfigLoader
         };
     }
 
-    private Reloadable buildConfigReloadable(HierarchicalConfig config, String domain, Identifier id, String reloadId) {
+    private Reloadable buildConfigReloadable(HierarchicalConfig config, String domain, ResourceLocation id, String reloadId) {
         return new Reloadable()
         {
             @Override
@@ -155,7 +155,7 @@ public final class HierarchicalConfigLoader
         return reloadId.toString();
     }
 
-    private String getReloadId(String domain, Identifier id) {
+    private String getReloadId(String domain, ResourceLocation id) {
         StringBuilder reloadId = new StringBuilder();
         String subFolder = validateConfigName(domain);
         if (!subFolder.isEmpty()) {
@@ -181,7 +181,7 @@ public final class HierarchicalConfigLoader
         storageReader.readTo(config, domain, id);
     }
 
-    public void load(HierarchicalConfig config, String domain, Identifier id) {
+    public void load(HierarchicalConfig config, String domain, ResourceLocation id) {
         storageReader.readTo(config, domain, id);
     }
 
@@ -189,7 +189,7 @@ public final class HierarchicalConfigLoader
         storageWriter.write(config, domain, id);
     }
 
-    public void save(HierarchicalConfig config, String domain, Identifier id) {
+    public void save(HierarchicalConfig config, String domain, ResourceLocation id) {
         storageWriter.write(config, domain, id);
     }
 
@@ -197,7 +197,7 @@ public final class HierarchicalConfigLoader
         load(config, domain, id);
     }
 
-    private void reload(HierarchicalConfig config, String domain, Identifier id) {
+    private void reload(HierarchicalConfig config, String domain, ResourceLocation id) {
         load(config, domain, id);
     }
 
@@ -211,7 +211,7 @@ public final class HierarchicalConfigLoader
         return deleted;
     }
 
-    public boolean delete(String domain, Identifier id) {
+    public boolean delete(String domain, ResourceLocation id) {
         boolean deleted = storageWriter.delete(domain, id);
         if (deleted) {
             String reloadId = getReloadId(domain, id);

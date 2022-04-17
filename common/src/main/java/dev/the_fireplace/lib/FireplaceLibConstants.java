@@ -1,6 +1,5 @@
 package dev.the_fireplace.lib;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,9 +34,5 @@ public final class FireplaceLibConstants
 
     public static void setLogger(Logger logger) {
         LOGGER = logger;
-    }
-
-    public static boolean isDevelopmentEnvironment() {
-        return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 }

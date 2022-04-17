@@ -6,10 +6,8 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.UserCache;
+import net.minecraft.server.players.GameProfileCache;
 
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -17,12 +15,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@Implementation
-@Environment(EnvType.SERVER)
+@Implementation(environment = "SERVER")
 public final class DedicatedServerGameProfileFinder implements GameProfileFinder
 {
     private final EmptyUUID emptyUUID;
-    private final UserCache userCache;
+    private final GameProfileCache userCache;
     private final MinecraftSessionService sessionService;
     private final Set<UUID> uuidsWithoutProfiles = new HashSet<>();
     private final Set<String> namesWithoutProfiles = new HashSet<>();
@@ -31,7 +28,7 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
     public DedicatedServerGameProfileFinder(EmptyUUID emptyUUID) {
         this.emptyUUID = emptyUUID;
         MinecraftServer server = FireplaceLibConstants.getServer();
-        userCache = server.getUserCache();
+        userCache = server.getProfileCache();
         sessionService = server.getSessionService();
     }
 
@@ -43,7 +40,7 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (uuidsWithoutProfiles.contains(playerId)) {
             return Optional.empty();
         }
-        Optional<GameProfile> cachedProfile = userCache.getByUuid(playerId);
+        Optional<GameProfile> cachedProfile = userCache.get(playerId);
         if (cachedProfile.isPresent()) {
             return cachedProfile;
         }
@@ -63,8 +60,8 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (namesWithoutProfiles.contains(playerName) || playerName.isEmpty()) {
             return Optional.empty();
         }
-        UserCache.setUseRemote(true);
-        Optional<GameProfile> profile = userCache.findByName(playerName);
+        GameProfileCache.setUsesAuthentication(true);
+        Optional<GameProfile> profile = userCache.get(playerName);
         if (profile.isEmpty()) {
             namesWithoutProfiles.add(playerName);
         }

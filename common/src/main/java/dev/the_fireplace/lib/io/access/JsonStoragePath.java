@@ -2,7 +2,7 @@ package dev.the_fireplace.lib.io.access;
 
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.api.io.interfaces.SaveBasedSerializable;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -68,7 +68,7 @@ public final class JsonStoragePath
         return filePath;
     }
 
-    public Path resolveConfigBasedJsonFilePath(String domain, Identifier id) {
+    public Path resolveConfigBasedJsonFilePath(String domain, ResourceLocation id) {
         Path filePath = resolveConfigSubfolderPath(domain);
         String idNamespace = SchemaValidator.minimizeSchema(id.getNamespace());
         if (!idNamespace.isEmpty() && SchemaValidator.isValid(idNamespace)) {

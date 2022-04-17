@@ -16,10 +16,10 @@ import dev.the_fireplace.lib.api.command.interfaces.HelpCommand;
 import dev.the_fireplace.lib.chat.translation.TranslatorManager;
 import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.*;
 import java.util.function.Function;
@@ -31,11 +31,11 @@ public final class HelpCommandImpl implements HelpCommand
     private final TextPaginator textPaginator;
     private final Translator translator;
     private final String modid;
-    private final LiteralArgumentBuilder<ServerCommandSource> helpCommandBase;
+    private final LiteralArgumentBuilder<CommandSourceStack> helpCommandBase;
     private final Map<String, Collection<String>> commands = new HashMap<>();
     private final IntSet grandchildNodeHashes = new IntArraySet(3);
 
-    HelpCommandImpl(String modid, LiteralArgumentBuilder<ServerCommandSource> helpCommandBase) {
+    HelpCommandImpl(String modid, LiteralArgumentBuilder<CommandSourceStack> helpCommandBase) {
         this.modid = modid;
         this.helpCommandBase = helpCommandBase;
         this.translator = DIContainer.get().getInstance(TranslatorManager.class).getTranslator(modid);
@@ -96,50 +96,50 @@ public final class HelpCommandImpl implements HelpCommand
     }
 
     @Override
-    public CommandNode<ServerCommandSource> register(CommandDispatcher<ServerCommandSource> commandDispatcher) {
+    public CommandNode<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> commandDispatcher) {
         return commandDispatcher.register(helpCommandBase
             .executes((command) -> runHelpCommand(command, 1))
-            .then(CommandManager.argument("page", IntegerArgumentType.integer(1))
+            .then(Commands.argument("page", IntegerArgumentType.integer(1))
                 .executes((command) -> runHelpCommand(command, command.getArgument("page", Integer.class)))
             )
         );
     }
 
-    private int runHelpCommand(CommandContext<ServerCommandSource> command, int page) {
+    private int runHelpCommand(CommandContext<CommandSourceStack> command, int page) {
         textPaginator.sendPaginatedChat(command.getSource(), "/" + helpCommandBase.getLiteral() + " %s", getHelpsList(command), page);
         return Command.SINGLE_SUCCESS;
     }
 
-    private List<? extends Text> getHelpsList(CommandContext<ServerCommandSource> command) {
-        List<MutableText> helps = Lists.newArrayList();
+    private List<? extends Component> getHelpsList(CommandContext<CommandSourceStack> command) {
+        List<MutableComponent> helps = Lists.newArrayList();
         for (Map.Entry<String, Collection<String>> commandName : commands.entrySet()) {
             if (commandName.getValue().isEmpty()) {
-                MutableText commandHelp = buildCommandDescription(command, commandName.getKey());
+                MutableComponent commandHelp = buildCommandDescription(command, commandName.getKey());
                 helps.add(commandHelp);
             } else {
                 for (String subCommand : commandName.getValue()) {
-                    MutableText commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
+                    MutableComponent commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
                     helps.add(commandHelp);
                 }
             }
         }
-        helps.sort(Comparator.comparing(Text::getString));
+        helps.sort(Comparator.comparing(Component::getString));
 
         int i = 0;
-        for (MutableText helpText : helps) {
+        for (MutableComponent helpText : helps) {
             helpText.setStyle(i++ % 2 == 0 ? textStyles.white() : textStyles.grey());
         }
 
         return helps;
     }
 
-    private MutableText buildCommandDescription(CommandContext<ServerCommandSource> command, String commandName) {
+    private MutableComponent buildCommandDescription(CommandContext<CommandSourceStack> command, String commandName) {
         return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".usage")
             .append(": ")
             .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".description"));
     }
 
-    private MutableText buildSubCommandDescription(CommandContext<ServerCommandSource> command, String commandName, String subCommand) {
+    private MutableComponent buildSubCommandDescription(CommandContext<CommandSourceStack> command, String commandName, String subCommand) {
         return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".usage")
             .append(": ")
             .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".description"));

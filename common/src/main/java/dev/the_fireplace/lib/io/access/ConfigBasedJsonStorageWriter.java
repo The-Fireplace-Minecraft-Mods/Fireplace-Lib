@@ -10,7 +10,7 @@ import dev.the_fireplace.lib.api.io.interfaces.Writable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 @Singleton
-@Implementation({
-    "dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageWriter",
-    "dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter",
-})
+@Implementation(allInterfaces = true)
 public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWriter, HierarchicalConfigWriter
 {
     private final Gson gson;
@@ -53,7 +50,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
     }
 
     @Override
-    public boolean write(HierarchicalConfig writable, String domain, Identifier id) {
+    public boolean write(HierarchicalConfig writable, String domain, ResourceLocation id) {
         return write((Writable) writable, domain, id);
     }
 
@@ -63,7 +60,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
         return write(writable, filePath);
     }
 
-    private boolean write(Writable writable, String domain, Identifier id) {
+    private boolean write(Writable writable, String domain, ResourceLocation id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         return write(writable, filePath);
@@ -112,7 +109,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
     }
 
     @Override
-    public boolean delete(String domain, Identifier id) {
+    public boolean delete(String domain, ResourceLocation id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         return delete(filePath);

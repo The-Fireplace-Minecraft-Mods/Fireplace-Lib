@@ -9,7 +9,7 @@ import dev.the_fireplace.lib.api.io.interfaces.Readable;
 import dev.the_fireplace.lib.api.io.interfaces.access.StorageReadBuffer;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigReader;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,10 +21,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 
 @Singleton
-@Implementation({
-    "dev.the_fireplace.lib.api.io.injectables.ConfigBasedStorageReader",
-    "dev.the_fireplace.lib.domain.io.HierarchicalConfigReader",
-})
+@Implementation(allInterfaces = true)
 public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageReader, HierarchicalConfigReader
 {
     private final JsonFileReader fileReader;
@@ -61,7 +58,7 @@ public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageRea
     }
 
     @Override
-    public void readTo(HierarchicalConfig readable, String domain, Identifier id) {
+    public void readTo(HierarchicalConfig readable, String domain, ResourceLocation id) {
         read(readable, domain, id);
     }
 
@@ -71,7 +68,7 @@ public final class ConfigBasedJsonStorageReader implements ConfigBasedStorageRea
         read(readable, filePath);
     }
 
-    private void read(Readable readable, String domain, Identifier id) {
+    private void read(Readable readable, String domain, ResourceLocation id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         read(readable, filePath);

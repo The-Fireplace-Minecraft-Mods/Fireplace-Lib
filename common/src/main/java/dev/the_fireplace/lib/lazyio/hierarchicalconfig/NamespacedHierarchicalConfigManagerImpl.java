@@ -6,7 +6,7 @@ import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.api.lazyio.interfaces.NamespacedHierarchicalConfigManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Reloadable;
 import dev.the_fireplace.lib.io.access.JsonStoragePath;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -23,13 +23,13 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
 
     protected final String domain;
     protected final T defaultConfig;
-    protected final Iterable<Identifier> allowedModuleIds;
-    protected final Map<Identifier, T> modules;
+    protected final Iterable<ResourceLocation> allowedModuleIds;
+    protected final Map<ResourceLocation, T> modules;
 
     public NamespacedHierarchicalConfigManagerImpl(
         String domain,
         T defaultConfig,
-        Iterable<Identifier> allowedModuleIds,
+        Iterable<ResourceLocation> allowedModuleIds,
         HierarchicalConfigLoader configLoader,
         JsonStoragePath jsonStoragePath,
         ReloadableManager reloadableManager
@@ -46,8 +46,8 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
         registerHierarchyReloadable();
     }
 
-    protected void loadExistingHierarchy(Iterable<Identifier> allowedModuleIds) {
-        for (Identifier id : allowedModuleIds) {
+    protected void loadExistingHierarchy(Iterable<ResourceLocation> allowedModuleIds) {
+        for (ResourceLocation id : allowedModuleIds) {
             Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
             if (filePath.toFile().exists() && !modules.containsKey(id)) {
                 HierarchicalConfig module = defaultConfig.clone();
@@ -77,33 +77,33 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
     }
 
     @Override
-    public Iterable<Identifier> getAllowedModuleIds() {
+    public Iterable<ResourceLocation> getAllowedModuleIds() {
         return allowedModuleIds;
     }
 
     @Override
-    public T get(Identifier moduleId) {
+    public T get(ResourceLocation moduleId) {
         return modules.getOrDefault(moduleId, defaultConfig);
     }
 
     @Override
-    public Collection<Identifier> getCustoms() {
+    public Collection<ResourceLocation> getCustoms() {
         return Set.copyOf(modules.keySet());
     }
 
     @Override
-    public boolean isCustom(Identifier moduleId) {
+    public boolean isCustom(ResourceLocation moduleId) {
         return modules.containsKey(moduleId);
     }
 
     @Override
-    public void addCustom(Identifier moduleId, T module) {
+    public void addCustom(ResourceLocation moduleId, T module) {
         modules.put(moduleId, module);
         configLoader.initialize(module, domain, moduleId);
     }
 
     @Override
-    public boolean deleteCustom(Identifier moduleId) {
+    public boolean deleteCustom(ResourceLocation moduleId) {
         T module = modules.remove(moduleId);
         if (module == null) {
             return false;
@@ -114,13 +114,13 @@ public class NamespacedHierarchicalConfigManagerImpl<T extends HierarchicalConfi
 
     @Override
     public void saveAllCustoms() {
-        for (Map.Entry<Identifier, T> moduleEntry : modules.entrySet()) {
+        for (Map.Entry<ResourceLocation, T> moduleEntry : modules.entrySet()) {
             configLoader.save(moduleEntry.getValue(), domain, moduleEntry.getKey());
         }
     }
 
     @Override
-    public void saveCustom(Identifier id) {
+    public void saveCustom(ResourceLocation id) {
         T module = modules.get(id);
         if (module == null) {
             FireplaceLibConstants.getLogger().error("Custom config does not exist, and cannot be saved: " + id);

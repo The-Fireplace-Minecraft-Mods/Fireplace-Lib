@@ -7,18 +7,18 @@ import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resource.language.LanguageDefinition;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.LanguageInfo;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.stream.Collectors;
 
-@Environment(EnvType.CLIENT)
+/**
+ * Client side only
+ */
 @Singleton
 public final class FLConfigScreenFactory
 {
@@ -66,7 +66,7 @@ public final class FLConfigScreenFactory
             OPTION_TRANSLATION_BASE + "locale",
             config.getLocale(),
             defaultConfigValues.getLocale(),
-            MinecraftClient.getInstance().getLanguageManager().getAllLanguages().parallelStream().map(LanguageDefinition::getCode).collect(Collectors.toList()),
+            Minecraft.getInstance().getLanguageManager().getLanguages().parallelStream().map(LanguageInfo::getCode).collect(Collectors.toList()),
             config::setLocale
         );
         configScreenBuilder.startSubCategory(TRANSLATION_BASE + "advanced");

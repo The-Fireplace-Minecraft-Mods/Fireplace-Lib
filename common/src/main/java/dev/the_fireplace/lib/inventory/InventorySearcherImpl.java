@@ -7,8 +7,8 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.inventory.injectables.InventorySearcher;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -20,9 +20,9 @@ import java.util.function.ToIntFunction;
 public final class InventorySearcherImpl implements InventorySearcher
 {
     @Override
-    public boolean hasSlotMatching(Inventory inventory, Predicate<ItemStack> matcher) {
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+    public boolean hasSlotMatching(Container inventory, Predicate<ItemStack> matcher) {
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (matcher.test(inventory.getItem(slot))) {
                 return true;
             }
         }
@@ -31,9 +31,9 @@ public final class InventorySearcherImpl implements InventorySearcher
     }
 
     @Override
-    public Optional<Integer> findFirstMatchingSlot(Inventory inventory, Predicate<ItemStack> matcher) {
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+    public Optional<Integer> findFirstMatchingSlot(Container inventory, Predicate<ItemStack> matcher) {
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (matcher.test(inventory.getItem(slot))) {
                 return Optional.of(slot);
             }
         }
@@ -42,11 +42,11 @@ public final class InventorySearcherImpl implements InventorySearcher
     }
 
     @Override
-    public List<Integer> findMatchingSlots(Inventory inventory, Predicate<ItemStack> matcher) {
+    public List<Integer> findMatchingSlots(Container inventory, Predicate<ItemStack> matcher) {
         IntList slotList = new IntArrayList();
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (matcher.test(inventory.getItem(slot))) {
                 slotList.add(slot);
             }
         }
@@ -55,11 +55,11 @@ public final class InventorySearcherImpl implements InventorySearcher
     }
 
     @Override
-    public Multimap<Integer, Integer> getMatchingSlotsByPriority(Inventory inventory, Predicate<ItemStack> matcher, ToIntFunction<ItemStack> priorityMapper) {
+    public Multimap<Integer, Integer> getMatchingSlotsByPriority(Container inventory, Predicate<ItemStack> matcher, ToIntFunction<ItemStack> priorityMapper) {
         IntList slotList = new IntArrayList();
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            if (matcher.test(inventory.getStack(slot))) {
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (matcher.test(inventory.getItem(slot))) {
                 slotList.add(slot);
             }
         }
@@ -67,7 +67,7 @@ public final class InventorySearcherImpl implements InventorySearcher
         Multimap<Integer, Integer> slotPriorityMap = LinkedHashMultimap.create();
 
         for (int slot : slotList) {
-            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getStack(slot)), slot);
+            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getItem(slot)), slot);
         }
 
         slotPriorityMap = sortByKey(slotPriorityMap);
@@ -76,11 +76,11 @@ public final class InventorySearcherImpl implements InventorySearcher
     }
 
     @Override
-    public Multimap<Integer, Integer> getSlotsByPriority(Inventory inventory, ToIntFunction<ItemStack> priorityMapper) {
+    public Multimap<Integer, Integer> getSlotsByPriority(Container inventory, ToIntFunction<ItemStack> priorityMapper) {
         Multimap<Integer, Integer> slotPriorityMap = LinkedHashMultimap.create();
 
-        for (int slot = 0; slot < inventory.size(); slot++) {
-            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getStack(slot)), slot);
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            slotPriorityMap.put(priorityMapper.applyAsInt(inventory.getItem(slot)), slot);
         }
 
         slotPriorityMap = sortByKey(slotPriorityMap);

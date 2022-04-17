@@ -11,8 +11,8 @@ import dev.the_fireplace.lib.api.command.injectables.Requirements;
 import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.api.command.interfaces.RegisterableCommand;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,14 +38,14 @@ public final class FLReloadCommand implements RegisterableCommand
     }
 
     @Override
-    public CommandNode<ServerCommandSource> register(CommandDispatcher<ServerCommandSource> commandDispatcher) {
-        return commandDispatcher.register(CommandManager.literal("flreload")
+    public CommandNode<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> commandDispatcher) {
+        return commandDispatcher.register(Commands.literal("flreload")
             .requires(requirements::manageServer)
             .executes(this::execute)
         );
     }
 
-    private int execute(CommandContext<ServerCommandSource> commandContext) {
+    private int execute(CommandContext<CommandSourceStack> commandContext) {
         reloadableManager.reload(FireplaceLibConstants.MODID);
         feedbackSender.basic(commandContext, "fireplacelib.command.reload.reloaded");
         return 1;

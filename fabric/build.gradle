@@ -11,8 +11,13 @@ def mainArtifactFile = new File(new File(buildDir, 'libs'), "$archivesBaseName-$
 def changelogFile = file('../changelog.txt')
 
 sourceSets {
-    api {}
-    main {}
+    api {
+        compileClasspath += sourceSets.main.compileClasspath
+    }
+    main {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
 }
 
 repositories {

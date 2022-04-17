@@ -9,16 +9,16 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.the_fireplace.lib.api.command.interfaces.OfflineSupportedPlayerArgumentType;
 import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.EntitySelector;
-import net.minecraft.command.EntitySelectorReader;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.argument.serialize.ArgumentSerializer;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.selector.EntitySelector;
+import net.minecraft.commands.arguments.selector.EntitySelectorParser;
+import net.minecraft.commands.synchronization.ArgumentSerializer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.UserCache;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.GameProfileCache;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -30,14 +30,14 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
     @Override
     public PlayerSelector parse(StringReader reader) throws CommandSyntaxException {
         int startCursor = reader.getCursor();
-        EntitySelectorReader entitySelectorReader = new EntitySelectorReader(reader);
-        EntitySelector entitySelector = entitySelectorReader.read();
-        if (entitySelector.getLimit() > 1) {
+        EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader);
+        EntitySelector entitySelector = entitySelectorReader.parse();
+        if (entitySelector.getMaxResults() > 1) {
             reader.setCursor(0);
-            throw EntityArgumentType.TOO_MANY_PLAYERS_EXCEPTION.createWithContext(reader);
-        } else if (entitySelector.includesNonPlayers() && !entitySelector.isSenderOnly()) {
+            throw EntityArgument.ERROR_NOT_SINGLE_PLAYER.createWithContext(reader);
+        } else if (entitySelector.includesEntities() && !entitySelector.isSelfSelector()) {
             reader.setCursor(0);
-            throw EntityArgumentType.PLAYER_SELECTOR_HAS_ENTITIES_EXCEPTION.createWithContext(reader);
+            throw EntityArgument.ERROR_ONLY_PLAYERS_ALLOWED.createWithContext(reader);
         }
 
         int endCursor = reader.getCursor();
@@ -51,19 +51,19 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        if (context.getSource() instanceof CommandSource commandSource) {
+        if (context.getSource() instanceof SharedSuggestionProvider commandSource) {
             StringReader reader = new StringReader(builder.getInput());
             reader.setCursor(builder.getStart());
-            EntitySelectorReader entitySelectorReader = new EntitySelectorReader(reader);
+            EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader);
 
             try {
-                entitySelectorReader.read();
+                entitySelectorReader.parse();
             } catch (CommandSyntaxException ignored) {
             }
 
-            return entitySelectorReader.listSuggestions(builder, (suggestionsBuilder) -> {
-                Iterable<String> iterable = commandSource.getPlayerNames();
-                CommandSource.suggestMatching(iterable, suggestionsBuilder);
+            return entitySelectorReader.fillSuggestions(builder, (suggestionsBuilder) -> {
+                Iterable<String> iterable = commandSource.getOnlinePlayerNames();
+                SharedSuggestionProvider.suggest(iterable, suggestionsBuilder);
             });
         } else {
             return Suggestions.empty();
@@ -88,24 +88,24 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
         }
 
         @Override
-        public PossiblyOfflinePlayer get(ServerCommandSource source) throws CommandSyntaxException {
+        public PossiblyOfflinePlayer get(CommandSourceStack source) throws CommandSyntaxException {
             try {
-                List<ServerPlayerEntity> list = entitySelector.getPlayers(source);
+                List<ServerPlayer> list = entitySelector.findPlayers(source);
                 if (list.size() != 1) {
-                    throw EntityArgumentType.PLAYER_NOT_FOUND_EXCEPTION.create();
+                    throw EntityArgument.NO_PLAYERS_FOUND.create();
                 }
-                ServerPlayerEntity player = list.get(0);
+                ServerPlayer player = list.get(0);
 
                 return new SelectedPlayerArgument(player.getGameProfile(), player);
             } catch (CommandSyntaxException e) {
                 MinecraftServer server = source.getServer();
-                UserCache.setUseRemote(true);
-                Optional<GameProfile> offlinePlayerProfileByName = server.getUserCache().findByName(offlinePlayerName);
+                GameProfileCache.setUsesAuthentication(true);
+                Optional<GameProfile> offlinePlayerProfileByName = server.getProfileCache().get(offlinePlayerName);
                 if (offlinePlayerProfileByName.isPresent()) {
                     return new SelectedPlayerArgument(offlinePlayerProfileByName.get());
                 }
                 try {
-                    Optional<GameProfile> offlinePlayerProfileById = server.getUserCache().getByUuid(UUID.fromString(offlinePlayerName));
+                    Optional<GameProfile> offlinePlayerProfileById = server.getProfileCache().get(UUID.fromString(offlinePlayerName));
                     if (offlinePlayerProfileById.isPresent()) {
                         return new SelectedPlayerArgument(offlinePlayerProfileById.get());
                     }
@@ -113,17 +113,17 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
                 }
             }
 
-            throw EntityArgumentType.PLAYER_NOT_FOUND_EXCEPTION.create();
+            throw EntityArgument.NO_PLAYERS_FOUND.create();
         }
     }
 
     /**
-     * Serialize like {@link EntityArgumentType.Serializer} so we can mimic it when sending to a client that doesn't have FL installed.
+     * Serialize like {@link EntityArgument.Serializer} so we can mimic it when sending to a client that doesn't have FL installed.
      */
     public static class Serializer implements ArgumentSerializer<OfflinePlayerArgumentType>
     {
         @Override
-        public void toPacket(OfflinePlayerArgumentType entityArgumentType, PacketByteBuf packetByteBuf) {
+        public void serializeToNetwork(OfflinePlayerArgumentType entityArgumentType, FriendlyByteBuf packetByteBuf) {
             byte b = 0;
             b = (byte) (b | 1);
 
@@ -133,12 +133,12 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
         }
 
         @Override
-        public OfflinePlayerArgumentType fromPacket(PacketByteBuf packetByteBuf) {
+        public OfflinePlayerArgumentType deserializeFromNetwork(FriendlyByteBuf packetByteBuf) {
             return new OfflinePlayerArgumentType();
         }
 
         @Override
-        public void toJson(OfflinePlayerArgumentType entityArgumentType, JsonObject jsonObject) {
+        public void serializeToJson(OfflinePlayerArgumentType entityArgumentType, JsonObject jsonObject) {
             jsonObject.addProperty("amount", "single");
             jsonObject.addProperty("type", "players");
         }

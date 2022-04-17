@@ -5,6 +5,13 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.inject.Inject;
@@ -60,36 +67,36 @@ public final class TranslatorManager implements TranslatorFactory
         }
 
         @Override
-        public MutableText getTextForTarget(ServerCommandSource target, String translationKey, Object... args) {
+        public MutableComponent getTextForTarget(CommandSourceStack target, String translationKey, Object... args) {
             return getTextForTarget(getTargetId(target), translationKey, args);
         }
 
         @Override
-        public MutableText getTextForTarget(CommandOutput target, String translationKey, Object... args) {
+        public MutableComponent getTextForTarget(CommandSource target, String translationKey, Object... args) {
             return getTextForTarget(getTargetId(target), translationKey, args);
         }
 
         @Override
-        public MutableText getTextForTarget(UUID target, String translationKey, Object... args) {
+        public MutableComponent getTextForTarget(UUID target, String translationKey, Object... args) {
             if (!localizedClients.isLocalized(modid, target)) {
                 return getTranslatedText(translationKey, args);
             } else {
-                return new TranslatableText(translationKey, args);
+                return new TranslatableComponent(translationKey, args);
             }
         }
 
         @Override
-        public LiteralText getTranslatedText(String translationKey, Object... translationArguments) {
+        public TextComponent getTranslatedText(String translationKey, Object... translationArguments) {
             Object[] readableTranslationArguments = convertArgumentsToStrings(translationArguments);
 
-            return new LiteralText(i18n.translateToLocalFormatted(modid, translationKey, readableTranslationArguments));
+            return new TextComponent(i18n.translateToLocalFormatted(modid, translationKey, readableTranslationArguments));
         }
 
         private Object[] convertArgumentsToStrings(Object[] arguments) {
             Object[] convertedArgs = arguments.clone();
 
             for (int argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
-                if (arguments[argumentIndex] instanceof StringVisitable visitable) {
+                if (arguments[argumentIndex] instanceof FormattedText visitable) {
                     convertedArgs[argumentIndex] = visitable.getString();
                 }
             }
@@ -103,7 +110,7 @@ public final class TranslatorManager implements TranslatorFactory
         }
 
         @Override
-        public String getTranslationKeyForTarget(CommandOutput target, String translationKey) {
+        public String getTranslationKeyForTarget(CommandSource target, String translationKey) {
             return getTranslationKeyForTarget(getTargetId(target), translationKey);
         }
 
@@ -116,15 +123,15 @@ public final class TranslatorManager implements TranslatorFactory
             }
         }
 
-        protected UUID getTargetId(ServerCommandSource commandSource) {
-            return commandSource.getEntity() instanceof ServerPlayerEntity
-                ? commandSource.getEntity().getUuid()
+        protected UUID getTargetId(CommandSourceStack commandSource) {
+            return commandSource.getEntity() instanceof ServerPlayer
+                ? commandSource.getEntity().getUUID()
                 : emptyUUID.get();
         }
 
-        protected UUID getTargetId(CommandOutput commandOutput) {
-            if (commandOutput instanceof ServerPlayerEntity serverPlayerEntity) {
-                return serverPlayerEntity.getUuid();
+        protected UUID getTargetId(CommandSource commandOutput) {
+            if (commandOutput instanceof ServerPlayer serverPlayerEntity) {
+                return serverPlayerEntity.getUUID();
             }
 
             return emptyUUID.get();

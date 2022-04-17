@@ -6,8 +6,7 @@ import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.command.FLCommands;
 import dev.the_fireplace.lib.command.helpers.ArgumentTypeFactoryImpl;
-import dev.the_fireplace.lib.network.NetworkEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import dev.the_fireplace.lib.domain.init.LoaderSpecificInitialization;
 import net.minecraft.server.MinecraftServer;
 
 import javax.inject.Inject;
@@ -16,14 +15,13 @@ import javax.inject.Singleton;
 @Singleton
 public final class FireplaceLibInitializer
 {
-
     private boolean initialized = false;
     private final TranslatorFactory translatorFactory;
     private final ExecutionManager executionManager;
     private final FLCommands fireplaceLibCommands;
     private final SaveTimer saveTimer;
-    private final NetworkEvents networkEvents;
     private final ArgumentTypeFactoryImpl argumentTypeFactory;
+    private final LoaderSpecificInitialization loaderSpecificInitialization;
 
     @Inject
     public FireplaceLibInitializer(
@@ -31,26 +29,26 @@ public final class FireplaceLibInitializer
         ExecutionManager executionManager,
         FLCommands fireplaceLibCommands,
         SaveTimer saveTimer,
-        NetworkEvents networkEvents,
-        ArgumentTypeFactoryImpl argumentTypeFactory
+        ArgumentTypeFactoryImpl argumentTypeFactory,
+        LoaderSpecificInitialization loaderSpecificInitialization
     ) {
         this.translatorFactory = translatorFactory;
         this.executionManager = executionManager;
         this.fireplaceLibCommands = fireplaceLibCommands;
         this.saveTimer = saveTimer;
-        this.networkEvents = networkEvents;
         this.argumentTypeFactory = argumentTypeFactory;
+        this.loaderSpecificInitialization = loaderSpecificInitialization;
     }
 
     public void init() {
         if (!initialized) {
             initialized = true;
             translatorFactory.addTranslator(FireplaceLibConstants.MODID);
-            networkEvents.init();
             argumentTypeFactory.registerArgumentTypes();
-            ServerLifecycleEvents.SERVER_STARTING.register(this::onServerStarting);
-            ServerLifecycleEvents.SERVER_STOPPING.register(this::onServerStopping);
-            ServerLifecycleEvents.SERVER_STOPPED.register(s -> FireplaceLibConstants.setMinecraftServer(null));
+            loaderSpecificInitialization.initNetwork();
+            loaderSpecificInitialization.registerServerStartingCallback(this::onServerStarting);
+            loaderSpecificInitialization.registerServerStoppingCallback(this::onServerStopping);
+            loaderSpecificInitialization.registerServerStoppedCallback(s -> FireplaceLibConstants.setMinecraftServer(null));
         }
     }
 

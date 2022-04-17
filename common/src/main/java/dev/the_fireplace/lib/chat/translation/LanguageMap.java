@@ -7,7 +7,7 @@ import com.google.gson.JsonParseException;
 import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
-import net.minecraft.util.JsonHelper;
+import net.minecraft.util.GsonHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,10 +31,10 @@ final class LanguageMap
         String langDir = DIContainer.get().getInstance(DirectoryResolver.class).getLangDirectory(modid);
         try {
             JsonElement jsonelement = getLangJsonElement(locale, langDir);
-            JsonObject jsonobject = JsonHelper.asObject(jsonelement, "strings");
+            JsonObject jsonobject = GsonHelper.convertToJsonObject(jsonelement, "strings");
 
             for (Map.Entry<String, JsonElement> entry : jsonobject.entrySet()) {
-                String s = NUMERIC_VARIABLE_PATTERN.matcher(JsonHelper.asString(entry.getValue(), entry.getKey())).replaceAll("%$1s");
+                String s = NUMERIC_VARIABLE_PATTERN.matcher(GsonHelper.convertToString(entry.getValue(), entry.getKey())).replaceAll("%$1s");
                 this.languageList.put(entry.getKey(), s);
             }
         } catch (JsonParseException e) {

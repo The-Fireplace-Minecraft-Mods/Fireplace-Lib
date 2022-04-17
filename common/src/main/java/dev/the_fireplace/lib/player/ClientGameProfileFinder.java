@@ -6,11 +6,9 @@ import com.mojang.authlib.GameProfile;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.UserCache;
+import net.minecraft.server.players.GameProfileCache;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,20 +21,19 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Implementation
+@Implementation(environment = "CLIENT")
 @Singleton
-@Environment(EnvType.CLIENT)
 public final class ClientGameProfileFinder implements GameProfileFinder
 {
     private final EmptyUUID emptyUUID;
-    private final MinecraftClient client;
+    private final Minecraft client;
     private final Map<UUID, Optional<GameProfile>> profilesById = new ConcurrentHashMap<>();
     private final Map<String, Optional<GameProfile>> profilesByName = new ConcurrentHashMap<>();
 
     @Inject
     public ClientGameProfileFinder(EmptyUUID emptyUUID) {
         this.emptyUUID = emptyUUID;
-        this.client = MinecraftClient.getInstance();
+        this.client = Minecraft.getInstance();
     }
 
     @Override
@@ -48,7 +45,7 @@ public final class ClientGameProfileFinder implements GameProfileFinder
             return profilesById.get(playerId);
         }
         GameProfile profile = new GameProfile(playerId, "");
-        profile = client.getSessionService().fillProfileProperties(profile, false);
+        profile = client.getMinecraftSessionService().fillProfileProperties(profile, false);
         Optional<GameProfile> wrappedProfile;
         if (profile.getName().isEmpty()) {
             wrappedProfile = Optional.empty();
@@ -68,10 +65,10 @@ public final class ClientGameProfileFinder implements GameProfileFinder
         if (profilesByName.containsKey(playerName)) {
             return profilesByName.get(playerName);
         }
-        MinecraftServer server = client.getServer();
+        MinecraftServer server = client.getSingleplayerServer();
         if (server != null) {
-            UserCache.setUseRemote(true);
-            Optional<GameProfile> foundProfile = server.getUserCache().findByName(playerName);
+            GameProfileCache.setUsesAuthentication(true);
+            Optional<GameProfile> foundProfile = server.getProfileCache().get(playerName);
             profilesByName.put(playerName, foundProfile);
             return foundProfile;
         }

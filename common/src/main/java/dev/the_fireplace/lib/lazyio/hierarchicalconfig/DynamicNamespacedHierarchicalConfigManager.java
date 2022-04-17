@@ -4,7 +4,7 @@ import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Reloadable;
 import dev.the_fireplace.lib.io.access.JsonStoragePath;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -13,14 +13,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class DynamicNamespacedHierarchicalConfigManager<T extends HierarchicalConfig> extends NamespacedHierarchicalConfigManagerImpl<T> implements Reloadable
 {
 
-    private final Callable<Iterable<Identifier>> getAllowedModuleIds;
+    private final Callable<Iterable<ResourceLocation>> getAllowedModuleIds;
     private final AtomicBoolean hasPendingUpdates = new AtomicBoolean(true);
 
     public DynamicNamespacedHierarchicalConfigManager(
         String domain,
         T defaultConfig,
-        Iterable<Identifier> defaultAllowedModuleIds,
-        Callable<Iterable<Identifier>> getAllowedModuleIds,
+        Iterable<ResourceLocation> defaultAllowedModuleIds,
+        Callable<Iterable<ResourceLocation>> getAllowedModuleIds,
         HierarchicalConfigLoader configLoader,
         JsonStoragePath jsonStoragePath,
         ReloadableManager reloadableManager
@@ -31,7 +31,7 @@ public final class DynamicNamespacedHierarchicalConfigManager<T extends Hierarch
     }
 
     @Override
-    public Iterable<Identifier> getAllowedModuleIds() {
+    public Iterable<ResourceLocation> getAllowedModuleIds() {
         try {
             return getAllowedModuleIds.call();
         } catch (Exception exception) {
@@ -51,19 +51,19 @@ public final class DynamicNamespacedHierarchicalConfigManager<T extends Hierarch
     }
 
     @Override
-    public T get(Identifier moduleId) {
+    public T get(ResourceLocation moduleId) {
         getUpdatedModuleList();
         return super.get(moduleId);
     }
 
     @Override
-    public Collection<Identifier> getCustoms() {
+    public Collection<ResourceLocation> getCustoms() {
         getUpdatedModuleList();
         return super.getCustoms();
     }
 
     @Override
-    public boolean isCustom(Identifier moduleId) {
+    public boolean isCustom(ResourceLocation moduleId) {
         getUpdatedModuleList();
         return super.isCustom(moduleId);
     }
@@ -75,7 +75,7 @@ public final class DynamicNamespacedHierarchicalConfigManager<T extends Hierarch
     }
 
     @Override
-    public void saveCustom(Identifier id) {
+    public void saveCustom(ResourceLocation id) {
         getUpdatedModuleList();
         super.saveCustom(id);
     }
