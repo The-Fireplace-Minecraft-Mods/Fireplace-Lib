@@ -29,6 +29,10 @@ sourceSets {
         compileClasspath += sourceSets.api.output
         runtimeClasspath += sourceSets.api.output
     }
+    test {
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
 }
 
 repositories {
@@ -47,7 +51,7 @@ dependencies {
 
     //api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.forge_clothconfig_version}"))
 
-    apiImplementation forgeDependency
+    //apiImplementation forgeDependency
 
     apiCompileOnly project(":api")
     compileOnly project(":api")
