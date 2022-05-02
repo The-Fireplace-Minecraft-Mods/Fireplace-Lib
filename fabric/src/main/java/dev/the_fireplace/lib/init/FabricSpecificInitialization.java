@@ -26,16 +26,16 @@ public final class FabricSpecificInitialization implements LoaderSpecificInitial
 
     @Override
     public void registerServerStartingCallback(Consumer<MinecraftServer> runnable) {
-        ServerLifecycleEvents.SERVER_STARTING.register((ServerLifecycleEvents.ServerStarting) runnable);
+        ServerLifecycleEvents.SERVER_STARTING.register(runnable::accept);
     }
 
     @Override
     public void registerServerStoppingCallback(Consumer<MinecraftServer> runnable) {
-        ServerLifecycleEvents.SERVER_STOPPING.register((ServerLifecycleEvents.ServerStopping) runnable);
+        ServerLifecycleEvents.SERVER_STOPPING.register(runnable::accept);
     }
 
     @Override
     public void registerServerStoppedCallback(Consumer<MinecraftServer> runnable) {
-        ServerLifecycleEvents.SERVER_STOPPED.register((ServerLifecycleEvents.ServerStopped) runnable);
+        ServerLifecycleEvents.SERVER_STOPPED.register(runnable::accept);
     }
 }

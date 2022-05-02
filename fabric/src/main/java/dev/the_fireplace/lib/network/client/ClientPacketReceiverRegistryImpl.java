@@ -14,6 +14,6 @@ public final class ClientPacketReceiverRegistryImpl implements ClientPacketRecei
 
     @Override
     public void register(ClientPacketReceiver receiver) {
-        ClientPlayNetworking.registerGlobalReceiver(receiver.getId(), receiver);
+        ClientPlayNetworking.registerGlobalReceiver(receiver.getId(), (client, handler, buf, responseSender) -> receiver.receive(client, handler, buf));
     }
 }
