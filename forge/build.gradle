@@ -41,17 +41,14 @@ repositories {
 }
 
 dependencies {
-    def forgeDependency = "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    minecraft forgeDependency
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     api(fg.deobf("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}"))
-    //annotationProcessor "dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}:processor"
+    annotationProcessor "dev.the-fireplace:Annotated-DI-Forge-Processor:${project.annotateddi_version}"
 
     //api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.forge_clothconfig_version}"))
-
-    //apiImplementation forgeDependency
 
     apiCompileOnly project(":api")
     compileOnly project(":api")
@@ -60,13 +57,6 @@ dependencies {
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
-
-    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        project.logger.debug('Forge Access Transformers are enabled for this project.')
-    }
 
     runs {
         client {

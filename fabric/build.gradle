@@ -40,7 +40,7 @@ dependencies {
 
     modImplementation "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}"
     include "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}"
-    annotationProcessor "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}:processor"
+    annotationProcessor "dev.the-fireplace:Annotated-DI-Fabric-Processor:${project.annotateddi_version}"
 
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.fabric_clothconfig_version}") {

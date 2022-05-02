@@ -23,5 +23,4 @@ bin/
 .project
 
 # fabric
-/run/
-/lib/
+*/run/

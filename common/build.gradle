@@ -16,7 +16,6 @@ dependencies {
     compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
 
     api "dev.the-fireplace:Annotated-DI-Common:${project.annotateddi_version}"
-    //annotationProcessor "dev.the-fireplace:Annotated-DI-Common:${project.annotateddi_version}:processor"
 
     compileOnly project(':api')
 }
