@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.mixin;
 
 import dev.the_fireplace.annotateddi.api.DIContainer;
-import dev.the_fireplace.lib.domain.network.NetworkEvents;
+import dev.the_fireplace.lib.network.NetworkEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;

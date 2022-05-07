@@ -15,11 +15,6 @@ import java.util.function.Consumer;
 public final class ForgeSpecificInitialization implements LoaderSpecificInitialization
 {
     @Override
-    public void initNetwork() {
-        //TODO
-    }
-
-    @Override
     public void registerServerStartingCallback(Consumer<MinecraftServer> runnable) {
         MinecraftForge.EVENT_BUS.register(new ServerStarting(runnable));
     }

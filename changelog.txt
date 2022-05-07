@@ -1,1 +1,2 @@
-Fixed an issue with some config GUI entries getting extra untranslated lines.
+Restructured in a way that also supports Forge
+Redesigned networking API
