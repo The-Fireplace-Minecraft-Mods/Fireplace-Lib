@@ -2,10 +2,12 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 plugins {
@@ -16,6 +18,7 @@ plugins {
     id 'com.modrinth.minotaur' version '1.1.0'
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
 
 archivesBaseName = "${archives_base_name}-Forge"
 def mainArtifactFile = new File(new File(buildDir, 'libs'), "$archivesBaseName-${version}.jar")
@@ -47,12 +50,20 @@ dependencies {
 
     api(fg.deobf("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}"))
     annotationProcessor "dev.the-fireplace:Annotated-DI-Forge-Processor:${project.annotateddi_version}"
+    annotationProcessor "org.spongepowered:mixin:${project.forge_mixin_version}:processor"
 
     //api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.forge_clothconfig_version}"))
 
     apiCompileOnly project(":api")
     compileOnly project(":api")
     compileOnly project(":common")
+}
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+
+    config "${mod_id}.mixins.json"
+    config "${mod_id}.optional.mixins.json"
 }
 
 minecraft {
@@ -63,8 +74,7 @@ minecraft {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            args "-mixin.config=${mod_id}.mixins.json", "-mixin.config=${mod_id}.optional.mixins.json"
             mods {
                 modClientRun {
                     source sourceSets.main
@@ -77,8 +87,7 @@ minecraft {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            args "-mixin.config=${mod_id}.mixins.json", "-mixin.config=${mod_id}.optional.mixins.json"
             mods {
                 modServerRun {
                     source sourceSets.main
@@ -92,8 +101,7 @@ minecraft {
             ideaModule "${rootProject.name}.${project.name}.main"
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             taskName 'Data'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            args "-mixin.config=${mod_id}.mixins.json", "-mixin.config=${mod_id}.optional.mixins.json"
             mods {
                 modDataRun {
                     source sourceSets.main
@@ -117,6 +125,9 @@ processResources {
 
     filesMatching(['**/*.json', 'pack.mcmeta', '**/mods.toml']) {
         expand buildProps
+    }
+    filesMatching('*.mixins.json') {
+        expand "refmap_target": "${mod_id}."
     }
 }
 
