@@ -7,6 +7,7 @@ import dev.the_fireplace.lib.domain.config.cloth.OptionBuilderFactory;
 import net.minecraft.client.gui.screens.Screen;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 public final class ForgeClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory
 {
@@ -18,13 +19,13 @@ public final class ForgeClothConfigScreenBuilderFactory implements ConfigScreenB
     }
 
     @Override
-    public ConfigScreenBuilder create(
+    public Optional<ConfigScreenBuilder> create(
         Translator translator,
         String titleTranslationKey,
         String initialCategoryTranslationKey,
         Screen parent,
         Runnable save
     ) {
-        return new ForgeClothConfigScreenBuilder(optionBuilderFactory, translator, titleTranslationKey, initialCategoryTranslationKey, parent, save);
+        return Optional.of(new ForgeClothConfigScreenBuilder(optionBuilderFactory, translator, titleTranslationKey, initialCategoryTranslationKey, parent, save));
     }
 }

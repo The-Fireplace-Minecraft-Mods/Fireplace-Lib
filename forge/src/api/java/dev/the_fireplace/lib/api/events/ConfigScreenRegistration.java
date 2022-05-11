@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.Event;
 /**
  * Event for registering a config GUI for use in the mod menu and potentially with other mods in the future.
  * Subscribe to this event on {@link FLEventBus#BUS}.
+ * {@link dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory#create} should never return empty when this is fired.
  */
 public final class ConfigScreenRegistration extends Event
 {

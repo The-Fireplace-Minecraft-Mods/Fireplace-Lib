@@ -6,8 +6,8 @@ import dev.the_fireplace.lib.CompatModids;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.chat.translation.proxy.ClientLocaleProxy;
 import dev.the_fireplace.lib.chat.translation.proxy.LocaleProxy;
-import dev.the_fireplace.lib.config.ConfigScreenBuilderProxy;
 import dev.the_fireplace.lib.config.cloth.FabricClothConfigScreenBuilderFactory;
+import dev.the_fireplace.lib.domain.config.ConfigScreenBuilderFactoryProxy;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class Client implements ClientDIModInitializer
@@ -24,7 +24,7 @@ public final class Client implements ClientDIModInitializer
             configScreenBuilderFactory = injector.getInstance(FabricClothConfigScreenBuilderFactory.class);
         }
         if (configScreenBuilderFactory != null) {
-            injector.getInstance(ConfigScreenBuilderProxy.class).setActiveConfigScreenBuilderFactory(configScreenBuilderFactory);
+            injector.getInstance(ConfigScreenBuilderFactoryProxy.class).setActiveConfigScreenBuilderFactory(configScreenBuilderFactory);
         }
     }
 }

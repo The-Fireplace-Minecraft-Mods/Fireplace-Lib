@@ -9,6 +9,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.Screen;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public final class FabricClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory
@@ -21,13 +22,13 @@ public final class FabricClothConfigScreenBuilderFactory implements ConfigScreen
     }
 
     @Override
-    public ConfigScreenBuilder create(
+    public Optional<ConfigScreenBuilder> create(
         Translator translator,
         String titleTranslationKey,
         String initialCategoryTranslationKey,
         Screen parent,
         Runnable save
     ) {
-        return new FabricClothConfigScreenBuilder(optionBuilderFactory, translator, titleTranslationKey, initialCategoryTranslationKey, parent, save);
+        return Optional.of(new FabricClothConfigScreenBuilder(optionBuilderFactory, translator, titleTranslationKey, initialCategoryTranslationKey, parent, save));
     }
 }

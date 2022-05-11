@@ -55,7 +55,7 @@ public final class FLConfigScreenFactory
             TRANSLATION_BASE + "global",
             parent,
             () -> configStateManager.save(config)
-        );
+        ).orElseThrow();
         addGlobalCategoryEntries();
 
         return this.configScreenBuilder.build();

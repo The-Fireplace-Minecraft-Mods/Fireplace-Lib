@@ -8,6 +8,7 @@ import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.client.entrypoints.ConfigGuiEntrypoint;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigGuiRegistry;
 import dev.the_fireplace.lib.config.FLConfigScreenFactory;
+import dev.the_fireplace.lib.domain.config.ConfigScreenBuilderFactoryProxy;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -36,13 +37,15 @@ public final class ModMenu implements ModMenuApi
         Map<String, ConfigScreenFactory<?>> configScreenFactories = new HashMap<>();
         ModMenuConfigGuiRegistry configGuiRegistry = new ModMenuConfigGuiRegistry(configScreenFactories);
         Injector injector = DIContainer.get();
-
-        FabricLoader.getInstance().getEntrypointContainers("fireplacelib", ConfigGuiEntrypoint.class).forEach(
-            configGuiEntrypoint -> {
-                configGuiRegistry.activeModId = configGuiEntrypoint.getProvider().getMetadata().getId();
-                configGuiEntrypoint.getEntrypoint().registerConfigGuis(injector, configGuiRegistry);
-            }
-        );
+        ConfigScreenBuilderFactoryProxy builderFactoryProxy = injector.getInstance(ConfigScreenBuilderFactoryProxy.class);
+        if (builderFactoryProxy.hasActiveFactory()) {
+            FabricLoader.getInstance().getEntrypointContainers("fireplacelib", ConfigGuiEntrypoint.class).forEach(
+                configGuiEntrypoint -> {
+                    configGuiRegistry.activeModId = configGuiEntrypoint.getProvider().getMetadata().getId();
+                    configGuiEntrypoint.getEntrypoint().registerConfigGuis(injector, configGuiRegistry);
+                }
+            );
+        }
 
         this.configScreenFactories = configGuiRegistry.configScreenFactories;
     }
@@ -69,6 +72,12 @@ public final class ModMenu implements ModMenuApi
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         // This is only necessary because Mod Menu detects this entrypoint and won't use getProvidedConfigScreenFactories for this mod's config GUI when it does.
         // Mods using FL's entrypoint shouldn't need a mod menu entrypoint at all.
-        return (ConfigScreenFactory<Screen>) flConfigScreenFactory::getConfigScreen;
+        Injector injector = DIContainer.get();
+        ConfigScreenBuilderFactoryProxy builderFactoryProxy = injector.getInstance(ConfigScreenBuilderFactoryProxy.class);
+        if (builderFactoryProxy.hasActiveFactory()) {
+            return (ConfigScreenFactory<Screen>) flConfigScreenFactory::getConfigScreen;
+        } else {
+            return ModMenuApi.super.getModConfigScreenFactory();
+        }
     }
 }
