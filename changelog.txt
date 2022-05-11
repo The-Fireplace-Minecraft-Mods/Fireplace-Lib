@@ -1,2 +1,3 @@
 Restructured in a way that also supports Forge
 Redesigned networking API
+Adjusted config screen registry to take a modid parameter
