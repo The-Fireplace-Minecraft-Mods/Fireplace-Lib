@@ -52,8 +52,9 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
     }
 
     @Override
-    public void enablePercentMode() {
+    public DecimalSliderOptionBuilder<S> enablePercentMode() {
         isPercent = true;
+        return this;
     }
 
     private void resetSliderToPrecision(byte precision) {
