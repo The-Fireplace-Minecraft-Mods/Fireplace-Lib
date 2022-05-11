@@ -1,6 +1,5 @@
 package dev.the_fireplace.lib.config.cloth;
 
-import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
@@ -12,7 +11,6 @@ import net.minecraft.client.gui.screens.Screen;
 import javax.inject.Inject;
 
 @Environment(EnvType.CLIENT)
-@Implementation(environment = "CLIENT")
 public final class FabricClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory
 {
     private final OptionBuilderFactory optionBuilderFactory;

@@ -46,7 +46,6 @@ dependencies {
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.fabric_clothconfig_version}") {
         exclude(group: 'net.fabricmc.fabric-api')
     }
-    include "me.shedaniel.cloth:cloth-config-fabric:${project.fabric_clothconfig_version}"
 
     apiImplementation fabricLoaderDependency
     apiImplementation fabricApiDependency
@@ -133,8 +132,8 @@ if (hasProperty('curseForgeApiKey')) {
                 displayName = "$archivesBaseName-$version"
                 relations {
                     requiredDependency 'fabric-api'
-                    embeddedLibrary 'cloth-config'
                     embeddedLibrary 'annotated-di'
+                    optionalDependency 'cloth-config'
                     optionalDependency 'modmenu'
                 }
             }
