@@ -10,6 +10,6 @@ public final class ConfigGui implements ConfigGuiEntrypoint
     @Override
     public void registerConfigGuis(Injector injector, ConfigGuiRegistry configGuiRegistry) {
         FLConfigScreenFactory flConfigScreenFactory = injector.getInstance(FLConfigScreenFactory.class);
-        configGuiRegistry.register(flConfigScreenFactory::getConfigScreen);
+        configGuiRegistry.register(, flConfigScreenFactory::getConfigScreen);
     }
 }

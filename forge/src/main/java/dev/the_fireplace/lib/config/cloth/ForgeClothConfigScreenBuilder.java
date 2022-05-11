@@ -16,8 +16,6 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -26,8 +24,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Environment(EnvType.CLIENT)
-public final class FabricClothConfigScreenBuilder implements ConfigScreenBuilder
+public final class ForgeClothConfigScreenBuilder implements ConfigScreenBuilder
 {
     private static final OptionTypeConverter<Short, Integer> SHORT_TYPE_CONVERTER = new OptionTypeConverter<>()
     {
@@ -62,7 +59,7 @@ public final class FabricClothConfigScreenBuilder implements ConfigScreenBuilder
     private ConfigCategory category;
     private SubCategoryTracker subCategory = null;
 
-    public FabricClothConfigScreenBuilder(
+    public ForgeClothConfigScreenBuilder(
         OptionBuilderFactory optionBuilderFactory,
         Translator translator,
         String titleTranslationKey,

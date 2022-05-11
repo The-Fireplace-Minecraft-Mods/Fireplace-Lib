@@ -7,5 +7,5 @@ import net.minecraft.client.gui.screens.Screen;
  */
 public interface ConfigGuiRegistry
 {
-    <S extends Screen> void register(ConfigScreenFactory<S> createConfigGui);
+    <S extends Screen> void register(String modid, ConfigScreenFactory<S> createConfigGui);
 }

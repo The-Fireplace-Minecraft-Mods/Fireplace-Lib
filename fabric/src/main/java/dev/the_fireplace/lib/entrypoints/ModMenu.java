@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.client.entrypoints.ConfigGuiEntrypoint;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigGuiRegistry;
 import dev.the_fireplace.lib.config.FLConfigScreenFactory;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.screens.Screen;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public final class ModMenu implements ModMenuApi
@@ -55,8 +57,11 @@ public final class ModMenu implements ModMenuApi
         }
 
         @Override
-        public <S extends Screen> void register(dev.the_fireplace.lib.api.client.interfaces.ConfigScreenFactory<S> createConfigGui) {
-            configScreenFactories.put(activeModId, createConfigGui::create);
+        public <S extends Screen> void register(String modid, dev.the_fireplace.lib.api.client.interfaces.ConfigScreenFactory<S> createConfigGui) {
+            if (!Objects.equals(activeModId, modid)) {
+                FireplaceLibConstants.getLogger().warn("Registering config screen for mod {} while active mod is {}.", modid, activeModId);
+            }
+            configScreenFactories.put(modid, createConfigGui::create);
         }
     }
 

@@ -5,20 +5,17 @@ import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.injectables.ConfigScreenBuilderFactory;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenBuilder;
 import dev.the_fireplace.lib.domain.config.cloth.OptionBuilderFactory;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.Screen;
 
 import javax.inject.Inject;
 
-@Environment(EnvType.CLIENT)
 @Implementation(environment = "CLIENT")
-public final class FabricClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory
+public final class ForgeClothConfigScreenBuilderFactory implements ConfigScreenBuilderFactory
 {
     private final OptionBuilderFactory optionBuilderFactory;
 
     @Inject
-    public FabricClothConfigScreenBuilderFactory(OptionBuilderFactory optionBuilderFactory) {
+    public ForgeClothConfigScreenBuilderFactory(OptionBuilderFactory optionBuilderFactory) {
         this.optionBuilderFactory = optionBuilderFactory;
     }
 
@@ -30,6 +27,6 @@ public final class FabricClothConfigScreenBuilderFactory implements ConfigScreen
         Screen parent,
         Runnable save
     ) {
-        return new FabricClothConfigScreenBuilder(optionBuilderFactory, translator, titleTranslationKey, initialCategoryTranslationKey, parent, save);
+        return new ForgeClothConfigScreenBuilder(optionBuilderFactory, translator, titleTranslationKey, initialCategoryTranslationKey, parent, save);
     }
 }

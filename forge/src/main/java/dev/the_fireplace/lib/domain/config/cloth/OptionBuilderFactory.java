@@ -1,17 +1,15 @@
-package dev.the_fireplace.lib.domain.config;
+package dev.the_fireplace.lib.domain.config.cloth;
 
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.DecimalSliderOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.DropdownOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.NumericOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.OptionBuilder;
+import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.function.Consumer;
 
-@Environment(EnvType.CLIENT)
 public interface OptionBuilderFactory
 {
     <S> OptionBuilder<S> create(
