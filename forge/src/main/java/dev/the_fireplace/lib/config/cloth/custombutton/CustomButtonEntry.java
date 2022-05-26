@@ -3,7 +3,7 @@ package dev.the_fireplace.lib.config.cloth.custombutton;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreen;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreenFactory;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
@@ -58,7 +58,7 @@ public class CustomButtonEntry extends TooltipListEntry<String>
             //noinspection unchecked
             Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();
             Minecraft.getInstance().setScreen(optionBuilderScreen);
-            DIContainer.get().getInstance(ExecutionManager.class).runKillable(() -> {
+            FireplaceLibConstants.getInjector().getInstance(ExecutionManager.class).runKillable(() -> {
                 Optional<String> builderReturnedValue = Optional.empty();
                 try {
                     builderReturnedValue = willReturnNewValuePromise.get();

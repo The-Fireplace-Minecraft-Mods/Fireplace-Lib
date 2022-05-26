@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.chat.translation.proxy;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 
 public abstract class LocaleProxy
 {
@@ -9,7 +9,7 @@ public abstract class LocaleProxy
     public static LocaleProxy getInstance() {
         LocaleProxy inst = instance;
         if (inst == null) {
-            instance = DIContainer.get().getInstance(ServerLocaleProxy.class);
+            instance = FireplaceLibConstants.getInjector().getInstance(ServerLocaleProxy.class);
         }
 
         return instance;

@@ -32,8 +32,8 @@ side = "BOTH"
 [[dependencies.fireplacelib]]
 modId = "annotateddi"
 mandatory = true
-versionRange = "[2.2,3)"
-ordering = "BEFORE"
+versionRange = "[3,4)"
+ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.fireplacelib]]

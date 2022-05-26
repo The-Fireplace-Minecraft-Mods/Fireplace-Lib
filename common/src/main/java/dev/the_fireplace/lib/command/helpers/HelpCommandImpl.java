@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.command.helpers;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Injector;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -8,7 +9,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.injectables.TextPaginator;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
@@ -38,9 +39,10 @@ public final class HelpCommandImpl implements HelpCommand
     HelpCommandImpl(String modid, LiteralArgumentBuilder<CommandSourceStack> helpCommandBase) {
         this.modid = modid;
         this.helpCommandBase = helpCommandBase;
-        this.translator = DIContainer.get().getInstance(TranslatorManager.class).getTranslator(modid);
-        this.textStyles = DIContainer.get().getInstance(TextStyles.class);
-        this.textPaginator = DIContainer.get().getInstance(TextPaginator.class);
+        Injector injector = FireplaceLibConstants.getInjector();
+        this.translator = injector.getInstance(TranslatorManager.class).getTranslator(modid);
+        this.textStyles = injector.getInstance(TextStyles.class);
+        this.textPaginator = injector.getInstance(TextPaginator.class);
     }
 
     @Override

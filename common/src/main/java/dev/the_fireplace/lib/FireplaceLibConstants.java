@@ -1,5 +1,7 @@
 package dev.the_fireplace.lib;
 
+import com.google.inject.Injector;
+import dev.the_fireplace.annotateddi.api.Injectors;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +12,7 @@ public final class FireplaceLibConstants
 {
     public static final String MODID = "fireplacelib";
 
-    private static Logger LOGGER = LogManager.getLogger(MODID);
+    private static final Logger LOGGER = LogManager.getLogger(MODID);
 
     @Nullable
     private static MinecraftServer minecraftServer = null;
@@ -32,7 +34,7 @@ public final class FireplaceLibConstants
         return LOGGER;
     }
 
-    public static void setLogger(Logger logger) {
-        LOGGER = logger;
+    public static Injector getInjector() {
+        return Injectors.INSTANCE.getAutoInjector(FireplaceLibConstants.MODID);
     }
 }

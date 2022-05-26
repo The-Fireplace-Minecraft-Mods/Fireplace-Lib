@@ -1,6 +1,8 @@
 package dev.the_fireplace.lib.entrypoints;
 
-import dev.the_fireplace.annotateddi.api.DIEventBus;
+import com.google.inject.Injector;
+import dev.the_fireplace.lib.FireplaceLibConstants;
+import dev.the_fireplace.lib.init.FireplaceLibInitializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.IExtensionPoint;
@@ -12,14 +14,14 @@ import net.minecraftforge.network.NetworkConstants;
 public final class Forge
 {
     public Forge() {
-        // Register as optional on both sides
-        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
-
-        // Register "entrypoints"
-        DIEventBus.BUS.register(new Main());
+        Injector injector = FireplaceLibConstants.getInjector();
+        injector.getInstance(FireplaceLibInitializer.class).init();
         DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
-            DIEventBus.BUS.register(new Client());
+            injector.getInstance(ForgeClientInitializer.class).init();
             return null;
         });
+
+        // Register as optional on both sides
+        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
     }
 }

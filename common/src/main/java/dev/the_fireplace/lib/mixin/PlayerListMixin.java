@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.mixin;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
@@ -14,6 +14,6 @@ public class PlayerListMixin
 {
     @Inject(at = @At("HEAD"), method = "remove")
     public void remove(ServerPlayer player, CallbackInfo info) {
-        DIContainer.get().getInstance(NetworkEvents.class).onDisconnected(player.getUUID());
+        FireplaceLibConstants.getInjector().getInstance(NetworkEvents.class).onDisconnected(player.getUUID());
     }
 }

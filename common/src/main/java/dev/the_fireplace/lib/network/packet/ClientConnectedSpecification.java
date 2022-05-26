@@ -1,6 +1,6 @@
 package dev.the_fireplace.lib.network.packet;
 
-import dev.the_fireplace.annotateddi.api.DIContainer;
+import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketReceiver;
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketSpecification;
 import dev.the_fireplace.lib.network.ServerboundPackets;
@@ -23,6 +23,6 @@ public final class ClientConnectedSpecification implements ServerboundPacketSpec
 
     @Override
     public Supplier<ServerboundPacketReceiver> getReceiverFactory() {
-        return () -> DIContainer.get().getInstance(ClientConnectedPacketReceiver.class);
+        return () -> FireplaceLibConstants.getInjector().getInstance(ClientConnectedPacketReceiver.class);
     }
 }

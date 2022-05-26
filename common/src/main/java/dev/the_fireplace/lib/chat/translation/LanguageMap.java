@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import net.minecraft.util.GsonHelper;
@@ -28,7 +27,7 @@ final class LanguageMap
     private final Map<String, String> languageList = new ConcurrentHashMap<>();
 
     LanguageMap(String modid, String locale) {
-        String langDir = DIContainer.get().getInstance(DirectoryResolver.class).getLangDirectory(modid);
+        String langDir = FireplaceLibConstants.getInjector().getInstance(DirectoryResolver.class).getLangDirectory(modid);
         try {
             JsonElement jsonelement = getLangJsonElement(locale, langDir);
             JsonObject jsonobject = GsonHelper.convertToJsonObject(jsonelement, "strings");

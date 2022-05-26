@@ -3,7 +3,6 @@ package dev.the_fireplace.lib.entrypoints;
 import com.google.inject.Injector;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import dev.the_fireplace.annotateddi.api.DIContainer;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.client.entrypoints.ConfigGuiEntrypoint;
 import dev.the_fireplace.lib.api.client.interfaces.ConfigGuiRegistry;
@@ -21,7 +20,7 @@ import java.util.Objects;
 @Environment(EnvType.CLIENT)
 public final class ModMenu implements ModMenuApi
 {
-    private final FLConfigScreenFactory flConfigScreenFactory = DIContainer.get().getInstance(FLConfigScreenFactory.class);
+    private final FLConfigScreenFactory flConfigScreenFactory = FireplaceLibConstants.getInjector().getInstance(FLConfigScreenFactory.class);
     private Map<String, ConfigScreenFactory<?>> configScreenFactories = null;
 
     @Override
@@ -36,7 +35,7 @@ public final class ModMenu implements ModMenuApi
     private void loadConfigScreenFactories() {
         Map<String, ConfigScreenFactory<?>> configScreenFactories = new HashMap<>();
         ModMenuConfigGuiRegistry configGuiRegistry = new ModMenuConfigGuiRegistry(configScreenFactories);
-        Injector injector = DIContainer.get();
+        Injector injector = FireplaceLibConstants.getInjector();
         ConfigScreenBuilderFactoryProxy builderFactoryProxy = injector.getInstance(ConfigScreenBuilderFactoryProxy.class);
         if (builderFactoryProxy.hasActiveFactory()) {
             FabricLoader.getInstance().getEntrypointContainers("fireplacelib", ConfigGuiEntrypoint.class).forEach(
@@ -72,7 +71,7 @@ public final class ModMenu implements ModMenuApi
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         // This is only necessary because Mod Menu detects this entrypoint and won't use getProvidedConfigScreenFactories for this mod's config GUI when it does.
         // Mods using FL's entrypoint shouldn't need a mod menu entrypoint at all.
-        Injector injector = DIContainer.get();
+        Injector injector = FireplaceLibConstants.getInjector();
         ConfigScreenBuilderFactoryProxy builderFactoryProxy = injector.getInstance(ConfigScreenBuilderFactoryProxy.class);
         if (builderFactoryProxy.hasActiveFactory()) {
             return (ConfigScreenFactory<Screen>) flConfigScreenFactory::getConfigScreen;
