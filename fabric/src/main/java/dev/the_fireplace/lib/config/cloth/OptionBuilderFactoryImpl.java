@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.config.cloth;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.CompatModids;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.DecimalSliderOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.DropdownOptionBuilder;
@@ -13,14 +14,11 @@ import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothNumericOption;
 import dev.the_fireplace.lib.domain.config.OptionTypeConverter;
 import dev.the_fireplace.lib.domain.config.cloth.OptionBuilderFactory;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.function.Consumer;
 
-@Environment(EnvType.CLIENT)
-@Implementation
-public class OptionBuilderFactoryImpl implements OptionBuilderFactory
+@Implementation(environment = "CLIENT", dependencyModIds = CompatModids.CLOTH_CONFIG_FABRIC)
+public final class OptionBuilderFactoryImpl implements OptionBuilderFactory
 {
     @Override
     public <S> OptionBuilder<S> create(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {

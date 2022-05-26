@@ -1,6 +1,7 @@
 package dev.the_fireplace.lib.config.cloth;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
+import dev.the_fireplace.lib.CompatModids;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.DecimalSliderOptionBuilder;
 import dev.the_fireplace.lib.api.client.interfaces.DropdownOptionBuilder;
@@ -16,7 +17,7 @@ import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 
 import java.util.function.Consumer;
 
-@Implementation(environment = "CLIENT")
+@Implementation(environment = "CLIENT", dependencyModIds = CompatModids.CLOTH_CONFIG_FORGE)
 public final class OptionBuilderFactoryImpl implements OptionBuilderFactory
 {
     @Override
