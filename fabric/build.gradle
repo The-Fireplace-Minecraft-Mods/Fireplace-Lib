@@ -73,7 +73,6 @@ loom {
 }
 
 processResources {
-    from project(':common').sourceSets.main.resources
     inputs.property 'version', project.version
 
     def buildProps = project.properties.clone()
@@ -85,11 +84,15 @@ processResources {
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('sources')
+    from project(':common').sourceSets.main.allSource
+    from project(':api').sourceSets.main.allSource
     from sourceSets.main.allSource
     from sourceSets.api.allSource
 }
 
 javadoc {
+    source project(':common').sourceSets.main.allJava
+    source project(':api').sourceSets.main.allJava
     source sourceSets.api.allJava
     source sourceSets.main.allJava
 }
@@ -99,14 +102,16 @@ java {
     withJavadocJar()
 }
 
-tasks.withType(JavaCompile) {
-    source(project(':common').sourceSets.main.allSource)
-    source(project(':api').sourceSets.main.allSource)
+jar {
+    from project(':common').sourceSets.main.output
+    from project(':api').sourceSets.main.output
+    from sourceSets.api.output
 }
 
 task apiJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('api')
     from sourceSets.api.output
+    from project(':api').sourceSets.main.output
     from 'src/api/dummyresources/fabric.mod.json'
 }
 

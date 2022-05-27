@@ -118,13 +118,7 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
-tasks.withType(JavaCompile) {
-    source(project(":common").sourceSets.main.allSource)
-    source(project(':api').sourceSets.main.allSource)
-}
-
 processResources {
-    from project(":common").sourceSets.main.resources
     def buildProps = project.properties.clone()
 
     filesMatching(['**/*.json', 'pack.mcmeta', '**/mods.toml']) {
@@ -135,15 +129,17 @@ processResources {
     }
 }
 
-jar.finalizedBy('reobfJar')
-
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('sources')
+    from project(':common').sourceSets.main.allSource
+    from project(':api').sourceSets.main.allSource
     from sourceSets.main.allSource
     from sourceSets.api.allSource
 }
 
 javadoc {
+    source project(':common').sourceSets.main.allJava
+    source project(':api').sourceSets.main.allJava
     source sourceSets.api.allJava
     source sourceSets.main.allJava
 }
@@ -153,8 +149,17 @@ java {
     withJavadocJar()
 }
 
+jar {
+    from project(':common').sourceSets.main.output
+    from project(':api').sourceSets.main.output
+    from sourceSets.api.output
+}
+
+jar.finalizedBy('reobfJar')
+
 task apiJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('api')
+    from project(':api').sourceSets.main.output
     from sourceSets.api.output
 }
 
