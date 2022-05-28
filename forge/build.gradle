@@ -185,7 +185,7 @@ if (hasProperty('curseForgeApiKey')) {
             mainArtifact(mainArtifactFile) {
                 displayName = "$archivesBaseName-$version"
                 relations {
-                    requiredDependency 'annotated-di'
+                    requiredDependency 'annotated-di-forge'
                     optionalDependency 'cloth-config'
                 }
             }
@@ -202,7 +202,7 @@ import com.modrinth.minotaur.TaskModrinthUpload
 if (hasProperty('modrinthApiKey')) {
     task publishModrinth(type: TaskModrinthUpload) {
         token = modrinthApiKey
-        projectId = ''
+        projectId = 'ING0LAPF'
         versionNumber = version
         versionName = project.mod_version
         uploadFile = mainArtifactFile
