@@ -122,11 +122,12 @@ processResources {
     from project(":common").sourceSets.main.resources
     def buildProps = project.properties.clone()
 
-    filesMatching(['**/*.json', 'pack.mcmeta', '**/mods.toml']) {
-        expand buildProps
-    }
     filesMatching('*.mixins.json') {
         expand "refmap_target": "${mod_id}."
+    }
+
+    filesMatching(['**/*.json', 'pack.mcmeta', '**/mods.toml']) {
+        expand buildProps
     }
 }
 

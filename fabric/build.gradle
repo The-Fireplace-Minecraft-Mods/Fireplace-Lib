@@ -78,6 +78,10 @@ processResources {
 
     def buildProps = project.properties.clone()
 
+    filesMatching('*.mixins.json') {
+        expand "refmap_target": "${archivesBaseName}-"
+    }
+
     filesMatching(['**/*.json', 'pack.mcmeta']) {
         expand buildProps
     }
