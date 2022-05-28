@@ -73,6 +73,7 @@ loom {
 }
 
 processResources {
+    from project(":common").sourceSets.main.resources
     inputs.property 'version', project.version
 
     def buildProps = project.properties.clone()
