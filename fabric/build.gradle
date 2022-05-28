@@ -102,10 +102,10 @@ java {
     withJavadocJar()
 }
 
-jar {
-    from project(':common').sourceSets.main.output
-    from project(':api').sourceSets.main.output
-    from sourceSets.api.output
+compileJava {
+    source project(':common').sourceSets.main.allSource
+    source project(':api').sourceSets.main.allSource
+    source sourceSets.api.allSource
 }
 
 task apiJar(type: Jar, dependsOn: classes) {
