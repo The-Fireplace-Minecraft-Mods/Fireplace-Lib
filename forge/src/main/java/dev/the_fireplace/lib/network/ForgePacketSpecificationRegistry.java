@@ -6,6 +6,7 @@ import dev.the_fireplace.lib.api.network.interfaces.ClientboundPacketSpecificati
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketReceiver;
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketSpecification;
 import dev.the_fireplace.lib.domain.network.ClientboundReceiverRegistry;
+import dev.the_fireplace.lib.domain.network.SimpleChannelManager;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
