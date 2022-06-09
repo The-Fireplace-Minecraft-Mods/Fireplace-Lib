@@ -13,7 +13,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.inject.Inject;
@@ -68,7 +67,7 @@ public final class TextPaginatorImpl implements TextPaginator
 
     private Component getPaginationHeader(CommandSource target, int currentPage, int totalPageCount) {
         Component pageNumber = translator.getTextForTarget(target, "fireplacelib.chat.page.num", currentPage, totalPageCount);
-        return new TextComponent("-----------------").setStyle(textStyles.green())
+        return Component.literal("-----------------").setStyle(textStyles.green())
             .append(pageNumber)
             .append("-------------------").setStyle(textStyles.green());
     }
@@ -80,7 +79,7 @@ public final class TextPaginatorImpl implements TextPaginator
     private Component getPaginationFooter(CommandSource target, String switchPageCommand, int currentPage, int totalPageCount) {
         Component nextButton = getNextButton(target, switchPageCommand, currentPage, totalPageCount);
         Component prevButton = getPreviousButton(target, switchPageCommand, currentPage);
-        return new TextComponent("---------------").setStyle(textStyles.green())
+        return Component.literal("---------------").setStyle(textStyles.green())
             .append(prevButton)
             .append("---").setStyle(textStyles.green())
             .append(nextButton)
@@ -91,13 +90,13 @@ public final class TextPaginatorImpl implements TextPaginator
         ClickEvent viewNextPage = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format(switchPageCommand, currentPage + 1));
         return currentPage < totalPageCount
             ? translator.getTextForTarget(target, "fireplacelib.chat.page.next").setStyle(Style.EMPTY.withClickEvent(viewNextPage))
-            : new TextComponent("-----");
+            : Component.literal("-----");
     }
 
     private Component getPreviousButton(CommandSource target, String switchPageCommand, int currentPage) {
         ClickEvent viewPreviousPage = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format(switchPageCommand, currentPage - 1));
         return currentPage > 1
             ? translator.getTextForTarget(target, "fireplacelib.chat.page.prev").setStyle(Style.EMPTY.withClickEvent(viewPreviousPage))
-            : new TextComponent("------");
+            : Component.literal("------");
     }
 }

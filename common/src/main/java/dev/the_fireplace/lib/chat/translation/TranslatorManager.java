@@ -7,10 +7,9 @@ import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -81,15 +80,15 @@ public final class TranslatorManager implements TranslatorFactory
             if (!localizedClients.isLocalized(modid, target)) {
                 return getTranslatedText(translationKey, args);
             } else {
-                return new TranslatableComponent(translationKey, args);
+                return Component.translatable(translationKey, args);
             }
         }
 
         @Override
-        public TextComponent getTranslatedText(String translationKey, Object... translationArguments) {
+        public MutableComponent getTranslatedText(String translationKey, Object... translationArguments) {
             Object[] readableTranslationArguments = convertArgumentsToStrings(translationArguments);
 
-            return new TextComponent(i18n.translateToLocalFormatted(modid, translationKey, readableTranslationArguments));
+            return Component.literal(i18n.translateToLocalFormatted(modid, translationKey, readableTranslationArguments));
         }
 
         private Object[] convertArgumentsToStrings(Object[] arguments) {

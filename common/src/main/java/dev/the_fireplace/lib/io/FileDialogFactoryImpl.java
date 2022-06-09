@@ -4,7 +4,6 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.client.injectables.FileDialogFactory;
 import dev.the_fireplace.lib.api.io.injectables.FilePathStorage;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
@@ -31,7 +30,7 @@ public final class FileDialogFactoryImpl implements FileDialogFactory
     @Override
     @Nullable
     public File showOpenFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        return showOpenFileDialog(new TranslatableComponent(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
+        return showOpenFileDialog(Component.translatable(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
     }
 
     @Override
@@ -49,7 +48,7 @@ public final class FileDialogFactoryImpl implements FileDialogFactory
     @Override
     @Nullable
     public File[] showOpenMultiFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        return showOpenMultiFileDialog(new TranslatableComponent(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
+        return showOpenMultiFileDialog(Component.translatable(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
     }
 
     @Override
@@ -75,7 +74,7 @@ public final class FileDialogFactoryImpl implements FileDialogFactory
     @Override
     @Nullable
     public File showSaveFileDialog(String titleTranslationKey, boolean rememberPath, @Nullable String[] allowedFileTypePatterns, @Nullable String allowedFileTypesDescription) {
-        return showSaveFileDialog(new TranslatableComponent(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
+        return showSaveFileDialog(Component.translatable(titleTranslationKey), rememberPath, allowedFileTypePatterns, allowedFileTypesDescription);
     }
 
     @Override

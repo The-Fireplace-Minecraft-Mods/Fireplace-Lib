@@ -4,7 +4,8 @@
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ArgumentTypesMixin",
+    "ArgumentNodeStubMixin",
+    "ArgumentTypeInfosAccessor",
     "CommandSourceStackAccessor",
     "PlayerListMixin"
   ],

@@ -62,7 +62,8 @@ public final class MessageQueueImpl implements MessageQueue
         private synchronized void sendMessages() {
             sendingMessages.set(true);
             while (!messages.isEmpty()) {
-                messageTarget.sendMessage(messages.remove(), emptyUUID.get());
+                //TODO use message types?
+                messageTarget.sendSystemMessage(messages.remove());
             }
             sendingMessages.set(false);
         }

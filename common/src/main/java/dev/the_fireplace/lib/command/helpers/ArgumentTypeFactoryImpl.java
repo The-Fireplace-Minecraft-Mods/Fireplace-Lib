@@ -7,8 +7,9 @@ import dev.the_fireplace.lib.api.command.injectables.ArgumentTypeFactory;
 import dev.the_fireplace.lib.api.command.interfaces.OfflineSupportedPlayerArgumentType;
 import dev.the_fireplace.lib.api.command.interfaces.PlayerSelector;
 import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
+import dev.the_fireplace.lib.mixin.ArgumentTypeInfosAccessor;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.synchronization.ArgumentTypes;
+import net.minecraft.core.Registry;
 
 import javax.inject.Singleton;
 
@@ -29,6 +30,7 @@ public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory
     }
 
     public void registerArgumentTypes() {
-        ArgumentTypes.register("offline_player", OfflinePlayerArgumentType.class, OFFLINE_PLAYER_ARGUMENT_SERIALIZER);
+        //noinspection ResultOfMethodCallIgnored
+        ArgumentTypeInfosAccessor.callRegister(Registry.COMMAND_ARGUMENT_TYPE, "offline_player", OfflinePlayerArgumentType.class, OFFLINE_PLAYER_ARGUMENT_SERIALIZER);
     }
 }

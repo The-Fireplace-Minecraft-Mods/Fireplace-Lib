@@ -9,12 +9,14 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.the_fireplace.lib.api.command.interfaces.OfflineSupportedPlayerArgumentType;
 import dev.the_fireplace.lib.api.command.interfaces.PossiblyOfflinePlayer;
+import dev.the_fireplace.lib.command.helpers.OfflinePlayerArgumentType.Serializer.Template;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.commands.arguments.selector.EntitySelectorParser;
-import net.minecraft.commands.synchronization.ArgumentSerializer;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -118,29 +120,47 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
     }
 
     /**
-     * Serialize like {@link EntityArgument.Serializer} so we can mimic it when sending to a client that doesn't have FL installed.
+     * Serialize like {@link EntityArgument.Info} so we can mimic it when sending to a client that doesn't have FL installed.
      */
-    public static class Serializer implements ArgumentSerializer<OfflinePlayerArgumentType>
+    public static class Serializer implements ArgumentTypeInfo<OfflinePlayerArgumentType, Template>
     {
         @Override
-        public void serializeToNetwork(OfflinePlayerArgumentType entityArgumentType, FriendlyByteBuf packetByteBuf) {
+        public void serializeToNetwork(Template template, FriendlyByteBuf packetByteBuf) {
             byte b = 0;
-            b = (byte) (b | 1);
-
-            b = (byte) (b | 2);
+            b |= 1;
+            b |= 2;
 
             packetByteBuf.writeByte(b);
         }
 
         @Override
-        public OfflinePlayerArgumentType deserializeFromNetwork(FriendlyByteBuf packetByteBuf) {
-            return new OfflinePlayerArgumentType();
+        public Template deserializeFromNetwork(FriendlyByteBuf packetByteBuf) {
+            return new Template();
         }
 
         @Override
-        public void serializeToJson(OfflinePlayerArgumentType entityArgumentType, JsonObject jsonObject) {
+        public void serializeToJson(Template template, JsonObject jsonObject) {
             jsonObject.addProperty("amount", "single");
             jsonObject.addProperty("type", "players");
+        }
+
+        @Override
+        public Template unpack(OfflinePlayerArgumentType argumentType) {
+            return new Template();
+        }
+
+        public final class Template implements ArgumentTypeInfo.Template<OfflinePlayerArgumentType>
+        {
+
+            @Override
+            public OfflinePlayerArgumentType instantiate(CommandBuildContext buildContext) {
+                return new OfflinePlayerArgumentType();
+            }
+
+            @Override
+            public ArgumentTypeInfo<OfflinePlayerArgumentType, ?> type() {
+                return OfflinePlayerArgumentType.Serializer.this;
+            }
         }
     }
 }
