@@ -5,7 +5,6 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.command.FLCommands;
-import dev.the_fireplace.lib.command.helpers.ArgumentTypeFactoryImpl;
 import dev.the_fireplace.lib.domain.init.LoaderSpecificInitialization;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.minecraft.server.MinecraftServer;
@@ -21,7 +20,6 @@ public final class FireplaceLibInitializer
     private final ExecutionManager executionManager;
     private final FLCommands fireplaceLibCommands;
     private final SaveTimer saveTimer;
-    private final ArgumentTypeFactoryImpl argumentTypeFactory;
     private final LoaderSpecificInitialization loaderSpecificInitialization;
     private final NetworkEvents networkEvents;
 
@@ -31,7 +29,6 @@ public final class FireplaceLibInitializer
         ExecutionManager executionManager,
         FLCommands fireplaceLibCommands,
         SaveTimer saveTimer,
-        ArgumentTypeFactoryImpl argumentTypeFactory,
         LoaderSpecificInitialization loaderSpecificInitialization,
         NetworkEvents networkEvents
     ) {
@@ -39,7 +36,6 @@ public final class FireplaceLibInitializer
         this.executionManager = executionManager;
         this.fireplaceLibCommands = fireplaceLibCommands;
         this.saveTimer = saveTimer;
-        this.argumentTypeFactory = argumentTypeFactory;
         this.loaderSpecificInitialization = loaderSpecificInitialization;
         this.networkEvents = networkEvents;
     }
@@ -48,7 +44,6 @@ public final class FireplaceLibInitializer
         if (!initialized) {
             initialized = true;
             translatorFactory.addTranslator(FireplaceLibConstants.MODID);
-            argumentTypeFactory.registerArgumentTypes();
             networkEvents.init();
             loaderSpecificInitialization.registerServerStartingCallback(this::onServerStarting);
             loaderSpecificInitialization.registerServerStoppingCallback(this::onServerStopping);
