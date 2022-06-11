@@ -4,8 +4,8 @@ import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonBuilder;
 import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothGenericOption;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 

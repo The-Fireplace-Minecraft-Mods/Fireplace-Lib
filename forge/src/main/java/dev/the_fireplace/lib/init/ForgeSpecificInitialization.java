@@ -4,10 +4,10 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.domain.init.LoaderSpecificInitialization;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStoppingEvent;
 
 import java.util.function.Consumer;
 
@@ -32,7 +32,7 @@ public final class ForgeSpecificInitialization implements LoaderSpecificInitiali
     private record ServerStarting(Consumer<MinecraftServer> runnable)
     {
         @SubscribeEvent
-        public void onServerStarting(ServerStartingEvent event) {
+        public void onServerStarting(FMLServerStartingEvent event) {
             runnable.accept(event.getServer());
         }
     }
@@ -40,7 +40,7 @@ public final class ForgeSpecificInitialization implements LoaderSpecificInitiali
     private record ServerStopping(Consumer<MinecraftServer> runnable)
     {
         @SubscribeEvent
-        public void onServerStopping(ServerStoppingEvent event) {
+        public void onServerStopping(FMLServerStoppingEvent event) {
             runnable.accept(event.getServer());
         }
     }
@@ -48,7 +48,7 @@ public final class ForgeSpecificInitialization implements LoaderSpecificInitiali
     private record ServerStopped(Consumer<MinecraftServer> runnable)
     {
         @SubscribeEvent
-        public void onServerStopped(ServerStoppedEvent event) {
+        public void onServerStopped(FMLServerStoppedEvent event) {
             runnable.accept(event.getServer());
         }
     }

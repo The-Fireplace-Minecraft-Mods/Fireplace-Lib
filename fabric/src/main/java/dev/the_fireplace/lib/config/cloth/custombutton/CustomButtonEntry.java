@@ -17,7 +17,6 @@ import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -60,7 +59,7 @@ public class CustomButtonEntry extends TooltipListEntry<String>
             Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(Minecraft.getInstance().screen, this.value.get());
             //noinspection unchecked
             Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();
-            Minecraft.getInstance().openScreen(optionBuilderScreen);
+            Minecraft.getInstance().setScreen(optionBuilderScreen);
             FireplaceLibConstants.getInjector().getInstance(ExecutionManager.class).runKillable(() -> {
                 Optional<String> builderReturnedValue = Optional.empty();
                 try {
