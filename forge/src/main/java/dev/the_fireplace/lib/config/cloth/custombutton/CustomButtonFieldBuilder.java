@@ -3,7 +3,6 @@ package dev.the_fireplace.lib.config.cloth.custombutton;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreenFactory;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -86,7 +85,7 @@ public class CustomButtonFieldBuilder extends FieldBuilder<String, CustomButtonE
         return this;
     }
 
-    @NotNull
+    @Override
     public CustomButtonEntry build() {
         CustomButtonEntry entry = new CustomButtonEntry(this.getFieldNameKey(), this.value, this.getResetButtonKey(), this.defaultValue, this.saveConsumer, this.buildOptionScreenFactory, this.buttonTextSupplier);
         entry.setTooltipSupplier(() -> this.tooltipSupplier.apply(entry.getValue()));

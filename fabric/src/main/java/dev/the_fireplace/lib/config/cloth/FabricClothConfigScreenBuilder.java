@@ -5,8 +5,6 @@ import com.google.common.collect.Multimap;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.client.interfaces.*;
-import dev.the_fireplace.lib.compat.modmenu.ModMenuCompat;
-import dev.the_fireplace.lib.compat.modmenu.OldModMenuCompat;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonFieldBuilder;
 import dev.the_fireplace.lib.config.cloth.custombutton.CustomButtonOption;
 import dev.the_fireplace.lib.config.cloth.optionbuilder.ClothGenericOption;
@@ -20,10 +18,6 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.SemanticVersion;
-import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -83,36 +77,9 @@ public final class FabricClothConfigScreenBuilder implements ConfigScreenBuilder
             .setTitle(translator.getTranslatedText(titleTranslationKey));
         this.entryBuilder = configBuilder.entryBuilder();
         this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
-        if (hasOldModMenu()) {
-            FireplaceLibConstants.getLogger().info("Mod Menu 2.0.2 or older detected, enabling compat for cloth config GUI: {}.", translator.getTranslatedString(titleTranslationKey));
-            this.configBuilder.setSavingRunnable(() -> {
-                save.run();
-                runOldModMenuCompat();
-            });
-        } else {
-            this.configBuilder.setSavingRunnable(save);
-        }
+        this.configBuilder.setSavingRunnable(save);
         this.dependencyTracker = new ClothConfigDependencyHandler();
         this.categoryEntries = ArrayListMultimap.create();
-    }
-
-    private boolean hasOldModMenu() {
-        Optional<ModContainer> modmenu = FabricLoader.getInstance().getModContainer("modmenu");
-        try {
-            if (modmenu.isPresent()) {
-                SemanticVersion modMenuVersion = SemanticVersion.parse(modmenu.get().getMetadata().getVersion().getFriendlyString());
-                return modMenuVersion.compareTo(SemanticVersion.parse("2.0.2")) < 1;
-            }
-        } catch (VersionParsingException e) {
-            FireplaceLibConstants.getLogger().error("Unable to parse mod menu version", e);
-        }
-
-        return false;
-    }
-
-    private void runOldModMenuCompat() {
-        ModMenuCompat compat = new OldModMenuCompat();
-        compat.reloadClothConfigGUIs();
     }
 
     @Override
