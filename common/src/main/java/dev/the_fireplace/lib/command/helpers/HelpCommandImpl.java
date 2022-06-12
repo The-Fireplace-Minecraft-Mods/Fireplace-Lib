@@ -20,7 +20,6 @@ import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 
 import java.util.*;
 import java.util.function.Function;
@@ -114,14 +113,14 @@ public final class HelpCommandImpl implements HelpCommand
     }
 
     private List<? extends Component> getHelpsList(CommandContext<CommandSourceStack> command) {
-        List<MutableComponent> helps = Lists.newArrayList();
+        List<Component> helps = Lists.newArrayList();
         for (Map.Entry<String, Collection<String>> commandName : commands.entrySet()) {
             if (commandName.getValue().isEmpty()) {
-                MutableComponent commandHelp = buildCommandDescription(command, commandName.getKey());
+                Component commandHelp = buildCommandDescription(command, commandName.getKey());
                 helps.add(commandHelp);
             } else {
                 for (String subCommand : commandName.getValue()) {
-                    MutableComponent commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
+                    Component commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
                     helps.add(commandHelp);
                 }
             }
@@ -129,20 +128,20 @@ public final class HelpCommandImpl implements HelpCommand
         helps.sort(Comparator.comparing(Component::getString));
 
         int i = 0;
-        for (MutableComponent helpText : helps) {
+        for (Component helpText : helps) {
             helpText.setStyle(i++ % 2 == 0 ? textStyles.white() : textStyles.grey());
         }
 
         return helps;
     }
 
-    private MutableComponent buildCommandDescription(CommandContext<CommandSourceStack> command, String commandName) {
+    private Component buildCommandDescription(CommandContext<CommandSourceStack> command, String commandName) {
         return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".usage")
             .append(": ")
             .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".description"));
     }
 
-    private MutableComponent buildSubCommandDescription(CommandContext<CommandSourceStack> command, String commandName, String subCommand) {
+    private Component buildSubCommandDescription(CommandContext<CommandSourceStack> command, String commandName, String subCommand) {
         return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".usage")
             .append(": ")
             .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".description"));

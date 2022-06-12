@@ -7,8 +7,7 @@ import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -68,17 +67,17 @@ public final class TranslatorManager implements TranslatorFactory
         }
 
         @Override
-        public MutableComponent getTextForTarget(CommandSourceStack target, String translationKey, Object... args) {
+        public Component getTextForTarget(CommandSourceStack target, String translationKey, Object... args) {
             return getTextForTarget(getTargetId(target), translationKey, args);
         }
 
         @Override
-        public MutableComponent getTextForTarget(CommandSource target, String translationKey, Object... args) {
+        public Component getTextForTarget(CommandSource target, String translationKey, Object... args) {
             return getTextForTarget(getTargetId(target), translationKey, args);
         }
 
         @Override
-        public MutableComponent getTextForTarget(UUID target, String translationKey, Object... args) {
+        public Component getTextForTarget(UUID target, String translationKey, Object... args) {
             if (!localizedClients.isLocalized(modid, target)) {
                 return getTranslatedText(translationKey, args);
             } else {
@@ -97,8 +96,8 @@ public final class TranslatorManager implements TranslatorFactory
             Object[] convertedArgs = arguments.clone();
 
             for (int argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
-                if (arguments[argumentIndex] instanceof FormattedText visitable) {
-                    convertedArgs[argumentIndex] = visitable.getString();
+                if (arguments[argumentIndex] instanceof Component) {
+                    convertedArgs[argumentIndex] = ((Component) arguments[argumentIndex]).getString();
                 }
             }
 

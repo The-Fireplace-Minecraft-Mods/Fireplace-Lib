@@ -1,10 +1,8 @@
 package dev.the_fireplace.lib.config.cloth;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.gui.widget.DynamicEntryListWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +16,6 @@ public final class EmptyConfigEntry<E extends DynamicEntryListWidget.Entry<E>> e
     }
 
     @Override
-    public void render(PoseStack matrixStack, int i, int i1, int i2, int i3, int i4, int i5, int i6, boolean b, float v) {
-
-    }
-
-    @Override
     public boolean isRequiresRestart() {
         return false;
     }
@@ -33,8 +26,8 @@ public final class EmptyConfigEntry<E extends DynamicEntryListWidget.Entry<E>> e
     }
 
     @Override
-    public Component getFieldName() {
-        return Component.nullToEmpty("");
+    public String getFieldName() {
+        return "";
     }
 
     @Override
@@ -49,6 +42,11 @@ public final class EmptyConfigEntry<E extends DynamicEntryListWidget.Entry<E>> e
 
     @Override
     public void save() {
+
+    }
+
+    @Override
+    public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isHovered, float delta) {
 
     }
 

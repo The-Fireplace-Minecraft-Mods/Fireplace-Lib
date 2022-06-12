@@ -16,6 +16,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,8 +51,8 @@ public class CustomButtonEntry extends TooltipListEntry<String>
         super(fieldName, null);
         this.defaultValue = defaultValue;
         this.value = new AtomicReference<>(currentValue);
-        this.buttonWidget = new ButtonWidget(0, 0, 150, 20, "", (widget) -> {
-            Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(MinecraftClient.getInstance().currentScreen, this.value.get());
+        this.buttonWidget = new Button(0, 0, 150, 20, "", (widget) -> {
+            Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(Minecraft.getInstance().screen, this.value.get());
             //noinspection unchecked
             Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();
             Minecraft.getInstance().setScreen(optionBuilderScreen);
@@ -66,8 +67,8 @@ public class CustomButtonEntry extends TooltipListEntry<String>
                 getScreen().setEdited(true, isRequiresRestart());
             });
         });
-        String resetButtonText = I18n.translate(resetButtonKey);
-        this.resetButton = new ButtonWidget(0, 0, MinecraftClient.getInstance().textRenderer.getStringWidth(resetButtonText) + 6, 20, resetButtonText, (widget) -> {
+        String resetButtonText = I18n.get(resetButtonKey);
+        this.resetButton = new Button(0, 0, Minecraft.getInstance().font.width(resetButtonText) + 6, 20, resetButtonText, (widget) -> {
             this.value.set(defaultValue.get());
             getScreen().setEdited(true, isRequiresRestart());
         });
@@ -106,13 +107,13 @@ public class CustomButtonEntry extends TooltipListEntry<String>
         this.buttonWidget.y = y;
         String buttonText = getDisplayString != null ? getDisplayString.apply(this.value.get()) : this.value.get();
         this.buttonWidget.setMessage(buttonText);
-        String displayedFieldName = I18n.translate(this.getFieldName());
-        if (MinecraftClient.getInstance().textRenderer.isRightToLeft()) {
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(displayedFieldName, (float) (window.getScaledWidth() - x - MinecraftClient.getInstance().textRenderer.getStringWidth(displayedFieldName)), (float) (y + 6), 0xFFFFFF);
+        String displayedFieldName = I18n.get(this.getFieldName());
+        if (Minecraft.getInstance().font.isBidirectional()) {
+            Minecraft.getInstance().font.drawShadow(displayedFieldName, (float) (window.getGuiScaledWidth() - x - Minecraft.getInstance().font.width(displayedFieldName)), (float) (y + 6), 0xFFFFFF);
             this.resetButton.x = x;
             this.buttonWidget.x = x + this.resetButton.getWidth() + 2;
         } else {
-            MinecraftClient.getInstance().textRenderer.drawWithShadow(displayedFieldName, (float) x, (float) (y + 6), this.getPreferredTextColor());
+            Minecraft.getInstance().font.drawShadow(displayedFieldName, (float) x, (float) (y + 6), this.getPreferredTextColor());
             this.resetButton.x = x + entryWidth - this.resetButton.getWidth();
             this.buttonWidget.x = x + entryWidth - 150;
         }

@@ -79,7 +79,7 @@ public final class FabricClothConfigScreenBuilder implements ConfigScreenBuilder
             .setParentScreen(parent)
             .setTitle(translator.getTranslatedString(titleTranslationKey));
         this.entryBuilder = configBuilder.entryBuilder();
-        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedText(initialCategoryTranslationKey));
+        this.category = configBuilder.getOrCreateCategory(translator.getTranslatedString(initialCategoryTranslationKey));
         this.configBuilder.setSavingRunnable(save);
         this.dependencyTracker = new ClothConfigDependencyHandler();
         this.categoryEntries = ArrayListMultimap.create();

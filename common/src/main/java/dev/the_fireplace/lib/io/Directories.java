@@ -5,6 +5,7 @@ import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.io.injectables.DirectoryResolver;
 import dev.the_fireplace.lib.domain.io.LoaderSpecificDirectories;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.dimension.DimensionType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,7 +29,7 @@ public final class Directories implements DirectoryResolver
 
     @Override
     public Path getSavePath(MinecraftServer server) {
-        return server.getWorld(DimensionType.OVERWORLD).getSaveHandler().getWorldDir().toPath();
+        return server.getLevel(DimensionType.OVERWORLD).getLevelStorage().getFolder().toPath();
     }
 
     @Override

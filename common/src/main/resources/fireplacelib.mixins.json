@@ -9,8 +9,7 @@
     "PlayerListMixin"
   ],
   "client": [
-    "ClientPacketListenerMixin",
-    "modmenu.ModMenuConfigMixin"
+    "ClientPacketListenerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

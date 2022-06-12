@@ -9,7 +9,7 @@ import dev.the_fireplace.lib.api.lazyio.injectables.ConfigStateManager;
 import dev.the_fireplace.lib.domain.config.ConfigValues;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.LanguageInfo;
+import net.minecraft.client.resources.language.Language;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -66,7 +66,7 @@ public final class FLConfigScreenFactory
             OPTION_TRANSLATION_BASE + "locale",
             config.getLocale(),
             defaultConfigValues.getLocale(),
-            Minecraft.getInstance().getLanguageManager().getLanguages().parallelStream().map(LanguageInfo::getCode).collect(Collectors.toList()),
+            Minecraft.getInstance().getLanguageManager().getLanguages().parallelStream().map(Language::getCode).collect(Collectors.toList()),
             config::setLocale
         );
         configScreenBuilder.startSubCategory(TRANSLATION_BASE + "advanced");

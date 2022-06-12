@@ -26,8 +26,8 @@ public final class TeleporterImpl implements Teleporter
             ((ServerPlayer) entity).teleportTo(targetWorld, targetX, targetY, targetZ, entity.yRot, entity.xRot);
             return entity;
         }
-        DimensionType targetDimensionType = targetWorld.dimensionType();
-        Entity entityInTargetWorld = targetDimensionType.equals(entity.level.dimensionType()) ? entity : entity.changeDimension(targetWorld);
+        DimensionType targetDimensionType = targetWorld.getDimension().getType();
+        Entity entityInTargetWorld = targetDimensionType.equals(entity.level.getDimension().getType()) ? entity : entity.changeDimension(targetWorld.getDimension().getType());
         if (entityInTargetWorld != null) {
             entityInTargetWorld.teleportTo(targetX, targetY, targetZ);
             return entityInTargetWorld;

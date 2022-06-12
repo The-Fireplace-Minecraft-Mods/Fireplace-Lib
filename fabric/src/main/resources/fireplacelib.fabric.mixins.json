@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "dev.the_fireplace.lib.mixin",
   "compatibilityLevel": "JAVA_8",
@@ -7,8 +7,8 @@
   ],
   "client": [
     "clothconfig.AbstractConfigEntryAccessor",
-    "clothconfig.AbstractConfigScreenAccessor",
-    "clothconfig.DynamicEntryListWidgetMixin"
+    "clothconfig.DynamicEntryListWidgetMixin",
+    "modmenu.ModMenuConfigMixin"
   ],
   "injectors": {
     "defaultRequire": 1
