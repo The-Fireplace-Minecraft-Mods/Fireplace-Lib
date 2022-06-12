@@ -2,6 +2,7 @@ package dev.the_fireplace.lib.mixin.clothconfig;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.the_fireplace.lib.config.cloth.ClothConfigDependencyHandler;
+import dev.the_fireplace.lib.config.cloth.EmptyConfigEntry;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.gui.ClothConfigScreen;
 import me.shedaniel.clothconfig2.gui.widget.DynamicEntryListWidget;
@@ -9,8 +10,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,9 +17,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@SuppressWarnings({"rawtypes", "unchecked", "ConstantConditions"})
+@SuppressWarnings({"unchecked", "ConstantConditions"})
 @Environment(EnvType.CLIENT)
 @Mixin(value = DynamicEntryListWidget.class, remap = false)
 public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidget.Entry<E>> extends AbstractContainerEventHandler
@@ -48,58 +50,8 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
                 && ClothConfigDependencyHandler.DISABLED_ENTRIES.contains((AbstractConfigEntry<?>) children.get(index))
             ) {
                 this.disabledEntries.put(index, (AbstractConfigEntry<?>) children.get(index));
-                this.entries.set(index, (E) createEmptyEntry());
+                this.entries.set(index, (E) new EmptyConfigEntry<E>());
             }
         }
-    }
-
-    private AbstractConfigEntry<E> createEmptyEntry() {
-        return new AbstractConfigEntry<E>()
-        {
-            @Override
-            public List<? extends GuiEventListener> children() {
-                return Collections.emptyList();
-            }
-
-            @Override
-            public void render(PoseStack matrixStack, int i, int i1, int i2, int i3, int i4, int i5, int i6, boolean b, float v) {
-
-            }
-
-            @Override
-            public boolean isRequiresRestart() {
-                return false;
-            }
-
-            @Override
-            public void setRequiresRestart(boolean b) {
-
-            }
-
-            @Override
-            public Component getFieldName() {
-                return Component.nullToEmpty("");
-            }
-
-            @Override
-            public E getValue() {
-                return null;
-            }
-
-            @Override
-            public Optional getDefaultValue() {
-                return Optional.empty();
-            }
-
-            @Override
-            public void save() {
-
-            }
-
-            @Override
-            public int getItemHeight() {
-                return 4;
-            }
-        };
     }
 }

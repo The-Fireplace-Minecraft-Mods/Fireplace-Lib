@@ -5,7 +5,6 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
-import net.minecraft.entity.Entity;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.FormattedText;
@@ -13,6 +12,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.inject.Inject;
@@ -130,8 +130,8 @@ public final class TranslatorManager implements TranslatorFactory
                 : emptyUUID.get();
         }
 
-        protected UUID getTargetId(CommandOutput commandOutput) {
-            return commandOutput instanceof ServerPlayerEntity ? ((Entity) commandOutput).getUuid() : emptyUUID.get();
+        protected UUID getTargetId(CommandSource commandOutput) {
+            return commandOutput instanceof ServerPlayer ? ((Entity) commandOutput).getUUID() : emptyUUID.get();
         }
     }
 }

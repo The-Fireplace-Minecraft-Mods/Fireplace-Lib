@@ -39,7 +39,7 @@ public final class TextPaginatorImpl implements TextPaginator
 
     @Override
     public void sendPaginatedChat(CommandSourceStack targetCommandSource, String switchPageCommand, List<? extends Component> allItems, int pageIndex) {
-        CommandSource messageTarget = targetCommandSource.getEntity() != null ? targetCommandSource.getEntity() : targetCommandSource.getMinecraftServer();
+        CommandSource messageTarget = targetCommandSource.getEntity() != null ? targetCommandSource.getEntity() : targetCommandSource.getServer();
         messageQueue.queueMessages(messageTarget, getPaginatedContent(messageTarget, allItems, pageIndex, switchPageCommand));
     }
 
