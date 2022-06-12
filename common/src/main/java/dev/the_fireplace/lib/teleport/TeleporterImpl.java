@@ -23,7 +23,7 @@ public final class TeleporterImpl implements Teleporter
     public Entity teleport(Entity entity, ServerLevel targetWorld, double targetX, double targetY, double targetZ) {
         if (entity instanceof ServerPlayer) {
             preloadTargetChunk(targetWorld, targetX, targetZ);
-            ((ServerPlayer) entity).teleportTo(targetWorld, targetX, targetY, targetZ, entity.getYRot(), entity.getXRot());
+            ((ServerPlayer) entity).teleportTo(targetWorld, targetX, targetY, targetZ, entity.yRot, entity.xRot);
             return entity;
         }
         DimensionType targetDimensionType = targetWorld.dimensionType();
@@ -38,8 +38,8 @@ public final class TeleporterImpl implements Teleporter
     }
 
     private void preloadTargetChunk(ServerLevel targetWorld, double targetBlockX, double targetBlockZ) {
-        int chunkX = SectionPos.posToSectionCoord((int) Math.floor(targetBlockX));
-        int chunkZ = SectionPos.posToSectionCoord((int) Math.floor(targetBlockZ));
+        int chunkX = SectionPos.blockToSectionCoord((int) Math.floor(targetBlockX));
+        int chunkZ = SectionPos.blockToSectionCoord((int) Math.floor(targetBlockZ));
         targetWorld.getChunk(chunkX, chunkZ, ChunkStatus.FULL, true);
     }
 }

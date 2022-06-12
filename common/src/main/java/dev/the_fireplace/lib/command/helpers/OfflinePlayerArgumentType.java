@@ -101,7 +101,7 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
 
                 return new SelectedPlayerArgument(player.getGameProfile(), player);
             } catch (CommandSyntaxException e) {
-                MinecraftServer server = source.getMinecraftServer();
+                MinecraftServer server = source.getServer();
                 GameProfileCache.setUsesAuthentication(true);
                 GameProfile offlinePlayerProfileByName = server.getProfileCache().get(offlinePlayerName);
                 if (offlinePlayerProfileByName != null) {

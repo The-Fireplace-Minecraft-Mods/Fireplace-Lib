@@ -13,4 +13,4 @@ pluginManagement {
 }
 
 rootProject.name = 'Fireplace-Lib'
-include('common', 'api', 'fabric', 'forge')
+include('common', 'api', 'fabric')
