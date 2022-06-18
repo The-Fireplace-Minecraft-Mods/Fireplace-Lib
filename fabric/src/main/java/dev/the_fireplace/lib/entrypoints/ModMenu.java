@@ -41,7 +41,7 @@ public final class ModMenu implements ModMenuApi
             FabricLoader.getInstance().getEntrypointContainers("fireplacelib", ConfigGuiEntrypoint.class).forEach(
                 configGuiEntrypoint -> {
                     configGuiRegistry.activeModId = configGuiEntrypoint.getProvider().getMetadata().getId();
-                    configGuiEntrypoint.getEntrypoint().registerConfigGuis(injector, configGuiRegistry);
+                    configGuiEntrypoint.getEntrypoint().registerConfigGuis(configGuiRegistry);
                 }
             );
         }
