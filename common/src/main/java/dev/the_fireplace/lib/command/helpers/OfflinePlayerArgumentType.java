@@ -54,7 +54,7 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        if (context.getSource() instanceof SharedSuggestionProvider commandSource) {
+        if (context.getSource() instanceof SharedSuggestionProvider) {
             StringReader reader = new StringReader(builder.getInput());
             reader.setCursor(builder.getStart());
             EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader);
@@ -65,7 +65,7 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
             }
 
             return entitySelectorReader.fillSuggestions(builder, (suggestionsBuilder) -> {
-                Iterable<String> iterable = commandSource.getOnlinePlayerNames();
+                Iterable<String> iterable = ((SharedSuggestionProvider) context.getSource()).getOnlinePlayerNames();
                 SharedSuggestionProvider.suggest(iterable, suggestionsBuilder);
             });
         } else {

@@ -97,7 +97,8 @@ public final class TranslatorManager implements TranslatorFactory
             Object[] convertedArgs = arguments.clone();
 
             for (int argumentIndex = 0; argumentIndex < arguments.length; argumentIndex++) {
-                if (arguments[argumentIndex] instanceof FormattedText visitable) {
+                if (arguments[argumentIndex] instanceof FormattedText) {
+                    FormattedText visitable = (FormattedText) arguments[argumentIndex];
                     convertedArgs[argumentIndex] = visitable.getString();
                 }
             }
