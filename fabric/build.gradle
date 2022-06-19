@@ -138,6 +138,7 @@ if (hasProperty('curseForgeApiKey')) {
             addGameVersion '1.18'
             addGameVersion 'Java 17'
             addGameVersion 'Fabric'
+            addGameVersion 'Quilt'
             mainArtifact(mainArtifactFile) {
                 displayName = "$archivesBaseName-$version"
                 relations {
@@ -170,6 +171,7 @@ if (hasProperty('modrinthApiKey')) {
         addGameVersion('1.18.1')
         addGameVersion('1.18')
         addLoader('fabric')
+        addLoader('quilt')
     }
 }
 
