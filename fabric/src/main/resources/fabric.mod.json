@@ -40,7 +40,7 @@
     "fabricloader": ">=0.12.0",
     "fabric": "*",
     "minecraft": ">=1.17",
-    "annotateddi": ">=3 <4"
+    "annotateddi": ">=4 <5"
   },
 
   "suggests": {
