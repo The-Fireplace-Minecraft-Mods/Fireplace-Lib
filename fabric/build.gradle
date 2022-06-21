@@ -162,7 +162,7 @@ if (hasProperty('modrinthApiKey')) {
     task publishModrinth(type: TaskModrinthUpload) {
         token = modrinthApiKey
         projectId = 'ING0LAPF'
-        versionNumber = version
+        versionNumber = "$version+fabric"
         versionName = project.mod_version
         uploadFile = mainArtifactFile
         changelog = changelogFile.getText()
