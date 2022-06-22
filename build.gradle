@@ -15,26 +15,30 @@ subprojects {
 	targetCompatibility = JavaVersion.VERSION_1_8
 
 	group = project.maven_group
-	version = "${project.mod_version}+${project.minecraft_version}"
-	if (project.hasProperty('SNAPSHOT')) {
-		version = "${version}-SNAPSHOT"
-	}
+    version = "${project.mod_version}+${project.minecraft_version}"
+    if (project.hasProperty('SNAPSHOT')) {
+        version = "${version}-SNAPSHOT"
+    }
 
-	tasks.withType(JavaCompile).configureEach {
-		it.options.encoding = 'UTF-8'
-	}
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+    }
 
-	javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+    javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
-	jar {
-		manifest {
-			attributes([
-					'Specification-Title'     : archives_base_name,
-					'Specification-Vendor'    : 'The_Fireplace',
-					'Specification-Version'   : project.jar.archiveVersion,
-					'Implementation-Title'    : project.name,
-					'Implementation-Version'  : project.jar.archiveVersion,
-					'Implementation-Vendor'   : 'The_Fireplace',
+    nexusStaging {
+        packageGroup = project.maven_group
+    }
+
+    jar {
+        manifest {
+            attributes([
+                    'Specification-Title'     : archives_base_name,
+                    'Specification-Vendor'    : 'The_Fireplace',
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : 'The_Fireplace',
 					'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
 					'Timestampe'              : System.currentTimeMillis(),
 					'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
