@@ -175,6 +175,13 @@ if (hasProperty('modrinthApiKey')) {
                 'fabric',
                 'quilt',
         ]
+        dependencies {
+            required.project 'P7dR8mSH'// Fabric API
+            //TODO when Modrinth and Minotaur implement embedded libraries
+            //embedded.project 'RAXqYPH1'// Annotated DI
+            optional.project '9s6osm5g'// Cloth Config
+            optional.project 'mOgUt4GM'// Mod Menu
+        }
     }
 }
 
