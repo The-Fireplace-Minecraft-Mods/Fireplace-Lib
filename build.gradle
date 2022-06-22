@@ -7,46 +7,50 @@ plugins {
 	id 'io.codearte.nexus-staging' version '0.30.0'
 }
 subprojects {
-	apply plugin: 'java'
-	apply plugin: 'maven-publish'
-	apply plugin: 'signing'
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
-	sourceCompatibility = JavaVersion.VERSION_16
-	targetCompatibility = JavaVersion.VERSION_16
-	java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+    java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
-	group = project.maven_group
-	version = "${project.mod_version}+${project.minecraft_version}"
-	if (project.hasProperty('SNAPSHOT')) {
-		version = "${version}-SNAPSHOT"
-	}
+    group = project.maven_group
+    version = "${project.mod_version}+${project.minecraft_version}"
+    if (project.hasProperty('SNAPSHOT')) {
+        version = "${version}-SNAPSHOT"
+    }
 
-	tasks.withType(JavaCompile).configureEach {
-		it.options.encoding = 'UTF-8'
-		it.options.release.set(16)
-	}
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.release.set(16)
+    }
 
-	javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+    javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
-	jar {
-		manifest {
-			attributes([
-					'Specification-Title'     : archives_base_name,
-					'Specification-Vendor'    : 'The_Fireplace',
-					'Specification-Version'   : project.jar.archiveVersion,
-					'Implementation-Title'    : project.name,
-					'Implementation-Version'  : project.jar.archiveVersion,
-					'Implementation-Vendor'   : 'The_Fireplace',
-					'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-					'Timestampe'              : System.currentTimeMillis(),
-					'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-					'Build-On-Minecraft'      : minecraft_version
-			])
-		}
-		from('LICENSE') {
-			rename { "${it}_${archives_base_name}" }
-		}
-	}
+    nexusStaging {
+        packageGroup = project.maven_group
+    }
+
+    jar {
+        manifest {
+            attributes([
+                    'Specification-Title'     : archives_base_name,
+                    'Specification-Vendor'    : 'The_Fireplace',
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : 'The_Fireplace',
+                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    'Timestampe'              : System.currentTimeMillis(),
+                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                    'Build-On-Minecraft'      : minecraft_version
+            ])
+        }
+        from('LICENSE') {
+            rename { "${it}_${archives_base_name}" }
+        }
+    }
 
 	repositories {
 		mavenCentral()
