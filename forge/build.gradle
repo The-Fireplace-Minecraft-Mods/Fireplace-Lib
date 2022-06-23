@@ -204,17 +204,15 @@ if (hasProperty('curseForgeApiKey')) {
     }
 }
 
-import com.modrinth.minotaur.TaskModrinthUpload
-
 if (hasProperty('modrinthApiKey')) {
-    task publishModrinth(type: TaskModrinthUpload) {
+    modrinth {
         token = modrinthApiKey
         projectId = 'ING0LAPF'
         versionNumber = version
         versionName = project.mod_version
         uploadFile = mainArtifactFile
         changelog = changelogFile.getText()
-        releaseType = project.release_type
+        versionType = project.release_type
         gameVersions = [
                 project.minecraft_version as String,
                 '1.18.1' )
