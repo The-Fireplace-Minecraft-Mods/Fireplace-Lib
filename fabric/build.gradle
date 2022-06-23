@@ -166,9 +166,7 @@ if (hasProperty('modrinthApiKey')) {
         versionType = project.release_type
         gameVersions = [
                 project.minecraft_version as String,
-                '1.16.4',
-                '1.16.3',
-                '1.16.2',
+                '1.17',
         ]
         loaders = [
                 'fabric',
