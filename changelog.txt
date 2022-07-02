@@ -1,6 +1,1 @@
-Restructured in a way that also supports Forge
-Redesigned networking API
-Adjusted config screen registry to take a modid parameter
-Update DecimalSliderOptionBuilder's enablePercentMode to return self for easy method chaining
-Cloth Config is no longer embedded, and must be downloaded separately for config screens to generate.
-Removed data generator factory
+Fix crash with Cloth Config
