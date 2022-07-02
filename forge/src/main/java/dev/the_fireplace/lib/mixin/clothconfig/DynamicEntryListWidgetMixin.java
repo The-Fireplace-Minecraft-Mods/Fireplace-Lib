@@ -19,13 +19,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.*;
 
 @SuppressWarnings({"rawtypes", "unchecked", "ConstantConditions"})
-@Mixin(value = DynamicEntryListWidget.class, remap = false)
+@Mixin(DynamicEntryListWidget.class)
 public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidget.Entry<E>> extends AbstractContainerEventHandler
 {
     @Shadow
     public abstract List<E> children();
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private List<E> entries;
     private final Map<Integer, AbstractConfigEntry<?>> disabledEntries = new HashMap<>();
