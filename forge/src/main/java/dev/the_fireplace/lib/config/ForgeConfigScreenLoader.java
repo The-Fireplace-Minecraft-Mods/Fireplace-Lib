@@ -5,7 +5,7 @@ import dev.the_fireplace.lib.api.client.interfaces.ConfigScreenFactory;
 import dev.the_fireplace.lib.api.events.ConfigScreenRegistration;
 import dev.the_fireplace.lib.api.events.FLEventBus;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -30,8 +30,8 @@ public final class ForgeConfigScreenLoader
             Optional<? extends ModContainer> modContainer = ModList.get().getModContainerById(modid);
             if (modContainer.isPresent()) {
                 modContainer.get().registerExtensionPoint(
-                    ConfigGuiHandler.ConfigGuiFactory.class,
-                    () -> new ConfigGuiHandler.ConfigGuiFactory(
+                    ConfigScreenHandler.ConfigScreenFactory.class,
+                    () -> new ConfigScreenHandler.ConfigScreenFactory(
                         (minecraft, parentScreen) -> createConfigGui.create(parentScreen)
                     )
                 );

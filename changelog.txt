@@ -1,1 +1,1 @@
-[Fabric] Bump bundled Annotated DI version
+[Forge 1.19] Update to support newer Forge versions
