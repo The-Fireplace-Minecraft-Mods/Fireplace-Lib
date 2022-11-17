@@ -8,10 +8,10 @@
     "The_Fireplace"
   ],
   "contact": {
-    "homepage": "${fabric_curseforge_url}",
+    "homepage": "${modrinth_url}",
     "sources": "${github_url}",
     "issues": "${github_url}/issues",
-    "modrinth": "${modrinth_url}"
+    "curseforge": "${fabric_curseforge_url}"
   },
   "license": "${license_id}",
   "icon": "${logo_filename}",
@@ -53,8 +53,7 @@
       "links": {
         "modmenu.discord": "${discord_url}",
         "annotateddi.twitter": "${twitter_url}",
-        "annotateddi.kofi": "${kofi_url}",
-        "annotateddi.patreon": "${patreon_url}"
+        "annotateddi.kofi": "${kofi_url}"
       },
       "badges": [ "library" ]
     }
