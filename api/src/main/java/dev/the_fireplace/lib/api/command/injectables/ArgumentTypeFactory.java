@@ -8,7 +8,9 @@ import net.minecraft.commands.CommandSourceStack;
 
 public interface ArgumentTypeFactory
 {
+    @Deprecated
     OfflineSupportedPlayerArgumentType possiblyOfflinePlayer();
 
+    @Deprecated
     PossiblyOfflinePlayer getPossiblyOfflinePlayer(CommandContext<CommandSourceStack> commandContext, String string) throws CommandSyntaxException;
 }

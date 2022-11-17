@@ -30,7 +30,7 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
     private static final Collection<String> EXAMPLES = Arrays.asList("PlayerName", "@p", "dd12be42-52a9-4a91-a8a1-11c01849e498");
 
     @Override
-    public PlayerSelector parse(StringReader reader) throws CommandSyntaxException {
+    public EntitySelector parse(StringReader reader) throws CommandSyntaxException {
         int startCursor = reader.getCursor();
         EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader);
         EntitySelector entitySelector = entitySelectorReader.parse();
@@ -48,7 +48,7 @@ public final class OfflinePlayerArgumentType implements OfflineSupportedPlayerAr
         while (reader.getCursor() < endCursor) {
             lastArgumentStringBuilder.append(reader.read());
         }
-        return new PlayerSelector(entitySelector, lastArgumentStringBuilder.toString());
+        return null;//new PlayerSelector(entitySelector, lastArgumentStringBuilder.toString());
     }
 
     @Override
