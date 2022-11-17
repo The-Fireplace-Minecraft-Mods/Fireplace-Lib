@@ -13,22 +13,31 @@ import java.util.function.Consumer;
 
 public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implements NumericOptionBuilder<S>
 {
-    public ClothNumericOption(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
+    public ClothNumericOption(Translator translator, FieldBuilder<S, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
     }
 
-    public ClothNumericOption(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
+    public ClothNumericOption(Translator translator, FieldBuilder<T, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction, typeConverter);
     }
 
     @Override
     public NumericOptionBuilder<S> setMinimum(S minimum) {
         T clothMinimum = typeConverter.convertToClothType(minimum);
-        try {
-            Method setMinimum = findSingleParameterMethod("setMin", clothMinimum.getClass());
-            setMinimum.invoke(fieldBuilder, clothMinimum);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLibConstants.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass(), e);
+        String[] minimumFunctionNames = {"setMin", "setMinimum"};
+        boolean foundFunction = false;
+        for (String functionName : minimumFunctionNames) {
+            try {
+                Method setMinimum = findSingleParameterMethod(functionName, clothMinimum.getClass());
+                setMinimum.invoke(fieldBuilder, clothMinimum);
+                foundFunction = true;
+                break;
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+
+            }
+        }
+        if (!foundFunction) {
+            FireplaceLibConstants.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass());
             FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
@@ -37,11 +46,20 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
     @Override
     public NumericOptionBuilder<S> setMaximum(S maximum) {
         T clothMaximum = typeConverter.convertToClothType(maximum);
-        try {
-            Method setMaximum = findSingleParameterMethod("setMax", clothMaximum.getClass());
-            setMaximum.invoke(fieldBuilder, clothMaximum);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            FireplaceLibConstants.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass(), e);
+        String[] maximumFunctionNames = {"setMax", "setMaximum"};
+        boolean foundFunction = false;
+        for (String functionName : maximumFunctionNames) {
+            try {
+                Method setMaximum = findSingleParameterMethod(functionName, clothMaximum.getClass());
+                setMaximum.invoke(fieldBuilder, clothMaximum);
+                foundFunction = true;
+                break;
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+
+            }
+        }
+        if (!foundFunction) {
+            FireplaceLibConstants.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass());
             FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;

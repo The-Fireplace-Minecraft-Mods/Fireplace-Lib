@@ -13,7 +13,6 @@ import me.shedaniel.clothconfig2.gui.entries.TooltipListEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -56,7 +55,7 @@ public class CustomButtonEntry extends TooltipListEntry<String>
         this.defaultValue = defaultValue;
         this.original = currentValue;
         this.value = new AtomicReference<>(currentValue);
-        this.buttonWidget = new Button(0, 0, 150, 20, NarratorChatListener.NO_TITLE, (widget) -> {
+        this.buttonWidget = new Button(0, 0, 150, 20, Component.empty(), (widget) -> {
             Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(Minecraft.getInstance().screen, this.value.get());
             //noinspection unchecked
             Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();

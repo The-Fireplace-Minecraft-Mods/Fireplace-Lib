@@ -14,7 +14,7 @@ public interface OptionBuilderFactory
 {
     <S> OptionBuilder<S> create(
         Translator translator,
-        FieldBuilder<S, ?> fieldBuilder,
+        FieldBuilder<S, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction
@@ -22,7 +22,7 @@ public interface OptionBuilderFactory
 
     <S, T> OptionBuilder<S> create(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction,
@@ -31,7 +31,7 @@ public interface OptionBuilderFactory
 
     <S> NumericOptionBuilder<S> createNumeric(
         Translator translator,
-        FieldBuilder<S, ?> fieldBuilder,
+        FieldBuilder<S, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction
@@ -39,7 +39,7 @@ public interface OptionBuilderFactory
 
     <S, T> NumericOptionBuilder<S> createNumeric(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction,
@@ -48,7 +48,7 @@ public interface OptionBuilderFactory
 
     <S, T> DecimalSliderOptionBuilder<S> createDecimalSlider(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction,
@@ -60,7 +60,7 @@ public interface OptionBuilderFactory
 
     <S> DropdownOptionBuilder<S> createDropdown(
         Translator translator,
-        FieldBuilder<S, ?> fieldBuilder,
+        FieldBuilder<S, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Iterable<S> entries,
@@ -69,7 +69,7 @@ public interface OptionBuilderFactory
 
     <S, T> DropdownOptionBuilder<S> createDropdown(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Iterable<S> entries,

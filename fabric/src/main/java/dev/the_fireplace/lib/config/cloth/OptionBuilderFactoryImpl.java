@@ -21,29 +21,29 @@ import java.util.function.Consumer;
 public final class OptionBuilderFactoryImpl implements OptionBuilderFactory
 {
     @Override
-    public <S> OptionBuilder<S> create(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
+    public <S> OptionBuilder<S> create(Translator translator, FieldBuilder<S, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
         return new ClothGenericOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
     }
 
     @Override
-    public <S, T> OptionBuilder<S> create(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
+    public <S, T> OptionBuilder<S> create(Translator translator, FieldBuilder<T, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
         return new ClothGenericOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction, typeConverter);
     }
 
     @Override
-    public <S> NumericOptionBuilder<S> createNumeric(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
+    public <S> NumericOptionBuilder<S> createNumeric(Translator translator, FieldBuilder<S, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction) {
         return new ClothNumericOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
     }
 
     @Override
-    public <S, T> NumericOptionBuilder<S> createNumeric(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
+    public <S, T> NumericOptionBuilder<S> createNumeric(Translator translator, FieldBuilder<T, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
         return new ClothNumericOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction, typeConverter);
     }
 
     @Override
     public <S, T> DecimalSliderOptionBuilder<S> createDecimalSlider(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction,
@@ -56,12 +56,12 @@ public final class OptionBuilderFactoryImpl implements OptionBuilderFactory
     }
 
     @Override
-    public <S> DropdownOptionBuilder<S> createDropdown(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
+    public <S> DropdownOptionBuilder<S> createDropdown(Translator translator, FieldBuilder<S, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
         return new ClothDropdownOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, entries, saveFunction);
     }
 
     @Override
-    public <S, T> DropdownOptionBuilder<S> createDropdown(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
+    public <S, T> DropdownOptionBuilder<S> createDropdown(Translator translator, FieldBuilder<T, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
         return new ClothDropdownOption<>(translator, fieldBuilder, optionTranslationBase, defaultValue, entries, saveFunction, typeConverter);
     }
 }

@@ -15,13 +15,13 @@ import java.util.function.Consumer;
 
 public class ClothDropdownOption<S, T> extends ClothGenericOption<S, T> implements DropdownOptionBuilder<S>
 {
-    public ClothDropdownOption(Translator translator, FieldBuilder<S, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
+    public ClothDropdownOption(Translator translator, FieldBuilder<S, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction);
         setSelections(entries);
         setSuggestionMode(false);
     }
 
-    public ClothDropdownOption(Translator translator, FieldBuilder<T, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
+    public ClothDropdownOption(Translator translator, FieldBuilder<T, ?, ?> fieldBuilder, String optionTranslationBase, S defaultValue, Iterable<S> entries, Consumer<S> saveFunction, OptionTypeConverter<S, T> typeConverter) {
         super(translator, fieldBuilder, optionTranslationBase, defaultValue, saveFunction, typeConverter);
         setSelections(entries);
         setSuggestionMode(false);

@@ -26,7 +26,7 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
 
     public ClothDecimalSliderOption(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction,

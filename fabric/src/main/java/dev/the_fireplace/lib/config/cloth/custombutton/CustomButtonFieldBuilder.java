@@ -14,7 +14,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
-public class CustomButtonFieldBuilder extends FieldBuilder<String, CustomButtonEntry>
+public class CustomButtonFieldBuilder extends FieldBuilder<String, CustomButtonEntry, CustomButtonFieldBuilder>
 {
     @Nullable
     private Consumer<String> saveConsumer = null;

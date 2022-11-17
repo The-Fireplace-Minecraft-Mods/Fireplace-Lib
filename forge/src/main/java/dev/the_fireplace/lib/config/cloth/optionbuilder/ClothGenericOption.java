@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 public class ClothGenericOption<S, T> implements OptionBuilder<S>
 {
     private final Translator translator;
-    protected final FieldBuilder<T, ?> fieldBuilder;
+    protected final FieldBuilder<T, ?, ?> fieldBuilder;
     private final String optionTranslationBase;
     private final Map<OptionBuilder<?>, Predicate<?>> dependencies = new ConcurrentHashMap<>();
     protected final OptionTypeConverter<S, T> typeConverter;
@@ -32,7 +32,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
 
     public ClothGenericOption(
         Translator translator,
-        FieldBuilder<S, ?> fieldBuilder,
+        FieldBuilder<S, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction
@@ -40,7 +40,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         this.translator = translator;
         try {
             //noinspection unchecked
-            this.fieldBuilder = (FieldBuilder<T, ?>) fieldBuilder;
+            this.fieldBuilder = (FieldBuilder<T, ?, ?>) fieldBuilder;
         } catch (ClassCastException e) {
             throw new IllegalStateException("No type converter provided for Cloth Option!", e);
         }
@@ -67,7 +67,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
 
     public ClothGenericOption(
         Translator translator,
-        FieldBuilder<T, ?> fieldBuilder,
+        FieldBuilder<T, ?, ?> fieldBuilder,
         String optionTranslationBase,
         S defaultValue,
         Consumer<S> saveFunction,
@@ -184,7 +184,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         return this;
     }
 
-    public final FieldBuilder<T, ?> getFieldBuilder() {
+    public final FieldBuilder<T, ?, ?> getFieldBuilder() {
         return fieldBuilder;
     }
 

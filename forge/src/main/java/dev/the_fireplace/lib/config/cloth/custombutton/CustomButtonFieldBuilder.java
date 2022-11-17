@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class CustomButtonFieldBuilder extends FieldBuilder<String, CustomButtonEntry>
+public class CustomButtonFieldBuilder extends FieldBuilder<String, CustomButtonEntry, CustomButtonFieldBuilder>
 {
     @Nullable
     private Consumer<String> saveConsumer = null;
