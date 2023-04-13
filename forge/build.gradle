@@ -9,6 +9,7 @@ buildscript {
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
+
 plugins {
     id 'java'
     id 'java-library'
@@ -45,12 +46,20 @@ repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
+tasks.jarJar {
+    archiveClassifier = ''
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     api(fg.deobf("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}"))
+    jarJar("dev.the-fireplace:Annotated-DI-Forge:[4.0, 5.0)") {
+        transitive = false
+        jarJar.pin(it, "${project.annotateddi_version}")
+    }
     annotationProcessor "dev.the-fireplace:Annotated-DI-Forge-Processor:${project.annotateddi_version}"
     annotationProcessor "org.spongepowered:mixin:${project.forge_mixin_version}:processor"
 
