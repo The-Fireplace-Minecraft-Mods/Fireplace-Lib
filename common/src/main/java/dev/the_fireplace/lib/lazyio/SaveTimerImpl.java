@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class SaveTimerImpl implements SaveTimer
 {
     private final Map<Short, Set<Runnable>> saveIntervalFunctions = new ConcurrentHashMap<>();
-    private Timer timer = new Timer();
+    private Timer timer = new Timer("FireplaceLib-SaveTimer", true);
     private final ExecutionManager executionManager;
 
     @Inject
@@ -76,7 +76,7 @@ public final class SaveTimerImpl implements SaveTimer
 
     @Override
     public void resetTimer() {
-        timer = new Timer();
+        timer = new Timer("FireplaceLib-SaveTimer", true);
     }
 
     private void saveAll() {
