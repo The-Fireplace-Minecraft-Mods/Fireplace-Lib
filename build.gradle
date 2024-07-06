@@ -5,6 +5,7 @@ plugins {
 	id 'maven-publish'
 	id 'signing'
 	id 'io.codearte.nexus-staging' version '0.30.0'
+    id "fabric-loom" version "1.7-SNAPSHOT" apply false
 }
 subprojects {
 	apply plugin: 'java'
