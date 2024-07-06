@@ -1,14 +1,14 @@
 package dev.the_fireplace.lib.init;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.domain.init.LoaderSpecificInitialization;
+import dev.the_fireplace.lib.api.lifecycle.injectables.ServerLifecycle;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.function.Consumer;
 
 @Implementation
-public final class FabricSpecificInitialization implements LoaderSpecificInitialization
+public final class FabricSpecificInitialization implements ServerLifecycle
 {
     @Override
     public void registerServerStartingCallback(Consumer<MinecraftServer> runnable) {

@@ -1,10 +1,10 @@
-package dev.the_fireplace.lib.domain.init;
+package dev.the_fireplace.lib.api.lifecycle.injectables;
 
 import net.minecraft.server.MinecraftServer;
 
 import java.util.function.Consumer;
 
-public interface LoaderSpecificInitialization
+public interface ServerLifecycle
 {
     void registerServerStartingCallback(Consumer<MinecraftServer> runnable);
 

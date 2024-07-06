@@ -1,1 +1,1 @@
-[Fabric] Bump bundled Annotated DI version
+Expose server lifecycle events through the API
