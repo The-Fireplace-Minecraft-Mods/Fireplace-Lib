@@ -1,2 +1,1 @@
-[Forge 1.19] Update to support newer Forge versions
-[1.19] Dummy out Offline Player Argument Type - should behave like a normal one for now
+Expose server lifecycle events through the API

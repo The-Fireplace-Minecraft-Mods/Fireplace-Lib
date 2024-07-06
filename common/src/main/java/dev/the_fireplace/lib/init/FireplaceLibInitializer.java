@@ -5,7 +5,7 @@ import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.lazyio.injectables.SaveTimer;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
 import dev.the_fireplace.lib.command.FLCommands;
-import dev.the_fireplace.lib.domain.init.LoaderSpecificInitialization;
+import dev.the_fireplace.lib.api.lifecycle.injectables.ServerLifecycle;
 import dev.the_fireplace.lib.network.NetworkEvents;
 import net.minecraft.server.MinecraftServer;
 
@@ -20,7 +20,7 @@ public final class FireplaceLibInitializer
     private final ExecutionManager executionManager;
     private final FLCommands fireplaceLibCommands;
     private final SaveTimer saveTimer;
-    private final LoaderSpecificInitialization loaderSpecificInitialization;
+    private final ServerLifecycle serverLifecycle;
     private final NetworkEvents networkEvents;
 
     @Inject
@@ -29,14 +29,14 @@ public final class FireplaceLibInitializer
         ExecutionManager executionManager,
         FLCommands fireplaceLibCommands,
         SaveTimer saveTimer,
-        LoaderSpecificInitialization loaderSpecificInitialization,
+        ServerLifecycle serverLifecycle,
         NetworkEvents networkEvents
     ) {
         this.translatorFactory = translatorFactory;
         this.executionManager = executionManager;
         this.fireplaceLibCommands = fireplaceLibCommands;
         this.saveTimer = saveTimer;
-        this.loaderSpecificInitialization = loaderSpecificInitialization;
+        this.serverLifecycle = serverLifecycle;
         this.networkEvents = networkEvents;
     }
 
@@ -45,9 +45,9 @@ public final class FireplaceLibInitializer
             initialized = true;
             translatorFactory.addTranslator(FireplaceLibConstants.MODID);
             networkEvents.init();
-            loaderSpecificInitialization.registerServerStartingCallback(this::onServerStarting);
-            loaderSpecificInitialization.registerServerStoppingCallback(this::onServerStopping);
-            loaderSpecificInitialization.registerServerStoppedCallback(s -> FireplaceLibConstants.setMinecraftServer(null));
+            serverLifecycle.registerServerStartingCallback(this::onServerStarting);
+            serverLifecycle.registerServerStoppingCallback(this::onServerStopping);
+            serverLifecycle.registerServerStoppedCallback(s -> FireplaceLibConstants.setMinecraftServer(null));
         }
     }
 
