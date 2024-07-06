@@ -20,6 +20,10 @@ dependencies {
     compileOnly project(":playtest-common")
 }
 
+jar {
+    destinationDirectory.set(project(":fabric").file("run/mods"))
+}
+
 processResources {
     from project(":playtest-common").sourceSets.main.resources
     inputs.property 'version', project.version
