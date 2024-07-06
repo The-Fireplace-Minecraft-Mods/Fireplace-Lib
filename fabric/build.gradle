@@ -55,7 +55,7 @@ dependencies {
     compileOnly project(":api")
     compileOnly project(":common")
 
-    //modLocalRuntime project(":playtest-fabric")
+    modLocalRuntime project(":playtest-fabric")
 }
 
 loom {
