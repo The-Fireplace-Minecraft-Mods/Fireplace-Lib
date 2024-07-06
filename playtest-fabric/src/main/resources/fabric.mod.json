@@ -14,7 +14,7 @@
     "curseforge": "${fabric_curseforge_url}"
   },
   "license": "${license_id}",
-  "icon": "${logo_filename}",
+  "icon": "",
   "environment": "*",
   "entrypoints": {
     "di-main": [
