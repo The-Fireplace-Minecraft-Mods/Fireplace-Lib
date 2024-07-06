@@ -1,7 +1,7 @@
 package dev.the_fireplace.lib.init;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
-import dev.the_fireplace.lib.domain.init.LoaderSpecificInitialization;
+import dev.the_fireplace.lib.api.lifecycle.injectables.ServerLifecycle;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.function.Consumer;
 
 @Implementation
-public final class ForgeSpecificInitialization implements LoaderSpecificInitialization
+public final class ForgeSpecificInitialization implements ServerLifecycle
 {
     @Override
     public void registerServerStartingCallback(Consumer<MinecraftServer> runnable) {
