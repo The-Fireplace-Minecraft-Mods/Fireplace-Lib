@@ -1,0 +1,6 @@
+{
+  "pack": {
+    "description": "${readable_name} Integration",
+    "pack_format": 9
+  }
+}
