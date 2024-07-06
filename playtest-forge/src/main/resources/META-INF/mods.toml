@@ -1,0 +1,43 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+license = "${license_name}"
+issueTrackerURL = "${github_url}/issues"
+showAsResourcePack = false
+
+[[mods]]
+modId = "flplaytest"
+version = "${version}"
+displayName = "${readable_name} Integration"
+displayURL = "${modrinth_url}"
+logoFile = "${logo_filename}"
+credits = ""
+authors = "The_Fireplace"
+description = ""
+
+[[dependencies.flplaytest]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.flplaytest]]
+modId = "minecraft"
+mandatory = true
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.flplaytest]]
+modId = "annotateddi"
+mandatory = true
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.flplaytest]]
+modId = "fireplacelib"
+mandatory = true
+versionRange = "${version}"
+ordering = "AFTER"
+side = "BOTH"
