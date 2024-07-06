@@ -1,15 +1,17 @@
 package dev.the_fireplace.playtest.init;
 
+import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.environment.injectables.EnvironmentData;
 import dev.the_fireplace.playtest.PlaytestConstants;
 import org.apache.logging.log4j.Logger;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
+@Implementation
 @Singleton
-public final class PlaytestInitializer
+public final class PlaytestInitializer implements IPlaytestInitializer
 {
     private boolean initialized = false;
     private final TranslatorFactory translatorFactory;
