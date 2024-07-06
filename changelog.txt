@@ -1,1 +1,2 @@
 Expose server lifecycle events through the API
+Fix dedicated server staying open after shutdown due to save timer (comp500)
