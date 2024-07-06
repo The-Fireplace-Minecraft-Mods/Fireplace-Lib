@@ -157,6 +157,10 @@ java {
     withJavadocJar()
 }
 
+jar {
+    archiveClassifier.set('slim')
+}
+
 compileJava {
     source project(':common').sourceSets.main.allSource
     source project(':api').sourceSets.main.allSource
