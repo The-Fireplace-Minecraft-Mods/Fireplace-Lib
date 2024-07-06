@@ -1,0 +1,49 @@
+//file:noinspection GroovyAssignabilityCheck
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+apply plugin: 'net.minecraftforge.gradle'
+
+archivesBaseName = "${archives_base_name}-Playtest-Forge"
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    api(fg.deobf("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}"))
+    annotationProcessor "dev.the-fireplace:Annotated-DI-Forge-Processor:${project.annotateddi_version}"
+
+    compileOnly project(":api")
+    compileOnly project(":playtest-common")
+}
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+processResources {
+    from project(":playtest-common").sourceSets.main.resources
+    def buildProps = project.properties.clone()
+
+    filesMatching(['**/*.json', 'pack.mcmeta', '**/mods.toml']) {
+        expand buildProps
+    }
+}
+
+compileJava {
+    source project(':playtest-common').sourceSets.main.allSource
+}
+
+jar.finalizedBy('reobfJar')

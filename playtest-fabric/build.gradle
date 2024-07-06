@@ -1,0 +1,36 @@
+//file:noinspection GroovyAssignabilityCheck
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+}
+
+archivesBaseName = "${archives_base_name}-Playtest-Fabric"
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+
+    def fabricLoaderDependency = "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+    modImplementation fabricLoaderDependency
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    modImplementation "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}"
+    annotationProcessor "dev.the-fireplace:Annotated-DI-Fabric-Processor:${project.annotateddi_version}"
+
+    compileOnly project(":api")
+    compileOnly project(":playtest-common")
+}
+
+processResources {
+    from project(":playtest-common").sourceSets.main.resources
+    inputs.property 'version', project.version
+
+    def buildProps = project.properties.clone()
+
+    filesMatching(['**/*.json', 'pack.mcmeta']) {
+        expand buildProps
+    }
+}
+
+compileJava {
+    source project(':playtest-common').sourceSets.main.allSource
+}
