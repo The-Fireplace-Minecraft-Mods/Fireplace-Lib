@@ -1,0 +1,15 @@
+{
+  "modmenu.descriptionTranslation.fireplacelib": "Una librería de funcionalidades comunes usadas por mis mods, en un solo sitio para fácil mantenimiento  y actualizaciones más rápidas.",
+  "fireplacelib.chat.page.next": "[Siguiente]",
+  "fireplacelib.chat.page.prev": "[Anterior]",
+  "fireplacelib.chat.page.num": "Página: %s/%s",
+  "fireplacelib.command.reload.reloaded": "Recargadas las configuraciones de Fireplace Lib!",
+  "text.config.fireplacelib.title": "Configuración de Fireplace Lib",
+  "text.config.fireplacelib.advanced": "Configuración Avanzada",
+  "text.config.fireplacelib.option.locale": "Servidor Regional",
+  "text.config.fireplacelib.option.locale.desc": "Sin usar aqui, solo tiene efecto en un servidor.",
+  "text.config.fireplacelib.option.essentialThreadPoolSize": "Tamaño de Piscina de Hilos Esenciales",
+  "text.config.fireplacelib.option.essentialThreadPoolSize.desc": "No tocar a no ser que sepas lo que estás haciendo.",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize": "Tamaño de Piscina de Hilos no Esenciales",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "No tocar a no ser que sepas lo que estás haciendo."
+}
