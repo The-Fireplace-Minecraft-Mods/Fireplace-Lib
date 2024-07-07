@@ -33,10 +33,6 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
-jar {
-    destinationDirectory.set(project(":forge").file("run/mods"))
-}
-
 processResources {
     from project(":playtest-common").sourceSets.main.resources
     def buildProps = project.properties.clone()
