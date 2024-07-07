@@ -11,6 +11,8 @@ import java.util.function.Supplier;
 
 public final class SecondPing implements ServerboundPacketSpecification
 {
+    public static final String PAYLOAD = "Second ping contents !@#$%^&*()";
+
     @Override
     public Supplier<ServerboundPacketReceiver> getReceiverFactory() {
         return () -> PlaytestConstants.getInjector().getInstance(SecondPingReceiver.class);
