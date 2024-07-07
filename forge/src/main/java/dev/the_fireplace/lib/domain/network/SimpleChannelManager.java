@@ -1,9 +1,12 @@
 package dev.the_fireplace.lib.domain.network;
 
 import dev.the_fireplace.lib.api.network.interfaces.PacketSpecification;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public interface SimpleChannelManager
 {
-    SimpleChannel getChannel(PacketSpecification specification);
+    SimpleChannel getChannel();
+    void register();
+    Object wrap(PacketSpecification specification, FriendlyByteBuf packetContents);
 }
