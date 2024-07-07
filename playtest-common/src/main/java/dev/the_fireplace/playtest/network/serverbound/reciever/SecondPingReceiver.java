@@ -3,8 +3,9 @@ package dev.the_fireplace.playtest.network.serverbound.reciever;
 import dev.the_fireplace.lib.api.network.injectables.PacketSender;
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketReceiver;
 import dev.the_fireplace.playtest.network.ClientboundPackets;
-import dev.the_fireplace.playtest.network.EmptyPacketBuilder;
-import dev.the_fireplace.playtest.network.ServerboundPackets;
+import dev.the_fireplace.playtest.network.SimplePacketBuilder;
+import dev.the_fireplace.playtest.network.clientbound.SecondPingResponse;
+import dev.the_fireplace.playtest.network.serverbound.SecondPing;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,24 +19,31 @@ public final class SecondPingReceiver implements ServerboundPacketReceiver
 {
     private final PacketSender packetSender;
     private final ClientboundPackets clientboundPackets;
-    private final EmptyPacketBuilder emptyPacketBuilder;
+    private final SimplePacketBuilder simplePacketBuilder;
 
     @Inject
     public SecondPingReceiver(
         PacketSender packetSender,
         ClientboundPackets clientboundPackets,
-        EmptyPacketBuilder emptyPacketBuilder
+        SimplePacketBuilder simplePacketBuilder
     ) {
         this.packetSender = packetSender;
         this.clientboundPackets = clientboundPackets;
-        this.emptyPacketBuilder = emptyPacketBuilder;
+        this.simplePacketBuilder = simplePacketBuilder;
     }
 
     @Override
     public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf) {
+        if (!buf.readUtf().equals(SecondPing.PAYLOAD)) {
+            throw new Error("Received unexpected payload from second ping!");
+        }
         server.execute(() -> {
             player.sendSystemMessage(Component.literal("Second ping received. Issuing clientbound response now."));
-            this.packetSender.sendToClient(player.connection, this.clientboundPackets.getSecondPingResponseSpec(), this.emptyPacketBuilder.build());
+            this.packetSender.sendToClient(
+                player.connection,
+                this.clientboundPackets.getSecondPingResponseSpec(),
+                this.simplePacketBuilder.build(SecondPingResponse.PAYLOAD)
+            );
         });
     }
 }

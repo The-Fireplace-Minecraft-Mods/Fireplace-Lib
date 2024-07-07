@@ -5,15 +5,12 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.CommandNode;
-import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
-import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;
 import dev.the_fireplace.lib.api.command.injectables.Requirements;
-import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.api.command.interfaces.RegisterableCommand;
 import dev.the_fireplace.lib.api.network.injectables.PacketSender;
-import dev.the_fireplace.playtest.PlaytestConstants;
 import dev.the_fireplace.playtest.network.ClientboundPackets;
-import dev.the_fireplace.playtest.network.EmptyPacketBuilder;
+import dev.the_fireplace.playtest.network.SimplePacketBuilder;
+import dev.the_fireplace.playtest.network.clientbound.PingResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import net.minecraft.commands.CommandSourceStack;
@@ -27,19 +24,19 @@ public final class PingCommand implements RegisterableCommand
     private final Requirements requirements;
     private final PacketSender packetSender;
     private final ClientboundPackets clientboundPackets;
-    private final EmptyPacketBuilder emptyPacketBuilder;
+    private final SimplePacketBuilder simplePacketBuilder;
 
     @Inject
     public PingCommand(
         Requirements requirements,
         PacketSender packetSender,
         ClientboundPackets clientboundPackets,
-        EmptyPacketBuilder emptyPacketBuilder
+        SimplePacketBuilder simplePacketBuilder
     ) {
         this.requirements = requirements;
         this.packetSender = packetSender;
         this.clientboundPackets = clientboundPackets;
-        this.emptyPacketBuilder = emptyPacketBuilder;
+        this.simplePacketBuilder = simplePacketBuilder;
     }
 
 
@@ -54,7 +51,11 @@ public final class PingCommand implements RegisterableCommand
     private int execute(CommandContext<CommandSourceStack> command) throws CommandSyntaxException {
         ServerPlayer serverPlayer = command.getSource().getPlayerOrException();
         serverPlayer.sendSystemMessage(Component.literal("Ping command received, sending response."));
-        packetSender.sendToClient(serverPlayer.connection, clientboundPackets.getPingResponseSpec(), emptyPacketBuilder.build());
+        packetSender.sendToClient(
+            serverPlayer.connection,
+            clientboundPackets.getPingResponseSpec(),
+            simplePacketBuilder.build(PingResponse.PAYLOAD)
+        );
 
         return Command.SINGLE_SUCCESS;
     }

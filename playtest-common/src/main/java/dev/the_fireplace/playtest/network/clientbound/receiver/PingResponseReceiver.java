@@ -2,8 +2,10 @@ package dev.the_fireplace.playtest.network.clientbound.receiver;
 
 import dev.the_fireplace.lib.api.network.injectables.PacketSender;
 import dev.the_fireplace.lib.api.network.interfaces.ClientboundPacketReceiver;
-import dev.the_fireplace.playtest.network.EmptyPacketBuilder;
+import dev.the_fireplace.playtest.network.SimplePacketBuilder;
 import dev.the_fireplace.playtest.network.ServerboundPackets;
+import dev.the_fireplace.playtest.network.clientbound.PingResponse;
+import dev.the_fireplace.playtest.network.serverbound.SecondPing;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import net.minecraft.client.Minecraft;
@@ -16,25 +18,28 @@ public final class PingResponseReceiver implements ClientboundPacketReceiver
 {
     private final PacketSender packetSender;
     private final ServerboundPackets serverboundPackets;
-    private final EmptyPacketBuilder emptyPacketBuilder;
+    private final SimplePacketBuilder simplePacketBuilder;
 
     @Inject
     public PingResponseReceiver(
         PacketSender packetSender,
         ServerboundPackets serverboundPackets,
-        EmptyPacketBuilder emptyPacketBuilder
+        SimplePacketBuilder simplePacketBuilder
     ) {
         this.packetSender = packetSender;
         this.serverboundPackets = serverboundPackets;
-        this.emptyPacketBuilder = emptyPacketBuilder;
+        this.simplePacketBuilder = simplePacketBuilder;
     }
 
     @Override
     public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf) {
+        if (!buf.readUtf().equals(PingResponse.PAYLOAD)) {
+            throw new Error("Received unexpected payload from ping response!");
+        }
         client.submit(() -> {
             assert client.player != null;
             client.player.displayClientMessage(Component.literal("Received first ping response! Pinging again via FL packet."), false);
-            this.packetSender.sendToServer(this.serverboundPackets.getSecondPingSpec(), emptyPacketBuilder.build());
+            this.packetSender.sendToServer(this.serverboundPackets.getSecondPingSpec(), simplePacketBuilder.build(SecondPing.PAYLOAD));
         });
     }
 }
