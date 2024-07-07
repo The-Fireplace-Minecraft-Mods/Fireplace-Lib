@@ -4,6 +4,7 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.network.interfaces.PacketSpecification;
 import dev.the_fireplace.lib.domain.network.ServerboundSender;
 import dev.the_fireplace.lib.domain.network.SimpleChannelManager;
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,10 +25,10 @@ public final class ForgeServerboundPacketSender implements ServerboundSender
 
     @Override
     public void sendToServer(PacketSpecification specification, FriendlyByteBuf packetContents) {
-        SimpleChannel channel = simpleChannelManager.getChannel(specification);
+        SimpleChannel channel = simpleChannelManager.getChannel();
         ClientPacketListener connection = Minecraft.getInstance().getConnection();
         if (connection != null && channel.isRemotePresent(connection.getConnection())) {
-            channel.send(PacketDistributor.SERVER.with(() -> null), packetContents);
+            channel.send(PacketDistributor.SERVER.with(() -> null), simpleChannelManager.wrap(specification, packetContents));
         } else if (connection == null) {
             throw new IllegalStateException(String.format(
                 "Not connected to a server, cannot send packet %s.",
