@@ -3,5 +3,7 @@
     "commands.flplaytest.opecho.usage": "/opecho",
     "commands.flplaytest.opecho.description": "Echoes a simple response, restricted to op only.",
     "commands.flplaytest.testhelp.usage": "/testhelp [page]",
-    "commands.flplaytest.testhelp.description": "See the ${readable_name} testing commands."
+    "commands.flplaytest.testhelp.description": "See the ${readable_name} testing commands.",
+    "commands.flplaytest.ping.usage": "/ping",
+    "commands.flplaytest.ping.description": "Fire off a network test - two clientbound and two serverbound packets."
 }
