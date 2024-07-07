@@ -5,6 +5,7 @@ import dev.the_fireplace.lib.api.network.injectables.PacketSender;
 import dev.the_fireplace.lib.api.network.interfaces.PacketSpecification;
 import dev.the_fireplace.lib.domain.network.ServerboundSender;
 import dev.the_fireplace.lib.domain.network.SimpleChannelManager;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraftforge.fmllegacy.network.PacketDistributor;
@@ -31,9 +32,9 @@ public final class ForgePacketSender implements PacketSender
 
     @Override
     public void sendToClient(ServerGamePacketListenerImpl connection, PacketSpecification specification, FriendlyByteBuf packetContents) {
-        SimpleChannel channel = simpleChannelManager.getChannel(specification);
+        SimpleChannel channel = simpleChannelManager.getChannel();
         if (channel.isRemotePresent(connection.getConnection())) {
-            channel.send(PacketDistributor.PLAYER.with(() -> connection.player), packetContents);
+            channel.send(PacketDistributor.PLAYER.with(() -> connection.player), simpleChannelManager.wrap(specification, packetContents));
         } else if (!specification.shouldSilentlyFailOnMissingReceiver()) {
             throw new IllegalStateException(String.format(
                 "Player %s is missing a receiver for packet %s.",
