@@ -11,6 +11,8 @@ import java.util.function.Supplier;
 
 public final class ThirdPing implements ServerboundPacketSpecification
 {
+    public static final String PAYLOAD = "Third ping!";
+
     @Override
     public Supplier<ServerboundPacketReceiver> getReceiverFactory() {
         return () -> PlaytestConstants.getInjector().getInstance(ThirdPingReceiver.class);
