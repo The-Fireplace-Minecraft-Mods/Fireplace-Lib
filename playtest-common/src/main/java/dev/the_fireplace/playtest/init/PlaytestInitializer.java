@@ -6,6 +6,7 @@ import dev.the_fireplace.lib.api.environment.injectables.EnvironmentData;
 import dev.the_fireplace.lib.api.lifecycle.injectables.ServerLifecycle;
 import dev.the_fireplace.playtest.PlaytestConstants;
 import dev.the_fireplace.playtest.command.RegisterCommands;
+import dev.the_fireplace.playtest.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 
 import jakarta.inject.Inject;
@@ -20,18 +21,21 @@ public final class PlaytestInitializer implements IPlaytestInitializer
     private final EnvironmentData environmentData;
     private final ServerLifecycle serverLifecycle;
     private final RegisterCommands registerCommands;
+    private final NetworkRegistry networkRegistry;
 
     @Inject
     public PlaytestInitializer(
         TranslatorFactory translatorFactory,
         EnvironmentData environmentData,
         ServerLifecycle serverLifecycle,
-        RegisterCommands registerCommands
+        RegisterCommands registerCommands,
+        NetworkRegistry networkRegistry
     ) {
         this.translatorFactory = translatorFactory;
         this.environmentData = environmentData;
         this.serverLifecycle = serverLifecycle;
         this.registerCommands = registerCommands;
+        this.networkRegistry = networkRegistry;
     }
 
     public void init() {
@@ -43,11 +47,11 @@ public final class PlaytestInitializer implements IPlaytestInitializer
             serverLifecycle.registerServerStartingCallback(minecraftServer -> {
                 registerCommands.register(minecraftServer.getCommands().getDispatcher());
             });
+            networkRegistry.registerPackets();
         }
         logger.info("Init called from the following environment:");
         logger.info("Is client: {}", environmentData.isClient());
         logger.info("Is dedicated server: {}", environmentData.isDedicatedServer());
         logger.info("Is development environment: {}", environmentData.isDevelopment());
-
     }
 }
