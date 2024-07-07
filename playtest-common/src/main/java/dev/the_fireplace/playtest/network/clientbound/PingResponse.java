@@ -13,6 +13,8 @@ import java.util.function.Supplier;
 @Singleton
 public final class PingResponse implements ClientboundPacketSpecification
 {
+    public static final String PAYLOAD = "Pong!";
+
     @Override
     public Supplier<ClientboundPacketReceiver> getReceiverFactory() {
         return () -> PlaytestConstants.getInjector().getInstance(PingResponseReceiver.class);
