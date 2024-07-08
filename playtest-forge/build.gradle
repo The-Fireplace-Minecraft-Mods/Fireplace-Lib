@@ -33,7 +33,7 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
-task devJar(type: Jar) {
+tasks.register('devJar', Jar) {
     destinationDirectory.set(project(":forge").file("run/mods"))
     from sourceSets.main.output
     from sourceSets.main.allJava
