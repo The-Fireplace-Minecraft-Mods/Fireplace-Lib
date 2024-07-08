@@ -37,7 +37,7 @@ dependencies {
     def fabricApiDependency = "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     modImplementation fabricApiDependency
 
-    modImplementation "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}"
+    modApi "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}"
     include "dev.the-fireplace:Annotated-DI-Fabric:${project.annotateddi_version}"
     annotationProcessor "dev.the-fireplace:Annotated-DI-Fabric-Processor:${project.annotateddi_version}"
 
