@@ -61,7 +61,7 @@ dependencies {
     annotationProcessor "dev.the-fireplace:Annotated-DI-Forge-Processor:${project.annotateddi_version}"
     annotationProcessor "org.spongepowered:mixin:${project.forge_mixin_version}:processor"
 
-    api(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.forge_clothconfig_version}"))
+    implementation(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.forge_clothconfig_version}"))
 
     apiCompileOnly project(":api")
     compileOnly project(":api")
