@@ -28,10 +28,8 @@ processResources {
     from project(":playtest-common").sourceSets.main.resources
     inputs.property 'version', project.version
 
-    def buildProps = project.properties.clone()
-
     filesMatching(['**/*.json', 'pack.mcmeta']) {
-        expand buildProps
+        expand project.properties
     }
 }
 
