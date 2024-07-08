@@ -54,10 +54,9 @@ tasks.register('devJar', Jar) {
 
 processResources {
     from project(":playtest-common").sourceSets.main.resources
-    def buildProps = project.properties.clone()
 
     filesMatching(['**/*.json', 'pack.mcmeta', '**/mods.toml']) {
-        expand buildProps
+        expand project.properties
     }
 }
 
