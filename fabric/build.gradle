@@ -87,7 +87,8 @@ processResources {
     }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
+tasks.register('sourcesJar', Jar) {
+    dependsOn classes
     archiveClassifier.set('sources')
     from project(':common').sourceSets.main.allSource
     from project(':api').sourceSets.main.allSource
@@ -113,7 +114,8 @@ compileJava {
     source sourceSets.api.allSource
 }
 
-task apiJar(type: Jar, dependsOn: classes) {
+tasks.register('apiJar', Jar) {
+    dependsOn classes
     archiveClassifier.set('api')
     from sourceSets.api.output
     from project(':api').sourceSets.main.output
