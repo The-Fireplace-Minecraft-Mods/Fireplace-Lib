@@ -60,6 +60,10 @@ subprojects {
 		}
 	maven {
             name = 'OSSRH Snapshots'
+            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        maven {
+            name = 'OSSRH Snapshots Alt'
             url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
         }
     }
