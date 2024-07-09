@@ -7,7 +7,7 @@ plugins {
 }
 
 archivesBaseName = "${archives_base_name}-Fabric"
-def mainArtifactFile = new File(new File(buildDir, 'libs'), "$archivesBaseName-${version}.jar")
+def mainArtifactFile = layout.buildDirectory.file("libs/${archivesBaseName}-${version}.jar").get().asFile
 def changelogFile = file('../changelog.txt')
 
 sourceSets {
