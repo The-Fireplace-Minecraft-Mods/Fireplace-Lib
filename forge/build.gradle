@@ -191,9 +191,9 @@ configurations {
     apiElements.outgoing.artifact(apiJar)
 }
 
-if (hasProperty('curseForgeApiKey')) {
+if (hasProperty('curseForgeApiKey') || System.getenv("CURSEFORGE_API_KEY") != null) {
     curseforge {
-        apiKey = curseForgeApiKey
+        apiKey = findProperty('curseForgeApiKey') ?: System.getenv("CURSEFORGE_API_KEY")
         project {
             id = '634959'
             changelog = changelogFile
@@ -216,9 +216,9 @@ if (hasProperty('curseForgeApiKey')) {
     }
 }
 
-if (hasProperty('modrinthApiKey')) {
+if (hasProperty('modrinthApiKey') || System.getenv("MODRINTH_API_KEY") != null) {
     modrinth {
-        token = modrinthApiKey
+        token = findProperty('modrinthApiKey') ?: System.getenv("MODRINTH_API_KEY")
         projectId = 'ING0LAPF'
         versionNumber = version
         versionName = project.mod_version
