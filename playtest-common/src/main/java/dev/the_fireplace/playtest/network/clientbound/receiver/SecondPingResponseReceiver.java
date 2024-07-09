@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 @Singleton
 public final class SecondPingResponseReceiver implements ClientboundPacketReceiver
@@ -38,7 +39,7 @@ public final class SecondPingResponseReceiver implements ClientboundPacketReceiv
         }
         client.submit(() -> {
             assert client.player != null;
-            client.player.displayClientMessage(Component.literal("Received second ping response! Network is likely functional, firing one more serverbound packet to verify."), false);
+            client.player.displayClientMessage(new TextComponent("Received second ping response! Network is likely functional, firing one more serverbound packet to verify."), false);
             this.packetSender.sendToServer(this.serverboundPackets.getThirdPingSpec(), simplePacketBuilder.build(ThirdPing.PAYLOAD));
         });
     }
