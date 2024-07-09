@@ -3,7 +3,6 @@ package dev.the_fireplace.lib.chat.translation;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.domain.translation.LocalizedClients;
-import io.netty.util.internal.ConcurrentSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,9 +18,9 @@ import java.util.stream.Collectors;
 @Singleton
 public final class LocalizedClientsImpl implements LocalizedClients
 {
-    private static final Function<String, Set<UUID>> NEW_CONCURRENT_SET = unused -> new ConcurrentSet<>();
+    private static final Function<String, Set<UUID>> NEW_CONCURRENT_SET = unused -> ConcurrentHashMap.newKeySet();
 
-    private final Map<String, Set<UUID>> localizedClients = new ConcurrentHashMap<>();
+    private final Map<String, Set<UUID>> localizedPlayersByModId = new ConcurrentHashMap<>();
     private final TranslatorFactory translatorFactory;
 
     @Inject
@@ -30,28 +29,28 @@ public final class LocalizedClientsImpl implements LocalizedClients
     }
 
     @Override
-    public void addPlayer(UUID player, Collection<String> clientModids) {
-        for (String modid : getModidsWithTranslators(clientModids)) {
-            localizedClients.computeIfAbsent(modid, NEW_CONCURRENT_SET).add(player);
+    public void addPlayer(UUID playerId, Collection<String> clientModIds) {
+        for (String modId : getModIdsWithTranslators(clientModIds)) {
+            localizedPlayersByModId.computeIfAbsent(modId, NEW_CONCURRENT_SET).add(playerId);
         }
     }
 
-    private Collection<String> getModidsWithTranslators(Collection<String> clientModids) {
+    private Collection<String> getModIdsWithTranslators(Collection<String> clientModIds) {
         Collection<String> availableTranslators = translatorFactory.availableTranslators();
-        return clientModids.stream()
+        return clientModIds.stream()
             .filter(availableTranslators::contains)
             .collect(Collectors.toSet());
     }
 
     @Override
-    public void removePlayer(UUID player) {
-        for (Set<UUID> uuids : localizedClients.values()) {
-            uuids.remove(player);
+    public void removePlayer(UUID playerId) {
+        for (Set<UUID> localizedPlayers : localizedPlayersByModId.values()) {
+            localizedPlayers.remove(playerId);
         }
     }
 
     @Override
-    public boolean isLocalized(String modid, UUID player) {
-        return localizedClients.containsKey(modid) && localizedClients.get(modid).contains(player);
+    public boolean isLocalized(String modId, UUID playerId) {
+        return localizedPlayersByModId.containsKey(modId) && localizedPlayersByModId.get(modId).contains(playerId);
     }
 }
