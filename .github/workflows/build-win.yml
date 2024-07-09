@@ -22,7 +22,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: |
-              16
+              8
               ${{ matrix.java }}
 
       - name: build
