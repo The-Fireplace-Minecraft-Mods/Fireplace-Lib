@@ -3,6 +3,7 @@ package dev.the_fireplace.lib.chat;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.multithreading.injectables.ExecutionManager;
+import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
 
