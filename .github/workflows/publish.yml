@@ -49,7 +49,13 @@ jobs:
                     base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg
 
             -   name: maven publish
-                run: ./gradlew build publish closeAndReleaseRepository -Psigning.keyId=${{secrets.NEXUS_GPG_SIGNING_KEY_ID}} -Psigning.password=${{ secrets.NEXUS_GPG_SECRET_KEY_PASSWORD }} -Psigning.secretKeyRingFile=$(echo ~/.gradle/secring.gpg)
+                run: ./gradlew build publish -Psigning.keyId=${{secrets.NEXUS_GPG_SIGNING_KEY_ID}} -Psigning.password=${{ secrets.NEXUS_GPG_SECRET_KEY_PASSWORD }} -Psigning.secretKeyRingFile=$(echo ~/.gradle/secring.gpg)
                 env:
                     NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
                     NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
+            -   name: hosting publish
+                run: ./gradlew build curseforge modrinth
+                env:
+                    CURSEFORGE_API_KEY: ${{ secrets.CF_API_KEY }}
+                    MODRINTH_API_KEY: ${{ secrets.MR_API_KEY }}
