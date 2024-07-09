@@ -9,17 +9,17 @@ import java.util.UUID;
 
 public interface Translator
 {
-    Component getTextForTarget(CommandSourceStack target, String translationKey, Object... args);
+    Component getTextForTarget(CommandSourceStack target, String translationKey, Object... arguments);
 
-    Component getTextForTarget(CommandSource target, String translationKey, Object... args);
+    Component getTextForTarget(CommandSource target, String translationKey, Object... arguments);
 
-    Component getTextForTarget(UUID target, String translationKey, Object... args);
+    Component getTextForTarget(UUID targetPlayerId, String translationKey, Object... arguments);
 
-    TextComponent getTranslatedText(String translationKey, Object... args);
+    TextComponent getTranslatedText(String translationKey, Object... arguments);
 
-    String getTranslatedString(String translationKey, Object... args);
+    String getTranslatedString(String translationKey, Object... arguments);
 
     String getTranslationKeyForTarget(CommandSource target, String translationKey);
 
-    String getTranslationKeyForTarget(UUID target, String translationKey);
+    String getTranslationKeyForTarget(UUID targetPlayerId, String translationKey);
 }
