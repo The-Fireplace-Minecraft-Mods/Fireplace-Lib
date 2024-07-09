@@ -5,9 +5,9 @@ import java.util.UUID;
 
 public interface LocalizedClients
 {
-    void addPlayer(UUID player, Collection<String> clientModids);
+    void addPlayer(UUID playerId, Collection<String> clientModIds);
 
-    void removePlayer(UUID player);
+    void removePlayer(UUID playerId);
 
-    boolean isLocalized(String modid, UUID player);
+    boolean isLocalized(String modId, UUID playerId);
 }
