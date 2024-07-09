@@ -34,58 +34,66 @@ final class LanguageMap
     private final LoaderSpecificDirectories loaderSpecificDirectories;
     private final String modId;
 
-    LanguageMap(String modid, String locale) {
+    LanguageMap(String modId, String locale) {
         Injector injector = FireplaceLibConstants.getInjector();
         DirectoryResolver directoryResolver = injector.getInstance(DirectoryResolver.class);
         this.loaderSpecificDirectories = injector.getInstance(LoaderSpecificDirectories.class);
-        this.modId = modid;
-        String langDir = directoryResolver.getLangDirectory(modid);
+        this.modId = modId;
+        String localizationDirectory = directoryResolver.getLangDirectory(modId);
         try {
-            JsonElement jsonelement = getLangJsonElement(locale, langDir);
-            JsonObject jsonobject = GsonHelper.convertToJsonObject(jsonelement, "strings");
+            JsonObject jsonObject = getTranslationsAsJson(locale, localizationDirectory);
 
-            for (Map.Entry<String, JsonElement> entry : jsonobject.entrySet()) {
-                String s = NUMERIC_VARIABLE_PATTERN.matcher(GsonHelper.convertToString(entry.getValue(), entry.getKey())).replaceAll("%$1s");
-                this.languageList.put(entry.getKey(), s);
+            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                String translatedString = GsonHelper.convertToString(entry.getValue(), entry.getKey());
+                translatedString = standardizeNumberPlaceholders(translatedString);
+                this.languageList.put(entry.getKey(), translatedString);
             }
         } catch (JsonParseException e) {
-            FireplaceLibConstants.getLogger().error(langDir + locale + ".json is improperly formatted.", e);
+            FireplaceLibConstants.getLogger().error(localizationDirectory + locale + ".json is improperly formatted.", e);
         } catch (IOException ignored) {
         }
     }
 
-    private JsonElement getLangJsonElement(String locale, String langDir) throws IOException {
-        String langJsonPath = langDir + locale + ".json";
-        InputStream inputstream = getInputStream(langJsonPath);
-        if (inputstream == null) {
+    private static String standardizeNumberPlaceholders(String translatedString) {
+        return NUMERIC_VARIABLE_PATTERN
+            .matcher(translatedString)
+            .replaceAll("%$1s");
+    }
+
+    private JsonObject getTranslationsAsJson(String locale, String localizationDirectory) throws IOException {
+        String localeJsonPath = localizationDirectory + locale + ".json";
+        InputStream inputStream = getInputStream(localeJsonPath);
+        if (inputStream == null) {
             FireplaceLibConstants.getLogger().error("Invalid locale: {}, defaulting to en_us.", locale);
-            String defaultLangDir = langDir + "en_us.json";
-            inputstream = getInputStream(defaultLangDir);
+            String defaultLocaleJsonPath = localizationDirectory + "en_us.json";
+            inputStream = getInputStream(defaultLocaleJsonPath);
         }
-        if (inputstream == null) {
-            FireplaceLibConstants.getLogger().error("Unable to read language file in directory {}!", langDir);
+        if (inputStream == null) {
+            FireplaceLibConstants.getLogger().error("Unable to read language file in directory {}!", localizationDirectory);
             return new JsonObject();
         }
-        JsonElement jsonelement = new Gson().fromJson(new InputStreamReader(inputstream, StandardCharsets.UTF_8), JsonElement.class);
-        inputstream.close();
-        return jsonelement;
+        JsonObject jsonObject = new Gson().fromJson(new InputStreamReader(inputStream, StandardCharsets.UTF_8), JsonObject.class);
+        inputStream.close();
+        return jsonObject;
     }
 
     @Nullable
-    private InputStream getInputStream(String langFileDirectory) {
-        InputStream inputstream = LanguageMap.class.getResourceAsStream(langFileDirectory);
-        if (inputstream == null) {
-            Optional<Path> resource = loaderSpecificDirectories.getResource(modId, langFileDirectory);
-            if (resource.isPresent()) {
-                try {
-                    inputstream = Files.newInputStream(resource.get());
-                } catch (IOException exception) {
-                    FireplaceLibConstants.getLogger().warn(String.format("Could not create input stream for resource %s", resource.get()), exception);
-                }
+    private InputStream getInputStream(String localeJsonPath) {
+        InputStream inputStream = LanguageMap.class.getResourceAsStream(localeJsonPath);
+        if (inputStream != null) {
+            return inputStream;
+        }
+        Optional<Path> resource = loaderSpecificDirectories.getResource(modId, localeJsonPath);
+        if (resource.isPresent()) {
+            try {
+                inputStream = Files.newInputStream(resource.get());
+            } catch (IOException exception) {
+                String logMessage = String.format("Could not create input stream for resource %s", resource.get());
+                FireplaceLibConstants.getLogger().warn(logMessage, exception);
             }
         }
 
-        return inputstream;
+        return inputStream;
     }
 
     String translateKeyFormat(String key, Object... format) {
