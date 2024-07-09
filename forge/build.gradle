@@ -21,7 +21,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 archivesBaseName = "${archives_base_name}-Forge"
-def mainArtifactFile = new File(new File(buildDir, 'libs'), "$archivesBaseName-${version}.jar")
+def mainArtifactFile = layout.buildDirectory.file("libs/${archivesBaseName}-${version}.jar").get().asFile
 def changelogFile = file('../changelog.txt')
 
 sourceSets {
