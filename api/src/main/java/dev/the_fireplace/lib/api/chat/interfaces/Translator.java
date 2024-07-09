@@ -8,17 +8,17 @@ import java.util.UUID;
 
 public interface Translator
 {
-    MutableComponent getTextForTarget(CommandSourceStack target, String translationKey, Object... args);
+    MutableComponent getTextForTarget(CommandSourceStack target, String translationKey, Object... arguments);
 
-    MutableComponent getTextForTarget(CommandSource target, String translationKey, Object... args);
+    MutableComponent getTextForTarget(CommandSource target, String translationKey, Object... arguments);
 
-    MutableComponent getTextForTarget(UUID target, String translationKey, Object... args);
+    MutableComponent getTextForTarget(UUID targetPlayerId, String translationKey, Object... arguments);
 
-    MutableComponent getTranslatedText(String translationKey, Object... args);
+    MutableComponent getTranslatedText(String translationKey, Object... arguments);
 
-    String getTranslatedString(String translationKey, Object... args);
+    String getTranslatedString(String translationKey, Object... arguments);
 
     String getTranslationKeyForTarget(CommandSource target, String translationKey);
 
-    String getTranslationKeyForTarget(UUID target, String translationKey);
+    String getTranslationKeyForTarget(UUID targetPlayerId, String translationKey);
 }
