@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 @Singleton
 public final class PingResponseReceiver implements ClientboundPacketReceiver
@@ -38,7 +39,7 @@ public final class PingResponseReceiver implements ClientboundPacketReceiver
         }
         client.submit(() -> {
             assert client.player != null;
-            client.player.displayClientMessage(Component.literal("Received first ping response! Pinging again via FL packet."), false);
+            client.player.displayClientMessage(new TextComponent("Received first ping response! Pinging again via FL packet."), false);
             this.packetSender.sendToServer(this.serverboundPackets.getSecondPingSpec(), simplePacketBuilder.build(SecondPing.PAYLOAD));
         });
     }

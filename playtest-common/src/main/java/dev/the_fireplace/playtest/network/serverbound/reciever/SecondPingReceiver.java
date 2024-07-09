@@ -2,6 +2,7 @@ package dev.the_fireplace.playtest.network.serverbound.reciever;
 
 import dev.the_fireplace.lib.api.network.injectables.PacketSender;
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketReceiver;
+import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import dev.the_fireplace.playtest.network.ClientboundPackets;
 import dev.the_fireplace.playtest.network.SimplePacketBuilder;
 import dev.the_fireplace.playtest.network.clientbound.SecondPingResponse;
@@ -10,6 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -20,16 +22,18 @@ public final class SecondPingReceiver implements ServerboundPacketReceiver
     private final PacketSender packetSender;
     private final ClientboundPackets clientboundPackets;
     private final SimplePacketBuilder simplePacketBuilder;
+    private final EmptyUUID emptyUUID;
 
     @Inject
     public SecondPingReceiver(
         PacketSender packetSender,
         ClientboundPackets clientboundPackets,
-        SimplePacketBuilder simplePacketBuilder
+        SimplePacketBuilder simplePacketBuilder, EmptyUUID emptyUUID
     ) {
         this.packetSender = packetSender;
         this.clientboundPackets = clientboundPackets;
         this.simplePacketBuilder = simplePacketBuilder;
+        this.emptyUUID = emptyUUID;
     }
 
     @Override
@@ -38,7 +42,7 @@ public final class SecondPingReceiver implements ServerboundPacketReceiver
             throw new Error("Received unexpected payload from second ping!");
         }
         server.execute(() -> {
-            player.sendSystemMessage(Component.literal("Second ping received. Issuing clientbound response now."));
+            player.sendMessage(new TextComponent("Second ping received. Issuing clientbound response now."), emptyUUID.get());
             this.packetSender.sendToClient(
                 player.connection,
                 this.clientboundPackets.getSecondPingResponseSpec(),
