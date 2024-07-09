@@ -24,12 +24,10 @@ public final class MessageQueueImpl implements MessageQueue
 {
     private final Map<CommandSource, TargetMessageQueue> messageQueues = new ConcurrentHashMap<>();
     private final ExecutionManager executionManager;
-    private final EmptyUUID emptyUUID;
 
     @Inject
-    public MessageQueueImpl(ExecutionManager executionManager, EmptyUUID emptyUUID) {
+    public MessageQueueImpl(ExecutionManager executionManager) {
         this.executionManager = executionManager;
-        this.emptyUUID = emptyUUID;
     }
 
     private TargetMessageQueue getOrCreateQueue(CommandSource messageTarget) {
