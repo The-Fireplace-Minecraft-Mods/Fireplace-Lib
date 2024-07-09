@@ -9,6 +9,7 @@ plugins {
 archivesBaseName = "${archives_base_name}-Fabric"
 def mainArtifactFile = layout.buildDirectory.file("libs/${archivesBaseName}-${version}.jar").get().asFile
 def changelogFile = file('../changelog.txt')
+def supportedMinecraftVersions = [project.minecraft_version, '1.16.4', '1.16.3', '1.16.2']
 
 sourceSets {
     api {
@@ -133,10 +134,9 @@ if (hasProperty('curseForgeApiKey') || System.getenv("CURSEFORGE_API_KEY") != nu
             id = '432845'
             changelog = changelogFile
             releaseType = project.release_type
-            addGameVersion project.minecraft_version
-            addGameVersion '1.16.4'
-            addGameVersion '1.16.3'
-            addGameVersion '1.16.2'
+            supportedMinecraftVersions.each { value ->
+                addGameVersion value
+            }
             addGameVersion 'Java 8'
             addGameVersion 'Fabric'
             addGameVersion 'Quilt'
@@ -166,12 +166,7 @@ if (hasProperty('modrinthApiKey') || System.getenv("MODRINTH_API_KEY") != null) 
         uploadFile = mainArtifactFile
         changelog = changelogFile.getText()
         versionType = project.release_type
-        gameVersions = [
-                project.minecraft_version as String,
-                '1.16.4',
-                '1.16.3',
-                '1.16.2',
-        ]
+        gameVersions = supportedMinecraftVersions
         loaders = [
                 'fabric',
                 'quilt',
