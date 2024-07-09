@@ -44,13 +44,13 @@ public final class TranslatorManager implements TranslatorFactory
     }
 
     @Override
-    public void addTranslator(String modid) {
-        modTranslators.put(modid, new TranslatorImpl(modid));
+    public void addTranslator(String modId) {
+        modTranslators.put(modId, new TranslatorImpl(modId));
     }
 
     @Override
-    public Translator getTranslator(String modid) {
-        return modTranslators.computeIfAbsent(modid, TranslatorImpl::new);
+    public Translator getTranslator(String modId) {
+        return modTranslators.computeIfAbsent(modId, TranslatorImpl::new);
     }
 
     @Override
@@ -61,36 +61,36 @@ public final class TranslatorManager implements TranslatorFactory
     @ThreadSafe
     private class TranslatorImpl implements Translator
     {
-        private final String modid;
+        private final String modId;
 
-        private TranslatorImpl(String modid) {
-            this.modid = modid;
+        private TranslatorImpl(String modId) {
+            this.modId = modId;
         }
 
         @Override
-        public MutableComponent getTextForTarget(CommandSourceStack target, String translationKey, Object... args) {
-            return getTextForTarget(getTargetId(target), translationKey, args);
+        public MutableComponent getTextForTarget(CommandSourceStack target, String translationKey, Object... arguments) {
+            return getTextForTarget(getTargetPlayerId(target), translationKey, arguments);
         }
 
         @Override
-        public MutableComponent getTextForTarget(CommandSource target, String translationKey, Object... args) {
-            return getTextForTarget(getTargetId(target), translationKey, args);
+        public MutableComponent getTextForTarget(CommandSource target, String translationKey, Object... arguments) {
+            return getTextForTarget(getTargetPlayerId(target), translationKey, arguments);
         }
 
         @Override
-        public MutableComponent getTextForTarget(UUID target, String translationKey, Object... args) {
-            if (!localizedClients.isLocalized(modid, target)) {
-                return getTranslatedText(translationKey, args);
+        public MutableComponent getTextForTarget(UUID targetPlayerId, String translationKey, Object... arguments) {
+            if (localizedClients.isLocalized(modId, targetPlayerId)) {
+                return new TranslatableComponent(translationKey, arguments);
             } else {
-                return new TranslatableComponent(translationKey, args);
+                return getTranslatedText(translationKey, arguments);
             }
         }
 
         @Override
-        public TextComponent getTranslatedText(String translationKey, Object... translationArguments) {
-            Object[] readableTranslationArguments = convertArgumentsToStrings(translationArguments);
+        public TextComponent getTranslatedText(String translationKey, Object... arguments) {
+            Object[] readableTranslationArguments = convertArgumentsToStrings(arguments);
 
-            return new TextComponent(i18n.translateToLocalFormatted(modid, translationKey, readableTranslationArguments));
+            return new TextComponent(i18n.translateToLocalFormatted(modId, translationKey, readableTranslationArguments));
         }
 
         private Object[] convertArgumentsToStrings(Object[] arguments) {
@@ -107,31 +107,31 @@ public final class TranslatorManager implements TranslatorFactory
         }
 
         @Override
-        public String getTranslatedString(String translationKey, Object... translationArguments) {
-            return getTranslatedText(translationKey, translationArguments).getString();
+        public String getTranslatedString(String translationKey, Object... arguments) {
+            return getTranslatedText(translationKey, arguments).getString();
         }
 
         @Override
         public String getTranslationKeyForTarget(CommandSource target, String translationKey) {
-            return getTranslationKeyForTarget(getTargetId(target), translationKey);
+            return getTranslationKeyForTarget(getTargetPlayerId(target), translationKey);
         }
 
         @Override
-        public String getTranslationKeyForTarget(UUID target, String translationKey) {
-            if (!localizedClients.isLocalized(modid, target)) {
-                return i18n.translateToLocalFormatted(modid, translationKey);
-            } else {
+        public String getTranslationKeyForTarget(UUID targetPlayerId, String translationKey) {
+            if (localizedClients.isLocalized(modId, targetPlayerId)) {
                 return translationKey;
+            } else {
+                return i18n.translateToLocalFormatted(modId, translationKey);
             }
         }
 
-        protected UUID getTargetId(CommandSourceStack commandSource) {
+        protected UUID getTargetPlayerId(CommandSourceStack commandSource) {
             return commandSource.getEntity() instanceof ServerPlayer
                 ? commandSource.getEntity().getUUID()
                 : emptyUUID.get();
         }
 
-        protected UUID getTargetId(CommandSource commandOutput) {
+        protected UUID getTargetPlayerId(CommandSource commandOutput) {
             return commandOutput instanceof ServerPlayer ? ((Entity) commandOutput).getUUID() : emptyUUID.get();
         }
     }
