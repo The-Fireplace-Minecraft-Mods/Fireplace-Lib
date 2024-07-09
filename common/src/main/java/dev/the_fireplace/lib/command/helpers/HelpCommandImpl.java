@@ -31,16 +31,16 @@ public final class HelpCommandImpl implements HelpCommand
     private final TextStyles textStyles;
     private final TextPaginator textPaginator;
     private final Translator translator;
-    private final String modid;
+    private final String modId;
     private final LiteralArgumentBuilder<CommandSourceStack> helpCommandBase;
     private final Map<String, Collection<String>> commands = new HashMap<>();
     private final IntSet grandchildNodeHashes = new IntArraySet(3);
 
-    HelpCommandImpl(String modid, LiteralArgumentBuilder<CommandSourceStack> helpCommandBase) {
-        this.modid = modid;
+    HelpCommandImpl(String modId, LiteralArgumentBuilder<CommandSourceStack> helpCommandBase) {
+        this.modId = modId;
         this.helpCommandBase = helpCommandBase;
         Injector injector = FireplaceLibConstants.getInjector();
-        this.translator = injector.getInstance(TranslatorManager.class).getTranslator(modid);
+        this.translator = injector.getInstance(TranslatorManager.class).getTranslator(modId);
         this.textStyles = injector.getInstance(TextStyles.class);
         this.textPaginator = injector.getInstance(TextPaginator.class);
     }
@@ -114,37 +114,37 @@ public final class HelpCommandImpl implements HelpCommand
     }
 
     private List<? extends Component> getHelpsList(CommandContext<CommandSourceStack> command) {
-        List<MutableComponent> helps = Lists.newArrayList();
+        List<MutableComponent> helpComponents = Lists.newArrayList();
         for (Map.Entry<String, Collection<String>> commandName : commands.entrySet()) {
             if (commandName.getValue().isEmpty()) {
                 MutableComponent commandHelp = buildCommandDescription(command, commandName.getKey());
-                helps.add(commandHelp);
+                helpComponents.add(commandHelp);
             } else {
                 for (String subCommand : commandName.getValue()) {
                     MutableComponent commandHelp = buildSubCommandDescription(command, commandName.getKey(), subCommand);
-                    helps.add(commandHelp);
+                    helpComponents.add(commandHelp);
                 }
             }
         }
-        helps.sort(Comparator.comparing(Component::getString));
+        helpComponents.sort(Comparator.comparing(Component::getString));
 
         int i = 0;
-        for (MutableComponent helpText : helps) {
-            helpText.setStyle(i++ % 2 == 0 ? textStyles.white() : textStyles.grey());
+        for (MutableComponent helpComponent : helpComponents) {
+            helpComponent.setStyle(i++ % 2 == 0 ? textStyles.white() : textStyles.grey());
         }
 
-        return helps;
+        return helpComponents;
     }
 
     private MutableComponent buildCommandDescription(CommandContext<CommandSourceStack> command, String commandName) {
-        return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".usage")
+        return translator.getTextForTarget(command.getSource(), "commands." + modId + "." + commandName + ".usage")
             .append(": ")
-            .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + ".description"));
+            .append(translator.getTextForTarget(command.getSource(), "commands." + modId + "." + commandName + ".description"));
     }
 
     private MutableComponent buildSubCommandDescription(CommandContext<CommandSourceStack> command, String commandName, String subCommand) {
-        return translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".usage")
+        return translator.getTextForTarget(command.getSource(), "commands." + modId + "." + commandName + "." + subCommand + ".usage")
             .append(": ")
-            .append(translator.getTextForTarget(command.getSource(), "commands." + modid + "." + commandName + "." + subCommand + ".description"));
+            .append(translator.getTextForTarget(command.getSource(), "commands." + modId + "." + commandName + "." + subCommand + ".description"));
     }
 }
