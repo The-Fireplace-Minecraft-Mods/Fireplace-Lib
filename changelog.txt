@@ -1,5 +1,1 @@
-Expose server lifecycle events through the API
-Fix dedicated server staying open after shutdown due to save timer (comp500)
-Update bundled Annotated DI to version 4.0.4
-Add Spanish translation (OMG67)
-[Forge] Fix networking. Resolves Overlord skeleton spawning issues.
+Fix crash
