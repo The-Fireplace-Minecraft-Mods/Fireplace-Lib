@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[43,)"
+loaderVersion = "*"
 license = "${license_name}"
 issueTrackerURL = "${github_url}/issues"
 showAsResourcePack = false
@@ -17,14 +17,14 @@ description = ""
 [[dependencies.flplaytest]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "*"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.flplaytest]]
 modId = "minecraft"
 mandatory = true
-versionRange = "*"
+versionRange = "${minecraft_version}"
 ordering = "NONE"
 side = "BOTH"
 
