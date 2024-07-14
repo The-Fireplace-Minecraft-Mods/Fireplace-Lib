@@ -1,0 +1,15 @@
+{
+  "modmenu.descriptionTranslation.fireplacelib": "Eine Bibliothek mit allgemeinen Funktionen, die von meinen Mods verwendet werden, an einem Ort für einfachere Wartung und schnellere Updates.",
+  "fireplacelib.chat.page.next": "[Nächste]",
+  "fireplacelib.chat.page.prev": "[Vorherige]",
+  "fireplacelib.chat.page.num": "Seite: %s/%s",
+  "fireplacelib.command.reload.reloaded": "Fireplace Lib Konfiguration neu geladen!",
+  "text.config.fireplacelib.title": "Fireplace Lib Konfiguration",
+  "text.config.fireplacelib.advanced": "Erweiterte Einstellungen",
+  "text.config.fireplacelib.option.locale": "Server-Sprache",
+  "text.config.fireplacelib.option.locale.desc": "Hier unbenutzt, wirkt sich nur auf einen Server aus.",
+  "text.config.fireplacelib.option.essentialThreadPoolSize": "Wesentliche Thread-Pool-Größe",
+  "text.config.fireplacelib.option.essentialThreadPoolSize.desc": "Nicht berühren, wenn Sie nicht wissen, was Sie tun.",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize": "Nicht essentielle Thread Pool Größe",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "Nicht berühren, wenn Sie nicht wissen, was Sie tun."
+}
