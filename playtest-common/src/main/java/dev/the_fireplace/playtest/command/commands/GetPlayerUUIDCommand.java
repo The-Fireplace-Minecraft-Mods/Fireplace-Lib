@@ -2,6 +2,7 @@ package dev.the_fireplace.playtest.command.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.CommandNode;
@@ -40,11 +41,15 @@ public final class GetPlayerUUIDCommand implements RegisterableCommand
 
     @Override
     public CommandNode<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> commandDispatcher) {
-        return commandDispatcher.register(Commands.literal("playerid")
-                .then(Commands.argument("player", argumentTypeFactory.possiblyOfflinePlayer()))
-            .requires(requirements::managePlayerAccess)
-            .executes(this::execute)
+        LiteralArgumentBuilder<CommandSourceStack> getPlayerIdCommand = Commands.literal("playerid")
+            .requires(requirements::managePlayerAccess);
+
+        getPlayerIdCommand.then(
+            Commands.argument("player", argumentTypeFactory.possiblyOfflinePlayer())
+                .executes(this::execute)
         );
+
+        return commandDispatcher.register(getPlayerIdCommand);
     }
 
     private int execute(CommandContext<CommandSourceStack> command) throws CommandSyntaxException {
