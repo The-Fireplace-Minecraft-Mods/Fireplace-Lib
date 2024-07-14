@@ -1,9 +1,12 @@
 {
     "command.opecho.success": "You are the op.",
+    "command.playerid.success": "The player %s has id %s. They are %s.",
     "commands.flplaytest.opecho.usage": "/opecho",
     "commands.flplaytest.opecho.description": "Echoes a simple response, restricted to op only.",
     "commands.flplaytest.testhelp.usage": "/testhelp [page]",
     "commands.flplaytest.testhelp.description": "See the ${readable_name} testing commands.",
     "commands.flplaytest.ping.usage": "/ping",
-    "commands.flplaytest.ping.description": "Fire off a network test - two clientbound and two serverbound packets."
+    "commands.flplaytest.ping.description": "Fire off a network test - two clientbound and two serverbound packets.",
+    "commands.flplaytest.playerid.usage": "/playerid",
+    "commands.flplaytest.playerid.description": "Get the Name and ID of a player who may be offline."
 }
