@@ -1,5 +1,6 @@
 package dev.the_fireplace.lib.command.helpers;
 
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
@@ -23,7 +24,7 @@ public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory
 
     @Override
     public OfflineSupportedPlayerArgumentType possiblyOfflinePlayer() {
-        return (OfflineSupportedPlayerArgumentType) EntityArgument.player();
+        return reader -> EntityArgument.player().parse(reader);
     }
 
     @Override
