@@ -1,1 +1,1 @@
-Fix crash
+Added German translation (FlorianMichael)
