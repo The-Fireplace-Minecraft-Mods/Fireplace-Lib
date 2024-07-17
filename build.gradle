@@ -60,14 +60,14 @@ subprojects {
 			name = 'Sponge / Mixin'
 			url = 'https://repo.spongepowered.org/repository/maven-public/'
 		}
-	maven {
+	/*maven {
             name = 'OSSRH Snapshots'
             url = 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
         maven {
             name = 'OSSRH Snapshots Alt'
             url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-        }
+        }*/
     }
 
 	// Disables Gradle's custom module metadata from being published to maven. The
