@@ -14,5 +14,3 @@ pluginManagement {
 
 rootProject.name = 'Fireplace-Lib'
 include('common', 'api', 'fabric', 'forge', 'playtest-common', 'playtest-fabric', 'playtest-forge')
-include 'playtest-fabric'
-
