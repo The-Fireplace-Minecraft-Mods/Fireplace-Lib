@@ -1,1 +1,1 @@
-Fix crash
+[1.19+] Fixed Offline Player argument type

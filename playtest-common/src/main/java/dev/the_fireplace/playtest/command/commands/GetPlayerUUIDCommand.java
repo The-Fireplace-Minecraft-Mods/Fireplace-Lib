@@ -46,6 +46,7 @@ public final class GetPlayerUUIDCommand implements RegisterableCommand
 
         getPlayerIdCommand.then(
             Commands.argument("player", argumentTypeFactory.possiblyOfflinePlayer())
+                .suggests(argumentTypeFactory::listOfflinePlayerSuggestions)
                 .executes(this::execute)
         );
 
