@@ -66,7 +66,7 @@ public final class FLConfigScreenFactory
             OPTION_TRANSLATION_BASE + "locale",
             config.getLocale(),
             defaultConfigValues.getLocale(),
-            Minecraft.getInstance().getLanguageManager().getLanguages().parallelStream().map(LanguageInfo::getCode).collect(Collectors.toList()),
+            Minecraft.getInstance().getLanguageManager().getLanguages().keySet(),
             config::setLocale
         );
         configScreenBuilder.startSubCategory(TRANSLATION_BASE + "advanced");

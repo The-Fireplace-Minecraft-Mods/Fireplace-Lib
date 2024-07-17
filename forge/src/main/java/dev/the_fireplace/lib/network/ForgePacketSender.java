@@ -33,7 +33,7 @@ public final class ForgePacketSender implements PacketSender
     @Override
     public void sendToClient(ServerGamePacketListenerImpl connection, PacketSpecification specification, FriendlyByteBuf packetContents) {
         SimpleChannel channel = simpleChannelManager.getChannel();
-        if (channel.isRemotePresent(connection.getConnection())) {
+        if (channel.isRemotePresent(connection.connection)) {
             channel.send(PacketDistributor.PLAYER.with(() -> connection.player), simpleChannelManager.wrap(specification, packetContents));
         } else if (!specification.shouldSilentlyFailOnMissingReceiver()) {
             throw new IllegalStateException(String.format(

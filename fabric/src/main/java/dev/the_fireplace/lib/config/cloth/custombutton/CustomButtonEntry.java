@@ -40,6 +40,7 @@ public class CustomButtonEntry extends TooltipListEntry<String>
     private final Supplier<String> defaultValue;
     private final List<AbstractWidget> widgets;
     private final Function<String, Component> getDisplayText;
+    private final CustomButtonScreenFactory<String, ?> buildOptionScreenFactory;
 
     @SuppressWarnings({"deprecation", "UnstableApiUsage"})
     public CustomButtonEntry(
@@ -55,27 +56,38 @@ public class CustomButtonEntry extends TooltipListEntry<String>
         this.defaultValue = defaultValue;
         this.original = currentValue;
         this.value = new AtomicReference<>(currentValue);
-        this.buttonWidget = new Button(0, 0, 150, 20, Component.empty(), (widget) -> {
-            Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(Minecraft.getInstance().screen, this.value.get());
-            //noinspection unchecked
-            Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();
-            Minecraft.getInstance().setScreen(optionBuilderScreen);
-            FireplaceLibConstants.getInjector().getInstance(ExecutionManager.class).runKillable(() -> {
-                Optional<String> builderReturnedValue = Optional.empty();
-                try {
-                    builderReturnedValue = willReturnNewValuePromise.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-                builderReturnedValue.ifPresent(this.value::set);
-            });
-        });
-        this.resetButton = new Button(0, 0, Minecraft.getInstance().font.width(resetButtonKey) + 6, 20, resetButtonKey, (widget) -> {
-            this.value.set(defaultValue.get());
-        });
+        this.buildOptionScreenFactory = buildOptionScreenFactory;
+        this.buttonWidget = Button.builder(Component.empty(), this::openOptionScreen)
+            .pos(0, 0)
+            .size(150, 20)
+            .build();
+        this.resetButton = Button.builder(resetButtonKey, this::reset)
+            .pos(0, 0)
+            .size(Minecraft.getInstance().font.width(resetButtonKey) + 6, 20)
+            .build();
         this.saveConsumer = saveConsumer;
         this.widgets = Lists.newArrayList(new AbstractWidget[]{this.buttonWidget, this.resetButton});
         this.getDisplayText = getDisplayText;
+    }
+
+    public void openOptionScreen(Button button) {
+        Screen optionBuilderScreen = buildOptionScreenFactory.createScreen(Minecraft.getInstance().screen, this.value.get());
+        //noinspection unchecked
+        Promise<Optional<String>> willReturnNewValuePromise = ((CustomButtonScreen<String>) optionBuilderScreen).getNewValuePromise();
+        Minecraft.getInstance().setScreen(optionBuilderScreen);
+        FireplaceLibConstants.getInjector().getInstance(ExecutionManager.class).runKillable(() -> {
+            Optional<String> builderReturnedValue = Optional.empty();
+            try {
+                builderReturnedValue = willReturnNewValuePromise.get();
+            } catch (InterruptedException | ExecutionException e) {
+                FireplaceLibConstants.getLogger().error(e);
+            }
+            builderReturnedValue.ifPresent(this.value::set);
+        });
+    }
+
+    public void reset(Button button) {
+        this.value.set(defaultValue.get());
     }
 
     @Override
@@ -108,20 +120,20 @@ public class CustomButtonEntry extends TooltipListEntry<String>
         super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta);
         Window window = Minecraft.getInstance().getWindow();
         this.resetButton.active = this.isEditable() && this.getDefaultValue().isPresent() && !Objects.equals(this.defaultValue.get(), this.value.get());
-        this.resetButton.y = y;
+        this.resetButton.setY(y);
         this.buttonWidget.active = this.isEditable();
-        this.buttonWidget.y = y;
+        this.buttonWidget.setY(y);
         Component buttonText = getDisplayText != null ? getDisplayText.apply(this.value.get()) : Component.nullToEmpty(this.value.get());
         this.buttonWidget.setMessage(buttonText);
         Component displayedFieldName = this.getDisplayedFieldName();
         if (Minecraft.getInstance().font.isBidirectional()) {
             Minecraft.getInstance().font.drawShadow(matrices, displayedFieldName.getVisualOrderText(), (float) (window.getGuiScaledWidth() - x - Minecraft.getInstance().font.width(displayedFieldName)), (float) (y + 6), 0xFFFFFF);
-            this.resetButton.x = x;
-            this.buttonWidget.x = x + this.resetButton.getWidth() + 2;
+            this.resetButton.setX(x);
+            this.buttonWidget.setX(x + this.resetButton.getWidth() + 2);
         } else {
             Minecraft.getInstance().font.drawShadow(matrices, displayedFieldName.getVisualOrderText(), (float) x, (float) (y + 6), this.getPreferredTextColor());
-            this.resetButton.x = x + entryWidth - this.resetButton.getWidth();
-            this.buttonWidget.x = x + entryWidth - 150;
+            this.resetButton.setX(x + entryWidth - this.resetButton.getWidth());
+            this.buttonWidget.setX(x + entryWidth - 150);
         }
 
         this.buttonWidget.setWidth(150 - this.resetButton.getWidth() - 2);

@@ -6,6 +6,6 @@ public class ClientLocaleProxy extends LocaleProxy
 {
     @Override
     public String getLocale() {
-        return Minecraft.getInstance().getLanguageManager().getSelected().getCode();
+        return Minecraft.getInstance().getLanguageManager().getSelected();
     }
 }
