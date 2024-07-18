@@ -2,6 +2,7 @@ package dev.the_fireplace.lib.player;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.yggdrasil.ProfileResult;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
@@ -44,9 +45,9 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (cachedProfile.isPresent()) {
             return cachedProfile;
         }
-        GameProfile profile = new GameProfile(playerId, "");
-        profile = sessionService.fillProfileProperties(profile, false);
-        if (profile.getName().isEmpty()) {
+        ProfileResult profileResult = sessionService.fetchProfile(playerId, false);
+        GameProfile profile = profileResult != null ? profileResult.profile() : null;
+        if (profile == null || profile.getName().isEmpty()) {
             uuidsWithoutProfiles.add(playerId);
             return Optional.empty();
         } else {

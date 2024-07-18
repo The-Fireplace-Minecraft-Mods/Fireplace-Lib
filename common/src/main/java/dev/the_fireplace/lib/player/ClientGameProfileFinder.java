@@ -3,6 +3,7 @@ package dev.the_fireplace.lib.player;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.yggdrasil.ProfileResult;
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
@@ -44,10 +45,10 @@ public final class ClientGameProfileFinder implements GameProfileFinder
         if (profilesById.containsKey(playerId)) {
             return profilesById.get(playerId);
         }
-        GameProfile profile = new GameProfile(playerId, "");
-        profile = client.getMinecraftSessionService().fillProfileProperties(profile, false);
+        ProfileResult profileResult = client.getMinecraftSessionService().fetchProfile(playerId, false);
+        GameProfile profile = profileResult != null ? profileResult.profile() : null;
         Optional<GameProfile> wrappedProfile;
-        if (profile.getName().isEmpty()) {
+        if (profile == null || profile.getName().isEmpty()) {
             wrappedProfile = Optional.empty();
         } else {
             wrappedProfile = Optional.of(profile);
