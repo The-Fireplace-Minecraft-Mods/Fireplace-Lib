@@ -2,7 +2,6 @@ package dev.the_fireplace.lib.config.cloth.custombutton;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreen;
 import dev.the_fireplace.lib.api.client.interfaces.CustomButtonScreenFactory;
@@ -11,6 +10,8 @@ import dev.the_fireplace.lib.config.cloth.ClothConfigDependencyHandler;
 import io.netty.util.concurrent.Promise;
 import me.shedaniel.clothconfig2.gui.entries.TooltipListEntry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -110,11 +111,11 @@ public class CustomButtonEntry extends TooltipListEntry<String>
     }
 
     @Override
-    public void render(PoseStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isHovered, float delta) {
+    public void render(GuiGraphics guiGraphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isHovered, float delta) {
         if (ClothConfigDependencyHandler.DISABLED_ENTRIES.contains(this)) {
             return;
         }
-        super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta);
+        super.render(guiGraphics, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta);
         Window window = Minecraft.getInstance().getWindow();
         this.resetButton.active = this.isEditable() && this.getDefaultValue().isPresent() && !Objects.equals(this.defaultValue.get(), this.value.get());
         this.resetButton.setY(y);
@@ -123,19 +124,20 @@ public class CustomButtonEntry extends TooltipListEntry<String>
         Component buttonText = getDisplayText != null ? getDisplayText.apply(this.value.get()) : Component.nullToEmpty(this.value.get());
         this.buttonWidget.setMessage(buttonText);
         Component displayedFieldName = this.getDisplayedFieldName();
-        if (Minecraft.getInstance().font.isBidirectional()) {
-            Minecraft.getInstance().font.drawShadow(matrices, displayedFieldName.getVisualOrderText(), (float) (window.getGuiScaledWidth() - x - Minecraft.getInstance().font.width(displayedFieldName)), (float) (y + 6), 0xFFFFFF);
+        Font font = Minecraft.getInstance().font;
+        if (font.isBidirectional()) {
+            guiGraphics.drawString(font, displayedFieldName.getVisualOrderText(), window.getGuiScaledWidth() - x - font.width(displayedFieldName), y + 6, this.getPreferredTextColor());
             this.resetButton.setX(x);
             this.buttonWidget.setX(x + this.resetButton.getWidth() + 2);
         } else {
-            Minecraft.getInstance().font.drawShadow(matrices, displayedFieldName.getVisualOrderText(), (float) x, (float) (y + 6), this.getPreferredTextColor());
+            guiGraphics.drawString(font, displayedFieldName.getVisualOrderText(), x, y + 6, this.getPreferredTextColor());
             this.resetButton.setX(x + entryWidth - this.resetButton.getWidth());
             this.buttonWidget.setX(x + entryWidth - 150);
         }
 
         this.buttonWidget.setWidth(150 - this.resetButton.getWidth() - 2);
-        this.resetButton.render(matrices, mouseX, mouseY, delta);
-        this.buttonWidget.render(matrices, mouseX, mouseY, delta);
+        this.resetButton.render(guiGraphics, mouseX, mouseY, delta);
+        this.buttonWidget.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override

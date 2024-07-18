@@ -27,7 +27,7 @@ public final class TeleporterImpl implements Teleporter
             return entity;
         }
         DimensionType targetDimensionType = targetWorld.dimensionType();
-        Entity entityInTargetWorld = targetDimensionType.equals(entity.level.dimensionType()) ? entity : entity.changeDimension(targetWorld);
+        Entity entityInTargetWorld = targetDimensionType.equals(entity.level().dimensionType()) ? entity : entity.changeDimension(targetWorld);
         if (entityInTargetWorld != null) {
             entityInTargetWorld.teleportTo(targetX, targetY, targetZ);
             return entityInTargetWorld;

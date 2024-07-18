@@ -1,12 +1,12 @@
 package dev.the_fireplace.lib.mixin.clothconfig;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.the_fireplace.lib.config.cloth.ClothConfigDependencyHandler;
 import me.shedaniel.clothconfig2.api.AbstractConfigEntry;
 import me.shedaniel.clothconfig2.gui.ClothConfigScreen;
 import me.shedaniel.clothconfig2.gui.widget.DynamicEntryListWidget;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -34,7 +34,7 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
     private final Map<Integer, AbstractConfigEntry<?>> disabledEntries = new HashMap<>();
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void swapEntriesBeforeRender(PoseStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void swapEntriesBeforeRender(GuiGraphics graphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (!((Object) this instanceof ClothConfigScreen.ListWidget)) {
             return;
         }
@@ -62,7 +62,7 @@ public abstract class DynamicEntryListWidgetMixin<E extends DynamicEntryListWidg
             }
 
             @Override
-            public void render(PoseStack matrixStack, int i, int i1, int i2, int i3, int i4, int i5, int i6, boolean b, float v) {
+            public void render(GuiGraphics guiGraphics, int i, int i1, int i2, int i3, int i4, int i5, int i6, boolean b, float v) {
 
             }
 
