@@ -1,13 +1,16 @@
 package dev.the_fireplace.lib.command.helpers;
 
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandExceptionType;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import dev.the_fireplace.lib.api.chat.injectables.MessageQueue;
 import dev.the_fireplace.lib.api.chat.injectables.TextStyles;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.mixin.CommandSourceStackAccessor;
-import net.minecraft.commands.CommandRuntimeException;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -24,8 +27,9 @@ public final class SendFeedback implements FeedbackSender
     }
 
     @Override
-    public int throwFailure(CommandContext<CommandSourceStack> command, String translationKey, Object... args) throws CommandRuntimeException {
-        throw new CommandRuntimeException(translator.getTextForTarget(command.getSource(), translationKey, args).setStyle(textStyles.red()));
+    public int throwFailure(CommandContext<CommandSourceStack> command, String translationKey, Object... args) throws CommandSyntaxException {
+        MutableComponent message = translator.getTextForTarget(command.getSource(), translationKey, args).setStyle(textStyles.red());
+        throw new SimpleCommandExceptionType(message).create();
     }
 
     @Override

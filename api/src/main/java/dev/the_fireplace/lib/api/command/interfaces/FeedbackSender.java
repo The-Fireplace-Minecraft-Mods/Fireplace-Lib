@@ -1,14 +1,14 @@
 package dev.the_fireplace.lib.api.command.interfaces;
 
 import com.mojang.brigadier.context.CommandContext;
-import net.minecraft.commands.CommandRuntimeException;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 
 public interface FeedbackSender
 {
-    int throwFailure(CommandContext<CommandSourceStack> command, String translationKey, Object... args) throws CommandRuntimeException;
+    int throwFailure(CommandContext<CommandSourceStack> command, String translationKey, Object... args) throws CommandSyntaxException;
 
     void basic(CommandContext<CommandSourceStack> command, String translationKey, Object... args);
 
