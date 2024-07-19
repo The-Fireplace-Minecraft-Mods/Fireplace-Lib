@@ -6,8 +6,8 @@ import dev.the_fireplace.lib.domain.network.ReceiveClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public final class ReceiveClientPacketClient implements ReceiveClientPacket
 {
     @Override
-    public void receiveClientPacket(Supplier<ClientboundPacketReceiver> clientReceiver, NetworkEvent.Context context, FriendlyByteBuf packetContents) {
+    public void receiveClientPacket(Supplier<ClientboundPacketReceiver> clientReceiver, CustomPayloadEvent.Context context, FriendlyByteBuf packetContents) {
         if (clientReceiver != null) {
             context.enqueueWork(() ->
                 DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
