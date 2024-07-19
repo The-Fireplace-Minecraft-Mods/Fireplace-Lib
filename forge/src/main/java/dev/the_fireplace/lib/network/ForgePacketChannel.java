@@ -11,9 +11,9 @@ import jakarta.inject.Inject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.SimpleChannel;
 
 import javax.inject.Singleton;
 import java.util.Map;
@@ -24,12 +24,12 @@ import java.util.function.Supplier;
 @Implementation(allInterfaces = true)
 public final class ForgePacketChannel implements SimpleChannelManager, PacketSpecificationRegistry
 {
-    private final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-        new ResourceLocation(FireplaceLibConstants.MODID, "packets"),
-        () -> "",
-        version -> true,
-        version -> true
-    );
+    private final SimpleChannel CHANNEL = ChannelBuilder
+        .named(new ResourceLocation(FireplaceLibConstants.MODID, "packets"))
+        .clientAcceptedVersions((a, b) -> true)
+        .serverAcceptedVersions((a, b) -> true)
+        .networkProtocolVersion(1)
+        .simpleChannel();
     private final Map<ResourceLocation, Supplier<ClientboundPacketReceiver>> clientReceivers = new ConcurrentHashMap<>();
     private final Map<ResourceLocation, Supplier<ServerboundPacketReceiver>> serverReceivers = new ConcurrentHashMap<>();
     private final ReceiveClientPacket receiveClientPacket;
@@ -46,13 +46,11 @@ public final class ForgePacketChannel implements SimpleChannelManager, PacketSpe
     
     @Override
     public void register() {
-        CHANNEL.registerMessage(
-            1,
-            ReceiverWrapper.class,
-            (receiverWrapper, outputByteBuf) -> outputByteBuf.writeBytes(receiverWrapper.buffer),
-            ReceiverWrapper::new,
-            ReceiverWrapper::read
-        );
+        CHANNEL.messageBuilder(ReceiverWrapper.class)
+            .decoder(ReceiverWrapper::new)
+            .encoder((receiverWrapper, outputByteBuf) -> outputByteBuf.writeBytes(receiverWrapper.buffer))
+            .consumerMainThread(ReceiverWrapper::read)
+            .add();
     }
 
     @Override
@@ -80,8 +78,7 @@ public final class ForgePacketChannel implements SimpleChannelManager, PacketSpe
             this.buffer = buffer;
         }
 
-        public void read(Supplier<NetworkEvent.Context> contextSupplier) {
-            NetworkEvent.Context context = contextSupplier.get();
+        public void read(CustomPayloadEvent.Context context) {
             ResourceLocation packetId = this.buffer.readResourceLocation();
             FriendlyByteBuf packetContents = new FriendlyByteBuf(this.buffer.copy());
             Supplier<ClientboundPacketReceiver> clientReceiver = clientReceivers.get(packetId);
