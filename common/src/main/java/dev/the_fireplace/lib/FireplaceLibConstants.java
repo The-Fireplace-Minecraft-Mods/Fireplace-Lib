@@ -2,6 +2,7 @@ package dev.the_fireplace.lib;
 
 import com.google.inject.Injector;
 import dev.the_fireplace.annotateddi.api.Injectors;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import javax.annotation.Nullable;
 public final class FireplaceLibConstants
 {
     public static final String MODID = "fireplacelib";
+    public static final ResourceLocation PACKET_CHANNEL_ID = new ResourceLocation(MODID, "packets");
 
     private static final Logger LOGGER = LogManager.getLogger(MODID);
 

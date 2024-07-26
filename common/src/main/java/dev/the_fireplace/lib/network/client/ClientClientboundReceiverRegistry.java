@@ -1,4 +1,4 @@
-package dev.the_fireplace.lib.network;
+package dev.the_fireplace.lib.network.client;
 
 import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.api.network.injectables.PacketSpecificationRegistry;
@@ -7,12 +7,12 @@ import dev.the_fireplace.lib.domain.network.ClientboundReceiverRegistry;
 import jakarta.inject.Inject;
 
 @Implementation(environment = "CLIENT")
-public class ForgeClientboundReceiverRegistry implements ClientboundReceiverRegistry
+public final class ClientClientboundReceiverRegistry implements ClientboundReceiverRegistry
 {
     private final PacketSpecificationRegistry packetSpecificationRegistry;
 
     @Inject
-    public ForgeClientboundReceiverRegistry(PacketSpecificationRegistry packetSpecificationRegistry) {
+    public ClientClientboundReceiverRegistry(PacketSpecificationRegistry packetSpecificationRegistry) {
         this.packetSpecificationRegistry = packetSpecificationRegistry;
     }
 

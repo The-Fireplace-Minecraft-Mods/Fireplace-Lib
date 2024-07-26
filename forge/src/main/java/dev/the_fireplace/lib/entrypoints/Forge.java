@@ -2,7 +2,6 @@ package dev.the_fireplace.lib.entrypoints;
 
 import com.google.inject.Injector;
 import dev.the_fireplace.lib.FireplaceLibConstants;
-import dev.the_fireplace.lib.domain.network.SimpleChannelManager;
 import dev.the_fireplace.lib.init.FireplaceLibInitializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
@@ -16,7 +15,6 @@ public final class Forge
     public Forge() {
         Injector injector = FireplaceLibConstants.getInjector();
         injector.getInstance(FireplaceLibInitializer.class).init();
-        injector.getInstance(SimpleChannelManager.class).register();
         DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
             injector.getInstance(ForgeClientInitializer.class).init();
             return null;

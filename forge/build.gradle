@@ -24,7 +24,7 @@ apply plugin: 'org.spongepowered.mixin'
 archivesBaseName = "${archives_base_name}-Forge"
 def mainArtifactFile = layout.buildDirectory.file("libs/${archivesBaseName}-${version}.jar").get().asFile
 def changelogFile = file('../changelog.txt')
-def supportedMinecraftVersions = [project.minecraft_version, '1.20.3']
+def supportedMinecraftVersions = [project.minecraft_version]
 jarJar.enable()
 
 sourceSets {
@@ -54,7 +54,7 @@ dependencies {
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
-    api(fg.deobf("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}"))
+    api("dev.the-fireplace:Annotated-DI-Forge:${project.annotateddi_version}")
     jarJar("dev.the-fireplace:Annotated-DI-Forge:[4.0, 5.0)") {
         transitive = false
         jarJar.pin(it, "${project.annotateddi_version}")
@@ -67,6 +67,9 @@ dependencies {
     apiCompileOnly project(":api")
     compileOnly project(":api")
     compileOnly project(":common")
+
+    // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transitive dependencies request 6.0+
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }
 
 mixin {
@@ -202,7 +205,7 @@ if (hasProperty('curseForgeApiKey') || System.getenv("CURSEFORGE_API_KEY") != nu
             supportedMinecraftVersions.each { value ->
                 addGameVersion value
             }
-            addGameVersion 'Java 17'
+            addGameVersion 'Java 21'
             addGameVersion 'Forge'
             mainArtifact(mainArtifactFile) {
                 displayName = "$archivesBaseName-$version"

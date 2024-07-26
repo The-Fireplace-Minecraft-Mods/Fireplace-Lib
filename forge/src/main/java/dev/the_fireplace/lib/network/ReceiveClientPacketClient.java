@@ -16,12 +16,10 @@ public final class ReceiveClientPacketClient implements ReceiveClientPacket
 {
     @Override
     public void receiveClientPacket(Supplier<ClientboundPacketReceiver> clientReceiver, CustomPayloadEvent.Context context, FriendlyByteBuf packetContents) {
-        if (clientReceiver != null) {
-            context.enqueueWork(() ->
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-                    clientReceiver.get().receive(Minecraft.getInstance(), Minecraft.getInstance().getConnection(), packetContents)
-                )
-            );
-        }
+        context.enqueueWork(() ->
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                clientReceiver.get().receive(Minecraft.getInstance(), Minecraft.getInstance().getConnection(), packetContents)
+            )
+        );
     }
 }

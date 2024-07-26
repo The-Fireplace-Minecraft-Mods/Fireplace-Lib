@@ -7,6 +7,5 @@ import net.minecraftforge.network.SimpleChannel;
 public interface SimpleChannelManager
 {
     SimpleChannel getChannel();
-    void register();
     Object wrap(PacketSpecification specification, FriendlyByteBuf packetContents);
 }
