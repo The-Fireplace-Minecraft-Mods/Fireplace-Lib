@@ -13,7 +13,7 @@ buildscript {
 plugins {
     id 'java'
     id 'java-library'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     // Mod Hosting Publish
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version '2.+'
@@ -83,6 +83,8 @@ mixin {
 minecraft {
     mappings channel: 'official', version: minecraft_version
 
+    copyIdeResources = true
+
     runs {
         configureEach {
             workingDirectory project.file('run')
@@ -131,6 +133,12 @@ minecraft {
 }
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
+
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
 
 processResources {
     from project(":common").sourceSets.main.resources
