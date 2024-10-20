@@ -24,4 +24,4 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: build
-        run: ./gradlew build
+        run: ./gradlew build -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build
