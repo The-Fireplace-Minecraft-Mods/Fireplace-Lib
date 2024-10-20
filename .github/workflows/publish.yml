@@ -55,7 +55,7 @@ jobs:
                     NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
             -   name: hosting publish
-                run: ./gradlew build curseforge modrinth
+                run: ./gradlew :fabric:build :fabric:curseforge :fabric:modrinth
                 env:
                     CURSEFORGE_API_KEY: ${{ secrets.CF_API_KEY }}
                     MODRINTH_API_KEY: ${{ secrets.MR_API_KEY }}
