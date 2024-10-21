@@ -9,8 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public final class ServerboundPackets
 {
-    public static final ResourceLocation SECOND_PING = new ResourceLocation(PlaytestConstants.MODID, "second_ping");
-    public static final ResourceLocation THIRD_PING = new ResourceLocation(PlaytestConstants.MODID, "third_ping");
+    public static final ResourceLocation SECOND_PING = ResourceLocation.fromNamespaceAndPath(PlaytestConstants.MODID, "second_ping");
+    public static final ResourceLocation THIRD_PING = ResourceLocation.fromNamespaceAndPath(PlaytestConstants.MODID, "third_ping");
 
     private final ServerboundPacketSpecification secondPingSpec;
     private final ServerboundPacketSpecification thirdPingSpec;

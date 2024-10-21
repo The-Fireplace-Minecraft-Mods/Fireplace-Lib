@@ -10,6 +10,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec3;
 
 @Implementation
 public final class TeleporterImpl implements Teleporter
@@ -27,7 +29,14 @@ public final class TeleporterImpl implements Teleporter
             return entity;
         }
         DimensionType targetDimensionType = targetWorld.dimensionType();
-        Entity entityInTargetWorld = targetDimensionType.equals(entity.level().dimensionType()) ? entity : entity.changeDimension(targetWorld);
+        Entity entityInTargetWorld = targetDimensionType.equals(entity.level().dimensionType()) ? entity : entity.changeDimension(new DimensionTransition(
+            targetWorld,
+            new Vec3(targetX, targetY, targetZ),
+            entity.getDeltaMovement(),
+            entity.getXRot(),
+            entity.getYRot(),
+            DimensionTransition.DO_NOTHING
+        ));
         if (entityInTargetWorld != null) {
             entityInTargetWorld.teleportTo(targetX, targetY, targetZ);
             return entityInTargetWorld;

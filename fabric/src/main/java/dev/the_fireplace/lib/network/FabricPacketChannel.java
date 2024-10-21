@@ -75,8 +75,8 @@ public class FabricPacketChannel extends PacketReceiverRegistry implements Fabri
             (receiverWrapper, outputByteBuf) -> outputByteBuf.writeBytes(receiverWrapper.buffer),
             ReceiverWrapper::new
         );
-        protected static final CustomPacketPayload.Type<ReceiverWrapper> TYPE = CustomPacketPayload.createType(
-            FireplaceLibConstants.PACKET_CHANNEL_ID.toString()
+        protected static final CustomPacketPayload.Type<ReceiverWrapper> TYPE = new CustomPacketPayload.Type<>(
+            FireplaceLibConstants.PACKET_CHANNEL_ID
         );
 
         private final FriendlyByteBuf buffer;

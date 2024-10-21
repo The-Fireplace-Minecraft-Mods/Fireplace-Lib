@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public final class ServerboundPackets
 {
-    public static final ResourceLocation CLIENT_CONNECTED_ID = new ResourceLocation(FireplaceLibConstants.MODID, "client_connected");
+    public static final ResourceLocation CLIENT_CONNECTED_ID = ResourceLocation.fromNamespaceAndPath(FireplaceLibConstants.MODID, "client_connected");
 
     private final ServerboundPacketSpecification clientConnected;
 

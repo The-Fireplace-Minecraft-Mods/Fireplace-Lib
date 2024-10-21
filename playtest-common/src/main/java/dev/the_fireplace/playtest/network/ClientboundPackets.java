@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 @Singleton
 public final class ClientboundPackets
 {
-    public static final ResourceLocation PING_RESPONSE = new ResourceLocation(PlaytestConstants.MODID, "ping_response");
-    public static final ResourceLocation SECOND_PING_RESPONSE = new ResourceLocation(PlaytestConstants.MODID, "second_ping_response");
+    public static final ResourceLocation PING_RESPONSE = ResourceLocation.fromNamespaceAndPath(PlaytestConstants.MODID, "ping_response");
+    public static final ResourceLocation SECOND_PING_RESPONSE = ResourceLocation.fromNamespaceAndPath(PlaytestConstants.MODID, "second_ping_response");
 
     private final ClientboundPacketSpecification pingResponseSpec;
     private final ClientboundPacketSpecification secondPingResponseSpec;

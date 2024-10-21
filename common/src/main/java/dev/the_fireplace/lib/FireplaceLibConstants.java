@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 public final class FireplaceLibConstants
 {
     public static final String MODID = "fireplacelib";
-    public static final ResourceLocation PACKET_CHANNEL_ID = new ResourceLocation(MODID, "packets");
+    public static final ResourceLocation PACKET_CHANNEL_ID = ResourceLocation.fromNamespaceAndPath(MODID, "packets");
 
     private static final Logger LOGGER = LogManager.getLogger(MODID);
 
