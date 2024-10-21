@@ -39,7 +39,7 @@ public final class ArgumentTypeFactoryImpl implements ArgumentTypeFactory
         if (context.getSource() instanceof SharedSuggestionProvider commandSource) {
             StringReader reader = new StringReader(builder.getInput());
             reader.setCursor(builder.getStart());
-            EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader);
+            EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader, true);
 
             try {
                 entitySelectorReader.parse();

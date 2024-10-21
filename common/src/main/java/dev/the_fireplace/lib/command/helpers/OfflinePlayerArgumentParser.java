@@ -11,7 +11,7 @@ public final class OfflinePlayerArgumentParser
 {
     public PlayerSelector parse(StringReader reader) throws CommandSyntaxException {
         int startCursor = reader.getCursor();
-        EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader);
+        EntitySelectorParser entitySelectorReader = new EntitySelectorParser(reader, true);
         EntitySelector entitySelector = entitySelectorReader.parse();
         if (entitySelector.getMaxResults() > 1) {
             reader.setCursor(0);
