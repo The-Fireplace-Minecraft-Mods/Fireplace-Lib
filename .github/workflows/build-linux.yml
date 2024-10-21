@@ -34,7 +34,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: build
-        run: ./gradlew build -PSNAPSHOT=true -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build
+        run: ./gradlew build -x :playtest-fabric:build -x :playtest-common:build -PSNAPSHOT=true
 
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
