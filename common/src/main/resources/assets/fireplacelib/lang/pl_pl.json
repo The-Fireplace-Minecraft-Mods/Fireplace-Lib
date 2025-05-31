@@ -1,5 +1,5 @@
 {
-  "modmenu.descriptionTranslation.fireplacelib": "${mod_description}",
+  "modmenu.descriptionTranslation.fireplacelib": "Biblioteka wspólnych funkcji używanych przez moje modyfikacje, w jednym miejscu dla łatwiejszej konserwacji i szybszych aktualizacji.",
   "fireplacelib.chat.page.next": "[Następna strona]",
   "fireplacelib.chat.page.prev": "[Poprzednia strona]",
   "fireplacelib.chat.page.num": "Strona: %s/%s",
