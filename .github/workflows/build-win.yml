@@ -8,7 +8,7 @@ jobs:
         java: [
             21,
         ]
-        os: [ windows-2022 ]
+        os: [ windows-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
