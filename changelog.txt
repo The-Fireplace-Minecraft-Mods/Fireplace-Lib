@@ -1,2 +1,1 @@
-[1.19+] Fixed Offline Player argument type
-Added German translation (FlorianMichael)
+Added Polish translation (Fhilips613)
