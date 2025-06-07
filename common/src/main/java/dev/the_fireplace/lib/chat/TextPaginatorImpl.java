@@ -38,7 +38,9 @@ public final class TextPaginatorImpl implements TextPaginator
 
     @Override
     public void sendPaginatedChat(CommandSourceStack targetCommandSource, String switchPageCommand, List<? extends Component> allItems, int pageIndex) {
-        CommandSource messageTarget = targetCommandSource.getEntity() != null ? targetCommandSource.getEntity() : targetCommandSource.getServer();
+        CommandSource messageTarget = targetCommandSource.getPlayer() != null
+            ? targetCommandSource.getPlayer().commandSource()
+            : targetCommandSource.getServer();
         messageQueue.queueMessages(messageTarget, getPaginatedContent(messageTarget, allItems, pageIndex, switchPageCommand));
     }
 

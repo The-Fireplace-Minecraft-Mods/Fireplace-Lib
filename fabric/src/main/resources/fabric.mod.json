@@ -39,13 +39,13 @@
   "depends": {
       "fabricloader": ">=0.12.0",
       "fabric": "*",
-      "minecraft": ">=1.21.1 <1.22",
+      "minecraft": ">=1.21.2 <1.22",
       "annotateddi": ">=4 <5"
   },
 
   "suggests": {
     "modmenu": "*",
-      "cloth-config": ">=15"
+      "cloth-config": ">=16"
   },
 
   "custom": {

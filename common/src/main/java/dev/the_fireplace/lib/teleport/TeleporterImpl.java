@@ -10,8 +10,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Set;
 
 @Implementation
 public final class TeleporterImpl implements Teleporter
@@ -25,17 +27,17 @@ public final class TeleporterImpl implements Teleporter
     public Entity teleport(Entity entity, ServerLevel targetWorld, double targetX, double targetY, double targetZ) {
         if (entity instanceof ServerPlayer) {
             preloadTargetChunk(targetWorld, targetX, targetZ);
-            ((ServerPlayer) entity).teleportTo(targetWorld, targetX, targetY, targetZ, entity.getYRot(), entity.getXRot());
+            ((ServerPlayer) entity).teleportTo(targetWorld, targetX, targetY, targetZ, Set.of(), entity.getYRot(), entity.getXRot(), true);
             return entity;
         }
         DimensionType targetDimensionType = targetWorld.dimensionType();
-        Entity entityInTargetWorld = targetDimensionType.equals(entity.level().dimensionType()) ? entity : entity.changeDimension(new DimensionTransition(
+        Entity entityInTargetWorld = targetDimensionType.equals(entity.level().dimensionType()) ? entity : entity.teleport(new TeleportTransition(
             targetWorld,
             new Vec3(targetX, targetY, targetZ),
             entity.getDeltaMovement(),
             entity.getXRot(),
             entity.getYRot(),
-            DimensionTransition.DO_NOTHING
+            TeleportTransition.DO_NOTHING
         ));
         if (entityInTargetWorld != null) {
             entityInTargetWorld.teleportTo(targetX, targetY, targetZ);

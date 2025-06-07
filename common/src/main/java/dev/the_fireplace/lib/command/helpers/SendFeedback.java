@@ -40,7 +40,7 @@ public final class SendFeedback implements FeedbackSender
 
     @Override
     public void basic(ServerPlayer targetPlayer, String translationKey, Object... args) {
-        messageQueue.queueMessages(targetPlayer, translator.getTextForTarget(targetPlayer.getUUID(), translationKey, args));
+        messageQueue.queueMessages(targetPlayer.commandSource(), translator.getTextForTarget(targetPlayer.getUUID(), translationKey, args));
     }
 
     @Override
@@ -51,6 +51,6 @@ public final class SendFeedback implements FeedbackSender
 
     @Override
     public void styled(ServerPlayer targetPlayer, Style style, String translationKey, Object... args) {
-        messageQueue.queueMessages(targetPlayer, translator.getTextForTarget(targetPlayer.getUUID(), translationKey, args).setStyle(style));
+        messageQueue.queueMessages(targetPlayer.commandSource(), translator.getTextForTarget(targetPlayer.getUUID(), translationKey, args).setStyle(style));
     }
 }
