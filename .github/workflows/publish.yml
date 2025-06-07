@@ -13,6 +13,8 @@ jobs:
         steps:
             -   name: checkout repository
                 uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
 
             -   name: validate gradle wrapper
                 uses: gradle/actions/wrapper-validation@v4
@@ -33,8 +35,8 @@ jobs:
             -   name: make gradle wrapper executable
                 run: chmod +x ./gradlew
 
-            -   name: build
-                run: ./gradlew build -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build
+            -   name: publish to aggregate build directory
+                run: ./gradlew build publish -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build
 
             -   name: capture build artifacts
                 uses: actions/upload-artifact@v4
@@ -42,19 +44,26 @@ jobs:
                     name: Artifacts
                     path: build/libs/
 
-            -   name: Install gpg secret key
-                id: install-secret-key
-                run: |
-                    echo "${{secrets.NEXUS_GPG_SECRET_KEY_RING_FILE}}" > ~/.gradle/secring.gpg.b64
-                    base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg
-
-            -   name: maven publish
-                run: ./gradlew build publish -Psigning.keyId=${{secrets.NEXUS_GPG_SIGNING_KEY_ID}} -Psigning.password=${{ secrets.NEXUS_GPG_SECRET_KEY_PASSWORD }} -Psigning.secretKeyRingFile=$(echo ~/.gradle/secring.gpg)
+            -   name: jreleaser release published artifacts
+                run: ./gradlew jreleaserFullRelease
                 env:
-                    NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-                    NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+                    JRELEASER_GPG_PASSPHRASE: ${{ secrets.NEXUS_GPG_SECRET_KEY_PASSWORD }}
+                    JRELEASER_GPG_SECRET_KEY: ${{ secrets.NEXUS_GPG_SECRET_KEY_RING_FILE }}
+                    JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.MAVENCENTRAL_USERNAME }}
+                    JRELEASER_MAVENCENTRAL_PASSWORD: ${{ secrets.MAVENCENTRAL_PASSWORD }}
+
+            -   name: capture JReleaser output
+                if: failure()
+                uses: actions/upload-artifact@v4
+                with:
+                    name: JReleaser
+                    path: |
+                        build/jreleaser/trace.log
+                        build/jreleaser/output.properties
 
             -   name: hosting publish
+                if: success() || failure()
                 run: ./gradlew :fabric:build :fabric:curseforge :fabric:modrinth
                 env:
                     CURSEFORGE_API_KEY: ${{ secrets.CF_API_KEY }}
