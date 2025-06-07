@@ -8,5 +8,7 @@
     "commands.flplaytest.ping.usage": "/ping",
     "commands.flplaytest.ping.description": "Fire off a network test - two clientbound and two serverbound packets.",
     "commands.flplaytest.playerid.usage": "/playerid",
-    "commands.flplaytest.playerid.description": "Get the Name and ID of a player who may be offline."
+    "commands.flplaytest.playerid.description": "Get the Name and ID of a player who may be offline.",
+    "commands.flplaytest.tpup.usage": "/tpup",
+    "commands.flplaytest.tpup.description": "Teleport up by 5 blocks."
 }

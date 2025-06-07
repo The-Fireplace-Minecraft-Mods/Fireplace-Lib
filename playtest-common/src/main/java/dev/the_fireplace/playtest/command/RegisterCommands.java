@@ -5,6 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.the_fireplace.lib.api.command.injectables.HelpCommandFactory;
 import dev.the_fireplace.playtest.PlaytestConstants;
 import dev.the_fireplace.playtest.command.commands.GetPlayerUUIDCommand;
+import dev.the_fireplace.playtest.command.commands.TeleportUpCommand;
 import dev.the_fireplace.playtest.command.commands.OpEchoCommand;
 import dev.the_fireplace.playtest.command.commands.PingCommand;
 import jakarta.inject.Inject;
@@ -18,18 +19,21 @@ public final class RegisterCommands
     private final PingCommand pingCommand;
     private final OpEchoCommand opEchoCommand;
     private final GetPlayerUUIDCommand getPlayerUUIDCommand;
+    private final TeleportUpCommand teleportUpCommand;
 
     @Inject
     public RegisterCommands(
         HelpCommandFactory helpCommandFactory,
         PingCommand pingCommand,
         OpEchoCommand opEchoCommand,
-        GetPlayerUUIDCommand getPlayerUUIDCommand
+        GetPlayerUUIDCommand getPlayerUUIDCommand,
+        TeleportUpCommand teleportUpCommand
     ) {
         this.helpCommandFactory = helpCommandFactory;
         this.pingCommand = pingCommand;
         this.opEchoCommand = opEchoCommand;
         this.getPlayerUUIDCommand = getPlayerUUIDCommand;
+        this.teleportUpCommand = teleportUpCommand;
     }
 
     public void register(CommandDispatcher<CommandSourceStack> commandDispatcher) {
@@ -39,7 +43,8 @@ public final class RegisterCommands
         ).addCommands(
             pingCommand.register(commandDispatcher),
             opEchoCommand.register(commandDispatcher),
-            getPlayerUUIDCommand.register(commandDispatcher)
+            getPlayerUUIDCommand.register(commandDispatcher),
+            teleportUpCommand.register(commandDispatcher)
         ).register(commandDispatcher);
     }
 }
