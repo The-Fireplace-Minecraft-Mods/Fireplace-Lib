@@ -36,7 +36,7 @@ jobs:
                 run: chmod +x ./gradlew
 
             -   name: publish to aggregate build directory
-                run: ./gradlew build publish -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build
+                run: ./gradlew build publish -x :playtest-fabric:build -x :playtest-common:build
 
             -   name: capture build artifacts
                 uses: actions/upload-artifact@v4
@@ -64,7 +64,7 @@ jobs:
 
             -   name: hosting publish
                 if: success() || failure()
-                run: ./gradlew :fabric:build :fabric:curseforge :fabric:modrinth
+                run: ./gradlew build curseforge modrinth
                 env:
                     CURSEFORGE_API_KEY: ${{ secrets.CF_API_KEY }}
                     MODRINTH_API_KEY: ${{ secrets.MR_API_KEY }}

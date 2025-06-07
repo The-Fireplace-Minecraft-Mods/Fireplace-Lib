@@ -36,7 +36,7 @@ jobs:
                 run: chmod +x ./gradlew
 
             -   name: publish to aggregate build directory
-                run: ./gradlew build publish -PSNAPSHOT=true -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build
+                run: ./gradlew build publish -PSNAPSHOT=true -x :playtest-fabric:build -x :playtest-common:build
 
             -   name: capture build artifacts
                 uses: actions/upload-artifact@v4
@@ -45,7 +45,7 @@ jobs:
                     path: build/libs/
 
             -   name: jreleaser release published artifacts
-                run: ./gradlew jreleaserDeploy -x :playtest-fabric:build -x :playtest-forge:build -x :playtest-common:build -PSNAPSHOT=true
+                run: ./gradlew jreleaserDeploy -x :playtest-fabric:build -x :playtest-common:build -PSNAPSHOT=true
                 env:
                     JRELEASER_GPG_PASSPHRASE: ${{ secrets.NEXUS_GPG_SECRET_KEY_PASSWORD }}
                     JRELEASER_GPG_SECRET_KEY: ${{ secrets.NEXUS_GPG_SECRET_KEY_RING_FILE }}
