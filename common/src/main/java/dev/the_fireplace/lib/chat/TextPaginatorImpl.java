@@ -89,14 +89,14 @@ public final class TextPaginatorImpl implements TextPaginator
     }
 
     private Component getNextButton(CommandSource target, String switchPageCommand, int currentPage, int totalPageCount) {
-        ClickEvent viewNextPage = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format(switchPageCommand, currentPage + 1));
+        ClickEvent viewNextPage = new ClickEvent.RunCommand(String.format(switchPageCommand, currentPage + 1));
         return currentPage < totalPageCount
             ? translator.getTextForTarget(target, "fireplacelib.chat.page.next").setStyle(Style.EMPTY.withClickEvent(viewNextPage))
             : Component.literal("-----");
     }
 
     private Component getPreviousButton(CommandSource target, String switchPageCommand, int currentPage) {
-        ClickEvent viewPreviousPage = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format(switchPageCommand, currentPage - 1));
+        ClickEvent viewPreviousPage = new ClickEvent.RunCommand(String.format(switchPageCommand, currentPage - 1));
         return currentPage > 1
             ? translator.getTextForTarget(target, "fireplacelib.chat.page.prev").setStyle(Style.EMPTY.withClickEvent(viewPreviousPage))
             : Component.literal("------");
