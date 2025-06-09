@@ -1,0 +1,15 @@
+{
+  "modmenu.descriptionTranslation.fireplacelib": "A library of common functionality used by mine own mods, in one lodging f'r easier maintenance and faster updates.",
+  "fireplacelib.chat.page.next": "[Next]",
+  "fireplacelib.chat.page.prev": "[Previous]",
+  "fireplacelib.chat.page.num": "Page: %s/%s",
+  "fireplacelib.command.reload.reloaded": "Fireplace Lib config reload'd!",
+  "text.config.fireplacelib.title": "Fireplace Lib Config",
+  "text.config.fireplacelib.advanced": "Advanced Settings",
+  "text.config.fireplacelib.option.locale": "Serv'r locale",
+  "text.config.fireplacelib.option.locale.desc": "Unus'd hither, only hast an effect on a serv'r.",
+  "text.config.fireplacelib.option.essentialThreadPoolSize": "Essential Thread Pool Size",
+  "text.config.fireplacelib.option.essentialThreadPoolSize.desc": "Touch not unless thee knoweth what thou art doing.",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize": "Non-Essential Thread Pool Size",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "Touch not unless thee knoweth what thou art doing."
+}
