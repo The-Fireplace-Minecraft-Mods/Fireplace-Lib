@@ -1,1 +1,2 @@
 Added Shakespearean English translation
+Update bundled Annotated DI version to 4.0.6
