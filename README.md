@@ -2,7 +2,8 @@
 [![CurseForge (Fabric/Quilt)](http://cf.way2muchnoise.eu/short_432845_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/fireplace-lib)
 [![CurseForge (Forge)](http://cf.way2muchnoise.eu/short_634959_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/fireplace-lib-forge)
 ![Modrinth](https://img.shields.io/modrinth/dt/ING0LAPF)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/dev.the-fireplace/Fireplace-Lib-Fabric/badge.png)](https://maven-badges.herokuapp.com/maven-central/dev.the-fireplace/Fireplace-Lib-Fabric)
+![Maven Central Version](https://img.shields.io/maven-central/v/dev.the-fireplace/Fireplace-Lib-Common)
+![GitHub License](https://img.shields.io/github/license/The-Fireplace-Minecraft-Mods/Fireplace-Lib)
 
 A library of common functionality used by my mods, in one place for easier maintenance and faster updates.
 
