@@ -83,6 +83,9 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         this.tooltipRows.clear();
     }
 
+    /**
+     * Invoke {@link me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder#setDefaultValue(Object)}
+     */
     protected void setDefaultValue(S defaultValue) {
         T clothDefaultValue = typeConverter.convertToClothType(defaultValue);
         try {
@@ -94,6 +97,9 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         }
     }
 
+    /**
+     * Invoke {@link me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder#setSaveConsumer(Consumer)}
+     */
     private void setSaveConsumer(Consumer<S> saveConsumer) {
         Consumer<T> clothSaveConsumer = value -> saveConsumer.accept(typeConverter.convertFromClothType(value));
         try {
@@ -120,6 +126,9 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         return this;
     }
 
+    /**
+     * Invoke {@link me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder#setTooltip(Component...)}
+     */
     private void setTooltip() {
         try {
             Method setTooltip = fieldBuilder.getClass().getMethod("setTooltip", Component[].class);
@@ -145,6 +154,9 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
         return texts.toArray(new Component[0]);
     }
 
+    /**
+     * Invoke {@link me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder#setErrorSupplier(Function)}
+     */
     @Override
     public OptionBuilder<S> setErrorSupplier(Function<S, Optional<Component>> errorSupplier) {
         Function<T, Optional<Component>> clothErrorSupplier = value -> errorSupplier.apply(typeConverter.convertFromClothType(value));
