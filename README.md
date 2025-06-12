@@ -12,4 +12,4 @@ Please see [the wiki](https://github.com/The-Fireplace-Minecraft-Mods/Fireplace-
 ## Current Target Game Versions
 New releases are not planned to occur outside of these version ranges. Existing versions outside these ranges may still function, but are no longer supported.
 - Fabric: Minecraft 1.17.1 - Current
-- Forge: Minecraft 1.17.1 - 1.20.4
+- Forge: Minecraft 1.18.2 - 1.20.4
