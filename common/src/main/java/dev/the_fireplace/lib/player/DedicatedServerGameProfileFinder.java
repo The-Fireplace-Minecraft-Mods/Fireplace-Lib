@@ -15,22 +15,22 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Implementation(environment = "SERVER")
 public final class DedicatedServerGameProfileFinder implements GameProfileFinder
 {
     private final EmptyUUID emptyUUID;
-    private final GameProfileCache userCache;
-    private final MinecraftSessionService sessionService;
+    private final Supplier<GameProfileCache> userCacheSupplier;
+    private final Supplier<MinecraftSessionService> sessionServiceSupplier;
     private final Set<UUID> uuidsWithoutProfiles = new HashSet<>();
     private final Set<String> namesWithoutProfiles = new HashSet<>();
 
     @Inject
     public DedicatedServerGameProfileFinder(EmptyUUID emptyUUID) {
         this.emptyUUID = emptyUUID;
-        MinecraftServer server = FireplaceLibConstants.getServer();
-        userCache = server.getProfileCache();
-        sessionService = server.getSessionService();
+        userCacheSupplier = () -> FireplaceLibConstants.getServer().getProfileCache();
+        sessionServiceSupplier = () -> FireplaceLibConstants.getServer().getSessionService();
     }
 
     @Override
@@ -41,17 +41,17 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (uuidsWithoutProfiles.contains(playerId)) {
             return Optional.empty();
         }
-        Optional<GameProfile> cachedProfile = userCache.get(playerId);
+        Optional<GameProfile> cachedProfile = userCacheSupplier.get().get(playerId);
         if (cachedProfile.isPresent()) {
             return cachedProfile;
         }
-        ProfileResult profileResult = sessionService.fetchProfile(playerId, false);
+        ProfileResult profileResult = sessionServiceSupplier.get().fetchProfile(playerId, false);
         GameProfile profile = profileResult != null ? profileResult.profile() : null;
         if (profile == null || profile.getName().isEmpty()) {
             uuidsWithoutProfiles.add(playerId);
             return Optional.empty();
         } else {
-            userCache.add(profile);
+            userCacheSupplier.get().add(profile);
             return Optional.of(profile);
         }
     }
@@ -62,7 +62,7 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
             return Optional.empty();
         }
         GameProfileCache.setUsesAuthentication(true);
-        Optional<GameProfile> profile = userCache.get(playerName);
+        Optional<GameProfile> profile = userCacheSupplier.get().get(playerName);
         if (profile.isEmpty()) {
             namesWithoutProfiles.add(playerName);
         }
