@@ -1,1 +1,0 @@
-Bump bundled Annotated DI version to 4.0.7
