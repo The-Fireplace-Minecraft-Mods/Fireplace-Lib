@@ -1,0 +1,1 @@
+Fix crash when trying to inject GameProfileFinder early in the lifecycle on a dedicated server
