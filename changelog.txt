@@ -1,2 +1,0 @@
-Bump bundled Annotated DI version to 4.0.7
-[1.17.1] Fixed crash on startup.
