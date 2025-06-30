@@ -7,7 +7,6 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.players.GameProfileCache;
 
 import javax.inject.Inject;
