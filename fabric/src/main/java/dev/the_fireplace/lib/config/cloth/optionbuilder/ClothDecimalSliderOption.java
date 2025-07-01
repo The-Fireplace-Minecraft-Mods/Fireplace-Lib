@@ -77,7 +77,7 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
             currentValueField.set(fieldBuilder, clothCurrentValue);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             FireplaceLibConstants.getLogger().error("Unable to set current value for field builder of type " + fieldBuilder.getClass() + " with current value type " + clothCurrentValue.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getFields()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getFields()));
         }
     }
 
@@ -88,7 +88,7 @@ public class ClothDecimalSliderOption<S, T> extends ClothNumericOption<S, T> imp
             setDefaultValue.invoke(fieldBuilder, textGetter);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set display precision for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 }

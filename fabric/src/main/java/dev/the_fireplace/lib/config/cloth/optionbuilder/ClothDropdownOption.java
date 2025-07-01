@@ -42,7 +42,7 @@ public class ClothDropdownOption<S, T> extends ClothGenericOption<S, T> implemen
             setMaximum.invoke(fieldBuilder, suggestionMode);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set suggestion mode for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
@@ -54,7 +54,7 @@ public class ClothDropdownOption<S, T> extends ClothGenericOption<S, T> implemen
             setErrorSupplier.invoke(fieldBuilder, selections);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set selections for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 }
