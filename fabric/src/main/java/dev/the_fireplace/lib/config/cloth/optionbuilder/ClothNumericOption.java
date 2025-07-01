@@ -32,7 +32,7 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
             setMinimum.invoke(fieldBuilder, clothMinimum);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
@@ -45,7 +45,7 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
             setMaximum.invoke(fieldBuilder, clothMaximum);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
