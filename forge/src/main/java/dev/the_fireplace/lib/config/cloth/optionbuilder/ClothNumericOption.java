@@ -38,7 +38,7 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
         }
         if (!foundFunction) {
             FireplaceLibConstants.getLogger().error("Unable to set minimum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMinimum.getClass());
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
@@ -60,7 +60,7 @@ public class ClothNumericOption<S, T> extends ClothGenericOption<S, T> implement
         }
         if (!foundFunction) {
             FireplaceLibConstants.getLogger().error("Unable to set maximum for field builder of type " + fieldBuilder.getClass() + " with target type " + clothMaximum.getClass());
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
