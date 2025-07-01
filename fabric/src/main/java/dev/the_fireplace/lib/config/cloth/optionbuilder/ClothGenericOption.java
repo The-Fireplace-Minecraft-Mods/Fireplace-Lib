@@ -93,7 +93,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             setDefaultValue.invoke(fieldBuilder, clothDefaultValue);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set default value for field builder of type " + fieldBuilder.getClass() + " with default value type " + clothDefaultValue.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
@@ -107,7 +107,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             setSaveConsumer.invoke(fieldBuilder, clothSaveConsumer);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set save consumer for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
@@ -135,7 +135,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             setTooltip.invoke(fieldBuilder, (Object) this.tooltipRows.toArray(new Component[0]));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set tooltip for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLibConstants.getLogger().trace(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
     }
 
@@ -165,7 +165,7 @@ public class ClothGenericOption<S, T> implements OptionBuilder<S>
             setErrorSupplier.invoke(fieldBuilder, clothErrorSupplier);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             FireplaceLibConstants.getLogger().error("Unable to set error supplier for field builder of type " + fieldBuilder.getClass(), e);
-            FireplaceLibConstants.getLogger().error(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
+            FireplaceLibConstants.getLogger().debug(ArrayUtils.toString(fieldBuilder.getClass().getMethods()));
         }
         return this;
     }
