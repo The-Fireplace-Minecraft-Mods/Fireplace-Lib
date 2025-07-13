@@ -46,7 +46,7 @@ public class FabricPacketChannel extends PacketReceiverRegistry implements Fabri
                     ServerPlayer sender = context.player();
                     if (sender != null) {
                         FriendlyByteBuf packetContents = packetData.packetContents();
-                        serverReceiver.get().receive(sender.server, sender, sender.connection, packetContents);
+                        serverReceiver.get().receive(sender.getServer(), sender, sender.connection, packetContents);
                         int unreadBytes = packetContents.readableBytes();
                         if (unreadBytes > 0) {
                             FireplaceLibConstants.getLogger().error("Packet {} was larger than expected, found {} bytes extra", packetId.toString(), unreadBytes);

@@ -44,7 +44,7 @@ public final class TeleportUpCommand implements RegisterableCommand
         ServerPlayer serverPlayer = command.getSource().getPlayerOrException();
         serverPlayer.sendSystemMessage(Component.literal("Teleport command received, moving up."));
         BlockPos targetPos = serverPlayer.blockPosition().above(5);
-        teleporter.teleport(serverPlayer, serverPlayer.serverLevel(), targetPos);
+        teleporter.teleport(serverPlayer, serverPlayer.level(), targetPos);
 
         return Command.SINGLE_SUCCESS;
     }
