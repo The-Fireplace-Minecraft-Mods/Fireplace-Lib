@@ -1,1 +1,1 @@
-[1.20/1.20.1]Update bundled Annotated DI to a dedicated 1.20.1 build to fix Forge issues.
+Update bundled Annotated DI to 4.0.9
