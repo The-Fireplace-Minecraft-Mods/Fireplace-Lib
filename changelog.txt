@@ -1,2 +1,1 @@
-Fix crash when trying to inject GameProfileFinder early in the lifecycle on a dedicated server
-Update bundled Annotated DI to 4.0.8
+[1.20/1.20.1]Update bundled Annotated DI to a dedicated 1.20.1 build to fix Forge issues.
