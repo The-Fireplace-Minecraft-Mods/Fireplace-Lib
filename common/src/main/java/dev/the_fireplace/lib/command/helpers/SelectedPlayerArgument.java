@@ -25,12 +25,12 @@ public class SelectedPlayerArgument implements PossiblyOfflinePlayer
 
     @Override
     public UUID getId() {
-        return profile.getId();
+        return profile.id();
     }
 
     @Override
     public String getName() {
-        return profile.getName();
+        return profile.name();
     }
 
     @Nullable

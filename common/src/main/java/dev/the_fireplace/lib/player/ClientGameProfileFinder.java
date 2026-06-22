@@ -9,7 +9,6 @@ import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.players.GameProfileCache;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -45,14 +44,14 @@ public final class ClientGameProfileFinder implements GameProfileFinder
         if (profilesById.containsKey(playerId)) {
             return profilesById.get(playerId);
         }
-        ProfileResult profileResult = client.getMinecraftSessionService().fetchProfile(playerId, false);
+        ProfileResult profileResult = client.services().sessionService().fetchProfile(playerId, false);
         GameProfile profile = profileResult != null ? profileResult.profile() : null;
         Optional<GameProfile> wrappedProfile;
-        if (profile == null || profile.getName().isEmpty()) {
+        if (profile == null || profile.name().isEmpty()) {
             wrappedProfile = Optional.empty();
         } else {
             wrappedProfile = Optional.of(profile);
-            profilesByName.put(profile.getName(), wrappedProfile);
+            profilesByName.put(profile.name(), wrappedProfile);
         }
         profilesById.put(playerId, wrappedProfile);
         return wrappedProfile;
@@ -68,8 +67,7 @@ public final class ClientGameProfileFinder implements GameProfileFinder
         }
         MinecraftServer server = client.getSingleplayerServer();
         if (server != null) {
-            GameProfileCache.setUsesAuthentication(true);
-            Optional<GameProfile> foundProfile = server.getProfileCache().get(playerName);
+            Optional<GameProfile> foundProfile = server.services().profileResolver().fetchByName(playerName);
             profilesByName.put(playerName, foundProfile);
             return foundProfile;
         }

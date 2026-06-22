@@ -7,7 +7,7 @@ import dev.the_fireplace.annotateddi.api.di.Implementation;
 import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.player.injectables.GameProfileFinder;
 import dev.the_fireplace.lib.api.uuid.injectables.EmptyUUID;
-import net.minecraft.server.players.GameProfileCache;
+import net.minecraft.server.players.ProfileResolver;
 
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public final class DedicatedServerGameProfileFinder implements GameProfileFinder
 {
     private final EmptyUUID emptyUUID;
-    private final Supplier<GameProfileCache> userCacheSupplier;
+    private final Supplier<ProfileResolver> profileResolverSupplier;
     private final Supplier<MinecraftSessionService> sessionServiceSupplier;
     private final Set<UUID> uuidsWithoutProfiles = new HashSet<>();
     private final Set<String> namesWithoutProfiles = new HashSet<>();
@@ -28,8 +28,8 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
     @Inject
     public DedicatedServerGameProfileFinder(EmptyUUID emptyUUID) {
         this.emptyUUID = emptyUUID;
-        userCacheSupplier = () -> FireplaceLibConstants.getServer().getProfileCache();
-        sessionServiceSupplier = () -> FireplaceLibConstants.getServer().getSessionService();
+        profileResolverSupplier = () -> FireplaceLibConstants.getServer().services().profileResolver();
+        sessionServiceSupplier = () -> FireplaceLibConstants.getServer().services().sessionService();
     }
 
     @Override
@@ -40,17 +40,18 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (uuidsWithoutProfiles.contains(playerId)) {
             return Optional.empty();
         }
-        Optional<GameProfile> cachedProfile = userCacheSupplier.get().get(playerId);
+        Optional<GameProfile> cachedProfile = profileResolverSupplier.get().fetchById(playerId);
         if (cachedProfile.isPresent()) {
             return cachedProfile;
         }
+        //TODO The 1.21.9+ profile resolver may be doing this automatically, making this redundant.
         ProfileResult profileResult = sessionServiceSupplier.get().fetchProfile(playerId, false);
         GameProfile profile = profileResult != null ? profileResult.profile() : null;
-        if (profile == null || profile.getName().isEmpty()) {
+        if (profile == null || profile.name().isEmpty()) {
             uuidsWithoutProfiles.add(playerId);
             return Optional.empty();
         } else {
-            userCacheSupplier.get().add(profile);
+            //profileResolverSupplier.get().add(profile);
             return Optional.of(profile);
         }
     }
@@ -60,8 +61,7 @@ public final class DedicatedServerGameProfileFinder implements GameProfileFinder
         if (namesWithoutProfiles.contains(playerName) || playerName.isEmpty()) {
             return Optional.empty();
         }
-        GameProfileCache.setUsesAuthentication(true);
-        Optional<GameProfile> profile = userCacheSupplier.get().get(playerName);
+        Optional<GameProfile> profile = profileResolverSupplier.get().fetchByName(playerName);
         if (profile.isEmpty()) {
             namesWithoutProfiles.add(playerName);
         }

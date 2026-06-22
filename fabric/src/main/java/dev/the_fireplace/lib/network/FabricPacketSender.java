@@ -36,7 +36,7 @@ public final class FabricPacketSender implements PacketSender
         } else if (!specification.shouldSilentlyFailOnMissingReceiver()) {
             throw new IllegalStateException(String.format(
                 "Player %s is missing a receiver for packet %s.",
-                connection.player.getGameProfile().getName(),
+                connection.player.getGameProfile().name(),
                 specification.getPacketID().toString()
             ));
         }

@@ -9,7 +9,6 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.GameProfileCache;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,13 +36,12 @@ final class OfflinePlayerSelector implements PlayerSelector
             return new SelectedPlayerArgument(player.getGameProfile(), player);
         } catch (CommandSyntaxException e) {
             MinecraftServer server = source.getServer();
-            GameProfileCache.setUsesAuthentication(true);
-            Optional<GameProfile> offlinePlayerProfileByName = server.getProfileCache().get(offlinePlayerName);
+            Optional<GameProfile> offlinePlayerProfileByName = server.services().profileResolver().fetchByName(offlinePlayerName);
             if (offlinePlayerProfileByName.isPresent()) {
                 return new SelectedPlayerArgument(offlinePlayerProfileByName.get());
             }
             try {
-                Optional<GameProfile> offlinePlayerProfileById = server.getProfileCache().get(UUID.fromString(offlinePlayerName));
+                Optional<GameProfile> offlinePlayerProfileById = server.services().profileResolver().fetchById(UUID.fromString(offlinePlayerName));
                 if (offlinePlayerProfileById.isPresent()) {
                     return new SelectedPlayerArgument(offlinePlayerProfileById.get());
                 }
