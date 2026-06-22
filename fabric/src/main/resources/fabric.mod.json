@@ -39,7 +39,7 @@
   "depends": {
       "fabricloader": ">=0.12.0",
       "fabric": "*",
-      "minecraft": ">=1.21.9 <26",
+      "minecraft": ">=1.21.11 <26",
       "annotateddi": ">=4 <5"
   },
 

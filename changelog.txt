@@ -1,1 +1,5 @@
-Update bundled Annotated DI to 4.0.9
+1.21.11 port
+Removes several functions from the command Requirements interface; convenient vanilla replacements now exist.
+- manageGameSettings -> Commands.hasPermission(Commands.LEVEL_GAMEMASTERS)
+- managePlayerAccess -> Commands.hasPermission(Commands.LEVEL_ADMINS)
+- manageServer -> Commands.hasPermission(Commands.LEVEL_OWNERS)

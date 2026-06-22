@@ -1,10 +1,10 @@
 package dev.the_fireplace.lib.api.network.interfaces;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public interface PacketSpecification
 {
-    ResourceLocation getPacketID();
+    Identifier getPacketID();
 
     default boolean shouldSilentlyFailOnMissingReceiver() {
         return false;

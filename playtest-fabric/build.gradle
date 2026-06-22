@@ -1,6 +1,6 @@
 //file:noinspection GroovyAssignabilityCheck
 plugins {
-    id 'fabric-loom' version '1.12-SNAPSHOT'
+    id 'fabric-loom' version '1.13-SNAPSHOT'
 }
 
 archivesBaseName = "${archives_base_name}-Playtest-Fabric"

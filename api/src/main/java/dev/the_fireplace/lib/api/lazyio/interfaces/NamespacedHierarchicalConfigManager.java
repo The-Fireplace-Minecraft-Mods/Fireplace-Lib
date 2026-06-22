@@ -1,24 +1,24 @@
 package dev.the_fireplace.lib.api.lazyio.interfaces;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Collection;
 
 public interface NamespacedHierarchicalConfigManager<T extends HierarchicalConfig>
 {
-    Iterable<ResourceLocation> getAllowedModuleIds();
+    Iterable<Identifier> getAllowedModuleIds();
 
-    T get(ResourceLocation moduleId);
+    T get(Identifier moduleId);
 
-    Collection<ResourceLocation> getCustoms();
+    Collection<Identifier> getCustoms();
 
-    boolean isCustom(ResourceLocation moduleId);
+    boolean isCustom(Identifier moduleId);
 
-    void addCustom(ResourceLocation moduleId, T module);
+    void addCustom(Identifier moduleId, T module);
 
-    boolean deleteCustom(ResourceLocation moduleId);
+    boolean deleteCustom(Identifier moduleId);
 
     void saveAllCustoms();
 
-    void saveCustom(ResourceLocation id);
+    void saveCustom(Identifier id);
 }

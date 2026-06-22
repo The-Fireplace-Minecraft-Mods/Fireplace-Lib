@@ -5,14 +5,14 @@ import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketReceiver;
 import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketSpecification;
 import dev.the_fireplace.lib.network.ServerboundPackets;
 import dev.the_fireplace.lib.network.server.ClientConnectedPacketReceiver;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Supplier;
 
 public final class ClientConnectedSpecification implements ServerboundPacketSpecification
 {
     @Override
-    public ResourceLocation getPacketID() {
+    public Identifier getPacketID() {
         return ServerboundPackets.CLIENT_CONNECTED_ID;
     }
 

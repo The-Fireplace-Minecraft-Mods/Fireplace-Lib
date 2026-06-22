@@ -5,7 +5,7 @@ import dev.the_fireplace.lib.api.network.interfaces.ServerboundPacketSpecificati
 import dev.the_fireplace.playtest.PlaytestConstants;
 import dev.the_fireplace.playtest.network.ServerboundPackets;
 import dev.the_fireplace.playtest.network.serverbound.reciever.ThirdPingReceiver;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Supplier;
 
@@ -19,7 +19,7 @@ public final class ThirdPing implements ServerboundPacketSpecification
     }
 
     @Override
-    public ResourceLocation getPacketID() {
+    public Identifier getPacketID() {
         return ServerboundPackets.THIRD_PING;
     }
 }

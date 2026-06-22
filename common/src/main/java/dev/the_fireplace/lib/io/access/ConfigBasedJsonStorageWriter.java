@@ -10,7 +10,7 @@ import dev.the_fireplace.lib.api.io.interfaces.Writable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.Defaultable;
 import dev.the_fireplace.lib.api.lazyio.interfaces.HierarchicalConfig;
 import dev.the_fireplace.lib.domain.io.HierarchicalConfigWriter;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
@@ -50,7 +50,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
     }
 
     @Override
-    public boolean write(HierarchicalConfig writable, String domain, ResourceLocation id) {
+    public boolean write(HierarchicalConfig writable, String domain, Identifier id) {
         return write((Writable) writable, domain, id);
     }
 
@@ -60,7 +60,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
         return write(writable, filePath);
     }
 
-    private boolean write(Writable writable, String domain, ResourceLocation id) {
+    private boolean write(Writable writable, String domain, Identifier id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         return write(writable, filePath);
@@ -109,7 +109,7 @@ public final class ConfigBasedJsonStorageWriter implements ConfigBasedStorageWri
     }
 
     @Override
-    public boolean delete(String domain, ResourceLocation id) {
+    public boolean delete(String domain, Identifier id) {
         Path filePath = jsonStoragePath.resolveConfigBasedJsonFilePath(domain, id);
 
         return delete(filePath);

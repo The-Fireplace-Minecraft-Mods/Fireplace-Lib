@@ -6,7 +6,7 @@ import dev.the_fireplace.playtest.PlaytestConstants;
 import dev.the_fireplace.playtest.network.ClientboundPackets;
 import dev.the_fireplace.playtest.network.clientbound.receiver.PingResponseReceiver;
 import jakarta.inject.Singleton;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Supplier;
 
@@ -21,7 +21,7 @@ public final class PingResponse implements ClientboundPacketSpecification
     }
 
     @Override
-    public ResourceLocation getPacketID() {
+    public Identifier getPacketID() {
         return ClientboundPackets.PING_RESPONSE;
     }
 }

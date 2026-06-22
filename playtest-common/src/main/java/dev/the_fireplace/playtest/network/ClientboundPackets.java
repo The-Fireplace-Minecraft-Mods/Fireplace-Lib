@@ -6,13 +6,13 @@ import dev.the_fireplace.playtest.network.clientbound.PingResponse;
 import dev.the_fireplace.playtest.network.clientbound.SecondPingResponse;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @Singleton
 public final class ClientboundPackets
 {
-    public static final ResourceLocation PING_RESPONSE = ResourceLocation.fromNamespaceAndPath(PlaytestConstants.MODID, "ping_response");
-    public static final ResourceLocation SECOND_PING_RESPONSE = ResourceLocation.fromNamespaceAndPath(PlaytestConstants.MODID, "second_ping_response");
+    public static final Identifier PING_RESPONSE = Identifier.fromNamespaceAndPath(PlaytestConstants.MODID, "ping_response");
+    public static final Identifier SECOND_PING_RESPONSE = Identifier.fromNamespaceAndPath(PlaytestConstants.MODID, "second_ping_response");
 
     private final ClientboundPacketSpecification pingResponseSpec;
     private final ClientboundPacketSpecification secondPingResponseSpec;

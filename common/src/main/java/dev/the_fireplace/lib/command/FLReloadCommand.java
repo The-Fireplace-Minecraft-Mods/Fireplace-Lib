@@ -7,7 +7,6 @@ import dev.the_fireplace.lib.FireplaceLibConstants;
 import dev.the_fireplace.lib.api.chat.injectables.TranslatorFactory;
 import dev.the_fireplace.lib.api.chat.interfaces.Translator;
 import dev.the_fireplace.lib.api.command.injectables.FeedbackSenderFactory;
-import dev.the_fireplace.lib.api.command.injectables.Requirements;
 import dev.the_fireplace.lib.api.command.interfaces.FeedbackSender;
 import dev.the_fireplace.lib.api.command.interfaces.RegisterableCommand;
 import dev.the_fireplace.lib.api.lazyio.injectables.ReloadableManager;
@@ -20,27 +19,24 @@ import javax.inject.Singleton;
 @Singleton
 public final class FLReloadCommand implements RegisterableCommand
 {
-    private final Requirements requirements;
     private final ReloadableManager reloadableManager;
     private final FeedbackSender feedbackSender;
 
     @Inject
     public FLReloadCommand(
-        Requirements requirements,
         TranslatorFactory translatorFactory,
         FeedbackSenderFactory feedbackSenderFactory,
         ReloadableManager reloadableManager
     ) {
         Translator translator = translatorFactory.getTranslator(FireplaceLibConstants.MODID);
         this.feedbackSender = feedbackSenderFactory.get(translator);
-        this.requirements = requirements;
         this.reloadableManager = reloadableManager;
     }
 
     @Override
     public CommandNode<CommandSourceStack> register(CommandDispatcher<CommandSourceStack> commandDispatcher) {
         return commandDispatcher.register(Commands.literal("flreload")
-            .requires(requirements::manageServer)
+            .requires(Commands.hasPermission(Commands.LEVEL_OWNERS))
             .executes(this::execute)
         );
     }

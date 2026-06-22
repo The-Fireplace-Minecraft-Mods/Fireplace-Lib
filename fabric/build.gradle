@@ -1,6 +1,6 @@
 //file:noinspection GroovyAssignabilityCheck
 plugins {
-    id 'fabric-loom' version '1.12-SNAPSHOT'
+    id 'fabric-loom' version '1.13-SNAPSHOT'
     // Mod Hosting Publish
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version '2.+'
@@ -9,7 +9,7 @@ plugins {
 archivesBaseName = "${archives_base_name}-Fabric"
 def mainArtifactFile = layout.buildDirectory.file("libs/${archivesBaseName}-${version}.jar").get().asFile
 def changelogFile = file('../changelog.txt')
-def supportedMinecraftVersions = [project.minecraft_version, '1.21.9']
+def supportedMinecraftVersions = [project.minecraft_version]
 
 sourceSets {
     api {

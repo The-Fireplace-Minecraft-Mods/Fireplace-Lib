@@ -14,7 +14,7 @@ import net.fabricmc.fabric.impl.networking.CommonVersionPayload;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
 import javax.inject.Inject;
@@ -41,7 +41,7 @@ public class FabricPacketChannel extends PacketReceiverRegistry implements Fabri
             ReceiverWrapper.TYPE,
             (payload, context) -> {
                 ReceiverWrapper.Data packetData = payload.unwrap();
-                ResourceLocation packetId = packetData.packetId();
+                Identifier packetId = packetData.packetId();
                 getServerReceiver(packetId).ifPresent(serverReceiver -> {
                     ServerPlayer sender = context.player();
                     if (sender != null) {
@@ -63,7 +63,7 @@ public class FabricPacketChannel extends PacketReceiverRegistry implements Fabri
     @Override
     public CustomPacketPayload wrap(PacketSpecification specification, FriendlyByteBuf packetContents) {
         FriendlyByteBuf wrappedPacketContents = new FriendlyByteBuf(Unpooled.buffer());
-        wrappedPacketContents.writeResourceLocation(specification.getPacketID());
+        wrappedPacketContents.writeIdentifier(specification.getPacketID());
         wrappedPacketContents.writeBytes(packetContents);
 
         return new ReceiverWrapper(wrappedPacketContents);
@@ -85,10 +85,10 @@ public class FabricPacketChannel extends PacketReceiverRegistry implements Fabri
             buffer.clear();
         }
 
-        protected record Data(ResourceLocation packetId, FriendlyByteBuf packetContents) {}
+        protected record Data(Identifier packetId, FriendlyByteBuf packetContents) {}
 
         protected Data unwrap() {
-            ResourceLocation packetId = this.buffer.readResourceLocation();
+            Identifier packetId = this.buffer.readIdentifier();
             FriendlyByteBuf packetContents = new FriendlyByteBuf(this.buffer.copy());
             return new Data(packetId, packetContents);
         }

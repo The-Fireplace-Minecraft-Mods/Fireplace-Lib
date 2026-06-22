@@ -9,7 +9,7 @@ import jakarta.inject.Singleton;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @Implementation(allInterfaces = true, environment = "CLIENT")
 @Singleton
@@ -20,7 +20,7 @@ public final class FabricClientPacketChannel extends FabricPacketChannel impleme
             ReceiverWrapper.TYPE,
             (payload, context) -> {
                 ReceiverWrapper.Data packetData = payload.unwrap();
-                ResourceLocation packetId = packetData.packetId();
+                Identifier packetId = packetData.packetId();
                 getClientReceiver(packetId).ifPresent(clientReceiver -> {
                     Minecraft client = Minecraft.getInstance();
                     FriendlyByteBuf packetContents = packetData.packetContents();
