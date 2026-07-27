@@ -1,0 +1,15 @@
+{
+  "modmenu.descriptionTranslation.fireplacelib": "˙sǝʇɐpdn ɹǝʇsɐɟ puɐ ǝɔuɐuǝʇuᴉɐɯ ɹǝᴉsɐǝ ɹoɟ ǝɔɐld ǝuo uᴉ 'spoɯ ʎɯ ʎq pǝsn ʎʇᴉlɐuoᴉʇɔunɟ uoɯɯoɔ ɟo ʎɹɐɹqᴉl ∀",
+  "fireplacelib.chat.page.next": "[ʇxǝN]",
+  "fireplacelib.chat.page.prev": "[snoᴉʌǝɹԀ]",
+  "fireplacelib.chat.page.num": "%s/%s :ǝƃɐԀ",
+  "fireplacelib.command.reload.reloaded": "¡pǝpɐolǝɹ ƃᴉɟuoɔ qᴉ˥ ǝɔɐldǝɹᴉℲ",
+  "text.config.fireplacelib.title": "ƃᴉɟuoƆ qᴉ˥ ǝɔɐldǝɹᴉℲ",
+  "text.config.fireplacelib.advanced": "sƃuᴉʇʇǝS pǝɔuɐʌp∀",
+  "text.config.fireplacelib.option.locale": "ǝlɐɔol ɹǝʌɹǝS",
+  "text.config.fireplacelib.option.locale.desc": "˙ɹǝʌɹǝs ɐ uo ʇɔǝɟɟǝ uɐ sɐɥ ʎluo 'ǝɹǝɥ pǝsnu∩",
+  "text.config.fireplacelib.option.essentialThreadPoolSize": "ǝzᴉS looԀ pɐǝɹɥ┴ lɐᴉʇuǝssƎ",
+  "text.config.fireplacelib.option.essentialThreadPoolSize.desc": "˙ƃuᴉop ǝɹ,noʎ ʇɐɥʍ ʍouʞ noʎ ssǝlun ɥɔnoʇ ʇ,uop",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize": "ǝzᴉS looԀ pɐǝɹɥ┴ lɐᴉʇuǝssƎ-uoN",
+  "text.config.fireplacelib.option.nonEssentialThreadPoolSize.desc": "˙ƃuᴉop ǝɹ,noʎ ʇɐɥʍ ʍouʞ noʎ ssǝlun ɥɔnoʇ ʇ,uop"
+}
